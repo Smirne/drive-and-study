@@ -12,6 +12,7 @@ class FakeSR { start(){ window.__starts++; const step = window.__script.length ?
         const r0=Object.assign([...alt],{isFinal:true}); this.onresult&&this.onresult({resultIndex:0,results:[r0]}); }
       else if(step.t==='nospeech'){ this.onerror&&this.onerror({error:'no-speech'}); }
       else if(step.t==='blocked'){ this.onerror&&this.onerror({error:'not-allowed'}); }
+      else if(step.t==='err'){ this.onerror&&this.onerror({error:step.code}); }
       this.onend&&this.onend(); }, 15); }
   abort(){} stop(){} }
 window.SpeechRecognition=FakeSR;
@@ -51,4 +52,18 @@ with sync_playwright() as p:
     pg.wait_for_function("document.getElementById('stateText').textContent==='Tap 1–4'", timeout=8000)
     print('Q6 blocked -> state:', pg.text_content('#stateText'), '| voice btn:', pg.text_content('#bVoice'))
     pg.keyboard.press(str(a[5])); waitq(pg,7); print('Q6 by key -> score', pg.text_content('#score'))
+    # Q7: voice back on; mic busy twice (car system), then answer by voice
+    pg.click('#bVoice')
+    pg.evaluate(f"__script.push({{t:'err',code:'audio-capture'}},{{t:'err',code:'audio-capture'}},{{t:'say',text:'{W[a[6]-1]}'}})")
+    waitq(pg,8); print('Q7 mic busy x2 then voice -> score', pg.text_content('#score'))
+    # Q8: page hidden while waiting (Android Auto takes the screen), then visible again -> listening resumes
+    pg.evaluate("for(let i=0;i<12;i++)__script.push({t:'nospeech'})")
+    pg.wait_for_selector('#bMic:not([hidden])', timeout=20000)
+    pg.evaluate("__script.length=0")
+    pg.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'hidden'}); document.dispatchEvent(new Event('visibilitychange'))")
+    pg.evaluate(f"__script.push({{t:'say',text:'{W[a[7]-1]}'}})")
+    pg.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'visible'}); document.dispatchEvent(new Event('visibilitychange'))")
+    waitq(pg,9); print('Q8 hidden/visible -> resumed by voice, score', pg.text_content('#score'))
+    log = pg.text_content('#diagLog')
+    print('log has page hidden:', 'page hidden' in log, '| resume:', 'resume listening' in log, '| audio-capture:', 'rec error: audio-capture' in log)
     print('errors:', errs); b.close()
