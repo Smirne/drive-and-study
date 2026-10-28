@@ -1,0 +1,95 @@
+TOGAF Foundation. Episode nine. Practice exam, part one.
+
+This episode is a mock exam. Ten questions in the style of the real Part 1 exam. For each one, you'll hear the question and four options. Then there is a pause: say your answer aloud. Then you'll hear the correct answer and a short explanation. Keep a tally of your score. Seven or more out of ten is a good sign.
+
+Question one.
+Which of the following best describes the purpose of the Preliminary Phase?
+A. To develop a high level vision of the business value to be delivered.
+B. To prepare the organization for successful architecture work, by determining and establishing the Architecture Capability.
+C. To ensure conformance of implementation projects with the target architecture.
+D. To finalize the Architecture Roadmap.
+[THINK]
+The answer is B. The Preliminary Phase determines the Architecture Capability desired by the organization and establishes it. Option A describes Phase A, option C describes Phase G, and option D describes Phase F.
+
+Question two.
+Which of the following is a qualitative statement of intent that should be met by the architecture?
+A. An architecture requirement.
+B. A constraint.
+C. An architecture principle.
+D. An assumption.
+[THINK]
+The answer is C, an architecture principle. A requirement is a statement of need that must be met. A constraint is an external factor that prevents certain approaches. An assumption is a statement of probable fact not yet fully validated.
+
+Question three.
+In which phase of the A D M is the Statement of Architecture Work approved?
+A. Preliminary Phase.
+B. Phase A, Architecture Vision.
+C. Phase B, Business Architecture.
+D. Phase E, Opportunities and Solutions.
+[THINK]
+The answer is B, Phase A. Phase A is triggered by the Request for Architecture Work, and ends with the approval of the Statement of Architecture Work, which defines the scope and approach of the architecture project.
+
+Question four.
+Which of the following correctly describes a Solution Building Block?
+A. It captures architecture requirements and is independent of products.
+B. It is a candidate solution that conforms to the specification of an Architecture Building Block, and is product or vendor aware.
+C. It is a list of building blocks of a specific type.
+D. It is a contractually specified work product signed off by stakeholders.
+[THINK]
+The answer is B. Option A describes an Architecture Building Block. Option C describes a catalog, which is a type of artifact. Option D describes a deliverable.
+
+Question five.
+Which phase generates the initial complete version of the Architecture Roadmap, and determines whether Transition Architectures are needed?
+A. Phase D, Technology Architecture.
+B. Phase E, Opportunities and Solutions.
+C. Phase F, Migration Planning.
+D. Phase G, Implementation Governance.
+[THINK]
+The answer is B, Phase E. Phase E builds the initial roadmap from the gaps identified in Phases B, C and D, and decides if an incremental approach with Transition Architectures is required. Phase F then finalizes the roadmap and the Implementation and Migration Plan. It's a classic trap: E is initial, F is final.
+
+Question six.
+Which of the following is the correct order of the Architecture Continuum, from generic to specific?
+A. Foundation, Industry, Common Systems, Organization-Specific.
+B. Common Systems, Foundation, Industry, Organization-Specific.
+C. Foundation, Common Systems, Industry, Organization-Specific.
+D. Organization-Specific, Industry, Common Systems, Foundation.
+[THINK]
+The answer is C. Foundation, Common Systems, Industry, Organization-Specific. Remember F, C, I, O. Option D lists the same stages, but from specific to generic, so it's the reverse of what the question asks.
+
+Question seven.
+Which part of the Architecture Repository contains guidelines, templates and patterns that can be used to accelerate the creation of new architectures?
+A. The Standards Library.
+B. The Governance Log.
+C. The Architecture Landscape.
+D. The Reference Library.
+[THINK]
+The answer is D, the Reference Library. The Standards Library holds the standards new architectures must comply with. The Governance Log records governance activity such as decisions and dispensations. The Architecture Landscape describes the assets in use or planned at a point in time.
+
+Question eight.
+During gap analysis, a building block appears in the Baseline Architecture but not in the Target Architecture. What should the architect do?
+A. Ignore it, as it is no longer needed.
+B. Classify it as new, and plan its development.
+C. Check whether it was intentionally eliminated, or accidentally omitted from the target.
+D. Move it to the Standards Library.
+[THINK]
+The answer is C. An element present only in the baseline is marked as eliminated, but the architect must verify that this was a deliberate decision. If it was left out by mistake, it is a gap that must be addressed.
+
+Question nine.
+Which of the following are the four dimensions used to define the scope of an architecture activity?
+A. Breadth, depth, time period, and architecture domains.
+B. Business, data, application, and technology.
+C. Strategic, segment, capability, and solution.
+D. Cost, time, quality, and risk.
+[THINK]
+The answer is A. Breadth, depth, time period, and architecture domains. Option B lists the four architecture domains, which is only one of the dimensions. Option C mixes the landscape levels with solution architecture. Option D is project management, not TOGAF scoping.
+
+Question ten.
+Which phase is concerned with ensuring that the architecture lifecycle is maintained, and that the Enterprise Architecture Capability meets current requirements?
+A. Phase G, Implementation Governance.
+B. Phase H, Architecture Change Management.
+C. Requirements Management.
+D. Preliminary Phase.
+[THINK]
+The answer is B, Phase H. Those are exactly the objectives of Architecture Change Management, together with ensuring that the Architecture Governance Framework is executed. Phase G is about conformance of implementation projects, which is a different focus.
+
+That's the end of practice exam part one. Count your correct answers. If you scored below seven, replay the episodes on the phases, episodes four and five. Part two is next.

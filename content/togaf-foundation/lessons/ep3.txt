@@ -1,0 +1,49 @@
+TOGAF Foundation. Episode three. The Architecture Development Method, the big picture.
+
+The Architecture Development Method, the A D M, is the core of TOGAF. It is a method for developing and managing the lifecycle of an Enterprise Architecture. It is the result of continuous contributions from many practitioners, and it is designed to be tailored.
+
+Picture the famous crop circle diagram. At the top sits the Preliminary Phase. Below it, a circle of eight phases, labelled A to H. And at the centre, Requirements Management, connected to every phase.
+
+Let's name them in order. Say them with me. Preliminary. Phase A, Architecture Vision. Phase B, Business Architecture. Phase C, Information Systems Architectures, which covers Data and Application. Phase D, Technology Architecture. Phase E, Opportunities and Solutions. Phase F, Migration Planning. Phase G, Implementation Governance. Phase H, Architecture Change Management. And at the centre, Requirements Management.
+
+A memory trick: Preliminary sets up the practice. A is the vision. B, C, D are the three architecture definition phases, one per layer: business, then information systems, then technology. E and F are about planning the change: E finds the opportunities and solutions, F plans the migration. G and H are about governing what happens next: G governs implementation, H manages change once the architecture is live. And requirements management feeds everything.
+
+Now some fundamental properties of the A D M that appear in exam questions.
+
+First, the A D M is iterative. Iteration happens over the whole process, between phases, and within each phase. TOGAF defines four groups of iteration cycles. One: Architecture Context iterations, covering the Preliminary Phase and Phase A, to establish the approach, principles, scope and vision. Two: Architecture Definition iterations, covering Phases B, C and D, to create the architecture content. Three: Transition Planning iterations, covering Phases E and F, to support the creation of the formal change roadmap. Four: Architecture Governance iterations, covering Phases G and H, to support governance of change activity toward the target. Context, Definition, Transition Planning, Governance.
+
+Second, within architecture definition, you can work baseline first or target first. Baseline first means you start by describing the current state, which is useful when the current state is complex or poorly understood. Target first means you elaborate the target and then look at the baseline only as needed to see what must change. This is useful when the baseline is well known or when you want to avoid being anchored to today's solutions.
+
+Third, the A D M is generic and must be adapted. TOGAF is explicit that the A D M should be tailored to the enterprise. Reasons include the enterprise's maturity, its existing processes such as project management or business planning, the use of TOGAF as part of a federated architecture, or the type of engagement. The order of phases can be changed, and phases can be merged or skipped, when justified.
+
+Fourth, scoping. Before you start, you must decide the scope of the architecture activity. TOGAF identifies four dimensions of scope. Breadth: how much of the enterprise, which business units or functions. Depth: to what level of detail. Time period: the time horizon of the architecture, and how many transition architectures. And Architecture Domains: which of the four domains to cover, since you might not need all of them. Breadth, depth, time, domains. A typical question gives you a scenario and asks which dimension is being described.
+
+Fifth, the A D M interacts with other frameworks and with the enterprise's own processes: portfolio management, project management, operations, solution development. Enterprise Architecture does not replace them; it guides and connects them.
+
+Sixth, versioning. TOGAF suggests a convention for the versions of deliverables across phases. A version number of zero point something means a draft, outline or high level version, typically produced in Phase A. Version one point zero means the full, approved version, typically completed in the architecture definition phases. So, for example, the Business Architecture might be at version zero point one at the end of Phase A, and version one point zero at the end of Phase B.
+
+Seventh, the A D M can be applied at different levels. You can use it for a Strategic Architecture across the whole enterprise, for a Segment Architecture, or for a Capability Architecture. A strategic cycle may spawn segment cycles, which in turn spawn capability cycles. This is called a hierarchy of A D M processes.
+
+Eighth, each phase has a standard structure in the specification. Every phase is described with objectives, inputs, steps, and outputs. For the Foundation exam, focus above all on the objectives. You don't need to memorize every input and output, but you should know the key deliverables produced in each phase, which we'll cover in the next two episodes.
+
+Finally, a note on agile. The tenth edition puts strong emphasis on agility. The A D M is compatible with agile delivery: architecture work can be done in sprints, and the Series Guide on applying the A D M with agile sprints describes how. The key message for the exam is simply that the A D M is not a waterfall. It is iterative and adaptable.
+
+Quick self test.
+
+Which phases form the Architecture Definition iteration?
+[PAUSE]
+Phases B, C and D.
+
+Name the four dimensions used to scope an architecture activity.
+[PAUSE]
+Breadth, depth, time period, and architecture domains.
+
+What does version zero point one of a deliverable usually indicate?
+[PAUSE]
+A high level, draft version, typically produced in Phase A.
+
+Which phases form the Transition Planning iteration?
+[PAUSE]
+Phases E and F.
+
+Next episode: the objectives of the Preliminary Phase through Phase D.

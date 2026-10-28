@@ -1,0 +1,79 @@
+TOGAF Foundation. Episode eight. Governance, views, and the final quiz.
+
+Let's start with Architecture Governance. Architecture governance is the practice and orientation by which Enterprise Architectures and other architectures are managed and controlled at an enterprise-wide level. TOGAF lists six characteristics of good governance, and they appear often in exam questions. Discipline: all involved parties commit to adhere to procedures, processes, and authority structures. Transparency: all actions and decisions are available for inspection. Independence: all processes, decisions and mechanisms minimize or avoid conflicts of interest. Accountability: identifiable groups are authorized and accountable for their actions. Responsibility: each contracted party acts responsibly to the organization and its stakeholders. And Fairness: all decisions taken, processes used and their implementation are not allowed to create unfair advantage to any one party. Discipline, Transparency, Independence, Accountability, Responsibility, Fairness.
+
+The Architecture Board. This is the body that oversees the implementation of the architecture governance strategy. It is typically made up of senior executives and architects. Its responsibilities include: providing the basis for all decision making about changes to the architectures; consistency between sub-architectures; establishing targets for re-use of components; flexibility of the Enterprise Architecture, to meet changing business needs; enforcement of architecture compliance; improving the maturity level of architecture discipline; ensuring the discipline of architecture-based development is adopted; and resolving ambiguities, issues or conflicts that have been escalated. It also grants dispensations, which are a controlled way to accept a non-compliant implementation for a limited time.
+
+Architecture Compliance. Compliance reviews check that a project conforms to the architecture. They are performed mainly in Phase G. TOGAF defines levels of conformance, and you should know them. Irrelevant: the implementation has no features in common with the architecture specification. Consistent: the implementation has some features in common, and those common features are implemented according to the specification, but some specification features are not implemented, and the implementation has other features not covered by the specification. Compliant: some features in the specification are not implemented, but all features implemented are covered by the specification, and in accordance with it. Conformant: all the features in the specification are implemented in accordance with it, but some more features are implemented that are not in accordance with it. Fully Conformant: there is full correspondence between the architecture specification and the implementation. And Non-conformant: any of the above in which some features are implemented not in accordance with the specification.
+
+A trick to remember compliant versus conformant: compliant means everything you did is in the spec, but you didn't do all of it. Conformant means you did all of the spec, but you also did extra things outside it. Fully conformant means a perfect match.
+
+Architecture Contracts. As we said in Phase G, these are joint agreements between development partners and sponsors on deliverables, quality, and fitness for purpose. They are used between the architecture function and the business users, and between the architecture function and the implementation partners. They're a key governance tool.
+
+Now, Architecture Views and Viewpoints. This topic is based on the ISO forty two ten standard concepts. The architecture of a system is described for its stakeholders. Each stakeholder has concerns. A view addresses a set of concerns. A viewpoint defines the perspective, the conventions, the techniques and the notation used to construct that view. So the architect's job is to identify stakeholders, understand their concerns, select or define viewpoints, and then create views that answer those concerns. The same system can have many views: a business view for executives, a security view for the security officer, a deployment view for operations. A common analogy: the building plans for a house. The electrician, the plumber and the owner look at different drawings of the same house. Each drawing is a view; the convention for drawing electrical plans is the viewpoint.
+
+Let's finish with a rapid-fire quiz across the whole course. Answer aloud if you can.
+
+How many questions are in the Foundation exam, and what is the pass mark?
+[PAUSE]
+Forty questions, and twenty four correct, which is sixty percent.
+
+What are the two main parts of the TOGAF Standard, tenth edition?
+[PAUSE]
+The Fundamental Content, and the Series Guides.
+
+Name the four architecture domains.
+[PAUSE]
+Business, Data, Application, and Technology.
+
+What are the three levels of the Architecture Landscape?
+[PAUSE]
+Strategic, Segment, and Capability Architecture.
+
+In which phase is the Statement of Architecture Work approved?
+[PAUSE]
+Phase A, Architecture Vision.
+
+Which phase is the first directly concerned with implementation?
+[PAUSE]
+Phase E, Opportunities and Solutions.
+
+Which phase finalizes the Implementation and Migration Plan?
+[PAUSE]
+Phase F, Migration Planning.
+
+What type of change requires a new A D M cycle?
+[PAUSE]
+A re-architecting change.
+
+What is the difference between an A B B and an S B B?
+[PAUSE]
+An Architecture Building Block captures requirements and is product independent. A Solution Building Block is a candidate solution that conforms to the A B B and is product or vendor aware.
+
+Which governance characteristic means that all actions and decisions are available for inspection?
+[PAUSE]
+Transparency.
+
+An implementation does everything in the specification, plus some extra features not in accordance with it. What is its conformance level?
+[PAUSE]
+Conformant.
+
+Which part of the repository contains templates and patterns to accelerate new architectures?
+[PAUSE]
+The Reference Library.
+
+Which iteration cycle covers Phases G and H?
+[PAUSE]
+Architecture Governance iterations.
+
+What is the main purpose of Requirements Management?
+[PAUSE]
+To ensure the requirements management process is sustained and operates for all relevant A D M phases, managing requirements and making them available to each phase. It is a dynamic process.
+
+Which technique evaluates the organization's readiness to undergo change?
+[PAUSE]
+The Business Transformation Readiness Assessment.
+
+That's the end of the course. A final piece of advice for exam day. Read every option carefully, because many differ by one word: "establish" versus "determine", "initial" versus "final", "compliant" versus "conformant". Eliminate the clearly wrong answers first. And remember the core mental model: Preliminary sets up the practice, A creates the vision and gets approval, B C D define the architecture and find gaps, E and F turn gaps into a roadmap and a plan, G governs implementation, H manages change, and requirements management drives it all.
+
+Good luck, and safe travels.

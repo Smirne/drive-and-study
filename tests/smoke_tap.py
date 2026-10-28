@@ -6,7 +6,7 @@ with sync_playwright() as p:
     errs=[]; pg.on('pageerror', lambda e: errs.append(str(e)))
     pg.add_init_script("""HTMLMediaElement.prototype.play=function(){setTimeout(()=>this.onended&&this.onended(),30);return Promise.resolve()};
       HTMLMediaElement.prototype.pause=function(){}; delete window.SpeechRecognition; delete window.webkitSpeechRecognition;""")
-    pg.goto('file://'+__import__('os').path.abspath('index.html'))
+    pg.goto('file://'+__import__('os').path.abspath('public/drill.html'))
     pg.click('#startAll')
     for i,q in enumerate(qs):
         pg.wait_for_selector('#pad1:not([disabled])')

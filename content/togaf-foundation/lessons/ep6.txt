@@ -1,0 +1,60 @@
+TOGAF Foundation. Episode six. Content, building blocks, the Enterprise Continuum and the Repository.
+
+The A D M tells you how to work. The architecture content tells you what you produce. TOGAF structures this through the Architecture Content Framework and the Enterprise Metamodel.
+
+The content framework uses three categories of work product. Deliverables, artifacts, and building blocks. Let's be precise.
+
+A deliverable is a work product that is contractually specified, and formally reviewed, agreed, and signed off by the stakeholders. Deliverables represent the output of projects. Typically they are archived at project completion, or transitioned into the Architecture Repository as a reference model, standard, or snapshot of the landscape.
+
+An artifact is a more granular work product that describes the architecture from a specific viewpoint. Artifacts are classified as catalogs, matrices, and diagrams. Catalogs are lists of building blocks of a specific type, for example an application portfolio catalog. Matrices show the relationships between building blocks, for example a matrix mapping applications to business functions. Diagrams present building blocks in a rich, visual way, usually to communicate with stakeholders.
+
+A building block represents a potentially re-usable component of business, I T, or architectural capability that can be combined with other building blocks to deliver architectures and solutions.
+
+The relationship is like this: a deliverable contains artifacts; artifacts describe building blocks. Building blocks are what the architecture is made of.
+
+What makes a good building block? TOGAF lists characteristics. A building block is a package of functionality defined to meet business needs across an organization. It has a type that corresponds to the metamodel. It has a defined boundary and is generally recognizable as "a thing" by domain experts. It may interoperate with other, inter-dependent building blocks. A good building block considers implementation and usage, and evolves to exploit technology and standards. It may be assembled from other building blocks, and it may be a subassembly of other building blocks. Ideally, it is re-usable and replaceable, and well specified with published interfaces.
+
+And remember the two levels. Architecture Building Blocks describe required capability and shape the specification of Solution Building Blocks. They capture architecture requirements, direct and guide the development of S B Bs. Solution Building Blocks represent components that will be used to implement the required capability. They define what products and components will implement the functionality, define the implementation, fulfil business requirements, and are product or vendor aware.
+
+Next: the Enterprise Metamodel. The metamodel defines the formal structure of the terms used to describe architecture: the entities, such as actor, role, business service, application component, technology component, and the relationships between them. Its purpose is consistency: everyone describes the architecture with the same building block types, so models can be integrated and analyzed.
+
+Now, the Enterprise Continuum. It's a view of the Architecture Repository that provides methods for classifying architecture and solution artifacts, from generic to specific. Think of it as a spectrum: on the left, very generic, reusable things; on the right, things specific to your organization.
+
+The Enterprise Continuum is made of two complementary continua. The Architecture Continuum, and the Solutions Continuum. The Architecture Continuum offers a consistent way to define and understand the generic rules, representations and relationships in an architecture. It has four stages, from left to right. Foundation Architectures. Common Systems Architectures. Industry Architectures. And Organization-Specific Architectures.
+
+The Solutions Continuum represents the detailed specification and construction of the architectures at the corresponding levels. Its four stages mirror the first: Foundation Solutions. Common Systems Solutions. Industry Solutions. Organization-Specific Solutions.
+
+Memory hook for both: Foundation, Common Systems, Industry, Organization. F, C, I, O. Moving right means more specific; moving left means more generic and reusable. The Architecture Continuum guides and supports the Solutions Continuum, and the Solutions Continuum is the realization of the Architecture Continuum. The overall purpose is communication and reuse: helping architects understand which assets already exist and can be leveraged.
+
+Finally, the Architecture Repository. This is where all architecture material lives. It's a logical structure, and it's often supported by tools. TOGAF defines its main classes of information. Let's list them.
+
+One. The Architecture Metamodel: the organizationally tailored application of an architecture framework, including the method and the content metamodel.
+Two. The Architecture Capability: the parameters, structures and processes that support governance of the Architecture Repository.
+Three. The Architecture Landscape: the architectural representation of assets in use or planned by the enterprise at particular points in time, at the strategic, segment and capability levels.
+Four. The Standards Library: the standards with which new architectures must comply, which may include industry standards, selected products and services from suppliers, or shared services already deployed within the organization.
+Five. The Reference Library: guidelines, templates, patterns and other forms of reference material that can be leveraged to accelerate the creation of new architectures.
+Six. The Governance Log: a record of governance activity across the enterprise, such as decisions, compliance assessments, and dispensations.
+Seven. The Architecture Requirements Repository: a view of all authorized architecture requirements agreed with the Architecture Board.
+Eight. The Solutions Landscape: the architectural representation of the Solution Building Blocks supporting the Architecture Landscape, planned or deployed.
+
+A typical exam question describes one of these, for example "a record of governance activity", and asks which part of the repository it is. Here: the Governance Log. Or "templates and patterns to accelerate new architectures": the Reference Library.
+
+Quick self test.
+
+What are the three types of artifact?
+[PAUSE]
+Catalogs, matrices, and diagrams.
+
+Name the four stages of the Architecture Continuum, from generic to specific.
+[PAUSE]
+Foundation Architectures, Common Systems Architectures, Industry Architectures, Organization-Specific Architectures.
+
+Which part of the Architecture Repository holds the standards that new architectures must comply with?
+[PAUSE]
+The Standards Library.
+
+Where would you record dispensations and compliance assessments?
+[PAUSE]
+In the Governance Log.
+
+Next episode: the A D M techniques.

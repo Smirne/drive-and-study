@@ -19,7 +19,7 @@ window.SpeechRecognition=FakeSR;
 def page(b):
     pg=b.new_page(viewport={'width':390,'height':844}); errs=[]
     pg.on('pageerror', lambda e: errs.append(str(e))); pg.add_init_script(FAKE)
-    pg.goto('file://'+os.path.abspath('index.html')); return pg, errs
+    pg.goto('file://'+os.path.abspath('public/drill.html')); return pg, errs
 def waitq(pg, n): pg.wait_for_function(f"document.getElementById('qNum').textContent=='{n}' && document.getElementById('pad1') && !document.getElementById('pad1').disabled", timeout=8000)
 with sync_playwright() as p:
     b=p.chromium.launch()
