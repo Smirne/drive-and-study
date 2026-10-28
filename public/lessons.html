@@ -1,0 +1,187 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style></head><body><title>TOGAF Foundation Audio</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: single column player; sticky transport card on top, ADM-phase-tagged episode list below */
+:root {
+  --bg: #f3f5f4; --surface: #ffffff; --fg: #17201d; --muted: #5d6b66;
+  --line: #d9e0dd; --accent: #0f6e5c; --accent-soft: #e0efeb; --on-accent: #ffffff;
+  --display: "Fraunces", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1514; --surface: #18211f; --fg: #e6ece9; --muted: #95a39e;
+  --line: #2a3532; --accent: #4cc3a6; --accent-soft: #1d3330; --on-accent: #08130f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f1514; --surface: #18211f; --fg: #e6ece9; --muted: #95a39e;
+  --line: #2a3532; --accent: #4cc3a6; --accent-soft: #1d3330; --on-accent: #08130f; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body); }
+.wrap { max-width: 640px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; gap: 20px; }
+header { display: grid; gap: 4px; }
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 600 clamp(26px, 7vw, 34px)/1.1 var(--display); margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 0; }
+
+.player { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; }
+.now { display: grid; gap: 2px; min-width: 0; }
+.now .ep { font: 500 12px/1 var(--mono); color: var(--accent); }
+.now .t { font: 600 17px/1.3 var(--body); }
+.bar { display: grid; gap: 4px; }
+input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; }
+.times { display: flex; justify-content: space-between; font: 500 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.controls .mid { display: flex; align-items: center; gap: 10px; }
+button { font: inherit; color: var(--fg); background: none; border: 1px solid var(--line); border-radius: 999px;
+  min-width: 44px; height: 44px; padding: 0 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button svg { width: 20px; height: 20px; fill: currentColor; }
+.play { background: var(--accent); color: var(--on-accent); border-color: var(--accent); width: 60px; height: 60px; }
+.play svg { width: 26px; height: 26px; }
+.speed { font: 500 13px var(--mono); }
+
+ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+li button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 40px 1fr auto;
+  gap: 12px; align-items: center; padding: 14px 4px; border-bottom: 1px solid var(--line); }
+li button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.n { font: 600 22px/1 var(--display); color: var(--muted); text-align: center; }
+.info { min-width: 0; display: grid; gap: 2px; }
+.info b { font-weight: 600; }
+.info span { color: var(--muted); font-size: 13px; }
+.dur { font: 500 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+li.active button { background: var(--accent-soft); }
+li.active .n, li.active .dur { color: var(--accent); }
+li.done .n::after { content: " ✓"; font: 500 12px var(--mono); }
+.tip { color: var(--muted); font-size: 13px; margin: 0; }
+.home { font: 500 12px var(--mono); color: var(--muted); text-decoration: none; margin-bottom: 8px; }
+.home:hover, .home:focus-visible { color: var(--accent); }
+.drill { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px;
+  background: var(--accent-soft); border: 1px solid var(--line); border-radius: 14px; color: var(--fg); text-decoration: none; }
+.drill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.drill .dt { display: grid; gap: 2px; min-width: 0; }
+.drill .dt span { color: var(--muted); font-size: 13px; }
+.drill .go { font: 600 20px var(--mono); color: var(--accent); }
+</style>
+
+<div class="wrap">
+  <header>
+    <a class="home" href="/">← Drive &amp; Study</a>
+    <div class="eyebrow">TOGAF® Standard, 10th Edition · Part 1</div>
+    <h1>Foundation exam, by ear</h1>
+    <p class="sub">11 episodes · 8 lessons, 2 practice exams and a recap podcast · pauses after each question so you can answer aloud</p>
+  </header>
+
+  <a class="drill" href="/drill">
+    <span class="dt"><b>Voice drill</b><span>Answer the 20 practice questions out loud and get scored</span></span>
+    <span class="go" aria-hidden="true">→</span>
+  </a>
+
+  <section class="player" aria-label="Player">
+    <div class="now"><span class="ep" id="nowEp">Episode 1 of 8</span><span class="t" id="nowTitle"></span></div>
+    <div class="bar">
+      <input type="range" id="seek" min="0" max="100" step="0.1" value="0" aria-label="Seek">
+      <div class="times"><span id="cur">0:00</span><span id="tot">0:00</span></div>
+    </div>
+    <div class="controls">
+      <button class="speed" id="speed" aria-label="Playback speed">1×</button>
+      <div class="mid">
+        <button id="prev" aria-label="Previous episode"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+        <button id="back" aria-label="Back 15 seconds"><svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg></button>
+        <button class="play" id="play" aria-label="Play"><svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg></button>
+        <button id="fwd" aria-label="Forward 15 seconds"><svg viewBox="0 0 24 24"><path d="M12 5V1l5 5-5 5V7a6 6 0 1 0 6 6h2a8 8 0 1 1-8-8z"/></svg></button>
+        <button id="next" aria-label="Next episode"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+      </div>
+      <span style="width:44px" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <ol id="list"></ol>
+  <p class="tip">Episodes play in order and the next one starts on its own. Your place is remembered on this device.</p>
+  <audio id="audio" preload="metadata"></audio>
+</div>
+
+<script>
+const EPS = [
+  { t: "The exam and the big picture", s: "Exam format, enterprise, the standard's structure, domains, landscape levels", d: 455 },
+  { t: "The core vocabulary", s: "Stakeholders, views vs viewpoints, ABB vs SBB, deliverables, artifacts", d: 527 },
+  { t: "The ADM as a whole", s: "Phases, iteration cycles, scoping, tailoring, versioning", d: 434 },
+  { t: "Preliminary to Phase D", s: "Phase objectives, the shared B–C–D steps, key deliverables", d: 503 },
+  { t: "Phases E to H and Requirements", s: "Roadmap, migration, governance, change classes, requirements", d: 492 },
+  { t: "Content, Continuum, Repository", s: "Content framework, building blocks, Enterprise Continuum, repository classes", d: 507 },
+  { t: "The ADM techniques", s: "Principles, stakeholders, gap analysis, scenarios, readiness, risk", d: 555 },
+  { t: "Governance and final quiz", s: "Governance traits, Architecture Board, conformance levels, 15-question quiz", d: 551 },
+  { t: "Practice exam, part 1", s: "10 exam-style questions with options, answer pause and explanation", d: 566 },
+  { t: "Practice exam, part 2", s: "10 more exam-style questions; aim for 14 of 20 across both parts", d: 563 },
+  { t: "Recap podcast", s: "Two hosts run through the whole syllabus, with a rapid-fire quiz at the end", d: 560 }
+];
+const $ = id => document.getElementById(id);
+const a = $("audio"), list = $("list"), seek = $("seek");
+const SPEEDS = [1, 1.25, 1.5, 0.9];
+let idx = 0, speedI = 0, done = new Set(), seeking = false;
+const fmt = s => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
+const store = { get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } },
+                set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} } };
+
+EPS.forEach((e, i) => {
+  const li = document.createElement("li");
+  li.innerHTML = `<button id="ep-${i}"><span class="n">${i+1}</span><span class="info"><b></b><span></span></span><span class="dur">${fmt(e.d)}</span></button>`;
+  li.querySelector("b").textContent = e.t;
+  li.querySelector(".info span").textContent = e.s;
+  li.querySelector("button").onclick = () => { load(i, 0); a.play().catch(()=>{}); };
+  list.appendChild(li);
+});
+
+function render() {
+  [...list.children].forEach((li, i) => { li.classList.toggle("active", i === idx); li.classList.toggle("done", done.has(i)); });
+  $("nowEp").textContent = `Episode ${idx+1} of ${EPS.length}`;
+  $("nowTitle").textContent = EPS[idx].t;
+  $("tot").textContent = fmt(a.duration || EPS[idx].d);
+}
+function load(i, t) {
+  idx = i;
+  a.src = `/audio/lessons/ep${i+1}.mp3`;
+  a.playbackRate = SPEEDS[speedI];
+  if (t) a.addEventListener("loadedmetadata", () => { a.currentTime = t; }, { once: true });
+  render(); media();
+  save();
+}
+function save() { store.set("togaf-pos", { idx, t: a.currentTime || 0, done: [...done], speedI }); }
+function media() {
+  if (!("mediaSession" in navigator)) return;
+  navigator.mediaSession.metadata = new MediaMetadata({ title: `${idx+1}. ${EPS[idx].t}`, artist: "TOGAF Foundation", album: "TOGAF Foundation Audio" });
+  const h = { play: () => a.play(), pause: () => a.pause(), previoustrack: prev, nexttrack: next,
+    seekbackward: () => a.currentTime -= 15, seekforward: () => a.currentTime += 15 };
+  for (const k in h) { try { navigator.mediaSession.setActionHandler(k, h[k]); } catch(e){} }
+}
+function prev() { if (a.currentTime > 5 || idx === 0) a.currentTime = 0; else { load(idx-1, 0); a.play().catch(()=>{}); } }
+function next() { if (idx < EPS.length-1) { load(idx+1, 0); a.play().catch(()=>{}); } }
+
+a.addEventListener("ended", () => { done.add(idx); if (idx < EPS.length-1) { load(idx+1, 0); a.play().catch(()=>{}); } else { render(); save(); } });
+a.addEventListener("play", () => { $("playIcon").innerHTML = '<path d="M7 5h4v14H7zm6 0h4v14h-4z"/>'; $("play").setAttribute("aria-label","Pause"); });
+a.addEventListener("pause", () => { $("playIcon").innerHTML = '<path d="M8 5v14l11-7z"/>'; $("play").setAttribute("aria-label","Play"); save(); });
+a.addEventListener("loadedmetadata", render);
+let lastSave = 0;
+a.addEventListener("timeupdate", () => {
+  if (!seeking && a.duration) seek.value = a.currentTime / a.duration * 100;
+  $("cur").textContent = fmt(a.currentTime);
+  if (Date.now() - lastSave > 5000) { lastSave = Date.now(); save(); }
+});
+seek.addEventListener("input", () => { seeking = true; if (a.duration) $("cur").textContent = fmt(seek.value/100*a.duration); });
+seek.addEventListener("change", () => { if (a.duration) a.currentTime = seek.value/100*a.duration; seeking = false; });
+$("play").onclick = () => a.paused ? a.play().catch(()=>{}) : a.pause();
+$("prev").onclick = prev; $("next").onclick = next;
+$("back").onclick = () => a.currentTime = Math.max(0, a.currentTime - 15);
+$("fwd").onclick = () => a.currentTime = Math.min(a.duration || 0, a.currentTime + 15);
+$("speed").onclick = () => { speedI = (speedI+1) % SPEEDS.length; a.playbackRate = SPEEDS[speedI]; $("speed").textContent = SPEEDS[speedI] + "×"; save(); };
+
+const saved = store.get("togaf-pos");
+if (saved && Number.isInteger(saved.idx) && saved.idx < EPS.length) {
+  done = new Set(saved.done || []); speedI = saved.speedI || 0; $("speed").textContent = SPEEDS[speedI] + "×";
+  load(saved.idx, saved.t || 0);
+} else load(0, 0);
+</script>
+</body></html>

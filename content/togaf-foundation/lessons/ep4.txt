@@ -1,0 +1,47 @@
+TOGAF Foundation. Episode four. From the Preliminary Phase to Phase D.
+
+In this episode and the next, we go phase by phase. For each one, focus on the objectives, because that is what the exam asks.
+
+The Preliminary Phase. Its purpose is to prepare the organization for successful architecture work. The objectives are two. First, to determine the Architecture Capability desired by the organization. Second, to establish that Architecture Capability. In practice, this means: reviewing the organizational context for conducting Enterprise Architecture; identifying and scoping the elements of the enterprise affected by the Architecture Capability; identifying the established frameworks, methods and processes that intersect with it; establishing a capability maturity target; defining and establishing the Organizational Model for Enterprise Architecture; defining and establishing the detailed process and resources for architecture governance; selecting and implementing tools; and defining the Architecture Principles.
+
+Key outputs of the Preliminary Phase include the Organizational Model for Enterprise Architecture, the Tailored Architecture Framework, the initial Architecture Repository, the Architecture Principles, the restatement of business principles, goals and drivers, and the Request for Architecture Work. Remember: the Preliminary Phase is about the "how we do architecture", the "where", the "who" and the "what principles", not about a specific architecture.
+
+Phase A. Architecture Vision. This is the start of an actual architecture cycle, usually triggered by the receipt of a Request for Architecture Work from the sponsor. The objectives: develop a high level aspirational vision of the capabilities and business value to be delivered as a result of the proposed Enterprise Architecture; and obtain approval for a Statement of Architecture Work that defines a program of works to develop and deploy the architecture outlined in the Architecture Vision.
+
+So two key words for Phase A: vision, and approval. The Statement of Architecture Work is signed at the end of Phase A, and it defines the scope and approach for the cycle.
+
+In Phase A you identify the stakeholders, their concerns and business requirements; confirm the business goals, drivers and constraints; evaluate capabilities; assess readiness for business transformation; define scope; confirm architecture principles; develop the Architecture Vision; define the target architecture value propositions and key performance indicators; identify the transformation risks and mitigation activities; and develop the Statement of Architecture Work and secure approval.
+
+Typical techniques in Phase A include business scenarios, to discover and document business requirements; stakeholder management, to identify and classify stakeholders; the Business Transformation Readiness Assessment; and risk management. Outputs include the approved Statement of Architecture Work, refined principles and goals, the Architecture Vision document, a draft Architecture Definition Document at version zero point one for each relevant domain, the Communications Plan, and the Capability Assessment.
+
+Phase B. Business Architecture. The objectives: develop the Target Business Architecture that describes how the enterprise needs to operate to achieve the business goals, respond to the strategic drivers set out in the Architecture Vision, and address the Request for Architecture Work and stakeholder concerns. And identify candidate Architecture Roadmap components based on gaps between the Baseline and Target Business Architectures.
+
+Business Architecture is often the first architecture domain, because it provides the context for the others, and it demonstrates the business value of the subsequent technology work. Key techniques here include business capabilities, value streams, organization mapping, information mapping, and business modeling.
+
+Phase C. Information Systems Architectures. This phase covers both Data and Application Architecture. They may be developed in either order, or together. The objective in general: develop the Target Information Systems Architectures, describing how the enterprise's information systems will enable the Business Architecture and the Architecture Vision, in a way that addresses the Request for Architecture Work and stakeholder concerns; and identify candidate roadmap components based on the gaps. For Data Architecture, the focus is the major types and sources of data necessary to support the business, in a way that is understandable by stakeholders, complete and consistent, and stable. For Application Architecture, the focus is the major kinds of application system necessary to process the data and support the business. Note: Application Architecture is not about designing individual applications. It is about the applications needed and how they interact.
+
+Phase D. Technology Architecture. The objectives: develop the Target Technology Architecture that enables the logical and physical application and data components and the Architecture Vision, addressing the Request for Architecture Work and stakeholder concerns; and identify candidate roadmap components based on the gaps.
+
+Now, an important pattern. Phases B, C and D all follow the same sequence of steps. Learn it once, use it three times. One: select reference models, viewpoints, and tools. Two: develop the Baseline Architecture description. Three: develop the Target Architecture description. Four: perform gap analysis. Five: define candidate roadmap components. Six: resolve impacts across the Architecture Landscape. Seven: conduct formal stakeholder review. Eight: finalize the architecture. Nine: create the Architecture Definition Document.
+
+The main outputs of B, C and D are updates to two key deliverables. The Architecture Definition Document, which contains the core architectural artifacts: the baseline and target descriptions, in a qualitative way. And the Architecture Requirements Specification, which provides a set of quantitative statements outlining what an implementation project must do to comply with the architecture. These two are a pair. The Architecture Definition Document is about the architecture; the Requirements Specification is about measurable requirements for implementation. Both are typically at version one point zero once their phase is complete.
+
+Quick self test.
+
+What are the two objectives of the Preliminary Phase?
+[PAUSE]
+To determine the Architecture Capability desired by the organization, and to establish that capability.
+
+Which document triggers Phase A, and which document is approved at its end?
+[PAUSE]
+The Request for Architecture Work triggers it. The Statement of Architecture Work is approved at the end.
+
+Which deliverable contains quantitative statements that implementation projects must comply with?
+[PAUSE]
+The Architecture Requirements Specification.
+
+Which two architectures are developed in Phase C?
+[PAUSE]
+Data Architecture and Application Architecture.
+
+Next episode: Phases E to H, and Requirements Management.

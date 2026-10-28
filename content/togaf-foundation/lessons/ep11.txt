@@ -1,0 +1,87 @@
+S: Welcome to the TOGAF Foundation recap. I'm Sara.
+A: And I'm Alex. This is the episode you play the day before the exam, or on the drive to the test centre. One pass through everything that matters, no detail you don't need.
+S: Let's start with the exam itself, because it shapes how you study.
+A: Forty multiple choice questions, sixty minutes, closed book. You pass with twenty four correct, so sixty percent.
+S: And the questions are mostly about vocabulary. Which phase does what, which deliverable belongs where, what a term means exactly.
+A: Right. The wrong options are usually almost right. One word off. So precise wording is the whole game.
+
+S: Big picture first. What's an enterprise in TOGAF?
+A: The highest level of description of an organization. Whatever scope you decide to architect. It can be a division, a whole company, or even several organizations working together.
+S: And Enterprise Architecture describes the structure and behaviour of that enterprise, so it can be changed in a controlled way.
+A: The TOGAF Standard, tenth edition, has two parts. The Fundamental Content, which is stable and universal, and the Series Guides, which are more specific and evolve faster.
+S: The Fundamental Content is six documents. Introduction and core concepts. The A D M. A D M techniques. Applying the A D M. Architecture content. And Enterprise Architecture capability and governance.
+A: Then the four domains. Business, Data, Application, Technology.
+S: With Data and Application grouped as the Information Systems Architectures. That's Phase C.
+A: And three levels of the Architecture Landscape. Strategic, the long term view of the whole enterprise. Segment, an area like a business unit or portfolio. And Capability, the most detailed, at project level.
+
+S: Now the heart of it. The Architecture Development Method. Alex, walk us around the circle.
+A: At the top, the Preliminary Phase. It prepares the organization: it determines the Architecture Capability the organization wants, and establishes it. Principles, governance, tools, the tailored framework.
+S: Then Phase A, Architecture Vision. Triggered by the Request for Architecture Work. It builds a high level vision of the value, and it ends with the approval of the Statement of Architecture Work.
+A: Two words for Phase A: vision and approval.
+S: Phases B, C and D define the architecture. Business, then Information Systems, then Technology. And they share the same steps.
+A: Select reference models, viewpoints and tools. Describe the baseline. Describe the target. Gap analysis. Candidate roadmap components. Resolve impacts across the landscape. Stakeholder review. Finalize. And create the Architecture Definition Document.
+S: Which comes with its partner, the Architecture Requirements Specification. The definition document is about the architecture. The requirements specification is the measurable list of what implementation projects must do.
+A: Then Phase E, Opportunities and Solutions. The first phase about implementation. It produces the initial complete Architecture Roadmap, and decides whether you need Transition Architectures.
+S: And Phase F, Migration Planning, finalizes the roadmap and the Implementation and Migration Plan, and aligns it with the enterprise's change portfolio.
+A: The classic trap. E is the initial roadmap, F is the final one.
+S: Phase G, Implementation Governance. The key word is conformance. Architects don't build, they govern. The central deliverable is the Architecture Contract.
+A: And Phase H, Architecture Change Management, keeps the architecture alive. It classifies changes in three ways. Simplification, incremental, and re-architecting.
+S: And only re-architecting means a whole new A D M cycle, with a new Request for Architecture Work.
+A: In the middle of the circle sits Requirements Management. It's dynamic, it feeds every phase, and TOGAF doesn't mandate any particular tool for it.
+
+S: A few properties of the A D M that show up as questions.
+A: It's iterative. Four iteration cycles. Architecture Context, which is Preliminary and A. Architecture Definition, B to D. Transition Planning, E and F. And Architecture Governance, G and H.
+S: Scope has four dimensions. Breadth, depth, time period, and architecture domains.
+A: And it's meant to be tailored. Phases can be reordered, merged or skipped when there's a good reason.
+S: Versioning convention: zero point one means a draft, typically from Phase A. One point zero means approved, typically at the end of its definition phase.
+
+A: Let's do the content side. Three kinds of work product.
+S: Deliverables are contractually specified and formally signed off. Artifacts describe one aspect of the architecture, and they come as catalogs, matrices and diagrams. Building blocks are the reusable components the architecture is made of.
+A: Architecture Building Blocks capture the requirement and are product independent. Solution Building Blocks are the candidate solution, and they're vendor aware.
+S: The Enterprise Continuum classifies assets from generic to specific. Foundation, Common Systems, Industry, Organization-Specific.
+A: F, C, I, O. Same four stages in the Architecture Continuum and the Solutions Continuum.
+S: And the Architecture Repository. The ones people mix up: the Reference Library holds templates and patterns. The Standards Library holds the standards you must comply with. The Governance Log records decisions, compliance assessments and dispensations.
+A: Plus the Architecture Requirements Repository, the Landscape, the Solutions Landscape, the Metamodel and the Capability.
+
+S: Techniques. Quick tour.
+A: Architecture Principles. Template: Name, Statement, Rationale, Implications. The Rationale is the business benefit.
+S: And a good set of principles is understandable, robust, complete, consistent and stable.
+A: Stakeholder management with the power interest grid. High power and high interest, key players. High power, low interest, keep satisfied. Low power, high interest, keep informed.
+S: Gap analysis. Baseline on one axis, target on the other. Something only in the baseline is eliminated, but check it wasn't left out by mistake.
+A: Business scenarios, mostly in Phase A, to discover requirements. Objectives should be SMART.
+S: The Business Transformation Readiness Assessment, to evaluate readiness for change. Phase A, then refined in E and F.
+A: Risk management. Initial risk is before mitigation, residual risk is after.
+S: And capability-based planning, which keeps the roadmap tied to business outcomes.
+
+A: Last block. Governance.
+S: Six characteristics. Discipline, transparency, independence, accountability, responsibility, fairness.
+A: The Architecture Board oversees it, enforces compliance, and can grant dispensations.
+S: And the conformance levels. The pair everyone confuses: compliant versus conformant.
+A: Compliant: everything you built is in the spec, but you didn't build all of it. Conformant: you built all of the spec, plus extra things outside it. Fully conformant is a perfect match.
+S: And views versus viewpoints. The viewpoint is the convention, where you look from. The view is what a stakeholder actually sees.
+
+A: Okay. Rapid fire. Sara asks, you answer during the pause.
+S: Which phase approves the Statement of Architecture Work?
+[PAUSE]
+A: Phase A.
+S: Which phase produces the initial Architecture Roadmap?
+[PAUSE]
+A: Phase E.
+S: Which change requires a new A D M cycle?
+[PAUSE]
+A: A re-architecting change.
+S: Which building block is vendor aware?
+[PAUSE]
+A: The Solution Building Block.
+S: Where do you find templates and patterns?
+[PAUSE]
+A: The Reference Library.
+S: Everything in the spec, plus extras. Which conformance level?
+[PAUSE]
+A: Conformant.
+
+S: Last advice for exam day?
+A: Read every option to the end. Eliminate the clearly wrong ones first. And watch for the one-word traps. Initial versus final. Determine versus establish. Compliant versus conformant.
+S: And keep the mental model. Preliminary sets up the practice. A gets the vision approved. B, C, D define the architecture and find gaps. E and F turn gaps into a roadmap and a plan. G governs implementation. H manages change. Requirements drive it all.
+A: That's the recap. Good luck on the exam.
+S: Drive safe.

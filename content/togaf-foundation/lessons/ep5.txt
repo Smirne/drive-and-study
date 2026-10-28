@@ -1,0 +1,47 @@
+TOGAF Foundation. Episode five. Phases E to H, and Requirements Management.
+
+Phase E. Opportunities and Solutions. This is the first phase directly concerned with implementation: how the target architecture will actually be delivered. The objectives: generate the initial complete version of the Architecture Roadmap, based upon the gap analysis and candidate roadmap components from Phases B, C and D; and determine whether an incremental approach is required, and if so, identify Transition Architectures that will deliver continuous business value.
+
+In Phase E you consolidate the gaps from all domains, review the requirements and constraints, consider the enterprise's readiness and the interoperability requirements, identify the major work packages, and group them into projects. A work package is a set of actions identified to achieve one or more objectives for the business. Phase E is also where you confirm the implementation and migration strategy: for example a greenfield approach, a revolutionary approach, or an evolutionary one; and whether to replace, reuse, or buy. Remember: Phase E creates the first version of the Architecture Roadmap and introduces the Transition Architectures.
+
+Phase F. Migration Planning. The objectives: finalize the Architecture Roadmap and the supporting Implementation and Migration Plan; ensure that the Implementation and Migration Plan is coordinated with the enterprise's approach to managing and implementing change in its overall change portfolio; and ensure that the business value and cost of work packages and Transition Architectures is understood by key stakeholders.
+
+So Phase F is where the plan becomes final and is aligned with the enterprise's portfolio and project management. Activities include confirming management framework interactions, assigning a business value to each work package, estimating resource requirements, timings and availability, prioritizing the migration projects through cost benefit and risk validation, and confirming the Architecture Roadmap. A useful distinction: Phase E answers what are the possible solutions and how they group; Phase F answers in which order, at what cost, and with what value. Phase F typically ends this ADM cycle's planning and also includes a step to conduct lessons learned.
+
+Phase G. Implementation Governance. The objectives: ensure conformance with the Target Architecture by implementation projects; and perform appropriate architecture governance functions for the solution and any implementation driven architecture change requests.
+
+The key word here is conformance. Architects don't implement; they govern implementation. The central deliverable is the Architecture Contract, a joint agreement between the development partners and the sponsors on the deliverables, quality, and fitness for purpose of an architecture. Phase G also includes architecture compliance reviews, and produces Compliance Assessments and Change Requests. Implementation projects themselves are run by the enterprise's normal project management.
+
+Phase H. Architecture Change Management. The objectives: ensure that the architecture lifecycle is maintained; ensure that the Architecture Governance Framework is executed; and ensure that the Enterprise Architecture Capability meets current requirements.
+
+Phase H is about keeping the architecture alive. It monitors technology changes and business changes, and it decides how to respond to a change request. Here's an important exam point: TOGAF classifies architecture changes into three categories. A simplification change, which can normally be handled through change management techniques. An incremental change, which may be capable of being handled through change management, if properly managed. And a re-architecting change, which requires putting the whole architecture through the architecture development cycle again, starting a new A D M cycle with a new Request for Architecture Work. Simplification, incremental, re-architecting. Note also that a change request is driven by drivers such as new technology, asset management cost reductions, or new business requirements.
+
+Now, Requirements Management, at the centre of the circle. Its objectives: ensure that the Requirements Management process is sustained and operates for all relevant A D M phases; manage architecture requirements identified during any execution of the A D M cycle or a phase; and ensure that relevant architecture requirements are available for use by each phase as the phase is executed.
+
+Important points. Requirements Management is not static; it is a dynamic process. Requirements change throughout the cycle, and every phase both consumes and produces requirements. Note also that TOGAF does not mandate a specific requirements tool or process. Requirements are stored in the Architecture Requirements Repository, which is part of the Architecture Repository. And the A D M is continuously driven by the requirements management process. Business scenarios are an important technique for discovering requirements.
+
+Let's review the key deliverables across the cycle, in order of appearance. Request for Architecture Work: sent by the sponsor, triggers the cycle. Statement of Architecture Work: approved in Phase A, defines scope and approach. Architecture Vision: Phase A. Architecture Definition Document and Architecture Requirements Specification: started in A, completed in B, C and D. Architecture Roadmap: initial version in E, finalized in F. Implementation and Migration Plan: started in E, finalized in F. Transition Architectures: identified in E, defined in E and F. Architecture Contract: Phase G. Compliance Assessment: Phase G. Change Request: G and H.
+
+Quick self test.
+
+In which phase is the initial complete version of the Architecture Roadmap generated?
+[PAUSE]
+Phase E, Opportunities and Solutions.
+
+Which phase ensures the Implementation and Migration Plan is coordinated with the enterprise's change portfolio?
+[PAUSE]
+Phase F, Migration Planning.
+
+What are the three categories of architecture change in Phase H?
+[PAUSE]
+Simplification, incremental, and re-architecting. A re-architecting change requires a new A D M cycle.
+
+What is an Architecture Contract?
+[PAUSE]
+A joint agreement between development partners and sponsors on the deliverables, quality, and fitness for purpose of an architecture. It is central to Phase G.
+
+Where are architecture requirements stored?
+[PAUSE]
+In the Architecture Requirements Repository, part of the Architecture Repository.
+
+Next episode: architecture content, building blocks, the Enterprise Continuum and the Architecture Repository.

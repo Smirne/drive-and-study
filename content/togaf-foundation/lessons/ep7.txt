@@ -1,0 +1,49 @@
+TOGAF Foundation. Episode seven. The A D M techniques.
+
+The third document of the Fundamental Content describes techniques that support the A D M. For the Foundation exam, you need to know what each one is for, and roughly where it is used.
+
+Technique one. Architecture Principles. Principles are general rules and guidelines, intended to be enduring and seldom amended, that inform and support the way an organization sets about fulfilling its mission. There is a hierarchy: enterprise principles at the top, then I T or other domain principles, then architecture principles. Each principle follows a standard template with four parts. Name: which should represent the essence of the rule and be easy to remember. Statement: which communicates the fundamental rule, succinctly and unambiguously. Rationale: which highlights the business benefits of adhering to the principle. And Implications: which highlight the requirements, for both the business and I T, for carrying out the principle, in terms of resources, costs, and activities. Name, Statement, Rationale, Implications.
+
+TOGAF also lists five criteria for a good set of principles. Understandable: quickly grasped by people across the organization. Robust: enabling good quality decisions, and enforceable. Complete: covering every situation perceived. Consistent: allowing a balance of interpretation, without contradiction. And Stable: enduring, yet able to accommodate change through an amendment process. Understandable, Robust, Complete, Consistent, Stable. Principles are defined in the Preliminary Phase and confirmed in Phase A.
+
+Technique two. Stakeholder Management. Its purpose is to identify the people with power and interest in the architecture work, and engage them effectively, so that the architecture is supported. The process has four steps. Identify stakeholders. Classify stakeholder positions. Determine the stakeholder management approach. And tailor engagement deliverables, which means choosing the right viewpoints for each stakeholder. The classic tool is the power interest grid. Stakeholders with high power and high interest are key players: fully engage them. High power and low interest: keep satisfied. Low power and high interest: keep informed. Low power and low interest: minimal effort, monitor. Stakeholder management starts in the Preliminary Phase and Phase A, and the result feeds the Communications Plan.
+
+Technique three. Gap Analysis. Gap analysis is used to validate an architecture and to highlight the shortfalls between the Baseline and the Target. It's done in Phases B, C, and D, and consolidated in Phase E. The technique uses a matrix: baseline building blocks on one axis, target building blocks on the other. You add a row called "New" and a column called "Eliminated". If a building block appears in both, it's carried forward, possibly enhanced. If it is in the baseline but not in the target, it's eliminated, and you must check whether that was intentional or an accidental omission. If it is in the target but not the baseline, it's new and must be developed or procured. Gaps become candidate roadmap components and work packages.
+
+Technique four. Business Scenarios. A business scenario is a technique to identify and articulate architecture requirements, and to derive the characteristics of the architecture directly from the high level requirements of the business. It's used mainly in Phase A, and also in Phase B and in requirements management. A business scenario describes a business process or problem, the business and technology environment, the people and computing components, called actors, who execute it, and the desired outcome. The objectives in a business scenario should be SMART: Specific, Measurable, Actionable, Realistic, and Time-bound. A good business scenario helps the business and I T reach a common understanding of the problem.
+
+Technique five. Business Transformation Readiness Assessment. Its purpose is to evaluate and quantify the organization's readiness to undergo change. It's done in Phase A, and refined in Phases E and F, where its results inform the implementation and migration planning. TOGAF bases this on a framework of readiness factors, originally from the Canadian Government. Examples include vision, desire, willingness and resolve, need, business case, funding, sponsorship and leadership, governance, accountability, workable approach and execution model, I T capacity to execute, and departmental capacity to execute. Each factor is assessed for current and target maturity, and for risk.
+
+Technique six. Risk Management. Risk management identifies, assesses and mitigates risk. TOGAF distinguishes two levels of risk. Initial risk: the risk before determining and implementing any mitigating actions. Residual risk: the risk after mitigating actions have been implemented. The process: risk classification, risk identification, initial risk assessment, risk mitigation and residual risk assessment, and risk monitoring. Risks are assessed by impact, from catastrophic, critical, marginal, to negligible, and by frequency, from frequent, likely, occasional, seldom, to unlikely. Risk management is done in Phase A, and in more detail in Phases E, F, and G.
+
+Technique seven. Capability-Based Planning. This focuses on planning, engineering and delivering strategic business capabilities. It is business driven and business led, and it aligns the I T roadmap with business outcomes. Capabilities are delivered through capability increments, which often correspond to Transition Architectures. A capability has dimensions such as people, process, material or tools, and information. The key message: capability-based planning focuses on business outcomes rather than on projects, and it cuts across organizational boundaries.
+
+Technique eight. Interoperability Requirements. Interoperability is the ability to share information and services. TOGAF distinguishes business, or operational, interoperability; information interoperability; and technical interoperability. It also defines degrees of information interoperability, from degree one, unstructured data exchange, to degree two, structured data exchange, degree three, seamless sharing of data, and degree four, seamless sharing of information. Interoperability is considered in Phases A to D and especially in Phase E.
+
+Technique nine. Architecture Alternatives and Trade-offs. When there are several options, the architect should present the alternatives, their trade-offs, and the impact on stakeholders, so the decision is explicit and justified.
+
+Technique ten. Migration Planning Techniques, used in Phases E and F. These include the implementation factor assessment and deduction matrix, which records the factors affecting migration; the consolidated gaps, solutions and dependencies matrix; the architecture definition increments table; and the business value assessment, which uses a matrix of value against risk to prioritize work.
+
+Quick self test.
+
+What are the four parts of the principle template?
+[PAUSE]
+Name, Statement, Rationale, Implications.
+
+What does it mean if a building block is in the Baseline but not in the Target?
+[PAUSE]
+It is eliminated. You must check whether that was intentional or an accidental omission, which would be a gap.
+
+What is residual risk?
+[PAUSE]
+The risk remaining after mitigating actions have been implemented.
+
+How should you manage a stakeholder with high power but low interest?
+[PAUSE]
+Keep them satisfied.
+
+What does SMART stand for in business scenarios?
+[PAUSE]
+Specific, Measurable, Actionable, Realistic, Time-bound.
+
+Final episode next: governance, compliance, views and viewpoints, and a final rapid-fire quiz.

@@ -1,0 +1,73 @@
+TOGAF Foundation. Episode two. The core vocabulary.
+
+A large part of the Foundation exam is about definitions. In this episode we walk through the terms that come up most often. Listen actively: after each term, try to say the definition yourself before I finish it.
+
+Stakeholder. An individual, team, organization, or class thereof, having an interest in a system. Note the phrase "class thereof": a stakeholder can be a whole category, such as "end users".
+
+Concern. An interest in a system relevant to one or more of its stakeholders. Concerns can include performance, reliability, security, distribution, and evolvability. Stakeholders have concerns, and architecture exists to address them.
+
+View. A representation of a system from the perspective of a related set of concerns. Viewpoint. A specification of the conventions for a particular kind of architecture view. Here's the trick: the viewpoint is where you are looking from, the template or the rules; the view is what you actually see, the concrete content. The exam loves to swap these two. A viewpoint is reusable across architectures; a view is specific to one system.
+
+Model. A representation of a subject of interest. Views are built from models.
+
+Architecture Principle. A qualitative statement of intent that should be met by the architecture. We'll see the template for principles in episode seven.
+
+Requirement. A statement of need that must be met by a particular architecture or work package.
+
+Constraint. An external factor that prevents an organization from pursuing particular approaches to meet its goals. For example, a fixed budget or a regulation.
+
+Assumption. A statement of probable fact that has not been fully validated at this stage, due to external constraints.
+
+Gap. A statement of difference between two states. Used in gap analysis, between the Baseline and the Target.
+
+Baseline. A specification that has been formally reviewed and agreed upon, that serves as the basis for further development or change. In practice, the Baseline Architecture is the existing, as-is architecture. Target Architecture. The description of a future state of the architecture being developed for an organization. And Transition Architecture. A formal description of one state of the architecture at an architecturally significant point in time. Transition Architectures sit between baseline and target, and are introduced in Phase E when the change is too big to do in one step.
+
+Architecture Domain. The architectural area being considered. As we said, there are four: business, data, application, technology.
+
+Architecture Landscape. The architectural representation of assets in use, or planned, by the enterprise at particular points in time. Remember its three levels: Strategic, Segment, Capability.
+
+Capability. An ability that an organization, person or system possesses. Business Capability. A particular ability that a business may possess or exchange to achieve a specific purpose. Capabilities describe what the business does, not how.
+
+Value Stream. A representation of an end-to-end collection of activities that create an overall result for a customer, stakeholder, or end user. Capabilities and value streams are the backbone of modern Business Architecture in TOGAF.
+
+Building Block. A potentially re-usable component of enterprise capability that can be combined with other building blocks to deliver architectures and solutions. There are two kinds. An Architecture Building Block, or A B B, is a constituent of the architecture model that describes a single aspect of the overall model. A B Bs capture requirements and direct the development of solutions. A Solution Building Block, or S B B, is a candidate solution which conforms to the specification of an Architecture Building Block. S B Bs are product or vendor aware. Simple hook: A B B says what is needed; S B B says what we will buy or build.
+
+Deliverable. An architectural work product that is contractually specified and in turn formally reviewed, agreed, and signed off by the stakeholders. Artifact. An architectural work product that describes an aspect of the architecture. Deliverables contain artifacts. Artifacts come in three shapes: catalogs, which are lists of things; matrices, which show relationships between things; and diagrams, which are pictures of things.
+
+Architecture Repository. A repository of all the architectural material produced, for use by the enterprise. We'll unpack its structure in episode six.
+
+Enterprise Continuum. A categorization mechanism useful for classifying architecture and solution artifacts, both internal and external to the Architecture Repository, as they evolve from generic Foundation Architectures to Organization-Specific Architectures. Keep the words "from generic to specific".
+
+Metamodel. A model that describes how and with what the architecture will be described in a structured way. In other words, a model of the model.
+
+Solution Architecture. A description of a discrete and focused business operation or activity, and how I S and technology support that operation. It typically covers a single project or release.
+
+Logical versus Physical. A logical description is implementation independent: for example, "a customer database". A physical description is about the actual implementation: for example, a particular database product on particular servers. Logical often relates to A B Bs, physical to S B Bs.
+
+Course of Action. Direction and focus provided by strategic goals and objectives, often to deliver the value proposition characterized in the business model.
+
+Information System Service. The automated elements of a business service. Technology Service. A technical capability required to provide enabling infrastructure that supports the delivery of applications.
+
+Governance. The discipline of monitoring, managing and steering a business, or an I S and technology landscape, to deliver the business outcomes required.
+
+Repository, Reference Model, Pattern. A reference model is an abstract framework for understanding significant relationships among the entities of an environment. A pattern is a technique for putting building blocks into context, describing a reusable solution to a problem.
+
+Let's do a quick self test. I'll say a term, you answer, then I give the answer.
+
+What is the difference between a view and a viewpoint?
+[PAUSE]
+The viewpoint is the specification of conventions, the template; the view is the actual representation of the system addressing a set of concerns.
+
+What distinguishes a deliverable from an artifact?
+[PAUSE]
+A deliverable is contractually specified and formally reviewed, agreed and signed off. An artifact describes an aspect of the architecture and is usually contained in a deliverable.
+
+Which building block is vendor aware?
+[PAUSE]
+The Solution Building Block.
+
+What is a Transition Architecture?
+[PAUSE]
+A formal description of one state of the architecture at an architecturally significant point in time, between baseline and target.
+
+That's the vocabulary. Next episode: the Architecture Development Method as a whole.
