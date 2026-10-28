@@ -39,6 +39,18 @@ with sync_playwright() as p:
     pg.click('a[href="/lessons"]'); pg.wait_for_selector('#list li'); print('back to lessons ok')
     pg.click('a.home'); pg.wait_for_selector('a.card'); print('back home ok')
     sw = pg.evaluate('document.documentElement.scrollWidth'); print('home scrollWidth at 390px:', sw)
+    # button test page: capture media-session handlers, press "next" three times -> "Answer 3"
+    bp = b.new_page(viewport={'width': 390, 'height': 844}); berr = []
+    bp.on('pageerror', lambda e: berr.append(str(e)))
+    bp.add_init_script("""window.__h = {};
+      if (navigator.mediaSession) { const o = navigator.mediaSession.setActionHandler.bind(navigator.mediaSession);
+        navigator.mediaSession.setActionHandler = (a, f) => { window.__h[a] = f; try { o(a, f); } catch (e) { throw e; } }; }
+      HTMLMediaElement.prototype.play = function () { return Promise.resolve(); };""")
+    bp.goto(base + '/buttons'); bp.click('#start')
+    bp.evaluate("['nexttrack','nexttrack','nexttrack'].forEach(a => window.__h[a]({action: a}))")
+    bp.wait_for_function("document.getElementById('answer').textContent.startsWith('Answer')", timeout=5000)
+    bp.evaluate("window.__h.previoustrack({action: 'previoustrack'})")
+    print('buttons:', bp.text_content('#answer'), '| last:', bp.text_content('#last'), '| counts:', bp.text_content('#counts'), '| errors:', berr)
     print('http errors:', [x for x in bad if 'fonts.g' not in x[1]], '| page errors:', errs)
     b.close()
 srv.shutdown()
