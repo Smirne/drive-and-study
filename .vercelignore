@@ -1,0 +1,4 @@
+# Deploy only the built page; sources, tools and tests stay in the repo.
+/*
+!index.html
+!vercel.json

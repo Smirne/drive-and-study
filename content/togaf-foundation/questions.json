@@ -1,0 +1,222 @@
+[
+ {
+  "q": "Which of the following best describes the purpose of the Preliminary Phase?",
+  "o": [
+   "To develop a high level vision of the business value to be delivered.",
+   "To prepare the organization for successful architecture work, by determining and establishing the Architecture Capability.",
+   "To ensure conformance of implementation projects with the target architecture.",
+   "To finalize the Architecture Roadmap."
+  ],
+  "a": 2,
+  "e": "The answer is two. The Preliminary Phase determines the Architecture Capability desired by the organization and establishes it. Option one describes Phase A, option three describes Phase G, and option four describes Phase F."
+ },
+ {
+  "q": "Which of the following is a qualitative statement of intent that should be met by the architecture?",
+  "o": [
+   "An architecture requirement.",
+   "A constraint.",
+   "An architecture principle.",
+   "An assumption."
+  ],
+  "a": 3,
+  "e": "The answer is three, an architecture principle. A requirement is a statement of need that must be met. A constraint is an external factor that prevents certain approaches. An assumption is a statement of probable fact not yet fully validated."
+ },
+ {
+  "q": "In which phase of the A D M is the Statement of Architecture Work approved?",
+  "o": [
+   "Phase A, Architecture Vision.",
+   "Preliminary Phase.",
+   "Phase B, Business Architecture.",
+   "Phase E, Opportunities and Solutions."
+  ],
+  "a": 1,
+  "e": "The answer is one, Phase A. Phase A is triggered by the Request for Architecture Work, and ends with the approval of the Statement of Architecture Work, which defines the scope and approach of the architecture project."
+ },
+ {
+  "q": "Which of the following correctly describes a Solution Building Block?",
+  "o": [
+   "It captures architecture requirements and is independent of products.",
+   "It is a contractually specified work product signed off by stakeholders.",
+   "It is a list of building blocks of a specific type.",
+   "It is a candidate solution that conforms to the specification of an Architecture Building Block, and is product or vendor aware."
+  ],
+  "a": 4,
+  "e": "The answer is four. Option one describes an Architecture Building Block. Option three describes a catalog, which is a type of artifact. Option two describes a deliverable."
+ },
+ {
+  "q": "Which phase generates the initial complete version of the Architecture Roadmap, and determines whether Transition Architectures are needed?",
+  "o": [
+   "Phase D, Technology Architecture.",
+   "Phase E, Opportunities and Solutions.",
+   "Phase F, Migration Planning.",
+   "Phase G, Implementation Governance."
+  ],
+  "a": 2,
+  "e": "The answer is two, Phase E. Phase E builds the initial roadmap from the gaps identified in Phases B, C and D, and decides if an incremental approach with Transition Architectures is required. Phase F then finalizes the roadmap and the Implementation and Migration Plan. It's a classic trap: E is initial, F is final."
+ },
+ {
+  "q": "Which of the following is the correct order of the Architecture Continuum, from generic to specific?",
+  "o": [
+   "Foundation, Industry, Common Systems, Organization-Specific.",
+   "Common Systems, Foundation, Industry, Organization-Specific.",
+   "Organization-Specific, Industry, Common Systems, Foundation.",
+   "Foundation, Common Systems, Industry, Organization-Specific."
+  ],
+  "a": 4,
+  "e": "The answer is four. Foundation, Common Systems, Industry, Organization-Specific. Remember F, C, I, O. Option three lists the same stages, but from specific to generic, so it's the reverse of what the question asks."
+ },
+ {
+  "q": "Which part of the Architecture Repository contains guidelines, templates and patterns that can be used to accelerate the creation of new architectures?",
+  "o": [
+   "The Standards Library.",
+   "The Governance Log.",
+   "The Reference Library.",
+   "The Architecture Landscape."
+  ],
+  "a": 3,
+  "e": "The answer is three, the Reference Library. The Standards Library holds the standards new architectures must comply with. The Governance Log records governance activity such as decisions and dispensations. The Architecture Landscape describes the assets in use or planned at a point in time."
+ },
+ {
+  "q": "During gap analysis, a building block appears in the Baseline Architecture but not in the Target Architecture. What should the architect do?",
+  "o": [
+   "Check whether it was intentionally eliminated, or accidentally omitted from the target.",
+   "Classify it as new, and plan its development.",
+   "Ignore it, as it is no longer needed.",
+   "Move it to the Standards Library."
+  ],
+  "a": 1,
+  "e": "The answer is one. An element present only in the baseline is marked as eliminated, but the architect must verify that this was a deliberate decision. If it was left out by mistake, it is a gap that must be addressed."
+ },
+ {
+  "q": "Which of the following are the four dimensions used to define the scope of an architecture activity?",
+  "o": [
+   "Strategic, segment, capability, and solution.",
+   "Business, data, application, and technology.",
+   "Breadth, depth, time period, and architecture domains.",
+   "Cost, time, quality, and risk."
+  ],
+  "a": 3,
+  "e": "The answer is three. Breadth, depth, time period, and architecture domains. Option two lists the four architecture domains, which is only one of the dimensions. Option one mixes the landscape levels with solution architecture. Option four is project management, not TOGAF scoping."
+ },
+ {
+  "q": "Which phase is concerned with ensuring that the architecture lifecycle is maintained, and that the Enterprise Architecture Capability meets current requirements?",
+  "o": [
+   "Phase G, Implementation Governance.",
+   "Phase H, Architecture Change Management.",
+   "Requirements Management.",
+   "Preliminary Phase."
+  ],
+  "a": 2,
+  "e": "The answer is two, Phase H. Those are exactly the objectives of Architecture Change Management, together with ensuring that the Architecture Governance Framework is executed. Phase G is about conformance of implementation projects, which is a different focus."
+ },
+ {
+  "q": "What is the difference between a view and a viewpoint?",
+  "o": [
+   "A viewpoint is the specification of the conventions for a kind of view; a view is a representation of a system addressing a set of concerns.",
+   "A view is the specification of the conventions; a viewpoint is what a stakeholder sees.",
+   "They are synonyms in the TOGAF Standard.",
+   "A view applies to business architecture only; a viewpoint applies to technology architecture."
+  ],
+  "a": 1,
+  "e": "The answer is one. The viewpoint is the template, where you look from. The view is the actual representation that addresses the concerns of the stakeholders. Option two has them reversed, which is the most common trap."
+ },
+ {
+  "q": "How is the TOGAF Standard, tenth edition, structured?",
+  "o": [
+   "Into the A D M and the Enterprise Continuum.",
+   "Into the Technical Reference Model and the Integrated Information Infrastructure Reference Model.",
+   "Into the Foundation Architecture and the Industry Architecture.",
+   "Into the TOGAF Fundamental Content and the TOGAF Series Guides."
+  ],
+  "a": 4,
+  "e": "The answer is four. The Fundamental Content holds the universal, stable concepts, in six documents. The Series Guides give more specific, practical guidance and can evolve faster."
+ },
+ {
+  "q": "An implementation implements all the features in the architecture specification, and also some features that are not in accordance with it. What is its level of conformance?",
+  "o": [
+   "Compliant.",
+   "Consistent.",
+   "Fully conformant.",
+   "Conformant."
+  ],
+  "a": 4,
+  "e": "The answer is four, conformant. Everything in the specification is done, plus extras outside it. Compliant is the reverse: everything implemented is in the spec, but not all of the spec is implemented. Fully conformant is a perfect match."
+ },
+ {
+  "q": "Which of the following is not one of the characteristics of architecture governance?",
+  "o": [
+   "Transparency.",
+   "Independence.",
+   "Flexibility.",
+   "Accountability."
+  ],
+  "a": 3,
+  "e": "The answer is three, flexibility. The six characteristics of governance are discipline, transparency, independence, accountability, responsibility, and fairness. Flexibility does appear in TOGAF, but as one of the responsibilities of the Architecture Board, not as a governance characteristic."
+ },
+ {
+  "q": "Which technique is used in Phase A to identify and articulate business requirements, and to derive the characteristics of the architecture directly from them?",
+  "o": [
+   "Business scenarios.",
+   "Gap analysis.",
+   "Interoperability requirements.",
+   "Migration planning techniques."
+  ],
+  "a": 1,
+  "e": "The answer is one, business scenarios. Gap analysis is used in Phases B to E to compare baseline and target. Interoperability is mainly considered in Phase E. Migration planning techniques belong to Phases E and F."
+ },
+ {
+  "q": "According to the principle template, which section highlights the business benefits of adhering to the principle?",
+  "o": [
+   "Name.",
+   "Rationale.",
+   "Statement.",
+   "Implications."
+  ],
+  "a": 2,
+  "e": "The answer is two, Rationale. The Statement communicates the rule. The Implications describe the requirements, for business and I T, to carry out the principle, in terms of resources, costs and activities."
+ },
+ {
+  "q": "A change request is received that requires the architecture to go through the whole architecture development cycle again. How is this change classified in Phase H?",
+  "o": [
+   "A simplification change.",
+   "An incremental change.",
+   "A dispensation.",
+   "A re-architecting change."
+  ],
+  "a": 4,
+  "e": "The answer is four, a re-architecting change, which typically starts a new A D M cycle with a new Request for Architecture Work. A simplification change can normally be handled through change management. An incremental change may be handled through change management, if properly managed. A dispensation is a governance mechanism to accept temporary non-compliance, not a type of change."
+ },
+ {
+  "q": "Which of the following best describes the purpose of Requirements Management in the A D M?",
+  "o": [
+   "It ensures that a dynamic requirements process is sustained and operates for all relevant A D M phases.",
+   "It is a static process, executed once before the A D M cycle starts.",
+   "It is performed only in Phase B, to capture business requirements.",
+   "It mandates a specific requirements management tool."
+  ],
+  "a": 1,
+  "e": "The answer is one. Requirements Management sits at the centre of the A D M and is continuous and dynamic: requirements are identified, stored and fed into every phase. TOGAF does not mandate any specific tool or process, so option four is wrong."
+ },
+ {
+  "q": "Which level of the Architecture Landscape provides a summary, long term view of the entire enterprise, used for direction setting at the executive level?",
+  "o": [
+   "Capability Architecture.",
+   "Segment Architecture.",
+   "Strategic Architecture.",
+   "Solution Architecture."
+  ],
+  "a": 3,
+  "e": "The answer is three, Strategic Architecture. Segment Architecture covers an area of the enterprise, such as a portfolio or program. Capability Architecture is the most detailed, for a specific unit of capability at project level."
+ },
+ {
+  "q": "Which of the following is a key purpose of Phase F, Migration Planning?",
+  "o": [
+   "To develop the Target Technology Architecture.",
+   "To ensure the Implementation and Migration Plan is coordinated with the enterprise's approach to managing and implementing change in its overall change portfolio.",
+   "To conduct architecture compliance reviews of implementation projects.",
+   "To obtain approval for the Statement of Architecture Work."
+  ],
+  "a": 2,
+  "e": "The answer is two. Phase F finalizes the Architecture Roadmap and the Implementation and Migration Plan, aligns them with the enterprise's change portfolio, and ensures stakeholders understand the business value and cost of the work packages. Option one is Phase D, option three is Phase G, and option four is Phase A."
+ }
+]

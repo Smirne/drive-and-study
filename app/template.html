@@ -1,0 +1,459 @@
+<title>TOGAF Voice Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one-screen dashboard-style drill; status strip, question, 2x2 answer pads sized for a glance and a thumb, transport row */
+:root {
+  --bg: #11161a; --surface: #1a2127; --raised: #232c33; --fg: #eef2f4; --muted: #93a1ab;
+  --line: #2d3740; --accent: #f2b33d; --on-accent: #1a1405; --ok: #49c47c; --bad: #ef6b5b;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #f1f3f4; --surface: #ffffff; --raised: #e9edef; --fg: #141a1e; --muted: #5a6670;
+  --line: #d5dbdf; --accent: #b87700; --on-accent: #ffffff; --ok: #1d8a4c; --bad: #c43d2e; color-scheme: light } }
+:root[data-theme="light"] {
+  --bg: #f1f3f4; --surface: #ffffff; --raised: #e9edef; --fg: #141a1e; --muted: #5a6670;
+  --line: #d5dbdf; --accent: #b87700; --on-accent: #ffffff; --ok: #1d8a4c; --bad: #c43d2e; color-scheme: light }
+
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.45 var(--body); }
+.app { max-width: 560px; margin: 0 auto; min-height: 100%; box-sizing: border-box; padding-inline: 16px; padding-block: 14px 20px; display: flex; flex-direction: column; gap: 14px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.strip { display: flex; align-items: center; justify-content: space-between; gap: 10px; font: 600 13px/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.strip b { color: var(--fg); }
+.progress { height: 4px; background: var(--raised); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+
+.state { display: flex; align-items: center; gap: 10px; font: 600 14px var(--mono); letter-spacing: .04em; text-transform: uppercase; min-height: 24px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--muted); flex: none; }
+.state[data-s="listening"] .dot { background: var(--accent); animation: pulse 1.2s infinite; }
+.state[data-s="speaking"] .dot { background: var(--fg); }
+.state[data-s="right"] .dot { background: var(--ok); }
+.state[data-s="wrong"] .dot { background: var(--bad); }
+@keyframes pulse { 50% { transform: scale(1.5); opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .state .dot { animation: none !important; } }
+.heard { font: 500 12px var(--mono); color: var(--muted); margin-left: auto; text-transform: none; letter-spacing: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.qtext { font-size: 19px; font-weight: 700; margin: 0; text-wrap: balance; min-height: 3em; }
+
+.pads { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pad { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 12px; min-height: 120px; text-align: left; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.pad .n { font: 600 34px/1 var(--mono); }
+.pad .o { font-size: 13.5px; color: var(--muted); overflow-wrap: anywhere; }
+.pad.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--surface)); }
+.pad.right .n { color: var(--ok); }
+.pad.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--surface)); }
+.pad.wrong .n { color: var(--bad); }
+.pad:disabled { cursor: default; }
+
+.explain { background: var(--surface); border-left: 3px solid var(--accent); padding: 10px 12px; font-size: 14.5px; color: var(--muted); margin: 0; }
+
+.transport { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: auto; }
+.transport button { background: var(--raised); border: 1px solid var(--line); border-radius: 12px; min-height: 52px; font: 600 13px var(--mono); }
+.transport button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+.start { display: grid; gap: 14px; }
+.start h1 { font-size: clamp(28px, 8vw, 36px); line-height: 1.05; margin: 0; text-wrap: balance; }
+.start p { margin: 0; color: var(--muted); }
+.big { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 14px; min-height: 64px; font-size: 19px; font-weight: 700; }
+.ghost { background: var(--raised); border: 1px solid var(--line); border-radius: 14px; min-height: 52px; font-weight: 700; }
+.ghost:disabled { opacity: .5; cursor: default; }
+.how { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 14px; color: var(--muted); }
+.how dt { font: 600 13px var(--mono); color: var(--fg); }
+.how dd { margin: 0; }
+.note { font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; }
+
+.results { display: grid; gap: 8px; }
+.results h2 { margin: 0; font-size: 26px; }
+.row { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.row .m { font: 600 13px var(--mono); }
+.row .m.ok { color: var(--ok); } .row .m.ko { color: var(--bad); }
+.row .t { min-width: 0; }
+.row .k { font: 500 12px var(--mono); color: var(--muted); white-space: nowrap; }
+</style>
+
+<div class="app" id="app">
+  <section class="start" id="startView">
+    <div class="strip"><span>TOGAF EA Foundation · Part 1</span><span id="statsLine"></span></div>
+    <h1>Voice drill</h1>
+    <p>20 exam-style questions read aloud. Answer by voice, tap or keyboard. The app scores you, explains the answer and remembers what you missed.</p>
+    <button class="big" id="startAll">Start all 20</button>
+    <button class="ghost" id="startMissed" disabled>Review missed (0)</button>
+    <dl class="how">
+      <dt>Say</dt><dd>“one”, “two”, “three”, “four” · “repeat” · “skip”</dd>
+      <dt>Tap</dt><dd>the numbered pads</dd>
+      <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause</dd>
+    </dl>
+    <p class="note" id="voiceNote">Checking voice support…</p>
+    <button class="ghost" id="micTest">Test microphone</button>
+    <p class="note" id="micResult" hidden></p>
+  </section>
+
+  <section id="drillView" hidden style="display:flex;flex-direction:column;gap:14px;flex:1">
+    <div class="strip"><span>Q <b id="qNum">1</b>/<span id="qTot">20</span></span><span>Score <b id="score">0</b></span></div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="state" id="state" data-s="speaking"><span class="dot"></span><span id="stateText">Reading</span><span class="heard" id="heard"></span></div>
+    <p class="qtext" id="qText"></p>
+    <div class="pads" id="pads"></div>
+    <p class="explain" id="explain" hidden></p>
+    <button class="big" id="bMic" hidden>Tap to talk</button>
+    <div class="transport">
+      <button id="bRepeat">Repeat</button>
+      <button id="bPause" aria-pressed="false">Pause</button>
+      <button id="bSkip">Skip</button>
+      <button id="bVoice" aria-pressed="true">Voice</button>
+    </div>
+  </section>
+
+  <section class="results" id="doneView" hidden>
+    <div class="strip"><span>Session complete</span><span id="doneStats"></span></div>
+    <h2 id="doneScore"></h2>
+    <div id="doneRows"></div>
+    <button class="big" id="again">Review missed</button>
+    <button class="ghost" id="home">Back to start</button>
+  </section>
+</div>
+
+<script>
+const QS = /*__QUESTIONS__*/[];
+const CLIPS = /*__CLIPS__*/{};
+const NUMW = ["one","two","three","four"];
+
+/* ---------- deterministic answer parser ---------- */
+const VOCAB = {
+  1: ["1","one","won","wan","juan","first","van"],
+  2: ["2","two","to","too","tu","second"],
+  3: ["3","three","tree","free","third"],
+  4: ["4","four","for","fore","fourth","ford"]
+};
+const CMD = { repeat: ["repeat","again","pardon"], skip: ["skip","next","pass"] };
+const LOOKUP = {};
+for (const k in VOCAB) VOCAB[k].forEach(w => LOOKUP[w] = +k);
+for (const k in CMD) CMD[k].forEach(w => LOOKUP[w] = k);
+function parseUtterance(text) {
+  const toks = text.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
+  const hits = [...new Set(toks.map(t => LOOKUP[t]).filter(v => v !== undefined))];
+  const nums = hits.filter(h => typeof h === "number");
+  if (nums.length === 1) return nums[0];          // exactly one distinct number: accept
+  if (nums.length > 1) return null;               // ambiguous ("two or three"): ignore
+  const cmds = hits.filter(h => typeof h === "string");
+  return cmds.length === 1 ? cmds[0] : null;
+}
+
+/* ---------- storage (per-viewer, optional) ---------- */
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem("togaf-drill")) || {}; } catch (e) { return {}; } },
+  set(v) { try { localStorage.setItem("togaf-drill", JSON.stringify(v)); } catch (e) {} }
+};
+let stats = store.get();   // { [qIndex]: { seen, wrong, box } }  Leitner box 0..3, 0 = needs review
+const missedList = () => QS.map((_, i) => i).filter(i => stats[i] && stats[i].box === 0);
+
+/* ---------- audio ---------- */
+const $ = id => document.getElementById(id);
+const audio = new Audio();
+let playToken = 0, curResolve = null;
+function play(name) {
+  const tok = ++playToken;
+  return new Promise(res => {
+    curResolve = () => res(false);
+    audio.muted = false;
+    audio.onended = () => res(tok === playToken);
+    audio.onerror = () => res(tok === playToken);
+    audio.src = CLIPS[name];
+    audio.play().catch(() => res(tok === playToken));
+  });
+}
+function stopAudio() { playToken++; audio.pause(); if (curResolve) { const r = curResolve; curResolve = null; r(); } }
+
+/* ---------- speech recognition (browser engine, deterministic parsing) ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceOn = !!SR, voiceBroken = false, rec = null, micResolve = null;
+function setVoiceNote(msg) { $("voiceNote").textContent = msg; }
+if (!SR) {
+  setVoiceNote("This browser has no speech recognition. Use Chrome (Android, Windows, Mac) or Safari (iPhone, Mac) for voice. Tap and keys still work.");
+  $("micTest").hidden = true;
+} else if (!window.isSecureContext) {
+  voiceBroken = true;
+  setVoiceNote("Voice needs the page served over HTTPS (or opened as a local file on a computer). Tap and keys still work.");
+} else {
+  setVoiceNote("Voice is on. Your browser's speech service transcribes; the app only accepts one, two, three, four, repeat and skip. Run the microphone test first, ideally with some background noise.");
+}
+const BLOCKED = ["not-allowed", "service-not-allowed", "audio-capture"];
+function voiceUsable() { return voiceOn && SR && !voiceBroken; }
+
+// One recognition attempt. Resolves {kind: hit|miss|silent|blocked|error|none, value?, text?}
+// Must be called synchronously inside a click handler the first time (permission prompt).
+function listenOnce(timeoutMs = 9000) {
+  return new Promise(res => {
+    if (!voiceUsable()) return res({ kind: "none" });
+    const r = new SR(); rec = r;
+    r.lang = "en-US"; r.interimResults = true; r.maxAlternatives = 5; r.continuous = false;
+    let settled = false, heardText = "";
+    const timer = setTimeout(() => done({ kind: heardText ? "miss" : "silent", text: heardText }), timeoutMs);
+    function done(v) {
+      if (settled) return; settled = true; clearTimeout(timer);
+      try { r.abort(); } catch (e) {}
+      if (rec === r) rec = null;
+      res(v);
+    }
+    r.onresult = ev => {
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const alts = [...ev.results[i]].map(a => a.transcript);
+        heardText = alts[0];
+        $("heard").textContent = "heard: " + alts[0];
+        for (const t of alts) { const p = parseUtterance(t); if (p !== null) return done({ kind: "hit", value: p, text: t }); }
+        if (ev.results[i].isFinal) return done({ kind: "miss", text: heardText });
+      }
+    };
+    r.onerror = ev => {
+      if (BLOCKED.includes(ev.error)) {
+        voiceBroken = true; renderVoice();
+        setVoiceNote("The microphone was blocked. Allow it in the browser's site settings, then turn Voice back on. Tap and keys still work.");
+        return done({ kind: "blocked" });
+      }
+      if (ev.error === "no-speech" || ev.error === "aborted") return done({ kind: "silent" });
+      done({ kind: "error", text: ev.error });   // e.g. "network": speech service unreachable
+    };
+    r.onend = () => done({ kind: heardText ? "miss" : "silent", text: heardText });
+    try { r.start(); } catch (e) { done({ kind: "error", text: String(e) }); }
+  });
+}
+function stopListening() { if (rec) { try { rec.abort(); } catch (e) {} rec = null; } }
+function micPressed() { if (micResolve) { const r = micResolve; micResolve = null; r("__mic"); } }
+
+/* ---------- session state machine ---------- */
+let queue = [], pos = 0, score = 0, results = [], paused = false, answered = false, runId = 0, reviewMode = false;
+let pendingAnswer = null;   // resolver for the current wait-for-answer
+
+function setState(s, text) { $("state").dataset.s = s; $("stateText").textContent = text; }
+function renderVoice() {
+  const usable = voiceOn && SR && !voiceBroken;
+  $("bVoice").setAttribute("aria-pressed", String(usable));
+  $("bVoice").textContent = usable ? "Voice" : "Voice off";
+}
+function renderStart() {
+  const m = missedList().length;
+  $("startMissed").disabled = m === 0;
+  $("startMissed").textContent = `Review missed (${m})`;
+  const seen = Object.keys(stats).length;
+  $("statsLine").textContent = seen ? `${seen}/${QS.length} seen · ${m} to review` : "";
+}
+function show(view) { ["startView","drillView","doneView"].forEach(v => $(v).hidden = v !== view); }
+
+function renderQuestion() {
+  const qi = queue[pos], q = QS[qi];
+  $("qNum").textContent = pos + 1; $("qTot").textContent = queue.length; $("score").textContent = score;
+  $("bar").style.width = (pos / queue.length * 100) + "%";
+  $("qText").textContent = q.q;
+  $("explain").hidden = true; $("heard").textContent = "";
+  const pads = $("pads"); pads.innerHTML = "";
+  q.o.forEach((o, j) => {
+    const b = document.createElement("button");
+    b.className = "pad"; b.id = "pad" + (j + 1);
+    b.innerHTML = `<span class="n">${j + 1}</span><span class="o"></span>`;
+    b.querySelector(".o").textContent = o;
+    b.onclick = () => submit(j + 1);
+    pads.appendChild(b);
+  });
+}
+
+function submit(v) {
+  if (answered || !pendingAnswer) return;
+  const r = pendingAnswer; pendingAnswer = null; r(v);
+}
+function command(c) { if (pendingAnswer) { const r = pendingAnswer; pendingAnswer = null; r(c); } }
+
+async function waitPaused(id) { while (paused && id === runId) await new Promise(r => setTimeout(r, 200)); }
+
+async function askAndWait(id) {
+  // returns 1..4, "skip", or null if the run was cancelled
+  for (;;) {
+    if (id !== runId) return null;
+    await waitPaused(id);
+    setState("speaking", "Reading question");
+    const answerP = new Promise(r => pendingAnswer = r);     // taps/keys accepted while reading
+    const readP = play("q" + queue[pos]);
+    let got = await Promise.race([answerP, readP.then(() => "__read")]);
+    if (id !== runId) return null;
+    let autoListen = true, reprompts = 0, silent = 0;
+    while (typeof got === "string" && got.startsWith("__")) {
+      if (paused) await waitPaused(id);
+      if (id !== runId) return null;
+      if (got === "__mic") { autoListen = true; reprompts = 0; silent = 0; }
+      if (voiceUsable() && autoListen) {
+        setState("listening", "Listening · say 1–4"); $("bMic").hidden = true;
+        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce()]);
+        stopListening();
+        if (id !== runId) return null;
+        if (r.kind === "tap" || r.kind === "hit") { got = r.value; break; }
+        if (r.kind === "miss" || (r.kind === "silent" && ++silent % 3 === 0)) {
+          if (reprompts++ < 3) { setState("speaking", "Didn't catch that"); await play("reprompt"); }
+          else autoListen = false;
+        } else if (r.kind === "blocked" || r.kind === "error" || r.kind === "none") {
+          autoListen = false;
+          if (r.kind === "error") $("heard").textContent = "speech service: " + r.text;
+        }
+        got = "__again";
+        if (autoListen) continue;
+      }
+      // hands back to the user: tap an answer, or tap to talk again
+      setState("listening", voiceUsable() ? "Tap 1–4, or tap to talk" : "Tap 1–4");
+      $("bMic").hidden = !voiceUsable();
+      got = await Promise.race([answerP, new Promise(r => micResolve = r)]);
+      micResolve = null; $("bMic").hidden = true;
+      if (id !== runId) return null;
+    }
+    pendingAnswer = null;
+    if (got === "repeat") { stopAudio(); continue; }
+    stopAudio();
+    return got;
+  }
+}
+
+async function run(indices, isReview) {
+  const id = ++runId;
+  queue = indices; pos = 0; score = 0; results = []; paused = false; reviewMode = isReview;
+  $("bPause").setAttribute("aria-pressed", "false"); $("bPause").textContent = "Pause";
+  show("drillView"); renderVoice();
+  setState("speaking", "Intro");
+  $("qText").textContent = ""; $("pads").innerHTML = "";
+  await play(isReview ? "review" : "intro");
+  for (; pos < queue.length; pos++) {
+    if (id !== runId) return;
+    answered = false; renderQuestion();
+    const qi = queue[pos], q = QS[qi];
+    const v = await askAndWait(id);
+    if (v === null) return;
+    answered = true;
+    const s = stats[qi] || { seen: 0, wrong: 0, box: 0 };
+    s.seen++;
+    if (v === "skip") {
+      s.box = 0; results.push({ qi, given: null });
+      setState("wrong", "Skipped");
+    } else {
+      const ok = v === q.a;
+      if (ok) { score++; s.box = Math.min(3, s.box + 1); } else { s.wrong++; s.box = 0; }
+      results.push({ qi, given: v });
+      $("pad" + q.a).classList.add("right");
+      if (!ok) $("pad" + v).classList.add("wrong");
+      [...$("pads").children].forEach(b => b.disabled = true);
+      $("score").textContent = score;
+      setState(ok ? "right" : "wrong", ok ? "Correct" : `Answer: ${q.a}`);
+      await play(ok ? "correct" : "wrong");
+    }
+    stats[qi] = s; store.set(stats);
+    if (id !== runId) return;
+    $("explain").textContent = q.e; $("explain").hidden = false;
+    await waitPaused(id);
+    if (id !== runId) return;
+    setState($("state").dataset.s, $("stateText").textContent + " · explaining");
+    await play("e" + qi);
+    await waitPaused(id);
+  }
+  if (id !== runId) return;
+  $("bar").style.width = "100%";
+  finish();
+  await play("score" + Math.min(20, score));
+  if (id === runId) await play("end");
+}
+
+function finish() {
+  show("doneView");
+  $("doneScore").textContent = `${score} of ${queue.length} correct`;
+  const pct = Math.round(score / queue.length * 100);
+  $("doneStats").textContent = `${pct}% · pass mark 60%`;
+  const rows = $("doneRows"); rows.innerHTML = "";
+  results.forEach(r => {
+    const q = QS[r.qi], ok = r.given === q.a;
+    const d = document.createElement("div"); d.className = "row";
+    d.innerHTML = `<span class="m ${ok ? "ok" : "ko"}">${ok ? "✓" : "✗"}</span><span class="t"></span><span class="k"></span>`;
+    d.querySelector(".t").textContent = q.q;
+    d.querySelector(".k").textContent = ok ? `${q.a}` : `${r.given ?? "–"} → ${q.a}`;
+    rows.appendChild(d);
+  });
+  const m = missedList().length;
+  $("again").hidden = m === 0; $("again").textContent = `Review missed (${m})`;
+}
+
+function quit() { runId++; stopAudio(); stopListening(); pendingAnswer = null; }
+
+/* ---------- controls ---------- */
+// Ask for the microphone inside the click (browsers require a gesture); resolves once granted, refused or timed out.
+function primeMic() {
+  return new Promise(res => {
+    if (!voiceUsable()) return res();
+    const r = new SR(); let s = false;
+    const d = () => { if (s) return; s = true; clearTimeout(t); try { r.abort(); } catch (e) {} res(); };
+    const t = setTimeout(d, 15000);
+    r.onaudiostart = d; r.onend = d;
+    r.onerror = ev => {
+      if (BLOCKED.includes(ev.error)) {
+        voiceBroken = true; renderVoice();
+        setVoiceNote("The microphone was blocked. Allow it in the browser's site settings, then turn Voice back on. Tap and keys still work.");
+      }
+      d();
+    };
+    try { r.start(); } catch (e) { d(); }
+  });
+}
+// Unlock audio playback inside the gesture (iOS), then start the session after the mic prompt.
+function startRun(list, review) {
+  audio.muted = true; audio.src = CLIPS.correct;
+  audio.play().catch(() => {});          // play() in the session unmutes and swaps the source
+  primeMic().then(() => run(list, review));
+}
+$("startAll").onclick = () => startRun(QS.map((_, i) => i), false);
+$("startMissed").onclick = () => startRun(missedList(), true);
+$("again").onclick = () => startRun(missedList(), true);
+$("bMic").onclick = micPressed;
+$("micTest").onclick = () => {
+  const out = $("micResult"); out.hidden = false;
+  if (!voiceUsable()) { out.textContent = "Voice is not available here (see the note above)."; return; }
+  out.textContent = "Listening… say “three”, or any number from one to four.";
+  $("micTest").disabled = true;
+  listenOnce(8000).then(r => {
+    $("micTest").disabled = false;
+    const said = r.text ? `“${r.text}”` : "";
+    out.textContent =
+      r.kind === "hit" ? `Heard ${said} → ${typeof r.value === "number" ? "answer " + r.value : "command: " + r.value}. Voice works.` :
+      r.kind === "miss" ? `Heard ${said}, which isn't one to four. Try again, a bit closer to the mic.` :
+      r.kind === "silent" ? "Nothing heard. Check the microphone and try again." :
+      r.kind === "blocked" ? "The microphone is blocked. Allow it in the browser's site settings." :
+      `The speech service failed (${r.text}). It may need an internet connection.`;
+  });
+};
+$("home").onclick = () => { quit(); renderStart(); show("startView"); };
+$("bRepeat").onclick = () => { if (pendingAnswer) { stopListening(); command("repeat"); } };
+$("bSkip").onclick = () => { if (pendingAnswer) { stopListening(); command("skip"); } else if (answered) { stopAudio(); } };
+$("bPause").onclick = () => {
+  paused = !paused;
+  $("bPause").setAttribute("aria-pressed", String(paused)); $("bPause").textContent = paused ? "Resume" : "Pause";
+  if (paused) { audio.pause(); stopListening(); setState("idle", "Paused"); }
+  else if (audio.src && !audio.ended && audio.currentTime > 0) audio.play().catch(() => {});
+};
+$("bVoice").onclick = () => {
+  if (!SR || !window.isSecureContext) return;
+  if (voiceBroken) { voiceBroken = false; voiceOn = true; } else voiceOn = !voiceOn;
+  if (!voiceOn) stopListening();
+  renderVoice();
+};
+document.addEventListener("keydown", e => {
+  if ($("drillView").hidden) return;
+  if (/^[1-4]$/.test(e.key)) { stopListening(); submit(+e.key); }
+  else if (e.key === "r" || e.key === "R") $("bRepeat").click();
+  else if (e.key === "s" || e.key === "S") $("bSkip").click();
+  else if (e.key === " ") { e.preventDefault(); $("bPause").click(); }
+});
+if ("mediaSession" in navigator) {
+  const h = { play: () => paused && $("bPause").click(), pause: () => !paused && $("bPause").click(),
+              previoustrack: () => $("bRepeat").click(), nexttrack: () => $("bSkip").click() };
+  for (const k in h) { try { navigator.mediaSession.setActionHandler(k, h[k]); } catch (e) {} }
+  try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Voice Drill", artist: "Practice exam" }); } catch (e) {}
+}
+renderStart();
+</script>
