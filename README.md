@@ -17,6 +17,9 @@ The site has three pages:
 - `/` is the home page. It lists the study pack.
 - `/lessons` has 11 audio episodes: 8 lessons, 2 practice exams and a recap podcast. They play in order and the page remembers where you stopped.
 - `/drill` is the voice drill: 20 questions read aloud, answered by voice, tap or keys.
+- `/buttons` is a button test page. It keeps a quiet media session running and logs every
+  steering-wheel or headset button that reaches the browser. Press *next* 1–4 times to try the
+  answer-by-buttons gesture, which uses no microphone.
 
 Open it in **Chrome** (Android, Windows, Mac) or **Safari** (iPhone, Mac).
 
@@ -35,7 +38,9 @@ public/                           what Vercel serves (committed, no build step o
   index.html                      home page (hand-written)
   drill.html                      voice drill (generated)
   lessons.html                    lessons player (generated)
+  buttons.html                    media-button test page (hand-written)
   audio/lessons/ep1..11.mp3       lesson audio (64 kbps mono)
+  audio/test/quiet.mp3            near-silent loop that keeps the button test the active media player
 app/template.html                 voice drill UI + state machine (questions and clips injected)
 app/lessons.html                  lessons player UI
 content/<pack>/source/*.txt       practice-exam scripts (question, options A–D, [THINK], explanation)
@@ -49,7 +54,7 @@ tools/gen_podcast.py              two-host podcast script -> wav
 tools/build.py                    templates + pack -> public/drill.html, public/lessons.html
 tests/smoke_tap.py                drill: full session by keyboard, review queue
 tests/smoke_voice.py              drill: voice paths with a fake speech engine
-tests/smoke_site.py               site: home, lessons player, cross-links, audio files present
+tests/smoke_site.py               site: home, lessons player, cross-links, audio files, button-test gesture
 ```
 
 ## Build
