@@ -1,0 +1,95 @@
+TOGAF Foundation. Episode ten. Practice exam, part two.
+
+Ten more exam style questions. Same rules as before: listen to the question and the four options, say your answer during the pause, then check it against the explanation. Keep your score.
+
+Question one.
+What is the difference between a view and a viewpoint?
+A. A view is the specification of the conventions; a viewpoint is what a stakeholder sees.
+B. A viewpoint is the specification of the conventions for a kind of view; a view is a representation of a system addressing a set of concerns.
+C. They are synonyms in the TOGAF Standard.
+D. A view applies to business architecture only; a viewpoint applies to technology architecture.
+[THINK]
+The answer is B. The viewpoint is the template, where you look from. The view is the actual representation that addresses the concerns of the stakeholders. Option A has them reversed, which is the most common trap.
+
+Question two.
+How is the TOGAF Standard, tenth edition, structured?
+A. Into the A D M and the Enterprise Continuum.
+B. Into the TOGAF Fundamental Content and the TOGAF Series Guides.
+C. Into the Foundation Architecture and the Industry Architecture.
+D. Into the Technical Reference Model and the Integrated Information Infrastructure Reference Model.
+[THINK]
+The answer is B. The Fundamental Content holds the universal, stable concepts, in six documents. The Series Guides give more specific, practical guidance and can evolve faster.
+
+Question three.
+An implementation implements all the features in the architecture specification, and also some features that are not in accordance with it. What is its level of conformance?
+A. Compliant.
+B. Conformant.
+C. Fully conformant.
+D. Consistent.
+[THINK]
+The answer is B, conformant. Everything in the specification is done, plus extras outside it. Compliant is the reverse: everything implemented is in the spec, but not all of the spec is implemented. Fully conformant is a perfect match.
+
+Question four.
+Which of the following is not one of the characteristics of architecture governance?
+A. Transparency.
+B. Independence.
+C. Flexibility.
+D. Accountability.
+[THINK]
+The answer is C, flexibility. The six characteristics of governance are discipline, transparency, independence, accountability, responsibility, and fairness. Flexibility does appear in TOGAF, but as one of the responsibilities of the Architecture Board, not as a governance characteristic.
+
+Question five.
+Which technique is used in Phase A to identify and articulate business requirements, and to derive the characteristics of the architecture directly from them?
+A. Business scenarios.
+B. Gap analysis.
+C. Interoperability requirements.
+D. Migration planning techniques.
+[THINK]
+The answer is A, business scenarios. Gap analysis is used in Phases B to E to compare baseline and target. Interoperability is mainly considered in Phase E. Migration planning techniques belong to Phases E and F.
+
+Question six.
+According to the principle template, which section highlights the business benefits of adhering to the principle?
+A. Name.
+B. Statement.
+C. Rationale.
+D. Implications.
+[THINK]
+The answer is C, Rationale. The Statement communicates the rule. The Implications describe the requirements, for business and I T, to carry out the principle, in terms of resources, costs and activities.
+
+Question seven.
+A change request is received that requires the architecture to go through the whole architecture development cycle again. How is this change classified in Phase H?
+A. A simplification change.
+B. An incremental change.
+C. A re-architecting change.
+D. A dispensation.
+[THINK]
+The answer is C, a re-architecting change, which typically starts a new A D M cycle with a new Request for Architecture Work. A simplification change can normally be handled through change management. An incremental change may be handled through change management, if properly managed. A dispensation is a governance mechanism to accept temporary non-compliance, not a type of change.
+
+Question eight.
+Which of the following best describes the purpose of Requirements Management in the A D M?
+A. It is performed only in Phase B, to capture business requirements.
+B. It is a static process, executed once before the A D M cycle starts.
+C. It ensures that a dynamic requirements process is sustained and operates for all relevant A D M phases.
+D. It mandates a specific requirements management tool.
+[THINK]
+The answer is C. Requirements Management sits at the centre of the A D M and is continuous and dynamic: requirements are identified, stored and fed into every phase. TOGAF does not mandate any specific tool or process, so option D is wrong.
+
+Question nine.
+Which level of the Architecture Landscape provides a summary, long term view of the entire enterprise, used for direction setting at the executive level?
+A. Strategic Architecture.
+B. Segment Architecture.
+C. Capability Architecture.
+D. Solution Architecture.
+[THINK]
+The answer is A, Strategic Architecture. Segment Architecture covers an area of the enterprise, such as a portfolio or program. Capability Architecture is the most detailed, for a specific unit of capability at project level.
+
+Question ten.
+Which of the following is a key purpose of Phase F, Migration Planning?
+A. To develop the Target Technology Architecture.
+B. To ensure the Implementation and Migration Plan is coordinated with the enterprise's approach to managing and implementing change in its overall change portfolio.
+C. To conduct architecture compliance reviews of implementation projects.
+D. To obtain approval for the Statement of Architecture Work.
+[THINK]
+The answer is B. Phase F finalizes the Architecture Roadmap and the Implementation and Migration Plan, aligns them with the enterprise's change portfolio, and ensures stakeholders understand the business value and cost of the work packages. Option A is Phase D, option C is Phase G, and option D is Phase A.
+
+That's the end of practice exam part two. Add up your scores from both parts. Fourteen or more out of twenty means you're in good shape for the real exam, where you need twenty four out of forty. Replay the questions you missed, and good luck.

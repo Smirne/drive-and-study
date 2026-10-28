@@ -33,3 +33,10 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# drive-and-study
+*.wav
+__pycache__/
+models/
+node_modules/
+.vercel
