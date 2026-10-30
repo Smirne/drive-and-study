@@ -17,6 +17,7 @@ class FakeSR { start(){ window.__starts++; const step = window.__script.length ?
       this.onend&&this.onend(); }, 15); }
   abort(){} stop(){} }
 window.SpeechRecognition=FakeSR;
+window.DRILL_TIMING={firstWindowMs:300, laterWindowMs:200, minAttemptMs:10, restartPauseMs:10};
 """
 def page(b):
     pg=b.new_page(viewport={'width':390,'height':844}); errs=[]
@@ -78,6 +79,11 @@ with sync_playwright() as p:
     # Q10: "nomatch" (speech heard, no words) reprompts at once instead of waiting for 3 silences
     pg.evaluate(f"__script.push({{t:'nomatch'}},{{t:'say',text:'number {W[a[9]-1]}'}})")
     waitq(pg,11); print('Q10 nomatch then "number N" -> score', pg.text_content('#score'))
+    # Q11: answer by saying the option's content instead of a number
+    said = qs[10]['o'][a[10]-1].rstrip('.')
+    pg.evaluate("__script.push(" + json.dumps({'t': 'say', 'text': said}) + ")")
+    waitq(pg,12); print('Q11 by content', repr(said[:40]), '-> score', pg.text_content('#score'))
     log = pg.text_content('#diagLog')
+    print('content match logged:', 'matched by content' in log)
     print('log has page hidden:', 'page hidden' in log, '| resume:', 'resume listening' in log, '| audio-capture:', 'rec error: audio-capture' in log)
     print('errors:', errs); b.close()

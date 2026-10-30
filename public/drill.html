@@ -108,7 +108,7 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
     <button class="ghost" id="startMissed" disabled>Review missed (0)</button>
     <a class="ghost linkbtn" href="/lessons">Audio lessons</a>
     <dl class="how">
-      <dt>Say</dt><dd>“number two” (works better than “two” alone) · “repeat” · “skip”</dd>
+      <dt>Say</dt><dd>“number two”, or words from the answer (“business scenarios”) · “repeat” · “skip”</dd>
       <dt>Tap</dt><dd>the numbered pads</dd>
       <dt>Buttons</dt><dd><b>next</b> on the option you want, then <b>next</b> to confirm · <b>previous</b> = question again / change</dd>
       <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause · ← → previous / next</dd>
@@ -155,25 +155,144 @@ const QS = [{"q": "Which of the following best describes the purpose of the Prel
 const CLIPS = {"confirm1": "audio/drill/togaf-foundation/confirm1.mp3", "confirm2": "audio/drill/togaf-foundation/confirm2.mp3", "confirm3": "audio/drill/togaf-foundation/confirm3.mp3", "confirm4": "audio/drill/togaf-foundation/confirm4.mp3", "correct": "audio/drill/togaf-foundation/correct.mp3", "e0": "audio/drill/togaf-foundation/e0.mp3", "e1": "audio/drill/togaf-foundation/e1.mp3", "e10": "audio/drill/togaf-foundation/e10.mp3", "e11": "audio/drill/togaf-foundation/e11.mp3", "e12": "audio/drill/togaf-foundation/e12.mp3", "e13": "audio/drill/togaf-foundation/e13.mp3", "e14": "audio/drill/togaf-foundation/e14.mp3", "e15": "audio/drill/togaf-foundation/e15.mp3", "e16": "audio/drill/togaf-foundation/e16.mp3", "e17": "audio/drill/togaf-foundation/e17.mp3", "e18": "audio/drill/togaf-foundation/e18.mp3", "e19": "audio/drill/togaf-foundation/e19.mp3", "e2": "audio/drill/togaf-foundation/e2.mp3", "e3": "audio/drill/togaf-foundation/e3.mp3", "e4": "audio/drill/togaf-foundation/e4.mp3", "e5": "audio/drill/togaf-foundation/e5.mp3", "e6": "audio/drill/togaf-foundation/e6.mp3", "e7": "audio/drill/togaf-foundation/e7.mp3", "e8": "audio/drill/togaf-foundation/e8.mp3", "e9": "audio/drill/togaf-foundation/e9.mp3", "end": "audio/drill/togaf-foundation/end.mp3", "intro": "audio/drill/togaf-foundation/intro.mp3", "intro_buttons": "audio/drill/togaf-foundation/intro_buttons.mp3", "o0_1": "audio/drill/togaf-foundation/o0_1.mp3", "o0_2": "audio/drill/togaf-foundation/o0_2.mp3", "o0_3": "audio/drill/togaf-foundation/o0_3.mp3", "o0_4": "audio/drill/togaf-foundation/o0_4.mp3", "o10_1": "audio/drill/togaf-foundation/o10_1.mp3", "o10_2": "audio/drill/togaf-foundation/o10_2.mp3", "o10_3": "audio/drill/togaf-foundation/o10_3.mp3", "o10_4": "audio/drill/togaf-foundation/o10_4.mp3", "o11_1": "audio/drill/togaf-foundation/o11_1.mp3", "o11_2": "audio/drill/togaf-foundation/o11_2.mp3", "o11_3": "audio/drill/togaf-foundation/o11_3.mp3", "o11_4": "audio/drill/togaf-foundation/o11_4.mp3", "o12_1": "audio/drill/togaf-foundation/o12_1.mp3", "o12_2": "audio/drill/togaf-foundation/o12_2.mp3", "o12_3": "audio/drill/togaf-foundation/o12_3.mp3", "o12_4": "audio/drill/togaf-foundation/o12_4.mp3", "o13_1": "audio/drill/togaf-foundation/o13_1.mp3", "o13_2": "audio/drill/togaf-foundation/o13_2.mp3", "o13_3": "audio/drill/togaf-foundation/o13_3.mp3", "o13_4": "audio/drill/togaf-foundation/o13_4.mp3", "o14_1": "audio/drill/togaf-foundation/o14_1.mp3", "o14_2": "audio/drill/togaf-foundation/o14_2.mp3", "o14_3": "audio/drill/togaf-foundation/o14_3.mp3", "o14_4": "audio/drill/togaf-foundation/o14_4.mp3", "o15_1": "audio/drill/togaf-foundation/o15_1.mp3", "o15_2": "audio/drill/togaf-foundation/o15_2.mp3", "o15_3": "audio/drill/togaf-foundation/o15_3.mp3", "o15_4": "audio/drill/togaf-foundation/o15_4.mp3", "o16_1": "audio/drill/togaf-foundation/o16_1.mp3", "o16_2": "audio/drill/togaf-foundation/o16_2.mp3", "o16_3": "audio/drill/togaf-foundation/o16_3.mp3", "o16_4": "audio/drill/togaf-foundation/o16_4.mp3", "o17_1": "audio/drill/togaf-foundation/o17_1.mp3", "o17_2": "audio/drill/togaf-foundation/o17_2.mp3", "o17_3": "audio/drill/togaf-foundation/o17_3.mp3", "o17_4": "audio/drill/togaf-foundation/o17_4.mp3", "o18_1": "audio/drill/togaf-foundation/o18_1.mp3", "o18_2": "audio/drill/togaf-foundation/o18_2.mp3", "o18_3": "audio/drill/togaf-foundation/o18_3.mp3", "o18_4": "audio/drill/togaf-foundation/o18_4.mp3", "o19_1": "audio/drill/togaf-foundation/o19_1.mp3", "o19_2": "audio/drill/togaf-foundation/o19_2.mp3", "o19_3": "audio/drill/togaf-foundation/o19_3.mp3", "o19_4": "audio/drill/togaf-foundation/o19_4.mp3", "o1_1": "audio/drill/togaf-foundation/o1_1.mp3", "o1_2": "audio/drill/togaf-foundation/o1_2.mp3", "o1_3": "audio/drill/togaf-foundation/o1_3.mp3", "o1_4": "audio/drill/togaf-foundation/o1_4.mp3", "o2_1": "audio/drill/togaf-foundation/o2_1.mp3", "o2_2": "audio/drill/togaf-foundation/o2_2.mp3", "o2_3": "audio/drill/togaf-foundation/o2_3.mp3", "o2_4": "audio/drill/togaf-foundation/o2_4.mp3", "o3_1": "audio/drill/togaf-foundation/o3_1.mp3", "o3_2": "audio/drill/togaf-foundation/o3_2.mp3", "o3_3": "audio/drill/togaf-foundation/o3_3.mp3", "o3_4": "audio/drill/togaf-foundation/o3_4.mp3", "o4_1": "audio/drill/togaf-foundation/o4_1.mp3", "o4_2": "audio/drill/togaf-foundation/o4_2.mp3", "o4_3": "audio/drill/togaf-foundation/o4_3.mp3", "o4_4": "audio/drill/togaf-foundation/o4_4.mp3", "o5_1": "audio/drill/togaf-foundation/o5_1.mp3", "o5_2": "audio/drill/togaf-foundation/o5_2.mp3", "o5_3": "audio/drill/togaf-foundation/o5_3.mp3", "o5_4": "audio/drill/togaf-foundation/o5_4.mp3", "o6_1": "audio/drill/togaf-foundation/o6_1.mp3", "o6_2": "audio/drill/togaf-foundation/o6_2.mp3", "o6_3": "audio/drill/togaf-foundation/o6_3.mp3", "o6_4": "audio/drill/togaf-foundation/o6_4.mp3", "o7_1": "audio/drill/togaf-foundation/o7_1.mp3", "o7_2": "audio/drill/togaf-foundation/o7_2.mp3", "o7_3": "audio/drill/togaf-foundation/o7_3.mp3", "o7_4": "audio/drill/togaf-foundation/o7_4.mp3", "o8_1": "audio/drill/togaf-foundation/o8_1.mp3", "o8_2": "audio/drill/togaf-foundation/o8_2.mp3", "o8_3": "audio/drill/togaf-foundation/o8_3.mp3", "o8_4": "audio/drill/togaf-foundation/o8_4.mp3", "o9_1": "audio/drill/togaf-foundation/o9_1.mp3", "o9_2": "audio/drill/togaf-foundation/o9_2.mp3", "o9_3": "audio/drill/togaf-foundation/o9_3.mp3", "o9_4": "audio/drill/togaf-foundation/o9_4.mp3", "q0": "audio/drill/togaf-foundation/q0.mp3", "q1": "audio/drill/togaf-foundation/q1.mp3", "q10": "audio/drill/togaf-foundation/q10.mp3", "q11": "audio/drill/togaf-foundation/q11.mp3", "q12": "audio/drill/togaf-foundation/q12.mp3", "q13": "audio/drill/togaf-foundation/q13.mp3", "q14": "audio/drill/togaf-foundation/q14.mp3", "q15": "audio/drill/togaf-foundation/q15.mp3", "q16": "audio/drill/togaf-foundation/q16.mp3", "q17": "audio/drill/togaf-foundation/q17.mp3", "q18": "audio/drill/togaf-foundation/q18.mp3", "q19": "audio/drill/togaf-foundation/q19.mp3", "q2": "audio/drill/togaf-foundation/q2.mp3", "q3": "audio/drill/togaf-foundation/q3.mp3", "q4": "audio/drill/togaf-foundation/q4.mp3", "q5": "audio/drill/togaf-foundation/q5.mp3", "q6": "audio/drill/togaf-foundation/q6.mp3", "q7": "audio/drill/togaf-foundation/q7.mp3", "q8": "audio/drill/togaf-foundation/q8.mp3", "q9": "audio/drill/togaf-foundation/q9.mp3", "reprompt": "audio/drill/togaf-foundation/reprompt.mp3", "rescan": "audio/drill/togaf-foundation/rescan.mp3", "review": "audio/drill/togaf-foundation/review.mp3", "s0": "audio/drill/togaf-foundation/s0.mp3", "s1": "audio/drill/togaf-foundation/s1.mp3", "s10": "audio/drill/togaf-foundation/s10.mp3", "s11": "audio/drill/togaf-foundation/s11.mp3", "s12": "audio/drill/togaf-foundation/s12.mp3", "s13": "audio/drill/togaf-foundation/s13.mp3", "s14": "audio/drill/togaf-foundation/s14.mp3", "s15": "audio/drill/togaf-foundation/s15.mp3", "s16": "audio/drill/togaf-foundation/s16.mp3", "s17": "audio/drill/togaf-foundation/s17.mp3", "s18": "audio/drill/togaf-foundation/s18.mp3", "s19": "audio/drill/togaf-foundation/s19.mp3", "s2": "audio/drill/togaf-foundation/s2.mp3", "s3": "audio/drill/togaf-foundation/s3.mp3", "s4": "audio/drill/togaf-foundation/s4.mp3", "s5": "audio/drill/togaf-foundation/s5.mp3", "s6": "audio/drill/togaf-foundation/s6.mp3", "s7": "audio/drill/togaf-foundation/s7.mp3", "s8": "audio/drill/togaf-foundation/s8.mp3", "s9": "audio/drill/togaf-foundation/s9.mp3", "score0": "audio/drill/togaf-foundation/score0.mp3", "score1": "audio/drill/togaf-foundation/score1.mp3", "score10": "audio/drill/togaf-foundation/score10.mp3", "score11": "audio/drill/togaf-foundation/score11.mp3", "score12": "audio/drill/togaf-foundation/score12.mp3", "score13": "audio/drill/togaf-foundation/score13.mp3", "score14": "audio/drill/togaf-foundation/score14.mp3", "score15": "audio/drill/togaf-foundation/score15.mp3", "score16": "audio/drill/togaf-foundation/score16.mp3", "score17": "audio/drill/togaf-foundation/score17.mp3", "score18": "audio/drill/togaf-foundation/score18.mp3", "score19": "audio/drill/togaf-foundation/score19.mp3", "score2": "audio/drill/togaf-foundation/score2.mp3", "score20": "audio/drill/togaf-foundation/score20.mp3", "score3": "audio/drill/togaf-foundation/score3.mp3", "score4": "audio/drill/togaf-foundation/score4.mp3", "score5": "audio/drill/togaf-foundation/score5.mp3", "score6": "audio/drill/togaf-foundation/score6.mp3", "score7": "audio/drill/togaf-foundation/score7.mp3", "score8": "audio/drill/togaf-foundation/score8.mp3", "score9": "audio/drill/togaf-foundation/score9.mp3", "wrong": "audio/drill/togaf-foundation/wrong.mp3"};
 const NUMW = ["one","two","three","four"];
 
-/* ---------- deterministic answer parser ---------- */
-const VOCAB = {
-  1: ["1","one","won","wan","juan","first","van"],
-  2: ["2","two","to","too","tu","second"],
-  3: ["3","three","tree","free","third"],
-  4: ["4","four","for","fore","fourth","ford"]
-};
-const CMD = { repeat: ["repeat","again","pardon"], skip: ["skip","next","pass"] };
-const LOOKUP = {};
-for (const k in VOCAB) VOCAB[k].forEach(w => LOOKUP[w] = +k);
-for (const k in CMD) CMD[k].forEach(w => LOOKUP[w] = k);
+/* ---------- deterministic answer parser (app/matcher.js, inlined at build) ---------- */
+/* Deterministic answer matcher: turns a recognised utterance into 1..n, "repeat", "skip" or null.
+ *
+ * Two ways to answer:
+ *  - by number: "number two", "two", "option three", "4"
+ *  - by content: words from an option, e.g. "business scenarios" or "architecture vision"
+ *
+ * Content matching weighs each option word by how many options contain it (a word unique to one
+ * option counts 1, a word shared by two counts 1/2, ...), tolerates small recognition errors on
+ * longer words, and only answers when one option clearly wins. Loose number homophones ("to",
+ * "for") count only in short utterances, so "to prepare the organization" is not answer 2.
+ *
+ * Shared by app/template.html (inlined at build) and tests/test_matcher.js (Node).
+ */
+const MATCHER = (() => {
+  const STRICT = { 1: ["1", "one", "first"], 2: ["2", "two", "second"], 3: ["3", "three", "third"], 4: ["4", "four", "fourth"] };
+  const LOOSE = { 1: ["won", "wan", "juan", "van"], 2: ["to", "too", "tu"], 3: ["tree", "free"], 4: ["for", "fore", "ford"] };
+  const CMD = { repeat: ["repeat", "again", "pardon"], skip: ["skip", "pass"] };
+  const SHORT = 3;   // utterances up to this many words may use the loose homophones
+
+  const STOP = new Set(("a an the of and or to in on is it its it's for with by as at be are was were this that these those " +
+    "which what who from into than then so if not no all any each one some do does done can could should would will " +
+    "there their them they we you your our i me my number option answer think say said um uh er").split(" "));
+
+  function words(text) {
+    return text.toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9 ]+/g, " ").split(/\s+/).filter(Boolean);
+  }
+  function stem(w) {
+    if (w.length > 4 && w.endsWith("ies")) return w.slice(0, -3) + "y";
+    if (w.length > 3 && w.endsWith("s") && !w.endsWith("ss")) return w.slice(0, -1);
+    return w;
+  }
+  // content tokens: no stop words; single letters kept except "a" and "i" (e.g. "Phase B")
+  function tokens(text) {
+    return words(text).filter(w => !STOP.has(w) && (w.length > 1 || /^[b-hj-z]$/.test(w))).map(stem);
+  }
+  function lev(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+    for (let i = 1; i <= a.length; i++) {
+      const cur = [i];
+      let best = cur[0];
+      for (let j = 1; j <= b.length; j++) {
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        best = Math.min(best, cur[j]);
+      }
+      if (best > max) return max + 1;
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+  function sameWord(a, b) {
+    if (a === b) return true;
+    const n = Math.min(a.length, b.length);
+    if (n >= 8) return lev(a, b, 2) <= 2;
+    if (n >= 5) return lev(a, b, 1) <= 1;
+    return false;
+  }
+
+  function byNumber(ws, loose) {
+    const found = new Set();
+    for (const w of ws) {
+      for (const k in STRICT) if (STRICT[k].includes(w)) found.add(+k);
+      if (loose) for (const k in LOOSE) if (LOOSE[k].includes(w)) found.add(+k);
+    }
+    return found.size === 1 ? [...found][0] : (found.size > 1 ? "ambiguous" : null);
+  }
+  function byCommand(ws) {
+    const found = new Set();
+    for (const w of ws) for (const k in CMD) if (CMD[k].includes(w)) found.add(k);
+    return found.size === 1 ? [...found][0] : null;
+  }
+
+  // Returns {value, score, second} or null. value is 1-based.
+  function byContent(text, options) {
+    const said = [...new Set(tokens(text))];
+    if (!said.length || !options || !options.length) return null;
+    const optTok = options.map(o => [...new Set(tokens(o))]);
+    const df = new Map();
+    optTok.forEach(ts => ts.forEach(t => df.set(t, (df.get(t) || 0) + 1)));
+    const scores = optTok.map(ts => {
+      let s = 0, strong = false;
+      for (const t of ts) {
+        if (df.get(t) >= options.length) continue;            // in every option: says nothing
+        if (said.some(w => sameWord(w, t))) {
+          s += 1 / df.get(t);
+          if (df.get(t) === 1 && t.length >= 3) strong = true;
+        }
+      }
+      return { s, strong };
+    });
+    const order = scores.map((x, i) => i).sort((a, b) => scores[b].s - scores[a].s);
+    const best = scores[order[0]], second = scores[order[1]] || { s: 0 };
+    // accept: at least one word unique to the winner, a total of 1, and a clear lead
+    if (best.strong && best.s >= 1 && best.s >= 2 * second.s)
+      return { value: order[0] + 1, score: +best.s.toFixed(2), second: +second.s.toFixed(2) };
+    // or: what was said is exactly one option's words ("Conformant" vs "Fully conformant")
+    const exact = optTok.map((ts, i) => i).filter(i =>
+      optTok[i].length && optTok[i].every(t => said.some(w => sameWord(w, t))) &&
+      said.every(w => optTok[i].some(t => sameWord(w, t))));
+    if (exact.length === 1) return { value: exact[0] + 1, score: 1, second: 0, exact: true };
+    return null;
+  }
+
+  // Main entry. options: current question's option texts (optional).
+  function parse(text, options) {
+    const ws = words(text);
+    if (!ws.length) return null;
+    const short = ws.length <= SHORT;
+    const cmd = byCommand(ws);
+    if (short) {
+      const n = byNumber(ws, true);
+      if (typeof n === "number") return { value: n, how: "number" };
+      if (n === "ambiguous") return null;
+      if (cmd) return { value: cmd, how: "command" };
+    }
+    const c = byContent(text, options);
+    if (c) return { value: c.value, how: "content", score: c.score, second: c.second };
+    if (!short) {
+      const n = byNumber(ws, false);
+      if (typeof n === "number") return { value: n, how: "number" };
+      if (cmd) return { value: cmd, how: "command" };
+    }
+    return null;
+  }
+
+  return { parse, byContent, tokens };
+})();
+if (typeof module !== "undefined") module.exports = MATCHER;
+
+// Current question's options, so answers can be given by content ("business scenarios") as well as by number.
+function currentOptions() {
+  return (typeof queue !== "undefined" && queue.length && !$("drillView").hidden) ? QS[queue[pos]].o : null;
+}
 function parseUtterance(text) {
-  const toks = text.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
-  const hits = [...new Set(toks.map(t => LOOKUP[t]).filter(v => v !== undefined))];
-  const nums = hits.filter(h => typeof h === "number");
-  if (nums.length === 1) return nums[0];          // exactly one distinct number: accept
-  if (nums.length > 1) return null;               // ambiguous ("two or three"): ignore
-  const cmds = hits.filter(h => typeof h === "string");
-  return cmds.length === 1 ? cmds[0] : null;
+  const r = MATCHER.parse(text, currentOptions());
+  if (r && r.how === "content") dlog(`matched by content -> ${r.value} (score ${r.score} vs ${r.second}${r.exact ? ", exact" : ""})`);
+  return r ? r.value : null;
 }
 
 /* ---------- answer mode: "voice" (speech, tap, keys) or "buttons" (next/previous scanning) ---------- */
@@ -368,20 +487,29 @@ async function askAndWait(id) {
     const readP = play("q" + queue[pos]);
     let got = await Promise.race([answerP, readP.then(() => "__read")]);
     if (id !== runId) return null;
-    let autoListen = true, reprompts = 0, silent = 0, errors = 0;
+    let autoListen = true, reprompts = 0, errors = 0;
+    // Thinking time: keep listening quietly (restarting the recogniser as Chrome ends each attempt)
+    // until the window runs out; only then reprompt. First window is longer.
+    let windowStart = Date.now(), windowMs = TIMING.firstWindowMs;
     while (typeof got === "string" && got.startsWith("__")) {
-      if (paused) await waitPaused(id);
+      if (paused) { await waitPaused(id); windowStart = Date.now(); }
       if (id !== runId) return null;
-      if (got === "__mic") { autoListen = true; reprompts = 0; silent = 0; errors = 0; }
+      if (got === "__mic") { autoListen = true; reprompts = 0; errors = 0; windowStart = Date.now(); windowMs = TIMING.firstWindowMs; }
       if (voiceUsable() && autoListen) {
-        setState("listening", "Listening · say 1–4"); $("bMic").hidden = true;
-        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce()]);
+        setState("listening", "Listening · say “number two” or the answer"); $("bMic").hidden = true;
+        const t0 = Date.now();
+        const left = Math.max(TIMING.minAttemptMs, windowMs - (t0 - windowStart));
+        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce(left)]);
         stopListening();
         if (id !== runId) return null;
         if (r.kind === "tap" || r.kind === "hit") { got = r.value; break; }
-        if (r.kind === "miss" || (r.kind === "silent" && ++silent % 3 === 0)) {
-          if (reprompts++ < 3) { setState("speaking", "Didn't catch that"); await play("reprompt"); }
-          else autoListen = false;
+        if (r.kind === "miss" || r.kind === "silent") {
+          if (Date.now() - t0 < TIMING.minAttemptMs) await new Promise(res => setTimeout(res, TIMING.restartPauseMs));   // never spin
+          if (Date.now() - windowStart < windowMs) { got = "__again"; continue; }                                     // still thinking time
+          if (reprompts++ < 3) {
+            setState("speaking", "Didn't catch that"); await play("reprompt");
+            windowStart = Date.now(); windowMs = TIMING.laterWindowMs;
+          } else autoListen = false;
         } else if (r.kind === "error" && ++errors <= 3) {
           $("heard").textContent = "speech service: " + r.text + " · retrying";
           await new Promise(res => setTimeout(res, 1500));    // e.g. mic briefly held by the car system
@@ -407,6 +535,10 @@ async function askAndWait(id) {
     return got;
   }
 }
+
+/* ---------- listening windows (overridable for tests via window.DRILL_TIMING) ---------- */
+const TIMING = Object.assign({ firstWindowMs: 12000, laterWindowMs: 8000, minAttemptMs: 1500, restartPauseMs: 400 },
+                             window.DRILL_TIMING || {});
 
 /* ---------- car-buttons mode: scanning ---------- */
 // Inputs become events: {type: "next" | "prev" | "skip" | "tap", value?}
@@ -693,7 +825,7 @@ if ("mediaSession" in navigator) {
   try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Practice Drill", artist: "Practice exam" }); } catch (e) {}
 }
 const MODE_HINT = {
-  voice: "Say “number one” to “number four” after each question: a short phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
+  voice: "Say “number one” to “number four”, or words from the answer you choose: a phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
   buttons: "No microphone. Each option is read in turn: press next on the steering wheel (or headset) on the one you want, then next again to confirm."
 };
 function renderMode() {

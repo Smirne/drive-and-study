@@ -7,8 +7,9 @@ by saying **one, two, three or four** (or tapping / pressing keys 1–4), and th
 plays the explanation and queues the questions you missed for review.
 
 The runtime is deterministic, with no AI in the app. Audio is pre-rendered offline, and speech is
-transcribed by the browser's own recognizer. The app only accepts a fixed vocabulary:
-`one two three four repeat skip`, with a few common mis-hearings mapped (e.g. "for" → 4).
+transcribed by the browser's own recognizer. The app matches the text deterministically
+(`app/matcher.js`): a number ("number two"), words from an option ("business scenarios"),
+or `repeat` / `skip`. It only accepts a clear winner and otherwise asks again.
 
 ## Use it
 
@@ -17,7 +18,9 @@ The site has three pages:
 - `/` is the home page. It lists the study pack.
 - `/lessons` has 11 audio episodes: 8 lessons, 2 practice exams and a recap podcast. They play in order and the page remembers where you stopped.
 - `/drill` is the practice drill: 20 questions read aloud. Choose how to answer on the start screen:
-  - **Answer by voice**: say one to four. Uses the microphone and the browser's speech service.
+  - **Answer by voice**: say "number two" or words from the answer. You get 12 s of quiet
+    listening to think before any reprompt (8 s after a reprompt). Uses the microphone and the
+    browser's speech service.
   - **Car buttons**: no microphone. Each option is read in turn; press *next* on the one you want,
     then *next* again to confirm (*previous* changes it). *Previous* during the options goes back to
     the question; *next* during the explanation skips it. Works with Android Auto (tested with
@@ -47,7 +50,8 @@ public/                           what Vercel serves (committed, no build step o
   audio/lessons/ep1..11.mp3       lesson audio (64 kbps mono)
   audio/drill/<pack>/*.mp3        drill speech clips (voice mode q/e, buttons mode s/o/confirm)
   audio/test/quiet.mp3            near-silent loop that keeps the button test the active media player
-app/template.html                 voice drill UI + state machine (questions and clips injected)
+app/template.html                 drill UI + state machine (matcher, questions and clip URLs injected)
+app/matcher.js                    deterministic answer matcher (numbers, option content, commands)
 app/lessons.html                  lessons player UI
 content/<pack>/source/*.txt       practice-exam scripts (question, options A–D, [THINK], explanation)
 content/<pack>/questions.json     parsed questions (answers balanced over 1–4)
@@ -57,6 +61,7 @@ tools/gen_clips.py                questions.json -> public/audio/drill/<pack>/*.
 tools/gen_lesson.py               single-voice lesson script -> wav
 tools/gen_podcast.py              two-host podcast script -> wav
 tools/build.py                    templates + pack -> public/drill.html, public/lessons.html
+tests/test_matcher.js             matcher vs every option in the bank (node; must give 0 wrong)
 tests/smoke_tap.py                drill: full session by keyboard, review queue
 tests/smoke_voice.py              drill: voice paths with a fake speech engine
 tests/smoke_buttons.py            drill: car-buttons scanning via simulated next/previous
@@ -69,7 +74,7 @@ tests/smoke_site.py               site: home, lessons player, cross-links, audio
 python3 tools/parse.py content/togaf-foundation       # only if source/*.txt changed
 python3 tools/gen_clips.py content/togaf-foundation    # only if questions changed (needs models/, see script header)
 python3 tools/build.py content/togaf-foundation        # writes public/drill.html and public/lessons.html
-for t in tap voice buttons site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
+node tests/test_matcher.js && for t in tap voice buttons site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
 ```
 
 ## Deploy (Vercel)
