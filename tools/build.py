@@ -3,13 +3,13 @@
 Usage: python3 tools/build.py [content/togaf-foundation]
 
 Outputs:
-  public/drill.html    voice drill; questions and every clip embedded as data URIs
+  public/drill.html    drill page; clips are served from public/audio/drill/<pack>/
   public/lessons.html  audio lessons player (episodes in public/audio/lessons/)
   public/index.html    home page (hand-written, not generated)
 
 Serve over HTTPS so the browser allows the microphone (speech recognition).
 """
-import base64, json, sys
+import json, sys
 from pathlib import Path
 
 pack = Path(sys.argv[1] if len(sys.argv) > 1 else 'content/togaf-foundation')
@@ -30,10 +30,13 @@ def write(name, body):
 
 # Voice drill
 qs = json.loads((pack / 'questions.json').read_text())
-clips = {f.stem: 'data:audio/mpeg;base64,' + base64.b64encode(f.read_bytes()).decode()
-         for f in sorted((pack / 'clips').glob('*.mp3'))}
-missing = [n for i in range(len(qs)) for n in (f'q{i}', f'e{i}') if n not in clips]
-assert not missing, f'missing clips: {missing} (run tools/gen_clips.py)'
+clip_dir = out / 'audio' / 'drill' / pack.name
+clips = {f.stem: f'audio/drill/{pack.name}/{f.name}' for f in sorted(clip_dir.glob('*.mp3'))}
+needed = ['intro', 'intro_buttons', 'review', 'correct', 'wrong', 'reprompt', 'rescan', 'end'] \
+    + [f'confirm{j}' for j in range(1, 5)] + [f'score{i}' for i in range(len(qs) + 1)] \
+    + [n for i, q in enumerate(qs) for n in (f'q{i}', f'e{i}', f's{i}', *[f'o{i}_{j}' for j in range(1, len(q['o']) + 1)])]
+missing = [n for n in needed if n not in clips]
+assert not missing, f'missing clips: {missing[:10]}... (run tools/gen_clips.py)'
 drill = (Path('app/template.html').read_text()
          .replace('/*__QUESTIONS__*/[]', json.dumps(qs))
          .replace('/*__CLIPS__*/{}', json.dumps(clips)))

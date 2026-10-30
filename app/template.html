@@ -1,4 +1,4 @@
-<title>TOGAF Voice Drill</title>
+<title>TOGAF Practice Drill</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,10 +51,14 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .pad.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--surface)); }
 .pad.wrong .n { color: var(--bad); }
 .pad:disabled { cursor: default; }
+.pad.scan { border-color: var(--accent); }
+.pad.scan .n { color: var(--accent); }
+.pad.chosen { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+.pad.chosen .n { color: var(--accent); }
 
 .explain { background: var(--surface); border-left: 3px solid var(--accent); padding: 10px 12px; font-size: 14.5px; color: var(--muted); margin: 0; }
 
-.transport { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: auto; }
+.transport { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin-top: auto; }
 .transport button { background: var(--raised); border: 1px solid var(--line); border-radius: 12px; min-height: 52px; font: 600 13px var(--mono); }
 .transport button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 
@@ -64,6 +68,10 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .big { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 14px; min-height: 64px; font-size: 19px; font-weight: 700; }
 .ghost { background: var(--raised); border: 1px solid var(--line); border-radius: 14px; min-height: 52px; font-weight: 700; }
 .ghost:disabled { opacity: .5; cursor: default; }
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mode { background: var(--raised); border: 1px solid var(--line); border-radius: 12px; min-height: 48px; font-weight: 700; }
+.mode[aria-checked="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.modeHint { font-size: 14px; }
 .how { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 14px; color: var(--muted); }
 .how dt { font: 600 13px var(--mono); color: var(--fg); }
 .how dd { margin: 0; }
@@ -89,15 +97,21 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 <div class="app" id="app">
   <section class="start" id="startView">
     <div class="strip"><a class="home" href="/">← Drive &amp; Study</a><span id="statsLine"></span></div>
-    <h1>Voice drill</h1>
-    <p>20 practice questions for the TOGAF® Enterprise Architecture Foundation exam, read aloud. Answer by voice, tap or keyboard. The app scores you, explains the answer and remembers what you missed.</p>
+    <h1>Practice drill</h1>
+    <p>20 practice questions for the TOGAF® Enterprise Architecture Foundation exam, read aloud. Answer by voice, with the car's steering-wheel buttons, by tap or by keyboard. The app scores you, explains the answer and remembers what you missed.</p>
+    <div class="modes" role="radiogroup" aria-label="Answer with">
+      <button class="mode" id="modeVoice" role="radio" aria-checked="true">Answer by voice</button>
+      <button class="mode" id="modeButtons" role="radio" aria-checked="false">Car buttons</button>
+    </div>
+    <p class="modeHint" id="modeHint"></p>
     <button class="big" id="startAll">Start all 20</button>
     <button class="ghost" id="startMissed" disabled>Review missed (0)</button>
     <a class="ghost linkbtn" href="/lessons">Audio lessons</a>
     <dl class="how">
-      <dt>Say</dt><dd>“one”, “two”, “three”, “four” · “repeat” · “skip”</dd>
+      <dt>Say</dt><dd>“number two” (works better than “two” alone) · “repeat” · “skip”</dd>
       <dt>Tap</dt><dd>the numbered pads</dd>
-      <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause</dd>
+      <dt>Buttons</dt><dd><b>next</b> on the option you want, then <b>next</b> to confirm · <b>previous</b> = question again / change</dd>
+      <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause · ← → previous / next</dd>
     </dl>
     <p class="note" id="voiceNote">Checking voice support…</p>
     <button class="ghost" id="micTest">Test microphone</button>
@@ -162,6 +176,14 @@ function parseUtterance(text) {
   return cmds.length === 1 ? cmds[0] : null;
 }
 
+/* ---------- answer mode: "voice" (speech, tap, keys) or "buttons" (next/previous scanning) ---------- */
+let mode = (() => { try { return localStorage.getItem("drill-mode") === "buttons" ? "buttons" : "voice"; } catch (e) { return "voice"; } })();
+function setMode(m) {
+  mode = m;
+  try { localStorage.setItem("drill-mode", m); } catch (e) {}
+  renderMode();
+}
+
 /* ---------- storage (per-viewer, optional) ---------- */
 const store = {
   get() { try { return JSON.parse(localStorage.getItem("togaf-drill")) || {}; } catch (e) { return {}; } },
@@ -186,6 +208,23 @@ function play(name) {
   });
 }
 function stopAudio() { playToken++; audio.pause(); if (curResolve) { const r = curResolve; curResolve = null; r(); } }
+// Warm the browser cache for the clips a question will need (clips are separate files).
+const prefetched = new Map();
+function prefetch(names) {
+  names.forEach(n => {
+    if (!CLIPS[n] || prefetched.has(n)) return;
+    const a = new Audio(); a.preload = "auto"; a.src = CLIPS[n]; prefetched.set(n, a);
+  });
+  if (prefetched.size > 60) [...prefetched.keys()].slice(0, prefetched.size - 60).forEach(k => prefetched.delete(k));
+}
+// Car-buttons mode: a near-silent loop keeps the page the phone's active media player,
+// so steering-wheel next/previous reach it between clips.
+const keep = new Audio("audio/test/quiet.mp3");
+keep.loop = true;
+let keepOn = false;
+function startKeepAlive() { keepOn = true; keep.play().then(() => dlog("keep-alive playing")).catch(e => dlog("keep-alive failed: " + e.name)); }
+function stopKeepAlive() { keepOn = false; keep.pause(); }
+keep.addEventListener("pause", () => { if (keepOn) { dlog("keep-alive paused by system: resuming"); keep.play().catch(() => {}); } });
 
 /* ---------- diagnostics log (on screen, copyable) ---------- */
 const LOG = [];
@@ -227,15 +266,16 @@ function voiceUsable() { return voiceOn && SR && !voiceBroken; }
 function listenOnce(timeoutMs = 9000) {
   return new Promise(res => {
     if (!voiceUsable()) return res({ kind: "none" });
+    if (document.visibilityState === "hidden") { dlog("listen skipped: page hidden"); return res({ kind: "hidden" }); }
     const r = new SR(); rec = r;
     r.lang = "en-US"; r.interimResults = true; r.maxAlternatives = 5; r.continuous = false;
-    let settled = false, heardText = "";
+    let settled = false, heardText = "", noMatch = false;
     dlog("listen start (page " + document.visibilityState + ")");
     r.onstart = () => dlog("rec onstart");
     r.onaudiostart = () => dlog("rec audiostart (mic open)");
     r.onsoundstart = () => dlog("rec soundstart");
     r.onspeechstart = () => dlog("rec speechstart");
-    r.onnomatch = () => dlog("rec nomatch");
+    r.onnomatch = () => { noMatch = true; dlog("rec nomatch"); };
     const timer = setTimeout(() => { dlog("listen timeout"); done({ kind: heardText ? "miss" : "silent", text: heardText }); }, timeoutMs);
     function done(v) {
       if (settled) return; settled = true; clearTimeout(timer);
@@ -256,6 +296,7 @@ function listenOnce(timeoutMs = 9000) {
     };
     r.onerror = ev => {
       dlog("rec error: " + ev.error + (ev.message ? " (" + ev.message + ")" : ""));
+      if (document.visibilityState === "hidden") return done({ kind: "hidden" });   // not a real refusal: Chrome blocks hidden pages
       if (BLOCKED.includes(ev.error)) {
         voiceBroken = true; renderVoice();
         setVoiceNote("The microphone was blocked. Allow it in the browser's site settings, then turn Voice back on. Tap and keys still work.");
@@ -264,7 +305,8 @@ function listenOnce(timeoutMs = 9000) {
       if (ev.error === "no-speech" || ev.error === "aborted") return done({ kind: "silent" });
       done({ kind: "error", text: ev.error });   // e.g. "network": speech service unreachable
     };
-    r.onend = () => { dlog("rec end"); done({ kind: heardText ? "miss" : "silent", text: heardText }); };
+    // nomatch = speech was heard but not made out into words: treat it like a mis-hearing, not silence
+    r.onend = () => { dlog("rec end"); done({ kind: heardText || noMatch ? "miss" : "silent", text: heardText }); };
     try { r.start(); } catch (e) { dlog("rec start threw: " + e); done({ kind: "error", text: String(e) }); }
   });
 }
@@ -308,6 +350,7 @@ function renderQuestion() {
 }
 
 function submit(v) {
+  if (mode === "buttons") { if (!answered) emit({ type: "tap", value: v }); return; }
   if (answered || !pendingAnswer) return;
   const r = pendingAnswer; pendingAnswer = null; r(v);
 }
@@ -342,6 +385,8 @@ async function askAndWait(id) {
         } else if (r.kind === "error" && ++errors <= 3) {
           $("heard").textContent = "speech service: " + r.text + " · retrying";
           await new Promise(res => setTimeout(res, 1500));    // e.g. mic briefly held by the car system
+        } else if (r.kind === "hidden") {
+          autoListen = false;    // wait for the page to come back; the visibility handler resumes listening
         } else if (r.kind === "blocked" || r.kind === "error" || r.kind === "none") {
           autoListen = false;
           if (r.kind === "error") $("heard").textContent = "speech service: " + r.text;
@@ -363,6 +408,107 @@ async function askAndWait(id) {
   }
 }
 
+/* ---------- car-buttons mode: scanning ---------- */
+// Inputs become events: {type: "next" | "prev" | "skip" | "tap", value?}
+let evResolve = null;
+function emit(ev) { if (evResolve) { const r = evResolve; evResolve = null; r(ev); } }
+function waitEvent() { return new Promise(r => evResolve = r); }
+async function playOrEvent(name) {
+  const ev = waitEvent();
+  const r = await Promise.race([ev.then(e => ({ ev: e })), play(name).then(() => ({ done: true }))]);
+  if (r.ev) stopAudio(); else evResolve = null;
+  return r;
+}
+async function waitOrEvent(ms) {
+  let t;
+  const r = await Promise.race([waitEvent().then(e => ({ ev: e })), new Promise(res => t = setTimeout(() => res({ done: true }), ms))]);
+  clearTimeout(t); if (!r.ev) evResolve = null;
+  return r;
+}
+function mark(j, chosen) {
+  [...$("pads").children].forEach((b, i) => {
+    b.classList.toggle("scan", !chosen && i + 1 === j);
+    b.classList.toggle("chosen", !!chosen && i + 1 === j);
+  });
+}
+const OPTION_GAP_MS = 1300;   // after each option, time left to press next before the following one starts
+const CONFIRM_WAIT_MS = 8000;
+
+// Returns 1..n, "skip", or null if the run was cancelled.
+async function askScan(id) {
+  const qi = queue[pos], n = QS[qi].o.length;
+  prefetch(["s" + qi, ...QS[qi].o.map((_, j) => `o${qi}_${j + 1}`), ...[1, 2, 3, 4].map(k => "confirm" + k), "rescan"]);
+  let from = "stem", loops = 0;
+  outer: for (;;) {
+    if (id !== runId) return null;
+    await waitPaused(id);
+    if (from === "stem") {
+      mark(0); setState("speaking", "Question · next skips to options");
+      const r = await playOrEvent("s" + qi);
+      if (id !== runId) return null;
+      if (r.ev) {
+        if (r.ev.type === "tap") return r.ev.value;
+        if (r.ev.type === "skip") return "skip";
+        if (r.ev.type === "prev") continue;          // restart the question
+      }                                               // "next" during the question: go to the options
+    }
+    from = "stem";
+    let chosen = null;
+    for (let j = 1; j <= n && chosen === null; j++) {
+      mark(j); setState("listening", `Option ${j} · next to choose`);
+      let r = await playOrEvent(`o${qi}_${j}`);
+      if (!r.ev) r = await waitOrEvent(OPTION_GAP_MS);
+      if (id !== runId) return null;
+      if (!r.ev) continue;
+      const e = r.ev;
+      if (e.type === "next") chosen = j;
+      else if (e.type === "tap") return e.value;
+      else if (e.type === "skip") return "skip";
+      else if (e.type === "prev") continue outer;     // back to the question
+    }
+    if (chosen === null) {
+      mark(0);
+      if (++loops < 2) {
+        setState("speaking", "Options again");
+        const r = await playOrEvent("rescan");
+        if (r.ev && r.ev.type === "tap") return r.ev.value;
+        if (r.ev && r.ev.type === "skip") return "skip";
+        from = r.ev && r.ev.type === "prev" ? "stem" : "options";
+        continue;
+      }
+      setState("listening", "Next: options again · previous: question");
+      const e = await waitEvent();
+      if (id !== runId) return null;
+      if (e.type === "tap") return e.value;
+      if (e.type === "skip") return "skip";
+      loops = 0; from = e.type === "prev" ? "stem" : "options";
+      continue;
+    }
+    for (;;) {                                        // confirm step
+      mark(chosen, true); setState("listening", `Chose ${chosen} · next confirms, previous changes`);
+      let r = await playOrEvent("confirm" + chosen);
+      if (!r.ev) r = await waitOrEvent(CONFIRM_WAIT_MS);
+      if (id !== runId) return null;
+      if (!r.ev) continue;                            // no press: ask again, never auto-confirm
+      const e = r.ev;
+      if (e.type === "next") { dlog("confirmed " + chosen); return chosen; }
+      if (e.type === "tap") return e.value;
+      if (e.type === "skip") return "skip";
+      if (e.type === "prev") { loops = 0; from = "options"; continue outer; }
+    }
+  }
+}
+function btnNext() {
+  dlog("BUTTON next" + (answered ? " (skip explanation)" : ""));
+  if (mode !== "buttons") { if (pendingAnswer) { stopListening(); command("skip"); } else if (answered) stopAudio(); return; }
+  if (answered) stopAudio(); else emit({ type: "next" });
+}
+function btnPrev() {
+  dlog("BUTTON previous");
+  if (mode !== "buttons") { if (pendingAnswer) { stopListening(); command("repeat"); } return; }
+  if (!answered) emit({ type: "prev" });
+}
+
 async function run(indices, isReview) {
   const id = ++runId;
   queue = indices; pos = 0; score = 0; results = []; paused = false; reviewMode = isReview;
@@ -370,12 +516,15 @@ async function run(indices, isReview) {
   show("drillView"); renderVoice();
   setState("speaking", "Intro");
   $("qText").textContent = ""; $("pads").innerHTML = "";
-  await play(isReview ? "review" : "intro");
+  prefetch(["intro_buttons", "correct", "wrong"]);
+  await play(isReview ? "review" : (mode === "buttons" ? "intro_buttons" : "intro"));
   for (; pos < queue.length; pos++) {
     if (id !== runId) return;
     answered = false; renderQuestion();
     const qi = queue[pos], q = QS[qi];
-    const v = await askAndWait(id);
+    prefetch(["e" + qi]);
+    const v = mode === "buttons" ? await askScan(id) : await askAndWait(id);
+    mark(0);
     if (v === null) return;
     answered = true;
     const s = stats[qi] || { seen: 0, wrong: 0, box: 0 };
@@ -411,7 +560,7 @@ async function run(indices, isReview) {
 }
 
 function finish() {
-  releaseWake();
+  releaseWake(); stopKeepAlive();
   show("doneView");
   $("doneScore").textContent = `${score} of ${queue.length} correct`;
   const pct = Math.round(score / queue.length * 100);
@@ -429,7 +578,7 @@ function finish() {
   $("again").hidden = m === 0; $("again").textContent = `Review missed (${m})`;
 }
 
-function quit() { runId++; stopAudio(); stopListening(); pendingAnswer = null; releaseWake(); }
+function quit() { runId++; stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; stopKeepAlive(); releaseWake(); }
 
 /* ---------- keep the screen on during a session ---------- */
 let wake = null, sessionActive = false;
@@ -475,6 +624,7 @@ function startRun(list, review) {
   sessionActive = true; acquireWake();
   audio.muted = true; audio.src = CLIPS.correct;
   audio.play().catch(() => {});          // play() in the session unmutes and swaps the source
+  if (mode === "buttons") { dlog("mode: car buttons"); startKeepAlive(); run(list, review); return; }
   primeMic().then(() => run(list, review));
 }
 $("startAll").onclick = () => startRun(QS.map((_, i) => i), false);
@@ -492,22 +642,28 @@ $("micTest").onclick = () => {
   const out = $("micResult"); out.hidden = false;
   if (!voiceUsable()) { out.textContent = "Voice is not available here (see the note above)."; return; }
   dlog("mic test · " + envLine());
-  out.textContent = "Listening… say “three”, or any number from one to four.";
+  out.textContent = "Listening… say “number three”, or any number from one to four.";
   $("micTest").disabled = true;
   listenOnce(8000).then(r => {
     $("micTest").disabled = false;
     const said = r.text ? `“${r.text}”` : "";
     out.textContent =
       r.kind === "hit" ? `Heard ${said} → ${typeof r.value === "number" ? "answer " + r.value : "command: " + r.value}. Voice works.` :
-      r.kind === "miss" ? `Heard ${said}, which isn't one to four. Try again, a bit closer to the mic.` :
+      r.kind === "miss" ? (said ? `Heard ${said}, which isn't one to four.` : "Heard speech but couldn't make out words.") + " Try “number three”, a bit closer to the mic." :
       r.kind === "silent" ? "Nothing heard. Check the microphone and try again." :
       r.kind === "blocked" ? "The microphone is blocked. Allow it in the browser's site settings." :
       `The speech service failed (${r.text}). It may need an internet connection.`;
   });
 };
 $("home").onclick = () => { quit(); renderStart(); show("startView"); };
-$("bRepeat").onclick = () => { if (pendingAnswer) { stopListening(); command("repeat"); } };
-$("bSkip").onclick = () => { if (pendingAnswer) { stopListening(); command("skip"); } else if (answered) { stopAudio(); } };
+$("bRepeat").onclick = () => {
+  if (mode === "buttons") return btnPrev();
+  if (pendingAnswer) { stopListening(); command("repeat"); }
+};
+$("bSkip").onclick = () => {
+  if (mode === "buttons") return btnNext();
+  if (pendingAnswer) { stopListening(); command("skip"); } else if (answered) { stopAudio(); }
+};
 $("bPause").onclick = () => {
   paused = !paused;
   $("bPause").setAttribute("aria-pressed", String(paused)); $("bPause").textContent = paused ? "Resume" : "Pause";
@@ -527,12 +683,32 @@ document.addEventListener("keydown", e => {
   else if (e.key === "r" || e.key === "R") $("bRepeat").click();
   else if (e.key === "s" || e.key === "S") $("bSkip").click();
   else if (e.key === " ") { e.preventDefault(); $("bPause").click(); }
+  else if (e.key === "ArrowRight") { e.preventDefault(); btnNext(); }
+  else if (e.key === "ArrowLeft") { e.preventDefault(); btnPrev(); }
 });
 if ("mediaSession" in navigator) {
   const h = { play: () => paused && $("bPause").click(), pause: () => !paused && $("bPause").click(),
-              previoustrack: () => $("bRepeat").click(), nexttrack: () => $("bSkip").click() };
+              previoustrack: btnPrev, nexttrack: btnNext };
   for (const k in h) { try { navigator.mediaSession.setActionHandler(k, h[k]); } catch (e) {} }
-  try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Voice Drill", artist: "Practice exam" }); } catch (e) {}
+  try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Practice Drill", artist: "Practice exam" }); } catch (e) {}
 }
+const MODE_HINT = {
+  voice: "Say “number one” to “number four” after each question: a short phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
+  buttons: "No microphone. Each option is read in turn: press next on the steering wheel (or headset) on the one you want, then next again to confirm."
+};
+function renderMode() {
+  $("modeVoice").setAttribute("aria-checked", String(mode === "voice"));
+  $("modeButtons").setAttribute("aria-checked", String(mode === "buttons"));
+  $("modeHint").textContent = MODE_HINT[mode];
+  $("voiceNote").hidden = mode !== "voice";
+  $("micTest").hidden = mode !== "voice" || !SR;
+  if (mode !== "voice") $("micResult").hidden = true;
+  $("bVoice").hidden = mode !== "voice";
+  $("bRepeat").textContent = mode === "buttons" ? "Previous" : "Repeat";
+  $("bSkip").textContent = mode === "buttons" ? "Next" : "Skip";
+}
+$("modeVoice").onclick = () => setMode("voice");
+$("modeButtons").onclick = () => setMode("buttons");
+renderMode();
 renderStart();
 </script>

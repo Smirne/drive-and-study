@@ -13,6 +13,7 @@ class FakeSR { start(){ window.__starts++; const step = window.__script.length ?
       else if(step.t==='nospeech'){ this.onerror&&this.onerror({error:'no-speech'}); }
       else if(step.t==='blocked'){ this.onerror&&this.onerror({error:'not-allowed'}); }
       else if(step.t==='err'){ this.onerror&&this.onerror({error:step.code}); }
+      else if(step.t==='nomatch'){ this.onnomatch&&this.onnomatch({}); }
       this.onend&&this.onend(); }, 15); }
   abort(){} stop(){} }
 window.SpeechRecognition=FakeSR;
@@ -64,6 +65,19 @@ with sync_playwright() as p:
     pg.evaluate(f"__script.push({{t:'say',text:'{W[a[7]-1]}'}})")
     pg.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'visible'}); document.dispatchEvent(new Event('visibilitychange'))")
     waitq(pg,9); print('Q8 hidden/visible -> resumed by voice, score', pg.text_content('#score'))
+    # Q9: page hidden mid-listen (Android Auto took the screen): Chrome then refuses with not-allowed.
+    # Voice must stay on, and listening resumes when the page is visible again.
+    pg.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'hidden'})")
+    pg.evaluate("__script.push({t:'blocked'})")
+    pg.evaluate("document.dispatchEvent(new Event('visibilitychange'))")
+    pg.wait_for_timeout(2500)
+    print('Q9 hidden -> voice btn:', pg.text_content('#bVoice'))
+    pg.evaluate(f"__script.length=0; __script.push({{t:'say',text:'{W[a[8]-1]}'}})")
+    pg.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'visible'}); document.dispatchEvent(new Event('visibilitychange'))")
+    waitq(pg,10); print('Q9 resumed by voice after hidden -> score', pg.text_content('#score'), '| voice btn:', pg.text_content('#bVoice'))
+    # Q10: "nomatch" (speech heard, no words) reprompts at once instead of waiting for 3 silences
+    pg.evaluate(f"__script.push({{t:'nomatch'}},{{t:'say',text:'number {W[a[9]-1]}'}})")
+    waitq(pg,11); print('Q10 nomatch then "number N" -> score', pg.text_content('#score'))
     log = pg.text_content('#diagLog')
     print('log has page hidden:', 'page hidden' in log, '| resume:', 'resume listening' in log, '| audio-capture:', 'rec error: audio-capture' in log)
     print('errors:', errs); b.close()
