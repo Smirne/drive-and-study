@@ -108,7 +108,7 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
     <button class="ghost" id="startMissed" disabled>Review missed (0)</button>
     <a class="ghost linkbtn" href="/lessons">Audio lessons</a>
     <dl class="how">
-      <dt>Say</dt><dd>“number two” (works better than “two” alone) · “repeat” · “skip”</dd>
+      <dt>Say</dt><dd>“number two”, or words from the answer (“business scenarios”) · “repeat” · “skip”</dd>
       <dt>Tap</dt><dd>the numbered pads</dd>
       <dt>Buttons</dt><dd><b>next</b> on the option you want, then <b>next</b> to confirm · <b>previous</b> = question again / change</dd>
       <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause · ← → previous / next</dd>
@@ -155,25 +155,16 @@ const QS = /*__QUESTIONS__*/[];
 const CLIPS = /*__CLIPS__*/{};
 const NUMW = ["one","two","three","four"];
 
-/* ---------- deterministic answer parser ---------- */
-const VOCAB = {
-  1: ["1","one","won","wan","juan","first","van"],
-  2: ["2","two","to","too","tu","second"],
-  3: ["3","three","tree","free","third"],
-  4: ["4","four","for","fore","fourth","ford"]
-};
-const CMD = { repeat: ["repeat","again","pardon"], skip: ["skip","next","pass"] };
-const LOOKUP = {};
-for (const k in VOCAB) VOCAB[k].forEach(w => LOOKUP[w] = +k);
-for (const k in CMD) CMD[k].forEach(w => LOOKUP[w] = k);
+/* ---------- deterministic answer parser (app/matcher.js, inlined at build) ---------- */
+/*__MATCHER__*/
+// Current question's options, so answers can be given by content ("business scenarios") as well as by number.
+function currentOptions() {
+  return (typeof queue !== "undefined" && queue.length && !$("drillView").hidden) ? QS[queue[pos]].o : null;
+}
 function parseUtterance(text) {
-  const toks = text.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
-  const hits = [...new Set(toks.map(t => LOOKUP[t]).filter(v => v !== undefined))];
-  const nums = hits.filter(h => typeof h === "number");
-  if (nums.length === 1) return nums[0];          // exactly one distinct number: accept
-  if (nums.length > 1) return null;               // ambiguous ("two or three"): ignore
-  const cmds = hits.filter(h => typeof h === "string");
-  return cmds.length === 1 ? cmds[0] : null;
+  const r = MATCHER.parse(text, currentOptions());
+  if (r && r.how === "content") dlog(`matched by content -> ${r.value} (score ${r.score} vs ${r.second}${r.exact ? ", exact" : ""})`);
+  return r ? r.value : null;
 }
 
 /* ---------- answer mode: "voice" (speech, tap, keys) or "buttons" (next/previous scanning) ---------- */
@@ -368,20 +359,29 @@ async function askAndWait(id) {
     const readP = play("q" + queue[pos]);
     let got = await Promise.race([answerP, readP.then(() => "__read")]);
     if (id !== runId) return null;
-    let autoListen = true, reprompts = 0, silent = 0, errors = 0;
+    let autoListen = true, reprompts = 0, errors = 0;
+    // Thinking time: keep listening quietly (restarting the recogniser as Chrome ends each attempt)
+    // until the window runs out; only then reprompt. First window is longer.
+    let windowStart = Date.now(), windowMs = TIMING.firstWindowMs;
     while (typeof got === "string" && got.startsWith("__")) {
-      if (paused) await waitPaused(id);
+      if (paused) { await waitPaused(id); windowStart = Date.now(); }
       if (id !== runId) return null;
-      if (got === "__mic") { autoListen = true; reprompts = 0; silent = 0; errors = 0; }
+      if (got === "__mic") { autoListen = true; reprompts = 0; errors = 0; windowStart = Date.now(); windowMs = TIMING.firstWindowMs; }
       if (voiceUsable() && autoListen) {
-        setState("listening", "Listening · say 1–4"); $("bMic").hidden = true;
-        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce()]);
+        setState("listening", "Listening · say “number two” or the answer"); $("bMic").hidden = true;
+        const t0 = Date.now();
+        const left = Math.max(TIMING.minAttemptMs, windowMs - (t0 - windowStart));
+        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce(left)]);
         stopListening();
         if (id !== runId) return null;
         if (r.kind === "tap" || r.kind === "hit") { got = r.value; break; }
-        if (r.kind === "miss" || (r.kind === "silent" && ++silent % 3 === 0)) {
-          if (reprompts++ < 3) { setState("speaking", "Didn't catch that"); await play("reprompt"); }
-          else autoListen = false;
+        if (r.kind === "miss" || r.kind === "silent") {
+          if (Date.now() - t0 < TIMING.minAttemptMs) await new Promise(res => setTimeout(res, TIMING.restartPauseMs));   // never spin
+          if (Date.now() - windowStart < windowMs) { got = "__again"; continue; }                                     // still thinking time
+          if (reprompts++ < 3) {
+            setState("speaking", "Didn't catch that"); await play("reprompt");
+            windowStart = Date.now(); windowMs = TIMING.laterWindowMs;
+          } else autoListen = false;
         } else if (r.kind === "error" && ++errors <= 3) {
           $("heard").textContent = "speech service: " + r.text + " · retrying";
           await new Promise(res => setTimeout(res, 1500));    // e.g. mic briefly held by the car system
@@ -407,6 +407,10 @@ async function askAndWait(id) {
     return got;
   }
 }
+
+/* ---------- listening windows (overridable for tests via window.DRILL_TIMING) ---------- */
+const TIMING = Object.assign({ firstWindowMs: 12000, laterWindowMs: 8000, minAttemptMs: 1500, restartPauseMs: 400 },
+                             window.DRILL_TIMING || {});
 
 /* ---------- car-buttons mode: scanning ---------- */
 // Inputs become events: {type: "next" | "prev" | "skip" | "tap", value?}
@@ -693,7 +697,7 @@ if ("mediaSession" in navigator) {
   try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Practice Drill", artist: "Practice exam" }); } catch (e) {}
 }
 const MODE_HINT = {
-  voice: "Say “number one” to “number four” after each question: a short phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
+  voice: "Say “number one” to “number four”, or words from the answer you choose: a phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
   buttons: "No microphone. Each option is read in turn: press next on the steering wheel (or headset) on the one you want, then next again to confirm."
 };
 function renderMode() {

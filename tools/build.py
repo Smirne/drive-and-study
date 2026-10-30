@@ -38,6 +38,7 @@ needed = ['intro', 'intro_buttons', 'review', 'correct', 'wrong', 'reprompt', 'r
 missing = [n for n in needed if n not in clips]
 assert not missing, f'missing clips: {missing[:10]}... (run tools/gen_clips.py)'
 drill = (Path('app/template.html').read_text()
+         .replace('/*__MATCHER__*/', Path('app/matcher.js').read_text())
          .replace('/*__QUESTIONS__*/[]', json.dumps(qs))
          .replace('/*__CLIPS__*/{}', json.dumps(clips)))
 t = write('drill.html', drill)
