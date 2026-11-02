@@ -23,6 +23,17 @@ eq("nothing", v("hello there", o0), null);
 const prep = qs[0].o.findIndex(o => /prepare the organization/i.test(o)) + 1;
 eq("to prepare... is content, not 2", v("to prepare the organization for architecture work", o0), prep);
 
+// option text that contains number or command words
+const bf = qs.find(q => q.o.some(o => /^Baseline first/.test(o)));
+if (bf) {
+  const want = bf.o.findIndex(o => /^Baseline first/.test(o)) + 1;
+  eq("'Baseline first' is content", v("baseline first", bf.o), want);
+  eq("'number one' still a number", v("number one", bf.o), 1);
+  eq("'skip' alone still skips", v("skip", bf.o), "skip");
+  const sk = bf.o.findIndex(o => /^Skip the baseline/.test(o)) + 1;
+  eq("'skip the baseline...' is content", v("skip the baseline and go straight to the roadmap", bf.o), sk);
+}
+
 // content: every option, three ways of saying it
 const STOP = new Set("a an the of and or to in on is it its for with by as at be are this that which what from into all any each".split(" "));
 let right = 0, wrong = 0, none = 0;

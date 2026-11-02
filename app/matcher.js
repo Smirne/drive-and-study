@@ -107,6 +107,17 @@ const MATCHER = (() => {
     if (!ws.length) return null;
     const short = ws.length <= SHORT;
     const cmd = byCommand(ws);
+    // Number and command words can be part of an option ("Baseline first", "Skip the baseline",
+    // "specific to one organization"). If the content clearly matches an option that contains every
+    // such word said, the content wins, unless the user explicitly said "number", "option" or "answer".
+    const explicit = ws.some(w => w === "number" || w === "option" || w === "answer");
+    const special = ws.filter(w => [STRICT, LOOSE, CMD].some(t => Object.values(t).some(l => l.includes(w))));
+    const otherWords = tokens(text).filter(t => !special.includes(t));   // "skip" alone stays a command
+    if (!explicit && special.length && otherWords.length && options) {
+      const c = byContent(text, options);
+      if (c && special.every(w => words(options[c.value - 1]).includes(w)))
+        return { value: c.value, how: "content", score: c.score, second: c.second };
+    }
     if (short) {
       const n = byNumber(ws, true);
       if (typeof n === "number") return { value: n, how: "number" };

@@ -2,7 +2,7 @@
 import json, os
 from playwright.sync_api import sync_playwright
 
-qs = json.load(open('content/togaf-foundation/questions.json'))
+qs = [q for q in json.load(open('content/togaf-foundation/questions.json')) if q['id'].startswith('ep')]  # practice set
 STUB = r"""
 window.__h = {};
 if (navigator.mediaSession) {

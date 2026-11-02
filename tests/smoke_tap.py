@@ -1,6 +1,6 @@
 import json, sys
 from playwright.sync_api import sync_playwright
-qs=json.load(open('content/togaf-foundation/questions.json'))
+qs = [q for q in json.load(open('content/togaf-foundation/questions.json')) if q['id'].startswith('ep')]  # practice set
 with sync_playwright() as p:
     b=p.chromium.launch(); pg=b.new_page(viewport={'width':390,'height':844})
     errs=[]; pg.on('pageerror', lambda e: errs.append(str(e)))

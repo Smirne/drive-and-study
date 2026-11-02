@@ -1,6 +1,6 @@
 import json, os
 from playwright.sync_api import sync_playwright
-qs=json.load(open('content/togaf-foundation/questions.json'))
+qs = [q for q in json.load(open('content/togaf-foundation/questions.json')) if q['id'].startswith('ep')]  # practice set
 FAKE = """
 HTMLMediaElement.prototype.play=function(){ window.__plays=(window.__plays||[]); window.__plays.push(this.src.length);
   setTimeout(()=>this.onended&&this.onended(),20); return Promise.resolve() };
