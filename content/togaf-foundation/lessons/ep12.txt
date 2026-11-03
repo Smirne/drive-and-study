@@ -1,0 +1,88 @@
+S: Welcome back. This is a short one on commonly confused pairs. I'm Sara.
+A: And I'm Alex. The exam loves to put two things that sound alike side by side, and ask you which is which. So for each pair we'll give you one trick to tell them apart.
+S: Let's start with the three that trip people most.
+
+S: Pair one. Artifacts, versus views and viewpoints.
+A: Artifacts come in three shapes. Catalogs, matrices and diagrams.
+S: A catalog is a list of things. A matrix shows how things relate. A diagram is a picture.
+A: Views, viewpoints and models are a different idea. They are about presenting the architecture to stakeholders. So if the question says "artifacts are classified as", think list, relationship, picture.
+S: And remember the nesting. Deliverables contain artifacts. Artifacts describe building blocks.
+
+A: Pair two. The Standards Library, versus the Reference Library.
+S: The Standards Library holds what new architectures must comply with.
+A: The Reference Library holds what you may reuse to go faster. Templates, patterns, guidelines.
+S: The trick: standards are a must, references are a may. And if the question says "accelerate", the answer is the Reference Library.
+A: While we're in the repository, two more. The Governance Log records governance activity: decisions, compliance assessments and dispensations. And the Architecture Requirements Repository holds the authorized requirements.
+
+S: Pair three. Transition Architecture, versus Segment Architecture.
+A: They live on different axes. Transition is about time. Segment is about scope.
+S: A Transition Architecture is one state of the architecture at an architecturally significant point in time, somewhere between baseline and target. They are introduced in Phase E.
+A: A Segment Architecture is one of the three levels of the landscape. Strategic is the whole enterprise, segment is an area like a business unit or a portfolio, and capability is the most detailed, at project level.
+S: The trick: if you hear "point in time", it's transition. If you hear "area of the enterprise", it's segment.
+
+A: Now the quick ones. View, versus viewpoint.
+S: The viewpoint is the convention, the template, where you look from. The view is what a stakeholder actually sees.
+A: The viewpoint is reusable. The view belongs to one system.
+
+S: Architecture Building Block, versus Solution Building Block.
+A: The A B B says what is needed, and is product independent. The S B B is the candidate solution, and is vendor aware.
+S: The trick: S for solution, S for supplier.
+
+A: The Request for Architecture Work, versus the Statement of Architecture Work.
+S: The Request arrives from the sponsor and triggers Phase A. The Statement is approved at the end of Phase A, and defines the scope and approach.
+A: Request comes in, Statement goes out.
+
+S: The Architecture Definition Document, versus the Architecture Requirements Specification.
+A: The Definition Document describes the architecture, in a qualitative way. The Requirements Specification gives measurable statements that implementation projects must comply with.
+S: Words versus numbers.
+
+A: Phase E, versus Phase F.
+S: Phase E is the first phase about implementation. It produces the initial Architecture Roadmap, and decides whether Transition Architectures are needed.
+A: Phase F finalizes the roadmap and the Implementation and Migration Plan, and lines it up with the enterprise's change portfolio.
+S: E for early, F for final.
+
+A: Baseline first, versus target first.
+S: Baseline first, when the current state is complex, poorly understood, or not agreed.
+A: Target first, when the current state is well known, or when you don't want to be anchored to today's solutions.
+
+S: The iteration cycles. There are four, and the trap is a fifth that doesn't exist.
+A: Architecture Context, for Preliminary and A. Architecture Definition, for B, C and D. Transition Planning, for E and F. And Architecture Governance, for G and H.
+S: There is no Architecture Implementation cycle.
+
+A: Compliant, versus conformant.
+S: Compliant: everything you built is in the spec, but you didn't build all of it.
+A: Conformant: you built all of the spec, plus extra things outside it.
+S: Fully conformant is a perfect match. Irrelevant means nothing in common at all.
+
+A: The power and interest grid. Keep satisfied, versus keep informed.
+S: High power, low interest: keep satisfied. Low power, high interest: keep informed.
+A: The trick: powerful people need to be satisfied, interested people need to be informed.
+
+S: Initial risk, versus residual risk.
+A: Initial is before mitigation. Residual is what remains after it.
+
+A: And the change types in Phase H.
+S: Simplification and incremental changes can usually go through change management. A re-architecting change needs a new A D M cycle.
+
+A: Let's test it. Answer in the pause.
+S: Templates and patterns to speed up new architectures. Which library?
+[PAUSE]
+A: The Reference Library.
+S: An intermediate state between baseline and target, at a point in time.
+[PAUSE]
+A: A Transition Architecture.
+S: Catalogs, matrices and diagrams are three kinds of what?
+[PAUSE]
+A: Artifacts.
+S: Which phase gives the initial roadmap, and which gives the final one?
+[PAUSE]
+A: Phase E gives the initial one. Phase F finalizes it.
+S: You built all of the spec, plus some extras. Which conformance level?
+[PAUSE]
+A: Conformant.
+S: High power, low interest. How do you manage them?
+[PAUSE]
+A: Keep satisfied.
+
+S: That's it. When two answers look alike in the exam, look for the one keyword that decides it.
+A: Point in time, accelerate, initial or final, must or may. Good luck.

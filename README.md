@@ -16,7 +16,7 @@ or `repeat` / `skip`. It only accepts a clear winner and otherwise asks again.
 The site has three pages:
 
 - `/` is the home page. It lists the study pack.
-- `/lessons` has 11 audio episodes: 8 lessons, 2 practice exams and a recap podcast. They play in order and the page remembers where you stopped.
+- `/lessons` has 12 audio episodes: 8 lessons, 2 practice exams, a recap podcast and commonly confused pairs. They play in order and the page remembers where you stopped.
 - `/drill` is the practice drill and mock exams:
   - **Practice**: 20 questions, with feedback and an explanation after each one.
   - **Mock exam 1 / 2**: like the real Part 1: 40 questions, 60 minutes, pass mark 24, no feedback until
@@ -53,7 +53,7 @@ public/                           what Vercel serves (committed, no build step o
   drill.html                      practice drill (generated; loads clips from audio/drill/<pack>/)
   lessons.html                    lessons player (generated)
   buttons.html                    media-button test page (hand-written)
-  audio/lessons/ep1..11.mp3       lesson audio (64 kbps mono)
+  audio/lessons/ep1..12.mp3       lesson audio (64 kbps mono)
   audio/drill/<pack>/*.mp3        drill speech clips (voice mode q/e, buttons mode s/o/confirm)
   audio/test/quiet.mp3            near-silent loop that keeps the button test the active media player
 app/template.html                 drill UI + state machine (matcher, questions and clip URLs injected)
@@ -62,7 +62,7 @@ app/lessons.html                  lessons player UI
 content/<pack>/source/*.txt       question scripts (ep9/ep10 practice set, pool1/pool2 mock-exam pool)
 content/<pack>/questions.json     parsed questions with id and topic (answers balanced over 1–4)
 content/<pack>/exams.json         mock exams: title, minutes, pass mark, question ids
-content/<pack>/lessons/ep*.txt    lesson scripts (ep11 is the two-host recap podcast)
+content/<pack>/lessons/ep*.txt    lesson scripts (ep11 recap and ep12 confused pairs are two-host podcasts)
 tools/parse.py                    source/*.txt -> questions.json
 tools/gen_clips.py                questions.json -> public/audio/drill/<pack>/*.mp3 (Kokoro offline TTS)
 tools/gen_lesson.py               single-voice lesson script -> wav

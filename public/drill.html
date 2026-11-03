@@ -846,8 +846,10 @@ function saveAttempt(reason) {
   const exam = session.kind === "exam";
   const items = results.map((r, k) => {
     const q = QS[r.qi];
+    const first = session.reviewOf && session.reviewOf.first[q.id];
     return { n: k + 1, id: q.id, topic: q.topic, question: q.q, given: r.given, givenText: r.given ? q.o[r.given - 1] : "",
-             answer: q.a, answerText: q.o[q.a - 1], correct: r.given === q.a, seconds: Math.round(r.ms / 100) / 10, how: r.how };
+             answer: q.a, answerText: q.o[q.a - 1], correct: r.given === q.a, seconds: Math.round(r.ms / 100) / 10, how: r.how,
+             firstTry: first || null };
   });
   const attempt = {
     attemptId: new Date(session.startedAt).toISOString().replace(/[-:]/g, "").slice(0, 15),
@@ -855,6 +857,8 @@ function saveAttempt(reason) {
     answeredWith: mode === "buttons" ? "car buttons" : "voice / tap", total: queue.length, score,
     passMark: exam ? session.pass : null, passed: exam ? score >= session.pass : null,
     minutes: Math.round((Date.now() - session.startedAt) / 6000) / 10, ended: reason, items,
+    reviewOf: session.reviewOf ? { attemptId: session.reviewOf.attemptId, title: session.reviewOf.title,
+                                   score: session.reviewOf.score, total: session.reviewOf.total } : null,
   };
   if (attempt.total > 0) { const h = loadHistory(); h.push(attempt); saveHistory(h); }
   return attempt;
@@ -868,11 +872,13 @@ function byTopic(items) {
 function csvCell(v) { const s = v === null || v === undefined ? "" : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
 function toCSV(attempts) {
   const head = ["attempt", "date", "session", "answered_with", "score", "total", "passed", "q_no", "question_id", "topic", "question",
-                "your_answer", "your_answer_text", "correct_answer", "correct_answer_text", "correct", "seconds", "answered_by"];
+                "your_answer", "your_answer_text", "correct_answer", "correct_answer_text", "correct", "seconds", "answered_by",
+                "review_of", "first_try_answer", "first_try_answer_text"];
   const rows = [head];
   attempts.forEach(a => a.items.forEach(it => rows.push([a.attemptId, a.date, a.title, a.answeredWith, a.score, a.total,
     a.passed === null ? "" : (a.passed ? "yes" : "no"), it.n, it.id, it.topic, it.question, it.given ?? "", it.givenText,
-    it.answer, it.answerText, it.correct ? "yes" : "no", it.seconds, HOW_LABEL[it.how] || it.how])));
+    it.answer, it.answerText, it.correct ? "yes" : "no", it.seconds, HOW_LABEL[it.how] || it.how,
+    a.reviewOf ? a.reviewOf.attemptId : "", it.firstTry ? (it.firstTry.given ?? "") : "", it.firstTry ? it.firstTry.givenText : ""])));
   return rows.map(r => r.map(csvCell).join(",")).join("\n") + "\n";
 }
 function summaryText(attempts) {
@@ -884,6 +890,18 @@ function summaryText(attempts) {
                ` · ${a.minutes} min · answered with ${a.answeredWith}` + (a.ended === "time" ? " · time ran out" : ""));
     lines.push("", "By topic (weakest first):");
     byTopic(a.items).forEach(t => lines.push(`- ${t.label}: ${t.right}/${t.total}`));
+    const ans = (given, text, how) => given ? text : "(none: " + (HOW_LABEL[how] || how) + ")";
+    if (a.reviewOf) {
+      lines.push("", `This was a review of the ${a.total} questions missed in ${a.reviewOf.title} (original score ${a.reviewOf.score}/${a.reviewOf.total}).`);
+      const item = it => `- [${TOPIC_LABEL[it.topic] || it.topic}] ${it.question}` +
+        (it.firstTry ? `\n  - first try: ${ans(it.firstTry.given, it.firstTry.givenText, it.firstTry.how)}` : "") +
+        `\n  - on review: ${ans(it.given, it.givenText, it.how)}\n  - correct: ${it.answerText}`;
+      const still = a.items.filter(it => !it.correct), fixed = a.items.filter(it => it.correct);
+      if (still.length) { lines.push("", `Still wrong on review (${still.length}):`); still.forEach(it => lines.push(item(it))); }
+      if (fixed.length) { lines.push("", `Fixed on review (${fixed.length}):`); fixed.forEach(it => lines.push(item(it))); }
+      lines.push("");
+      return;
+    }
     const wrong = a.items.filter(it => !it.correct);
     if (wrong.length) {
       lines.push("", "Missed questions:");
@@ -1005,8 +1023,12 @@ function startExam(key) {
 }
 $("reviewWrong").onclick = () => {
   if (!lastAttempt) return;
-  const idx = lastAttempt.items.filter(it => !it.correct).map(it => IDX[it.id]);
-  startRun(idx, { kind: "review", title: "Review: " + lastAttempt.title });
+  const missed = lastAttempt.items.filter(it => !it.correct);
+  const src = lastAttempt.reviewOf || lastAttempt;          // a review of a review still points at the original attempt
+  const first = Object.fromEntries(missed.map(it => [it.id,
+    lastAttempt.reviewOf && it.firstTry ? it.firstTry : { given: it.given, givenText: it.givenText, how: it.how }]));
+  startRun(missed.map(it => IDX[it.id]), { kind: "review", title: "Review: " + src.title,
+    reviewOf: { attemptId: src.attemptId, title: src.title, score: src.score, total: src.total, first } });
 };
 $("dlCsv").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.csv`, toCSV([lastAttempt]), "text/csv");
 $("dlJson").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.json`, JSON.stringify(lastAttempt, null, 2), "application/json");
