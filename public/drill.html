@@ -85,6 +85,29 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .diagEnv { font: 500 11.5px var(--mono); margin: 0; overflow-wrap: anywhere; }
 .note { font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; }
 
+.section-h { font-size: 20px; margin: 10px 0 0; }
+.exams { display: grid; gap: 10px; }
+.exam { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; text-align: left; padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.exam b { font-size: 17px; }
+.exam .d { color: var(--muted); font-size: 13.5px; grid-column: 1; }
+.exam .best { grid-column: 2; grid-row: 1 / span 2; font: 600 13px var(--mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; white-space: pre-line; }
+.hist { display: grid; gap: 0; }
+.hist .h { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.hist .h .when { color: var(--muted); font: 500 12px var(--mono); }
+.chip { font: 600 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 3px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.chip.pass { color: var(--ok); border-color: var(--ok); }
+.chip.fail { color: var(--bad); border-color: var(--bad); }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.timer { font-variant-numeric: tabular-nums; }
+.timer.low { color: var(--bad); }
+.topics { display: grid; gap: 6px; margin: 4px 0 8px; }
+.topic { display: grid; grid-template-columns: minmax(0, 9em) 1fr auto; gap: 10px; align-items: center; font-size: 14px; }
+.topic .bar { height: 8px; background: var(--raised); border-radius: 4px; overflow: hidden; }
+.topic .bar i { display: block; height: 100%; background: var(--ok); }
+.topic.weak .bar i { background: var(--bad); }
+.topic .n { font: 600 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.copied { font: 500 12px var(--mono); color: var(--ok); min-height: 1em; margin: 0; }
 .results { display: grid; gap: 8px; }
 .results h2 { margin: 0; font-size: 26px; }
 .row { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
@@ -97,18 +120,28 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 <div class="app" id="app">
   <section class="start" id="startView">
     <div class="strip"><a class="home" href="/">← Drive &amp; Study</a><span id="statsLine"></span></div>
-    <h1>Practice drill</h1>
-    <p>20 practice questions for the TOGAF® Enterprise Architecture Foundation exam, read aloud. Answer by voice, with the car's steering-wheel buttons, by tap or by keyboard. The app scores you, explains the answer and remembers what you missed.</p>
+    <h1>Practice drill &amp; mock exams</h1>
+    <p>Practice questions and mock exams for the TOGAF® Enterprise Architecture Foundation exam, read aloud. Answer by voice, with the car's steering-wheel buttons, by tap or by keyboard. The app scores you, explains the answer and remembers what you missed.</p>
     <div class="modes" role="radiogroup" aria-label="Answer with">
       <button class="mode" id="modeVoice" role="radio" aria-checked="true">Answer by voice</button>
       <button class="mode" id="modeButtons" role="radio" aria-checked="false">Car buttons</button>
     </div>
     <p class="modeHint" id="modeHint"></p>
-    <button class="big" id="startAll">Start all 20</button>
+    <button class="big" id="startAll">Practice: 20 questions with feedback</button>
     <button class="ghost" id="startMissed" disabled>Review missed (0)</button>
+    <h2 class="section-h">Mock exams</h2>
+    <p>Like the real Part 1: 40 questions, 60 minutes, pass mark 24. No feedback until the end, then a score by topic and a review of your mistakes with explanations.</p>
+    <div class="exams" id="examList"></div>
+    <h2 class="section-h">Your results</h2>
+    <div class="hist" id="historyList"></div>
+    <div class="pair" id="historyActions">
+      <button class="ghost" id="exportAll">Download all (CSV)</button>
+      <button class="ghost" id="copyAll">Copy summary</button>
+    </div>
+    <p class="copied" id="copiedAll"></p>
     <a class="ghost linkbtn" href="/lessons">Audio lessons</a>
     <dl class="how">
-      <dt>Say</dt><dd>“number two” (works better than “two” alone) · “repeat” · “skip”</dd>
+      <dt>Say</dt><dd>“number two”, or words from the answer (“business scenarios”) · “repeat” · “skip”</dd>
       <dt>Tap</dt><dd>the numbered pads</dd>
       <dt>Buttons</dt><dd><b>next</b> on the option you want, then <b>next</b> to confirm · <b>previous</b> = question again / change</dd>
       <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause · ← → previous / next</dd>
@@ -119,7 +152,7 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   </section>
 
   <section id="drillView" hidden style="display:flex;flex-direction:column;gap:14px;flex:1">
-    <div class="strip"><span>Q <b id="qNum">1</b>/<span id="qTot">20</span></span><span>Score <b id="score">0</b></span></div>
+    <div class="strip"><span>Q <b id="qNum">1</b>/<span id="qTot">20</span></span><span id="scoreBox">Score <b id="score">0</b></span><span class="timer" id="timer" hidden></span></div>
     <div class="progress"><i id="bar"></i></div>
     <div class="state" id="state" data-s="speaking"><span class="dot"></span><span id="stateText">Reading</span><span class="heard" id="heard"></span></div>
     <p class="qtext" id="qText"></p>
@@ -131,14 +164,26 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
       <button id="bPause" aria-pressed="false">Pause</button>
       <button id="bSkip">Skip</button>
       <button id="bVoice" aria-pressed="true">Voice</button>
+      <button id="bEnd" hidden>End exam</button>
     </div>
   </section>
 
   <section class="results" id="doneView" hidden>
-    <div class="strip"><span>Session complete</span><span id="doneStats"></span></div>
+    <div class="strip"><span id="doneTitle">Session complete</span><span id="doneStats"></span></div>
     <h2 id="doneScore"></h2>
+    <p id="doneMeta" class="modeHint"></p>
+    <h3 class="section-h" id="topicsH">By topic</h3>
+    <div class="topics" id="doneTopics"></div>
+    <button class="big" id="reviewWrong">Review mistakes with explanations</button>
+    <div class="pair">
+      <button class="ghost" id="dlCsv">Download CSV</button>
+      <button class="ghost" id="dlJson">Download JSON</button>
+    </div>
+    <button class="ghost" id="copySummary">Copy summary (paste it to Claude to plan your study)</button>
+    <p class="copied" id="copiedOne"></p>
+    <h3 class="section-h">Questions</h3>
     <div id="doneRows"></div>
-    <button class="big" id="again">Review missed</button>
+    <button class="ghost" id="again">Review missed</button>
     <button class="ghost" id="home">Back to start</button>
   </section>
 
@@ -151,29 +196,168 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 </div>
 
 <script>
-const QS = [{"q": "Which of the following best describes the purpose of the Preliminary Phase?", "o": ["To develop a high level vision of the business value to be delivered.", "To prepare the organization for successful architecture work, by determining and establishing the Architecture Capability.", "To ensure conformance of implementation projects with the target architecture.", "To finalize the Architecture Roadmap."], "a": 2, "e": "The answer is two. The Preliminary Phase determines the Architecture Capability desired by the organization and establishes it. Option one describes Phase A, option three describes Phase G, and option four describes Phase F."}, {"q": "Which of the following is a qualitative statement of intent that should be met by the architecture?", "o": ["An architecture requirement.", "A constraint.", "An architecture principle.", "An assumption."], "a": 3, "e": "The answer is three, an architecture principle. A requirement is a statement of need that must be met. A constraint is an external factor that prevents certain approaches. An assumption is a statement of probable fact not yet fully validated."}, {"q": "In which phase of the A D M is the Statement of Architecture Work approved?", "o": ["Phase A, Architecture Vision.", "Preliminary Phase.", "Phase B, Business Architecture.", "Phase E, Opportunities and Solutions."], "a": 1, "e": "The answer is one, Phase A. Phase A is triggered by the Request for Architecture Work, and ends with the approval of the Statement of Architecture Work, which defines the scope and approach of the architecture project."}, {"q": "Which of the following correctly describes a Solution Building Block?", "o": ["It captures architecture requirements and is independent of products.", "It is a contractually specified work product signed off by stakeholders.", "It is a list of building blocks of a specific type.", "It is a candidate solution that conforms to the specification of an Architecture Building Block, and is product or vendor aware."], "a": 4, "e": "The answer is four. Option one describes an Architecture Building Block. Option three describes a catalog, which is a type of artifact. Option two describes a deliverable."}, {"q": "Which phase generates the initial complete version of the Architecture Roadmap, and determines whether Transition Architectures are needed?", "o": ["Phase D, Technology Architecture.", "Phase E, Opportunities and Solutions.", "Phase F, Migration Planning.", "Phase G, Implementation Governance."], "a": 2, "e": "The answer is two, Phase E. Phase E builds the initial roadmap from the gaps identified in Phases B, C and D, and decides if an incremental approach with Transition Architectures is required. Phase F then finalizes the roadmap and the Implementation and Migration Plan. It's a classic trap: E is initial, F is final."}, {"q": "Which of the following is the correct order of the Architecture Continuum, from generic to specific?", "o": ["Foundation, Industry, Common Systems, Organization-Specific.", "Common Systems, Foundation, Industry, Organization-Specific.", "Organization-Specific, Industry, Common Systems, Foundation.", "Foundation, Common Systems, Industry, Organization-Specific."], "a": 4, "e": "The answer is four. Foundation, Common Systems, Industry, Organization-Specific. Remember F, C, I, O. Option three lists the same stages, but from specific to generic, so it's the reverse of what the question asks."}, {"q": "Which part of the Architecture Repository contains guidelines, templates and patterns that can be used to accelerate the creation of new architectures?", "o": ["The Standards Library.", "The Governance Log.", "The Reference Library.", "The Architecture Landscape."], "a": 3, "e": "The answer is three, the Reference Library. The Standards Library holds the standards new architectures must comply with. The Governance Log records governance activity such as decisions and dispensations. The Architecture Landscape describes the assets in use or planned at a point in time."}, {"q": "During gap analysis, a building block appears in the Baseline Architecture but not in the Target Architecture. What should the architect do?", "o": ["Check whether it was intentionally eliminated, or accidentally omitted from the target.", "Classify it as new, and plan its development.", "Ignore it, as it is no longer needed.", "Move it to the Standards Library."], "a": 1, "e": "The answer is one. An element present only in the baseline is marked as eliminated, but the architect must verify that this was a deliberate decision. If it was left out by mistake, it is a gap that must be addressed."}, {"q": "Which of the following are the four dimensions used to define the scope of an architecture activity?", "o": ["Strategic, segment, capability, and solution.", "Business, data, application, and technology.", "Breadth, depth, time period, and architecture domains.", "Cost, time, quality, and risk."], "a": 3, "e": "The answer is three. Breadth, depth, time period, and architecture domains. Option two lists the four architecture domains, which is only one of the dimensions. Option one mixes the landscape levels with solution architecture. Option four is project management, not TOGAF scoping."}, {"q": "Which phase is concerned with ensuring that the architecture lifecycle is maintained, and that the Enterprise Architecture Capability meets current requirements?", "o": ["Phase G, Implementation Governance.", "Phase H, Architecture Change Management.", "Requirements Management.", "Preliminary Phase."], "a": 2, "e": "The answer is two, Phase H. Those are exactly the objectives of Architecture Change Management, together with ensuring that the Architecture Governance Framework is executed. Phase G is about conformance of implementation projects, which is a different focus."}, {"q": "What is the difference between a view and a viewpoint?", "o": ["A viewpoint is the specification of the conventions for a kind of view; a view is a representation of a system addressing a set of concerns.", "A view is the specification of the conventions; a viewpoint is what a stakeholder sees.", "They are synonyms in the TOGAF Standard.", "A view applies to business architecture only; a viewpoint applies to technology architecture."], "a": 1, "e": "The answer is one. The viewpoint is the template, where you look from. The view is the actual representation that addresses the concerns of the stakeholders. Option two has them reversed, which is the most common trap."}, {"q": "How is the TOGAF Standard, tenth edition, structured?", "o": ["Into the A D M and the Enterprise Continuum.", "Into the Technical Reference Model and the Integrated Information Infrastructure Reference Model.", "Into the Foundation Architecture and the Industry Architecture.", "Into the TOGAF Fundamental Content and the TOGAF Series Guides."], "a": 4, "e": "The answer is four. The Fundamental Content holds the universal, stable concepts, in six documents. The Series Guides give more specific, practical guidance and can evolve faster."}, {"q": "An implementation implements all the features in the architecture specification, and also some features that are not in accordance with it. What is its level of conformance?", "o": ["Compliant.", "Consistent.", "Fully conformant.", "Conformant."], "a": 4, "e": "The answer is four, conformant. Everything in the specification is done, plus extras outside it. Compliant is the reverse: everything implemented is in the spec, but not all of the spec is implemented. Fully conformant is a perfect match."}, {"q": "Which of the following is not one of the characteristics of architecture governance?", "o": ["Transparency.", "Independence.", "Flexibility.", "Accountability."], "a": 3, "e": "The answer is three, flexibility. The six characteristics of governance are discipline, transparency, independence, accountability, responsibility, and fairness. Flexibility does appear in TOGAF, but as one of the responsibilities of the Architecture Board, not as a governance characteristic."}, {"q": "Which technique is used in Phase A to identify and articulate business requirements, and to derive the characteristics of the architecture directly from them?", "o": ["Business scenarios.", "Gap analysis.", "Interoperability requirements.", "Migration planning techniques."], "a": 1, "e": "The answer is one, business scenarios. Gap analysis is used in Phases B to E to compare baseline and target. Interoperability is mainly considered in Phase E. Migration planning techniques belong to Phases E and F."}, {"q": "According to the principle template, which section highlights the business benefits of adhering to the principle?", "o": ["Name.", "Rationale.", "Statement.", "Implications."], "a": 2, "e": "The answer is two, Rationale. The Statement communicates the rule. The Implications describe the requirements, for business and I T, to carry out the principle, in terms of resources, costs and activities."}, {"q": "A change request is received that requires the architecture to go through the whole architecture development cycle again. How is this change classified in Phase H?", "o": ["A simplification change.", "An incremental change.", "A dispensation.", "A re-architecting change."], "a": 4, "e": "The answer is four, a re-architecting change, which typically starts a new A D M cycle with a new Request for Architecture Work. A simplification change can normally be handled through change management. An incremental change may be handled through change management, if properly managed. A dispensation is a governance mechanism to accept temporary non-compliance, not a type of change."}, {"q": "Which of the following best describes the purpose of Requirements Management in the A D M?", "o": ["It ensures that a dynamic requirements process is sustained and operates for all relevant A D M phases.", "It is a static process, executed once before the A D M cycle starts.", "It is performed only in Phase B, to capture business requirements.", "It mandates a specific requirements management tool."], "a": 1, "e": "The answer is one. Requirements Management sits at the centre of the A D M and is continuous and dynamic: requirements are identified, stored and fed into every phase. TOGAF does not mandate any specific tool or process, so option four is wrong."}, {"q": "Which level of the Architecture Landscape provides a summary, long term view of the entire enterprise, used for direction setting at the executive level?", "o": ["Capability Architecture.", "Segment Architecture.", "Strategic Architecture.", "Solution Architecture."], "a": 3, "e": "The answer is three, Strategic Architecture. Segment Architecture covers an area of the enterprise, such as a portfolio or program. Capability Architecture is the most detailed, for a specific unit of capability at project level."}, {"q": "Which of the following is a key purpose of Phase F, Migration Planning?", "o": ["To develop the Target Technology Architecture.", "To ensure the Implementation and Migration Plan is coordinated with the enterprise's approach to managing and implementing change in its overall change portfolio.", "To conduct architecture compliance reviews of implementation projects.", "To obtain approval for the Statement of Architecture Work."], "a": 2, "e": "The answer is two. Phase F finalizes the Architecture Roadmap and the Implementation and Migration Plan, aligns them with the enterprise's change portfolio, and ensures stakeholders understand the business value and cost of the work packages. Option one is Phase D, option three is Phase G, and option four is Phase A."}];
-const CLIPS = {"confirm1": "audio/drill/togaf-foundation/confirm1.mp3", "confirm2": "audio/drill/togaf-foundation/confirm2.mp3", "confirm3": "audio/drill/togaf-foundation/confirm3.mp3", "confirm4": "audio/drill/togaf-foundation/confirm4.mp3", "correct": "audio/drill/togaf-foundation/correct.mp3", "e0": "audio/drill/togaf-foundation/e0.mp3", "e1": "audio/drill/togaf-foundation/e1.mp3", "e10": "audio/drill/togaf-foundation/e10.mp3", "e11": "audio/drill/togaf-foundation/e11.mp3", "e12": "audio/drill/togaf-foundation/e12.mp3", "e13": "audio/drill/togaf-foundation/e13.mp3", "e14": "audio/drill/togaf-foundation/e14.mp3", "e15": "audio/drill/togaf-foundation/e15.mp3", "e16": "audio/drill/togaf-foundation/e16.mp3", "e17": "audio/drill/togaf-foundation/e17.mp3", "e18": "audio/drill/togaf-foundation/e18.mp3", "e19": "audio/drill/togaf-foundation/e19.mp3", "e2": "audio/drill/togaf-foundation/e2.mp3", "e3": "audio/drill/togaf-foundation/e3.mp3", "e4": "audio/drill/togaf-foundation/e4.mp3", "e5": "audio/drill/togaf-foundation/e5.mp3", "e6": "audio/drill/togaf-foundation/e6.mp3", "e7": "audio/drill/togaf-foundation/e7.mp3", "e8": "audio/drill/togaf-foundation/e8.mp3", "e9": "audio/drill/togaf-foundation/e9.mp3", "end": "audio/drill/togaf-foundation/end.mp3", "intro": "audio/drill/togaf-foundation/intro.mp3", "intro_buttons": "audio/drill/togaf-foundation/intro_buttons.mp3", "o0_1": "audio/drill/togaf-foundation/o0_1.mp3", "o0_2": "audio/drill/togaf-foundation/o0_2.mp3", "o0_3": "audio/drill/togaf-foundation/o0_3.mp3", "o0_4": "audio/drill/togaf-foundation/o0_4.mp3", "o10_1": "audio/drill/togaf-foundation/o10_1.mp3", "o10_2": "audio/drill/togaf-foundation/o10_2.mp3", "o10_3": "audio/drill/togaf-foundation/o10_3.mp3", "o10_4": "audio/drill/togaf-foundation/o10_4.mp3", "o11_1": "audio/drill/togaf-foundation/o11_1.mp3", "o11_2": "audio/drill/togaf-foundation/o11_2.mp3", "o11_3": "audio/drill/togaf-foundation/o11_3.mp3", "o11_4": "audio/drill/togaf-foundation/o11_4.mp3", "o12_1": "audio/drill/togaf-foundation/o12_1.mp3", "o12_2": "audio/drill/togaf-foundation/o12_2.mp3", "o12_3": "audio/drill/togaf-foundation/o12_3.mp3", "o12_4": "audio/drill/togaf-foundation/o12_4.mp3", "o13_1": "audio/drill/togaf-foundation/o13_1.mp3", "o13_2": "audio/drill/togaf-foundation/o13_2.mp3", "o13_3": "audio/drill/togaf-foundation/o13_3.mp3", "o13_4": "audio/drill/togaf-foundation/o13_4.mp3", "o14_1": "audio/drill/togaf-foundation/o14_1.mp3", "o14_2": "audio/drill/togaf-foundation/o14_2.mp3", "o14_3": "audio/drill/togaf-foundation/o14_3.mp3", "o14_4": "audio/drill/togaf-foundation/o14_4.mp3", "o15_1": "audio/drill/togaf-foundation/o15_1.mp3", "o15_2": "audio/drill/togaf-foundation/o15_2.mp3", "o15_3": "audio/drill/togaf-foundation/o15_3.mp3", "o15_4": "audio/drill/togaf-foundation/o15_4.mp3", "o16_1": "audio/drill/togaf-foundation/o16_1.mp3", "o16_2": "audio/drill/togaf-foundation/o16_2.mp3", "o16_3": "audio/drill/togaf-foundation/o16_3.mp3", "o16_4": "audio/drill/togaf-foundation/o16_4.mp3", "o17_1": "audio/drill/togaf-foundation/o17_1.mp3", "o17_2": "audio/drill/togaf-foundation/o17_2.mp3", "o17_3": "audio/drill/togaf-foundation/o17_3.mp3", "o17_4": "audio/drill/togaf-foundation/o17_4.mp3", "o18_1": "audio/drill/togaf-foundation/o18_1.mp3", "o18_2": "audio/drill/togaf-foundation/o18_2.mp3", "o18_3": "audio/drill/togaf-foundation/o18_3.mp3", "o18_4": "audio/drill/togaf-foundation/o18_4.mp3", "o19_1": "audio/drill/togaf-foundation/o19_1.mp3", "o19_2": "audio/drill/togaf-foundation/o19_2.mp3", "o19_3": "audio/drill/togaf-foundation/o19_3.mp3", "o19_4": "audio/drill/togaf-foundation/o19_4.mp3", "o1_1": "audio/drill/togaf-foundation/o1_1.mp3", "o1_2": "audio/drill/togaf-foundation/o1_2.mp3", "o1_3": "audio/drill/togaf-foundation/o1_3.mp3", "o1_4": "audio/drill/togaf-foundation/o1_4.mp3", "o2_1": "audio/drill/togaf-foundation/o2_1.mp3", "o2_2": "audio/drill/togaf-foundation/o2_2.mp3", "o2_3": "audio/drill/togaf-foundation/o2_3.mp3", "o2_4": "audio/drill/togaf-foundation/o2_4.mp3", "o3_1": "audio/drill/togaf-foundation/o3_1.mp3", "o3_2": "audio/drill/togaf-foundation/o3_2.mp3", "o3_3": "audio/drill/togaf-foundation/o3_3.mp3", "o3_4": "audio/drill/togaf-foundation/o3_4.mp3", "o4_1": "audio/drill/togaf-foundation/o4_1.mp3", "o4_2": "audio/drill/togaf-foundation/o4_2.mp3", "o4_3": "audio/drill/togaf-foundation/o4_3.mp3", "o4_4": "audio/drill/togaf-foundation/o4_4.mp3", "o5_1": "audio/drill/togaf-foundation/o5_1.mp3", "o5_2": "audio/drill/togaf-foundation/o5_2.mp3", "o5_3": "audio/drill/togaf-foundation/o5_3.mp3", "o5_4": "audio/drill/togaf-foundation/o5_4.mp3", "o6_1": "audio/drill/togaf-foundation/o6_1.mp3", "o6_2": "audio/drill/togaf-foundation/o6_2.mp3", "o6_3": "audio/drill/togaf-foundation/o6_3.mp3", "o6_4": "audio/drill/togaf-foundation/o6_4.mp3", "o7_1": "audio/drill/togaf-foundation/o7_1.mp3", "o7_2": "audio/drill/togaf-foundation/o7_2.mp3", "o7_3": "audio/drill/togaf-foundation/o7_3.mp3", "o7_4": "audio/drill/togaf-foundation/o7_4.mp3", "o8_1": "audio/drill/togaf-foundation/o8_1.mp3", "o8_2": "audio/drill/togaf-foundation/o8_2.mp3", "o8_3": "audio/drill/togaf-foundation/o8_3.mp3", "o8_4": "audio/drill/togaf-foundation/o8_4.mp3", "o9_1": "audio/drill/togaf-foundation/o9_1.mp3", "o9_2": "audio/drill/togaf-foundation/o9_2.mp3", "o9_3": "audio/drill/togaf-foundation/o9_3.mp3", "o9_4": "audio/drill/togaf-foundation/o9_4.mp3", "q0": "audio/drill/togaf-foundation/q0.mp3", "q1": "audio/drill/togaf-foundation/q1.mp3", "q10": "audio/drill/togaf-foundation/q10.mp3", "q11": "audio/drill/togaf-foundation/q11.mp3", "q12": "audio/drill/togaf-foundation/q12.mp3", "q13": "audio/drill/togaf-foundation/q13.mp3", "q14": "audio/drill/togaf-foundation/q14.mp3", "q15": "audio/drill/togaf-foundation/q15.mp3", "q16": "audio/drill/togaf-foundation/q16.mp3", "q17": "audio/drill/togaf-foundation/q17.mp3", "q18": "audio/drill/togaf-foundation/q18.mp3", "q19": "audio/drill/togaf-foundation/q19.mp3", "q2": "audio/drill/togaf-foundation/q2.mp3", "q3": "audio/drill/togaf-foundation/q3.mp3", "q4": "audio/drill/togaf-foundation/q4.mp3", "q5": "audio/drill/togaf-foundation/q5.mp3", "q6": "audio/drill/togaf-foundation/q6.mp3", "q7": "audio/drill/togaf-foundation/q7.mp3", "q8": "audio/drill/togaf-foundation/q8.mp3", "q9": "audio/drill/togaf-foundation/q9.mp3", "reprompt": "audio/drill/togaf-foundation/reprompt.mp3", "rescan": "audio/drill/togaf-foundation/rescan.mp3", "review": "audio/drill/togaf-foundation/review.mp3", "s0": "audio/drill/togaf-foundation/s0.mp3", "s1": "audio/drill/togaf-foundation/s1.mp3", "s10": "audio/drill/togaf-foundation/s10.mp3", "s11": "audio/drill/togaf-foundation/s11.mp3", "s12": "audio/drill/togaf-foundation/s12.mp3", "s13": "audio/drill/togaf-foundation/s13.mp3", "s14": "audio/drill/togaf-foundation/s14.mp3", "s15": "audio/drill/togaf-foundation/s15.mp3", "s16": "audio/drill/togaf-foundation/s16.mp3", "s17": "audio/drill/togaf-foundation/s17.mp3", "s18": "audio/drill/togaf-foundation/s18.mp3", "s19": "audio/drill/togaf-foundation/s19.mp3", "s2": "audio/drill/togaf-foundation/s2.mp3", "s3": "audio/drill/togaf-foundation/s3.mp3", "s4": "audio/drill/togaf-foundation/s4.mp3", "s5": "audio/drill/togaf-foundation/s5.mp3", "s6": "audio/drill/togaf-foundation/s6.mp3", "s7": "audio/drill/togaf-foundation/s7.mp3", "s8": "audio/drill/togaf-foundation/s8.mp3", "s9": "audio/drill/togaf-foundation/s9.mp3", "score0": "audio/drill/togaf-foundation/score0.mp3", "score1": "audio/drill/togaf-foundation/score1.mp3", "score10": "audio/drill/togaf-foundation/score10.mp3", "score11": "audio/drill/togaf-foundation/score11.mp3", "score12": "audio/drill/togaf-foundation/score12.mp3", "score13": "audio/drill/togaf-foundation/score13.mp3", "score14": "audio/drill/togaf-foundation/score14.mp3", "score15": "audio/drill/togaf-foundation/score15.mp3", "score16": "audio/drill/togaf-foundation/score16.mp3", "score17": "audio/drill/togaf-foundation/score17.mp3", "score18": "audio/drill/togaf-foundation/score18.mp3", "score19": "audio/drill/togaf-foundation/score19.mp3", "score2": "audio/drill/togaf-foundation/score2.mp3", "score20": "audio/drill/togaf-foundation/score20.mp3", "score3": "audio/drill/togaf-foundation/score3.mp3", "score4": "audio/drill/togaf-foundation/score4.mp3", "score5": "audio/drill/togaf-foundation/score5.mp3", "score6": "audio/drill/togaf-foundation/score6.mp3", "score7": "audio/drill/togaf-foundation/score7.mp3", "score8": "audio/drill/togaf-foundation/score8.mp3", "score9": "audio/drill/togaf-foundation/score9.mp3", "wrong": "audio/drill/togaf-foundation/wrong.mp3"};
+const QS = [{"id": "ep9-1", "topic": "phases", "q": "Which of the following best describes the purpose of the Preliminary Phase?", "o": ["To develop a high level vision of the business value to be delivered.", "To prepare the organization for successful architecture work, by determining and establishing the Architecture Capability.", "To ensure conformance of implementation projects with the target architecture.", "To finalize the Architecture Roadmap."], "a": 2, "e": "The answer is two. The Preliminary Phase determines the Architecture Capability desired by the organization and establishes it. Option one describes Phase A, option three describes Phase G, and option four describes Phase F."}, {"id": "ep9-2", "topic": "terminology", "q": "Which of the following is a qualitative statement of intent that should be met by the architecture?", "o": ["An architecture requirement.", "A constraint.", "An architecture principle.", "An assumption."], "a": 3, "e": "The answer is three, an architecture principle. A requirement is a statement of need that must be met. A constraint is an external factor that prevents certain approaches. An assumption is a statement of probable fact not yet fully validated."}, {"id": "ep9-3", "topic": "phases", "q": "In which phase of the A D M is the Statement of Architecture Work approved?", "o": ["Phase A, Architecture Vision.", "Preliminary Phase.", "Phase B, Business Architecture.", "Phase E, Opportunities and Solutions."], "a": 1, "e": "The answer is one, Phase A. Phase A is triggered by the Request for Architecture Work, and ends with the approval of the Statement of Architecture Work, which defines the scope and approach of the architecture project."}, {"id": "ep9-4", "topic": "content", "q": "Which of the following correctly describes a Solution Building Block?", "o": ["It captures architecture requirements and is independent of products.", "It is a contractually specified work product signed off by stakeholders.", "It is a list of building blocks of a specific type.", "It is a candidate solution that conforms to the specification of an Architecture Building Block, and is product or vendor aware."], "a": 4, "e": "The answer is four. Option one describes an Architecture Building Block. Option three describes a catalog, which is a type of artifact. Option two describes a deliverable."}, {"id": "ep9-5", "topic": "phases", "q": "Which phase generates the initial complete version of the Architecture Roadmap, and determines whether Transition Architectures are needed?", "o": ["Phase D, Technology Architecture.", "Phase E, Opportunities and Solutions.", "Phase F, Migration Planning.", "Phase G, Implementation Governance."], "a": 2, "e": "The answer is two, Phase E. Phase E builds the initial roadmap from the gaps identified in Phases B, C and D, and decides if an incremental approach with Transition Architectures is required. Phase F then finalizes the roadmap and the Implementation and Migration Plan. It's a classic trap: E is initial, F is final."}, {"id": "ep9-6", "topic": "continuum", "q": "Which of the following is the correct order of the Architecture Continuum, from generic to specific?", "o": ["Foundation, Industry, Common Systems, Organization-Specific.", "Common Systems, Foundation, Industry, Organization-Specific.", "Organization-Specific, Industry, Common Systems, Foundation.", "Foundation, Common Systems, Industry, Organization-Specific."], "a": 4, "e": "The answer is four. Foundation, Common Systems, Industry, Organization-Specific. Remember F, C, I, O. Option three lists the same stages, but from specific to generic, so it's the reverse of what the question asks."}, {"id": "ep9-7", "topic": "continuum", "q": "Which part of the Architecture Repository contains guidelines, templates and patterns that can be used to accelerate the creation of new architectures?", "o": ["The Standards Library.", "The Governance Log.", "The Reference Library.", "The Architecture Landscape."], "a": 3, "e": "The answer is three, the Reference Library. The Standards Library holds the standards new architectures must comply with. The Governance Log records governance activity such as decisions and dispensations. The Architecture Landscape describes the assets in use or planned at a point in time."}, {"id": "ep9-8", "topic": "techniques", "q": "During gap analysis, a building block appears in the Baseline Architecture but not in the Target Architecture. What should the architect do?", "o": ["Check whether it was intentionally eliminated, or accidentally omitted from the target.", "Classify it as new, and plan its development.", "Ignore it, as it is no longer needed.", "Move it to the Standards Library."], "a": 1, "e": "The answer is one. An element present only in the baseline is marked as eliminated, but the architect must verify that this was a deliberate decision. If it was left out by mistake, it is a gap that must be addressed."}, {"id": "ep9-9", "topic": "adm", "q": "Which of the following are the four dimensions used to define the scope of an architecture activity?", "o": ["Strategic, segment, capability, and solution.", "Business, data, application, and technology.", "Breadth, depth, time period, and architecture domains.", "Cost, time, quality, and risk."], "a": 3, "e": "The answer is three. Breadth, depth, time period, and architecture domains. Option two lists the four architecture domains, which is only one of the dimensions. Option one mixes the landscape levels with solution architecture. Option four is project management, not TOGAF scoping."}, {"id": "ep9-10", "topic": "phases", "q": "Which phase is concerned with ensuring that the architecture lifecycle is maintained, and that the Enterprise Architecture Capability meets current requirements?", "o": ["Phase G, Implementation Governance.", "Phase H, Architecture Change Management.", "Requirements Management.", "Preliminary Phase."], "a": 2, "e": "The answer is two, Phase H. Those are exactly the objectives of Architecture Change Management, together with ensuring that the Architecture Governance Framework is executed. Phase G is about conformance of implementation projects, which is a different focus."}, {"id": "ep10-1", "topic": "terminology", "q": "What is the difference between a view and a viewpoint?", "o": ["A viewpoint is the specification of the conventions for a kind of view; a view is a representation of a system addressing a set of concerns.", "A view is the specification of the conventions; a viewpoint is what a stakeholder sees.", "They are synonyms in the TOGAF Standard.", "A view applies to business architecture only; a viewpoint applies to technology architecture."], "a": 1, "e": "The answer is one. The viewpoint is the template, where you look from. The view is the actual representation that addresses the concerns of the stakeholders. Option two has them reversed, which is the most common trap."}, {"id": "ep10-2", "topic": "concepts", "q": "How is the TOGAF Standard, tenth edition, structured?", "o": ["Into the A D M and the Enterprise Continuum.", "Into the Technical Reference Model and the Integrated Information Infrastructure Reference Model.", "Into the Foundation Architecture and the Industry Architecture.", "Into the TOGAF Fundamental Content and the TOGAF Series Guides."], "a": 4, "e": "The answer is four. The Fundamental Content holds the universal, stable concepts, in six documents. The Series Guides give more specific, practical guidance and can evolve faster."}, {"id": "ep10-3", "topic": "governance", "q": "An implementation implements all the features in the architecture specification, and also some features that are not in accordance with it. What is its level of conformance?", "o": ["Compliant.", "Consistent.", "Fully conformant.", "Conformant."], "a": 4, "e": "The answer is four, conformant. Everything in the specification is done, plus extras outside it. Compliant is the reverse: everything implemented is in the spec, but not all of the spec is implemented. Fully conformant is a perfect match."}, {"id": "ep10-4", "topic": "governance", "q": "Which of the following is not one of the characteristics of architecture governance?", "o": ["Transparency.", "Independence.", "Flexibility.", "Accountability."], "a": 3, "e": "The answer is three, flexibility. The six characteristics of governance are discipline, transparency, independence, accountability, responsibility, and fairness. Flexibility does appear in TOGAF, but as one of the responsibilities of the Architecture Board, not as a governance characteristic."}, {"id": "ep10-5", "topic": "techniques", "q": "Which technique is used in Phase A to identify and articulate business requirements, and to derive the characteristics of the architecture directly from them?", "o": ["Business scenarios.", "Gap analysis.", "Interoperability requirements.", "Migration planning techniques."], "a": 1, "e": "The answer is one, business scenarios. Gap analysis is used in Phases B to E to compare baseline and target. Interoperability is mainly considered in Phase E. Migration planning techniques belong to Phases E and F."}, {"id": "ep10-6", "topic": "techniques", "q": "According to the principle template, which section highlights the business benefits of adhering to the principle?", "o": ["Name.", "Rationale.", "Statement.", "Implications."], "a": 2, "e": "The answer is two, Rationale. The Statement communicates the rule. The Implications describe the requirements, for business and I T, to carry out the principle, in terms of resources, costs and activities."}, {"id": "ep10-7", "topic": "phases", "q": "A change request is received that requires the architecture to go through the whole architecture development cycle again. How is this change classified in Phase H?", "o": ["A simplification change.", "An incremental change.", "A dispensation.", "A re-architecting change."], "a": 4, "e": "The answer is four, a re-architecting change, which typically starts a new A D M cycle with a new Request for Architecture Work. A simplification change can normally be handled through change management. An incremental change may be handled through change management, if properly managed. A dispensation is a governance mechanism to accept temporary non-compliance, not a type of change."}, {"id": "ep10-8", "topic": "requirements", "q": "Which of the following best describes the purpose of Requirements Management in the A D M?", "o": ["It ensures that a dynamic requirements process is sustained and operates for all relevant A D M phases.", "It is a static process, executed once before the A D M cycle starts.", "It is performed only in Phase B, to capture business requirements.", "It mandates a specific requirements management tool."], "a": 1, "e": "The answer is one. Requirements Management sits at the centre of the A D M and is continuous and dynamic: requirements are identified, stored and fed into every phase. TOGAF does not mandate any specific tool or process, so option four is wrong."}, {"id": "ep10-9", "topic": "concepts", "q": "Which level of the Architecture Landscape provides a summary, long term view of the entire enterprise, used for direction setting at the executive level?", "o": ["Capability Architecture.", "Segment Architecture.", "Strategic Architecture.", "Solution Architecture."], "a": 3, "e": "The answer is three, Strategic Architecture. Segment Architecture covers an area of the enterprise, such as a portfolio or program. Capability Architecture is the most detailed, for a specific unit of capability at project level."}, {"id": "ep10-10", "topic": "phases", "q": "Which of the following is a key purpose of Phase F, Migration Planning?", "o": ["To develop the Target Technology Architecture.", "To ensure the Implementation and Migration Plan is coordinated with the enterprise's approach to managing and implementing change in its overall change portfolio.", "To conduct architecture compliance reviews of implementation projects.", "To obtain approval for the Statement of Architecture Work."], "a": 2, "e": "The answer is two. Phase F finalizes the Architecture Roadmap and the Implementation and Migration Plan, aligns them with the enterprise's change portfolio, and ensures stakeholders understand the business value and cost of the work packages. Option one is Phase D, option three is Phase G, and option four is Phase A."}, {"id": "pool1-1", "topic": "concepts", "q": "Which of the following best describes the term \"enterprise\" in the TOGAF Standard?", "o": ["A single legal entity registered as a company.", "The highest level of description of an organization, typically covering all missions and functions, and possibly spanning multiple organizations.", "The IT department and the systems it operates.", "The set of business applications used by an organization."], "a": 2, "e": "The answer is two. In TOGAF, the enterprise is whatever scope you choose to architect, up to the highest level of description of an organization. It can span several organizations, so it is not limited to one legal entity, nor to IT."}, {"id": "pool1-2", "topic": "concepts", "q": "Which four architecture domains does the TOGAF Standard consider as subsets of an overall Enterprise Architecture?", "o": ["Business, Information, Security, and Technology.", "Strategy, Business, Application, and Infrastructure.", "Business, Data, Application, and Technology.", "Business, Data, Integration, and Technology."], "a": 3, "e": "The answer is three. Business, Data, Application, and Technology are the four architecture domains. Security and integration are concerns that cut across them, not domains of their own."}, {"id": "pool1-3", "topic": "concepts", "q": "Which two architecture domains together make up the Information Systems Architectures?", "o": ["Data and Application.", "Application and Technology.", "Data and Technology.", "Business and Data."], "a": 1, "e": "The answer is one. The Information Systems Architectures are the Data and Application Architectures, developed in Phase C of the A D M."}, {"id": "pool1-4", "topic": "concepts", "q": "Which part of the TOGAF Standard, tenth edition, gives more specific guidance on particular topics, and is expected to evolve more frequently?", "o": ["The Architecture Content document.", "The TOGAF Fundamental Content.", "The Architecture Development Method.", "The TOGAF Series Guides."], "a": 4, "e": "The answer is four. The Series Guides give guidance on specific topics, such as agile, value streams or security, and can change more often than the stable Fundamental Content."}, {"id": "pool1-5", "topic": "terminology", "q": "What is the TOGAF term for an individual, team, organization, or class thereof, having an interest in a system?", "o": ["A concern.", "A stakeholder.", "An actor.", "A sponsor."], "a": 2, "e": "The answer is two. A stakeholder has an interest in a system. A concern is the interest itself, an actor performs activities, and a sponsor is one specific kind of stakeholder."}, {"id": "pool1-6", "topic": "terminology", "q": "What is a gap, in TOGAF terms?", "o": ["An external factor that prevents an organization from pursuing a particular approach.", "An unresolved stakeholder concern.", "A statement of need that must be met by an architecture.", "A statement of difference between two states."], "a": 4, "e": "The answer is four. A gap is a statement of difference between two states, typically between the Baseline and the Target. Option one describes a constraint, and option three describes a requirement."}, {"id": "pool1-7", "topic": "terminology", "q": "Which term describes a formal description of one state of the architecture at an architecturally significant point in time?", "o": ["Baseline Architecture.", "Target Architecture.", "Transition Architecture.", "Segment Architecture."], "a": 3, "e": "The answer is three. A Transition Architecture describes an intermediate state between the Baseline and the Target. Transition Architectures are identified in Phase E when the change has to be delivered in increments."}, {"id": "pool1-8", "topic": "terminology", "q": "Which term does TOGAF use for an ability that an organization, person, or system possesses?", "o": ["A capability.", "A function.", "A service.", "A value stream."], "a": 1, "e": "The answer is one. A capability is an ability that an organization, person, or system possesses. Capabilities describe what the business can do, not how it does it."}, {"id": "pool1-9", "topic": "adm", "q": "Which of the following is not one of the four groups of iteration cycles described for the A D M?", "o": ["Architecture Context.", "Transition Planning.", "Architecture Implementation.", "Architecture Governance."], "a": 3, "e": "The answer is three. The four groups are Architecture Context, Architecture Definition, Transition Planning, and Architecture Governance. There is no Architecture Implementation iteration cycle."}, {"id": "pool1-10", "topic": "adm", "q": "When the current state is complex, poorly understood, or not agreed, which approach to architecture definition is usually appropriate?", "o": ["Target first, ignoring the baseline.", "Baseline first.", "Skip the baseline and go straight to the roadmap.", "Gap analysis before describing either state."], "a": 2, "e": "The answer is two. Working baseline first helps when the current state is complex or not agreed. Target first is useful when the baseline is well known, or when you want to avoid being anchored to current solutions."}, {"id": "pool1-11", "topic": "adm", "q": "At the end of Phase A, the Architecture Definition Document is at version zero point one. What does this version number indicate?", "o": ["That it is a high-level, draft version, to be developed in later phases.", "That the document has been rejected by stakeholders.", "That the document has been formally approved.", "That it is the final version used for implementation."], "a": 1, "e": "The answer is one. TOGAF suggests that version zero point something marks a high-level draft, typically produced in Phase A. Version one point zero marks the full, approved version, typically completed in the architecture definition phases."}, {"id": "pool1-12", "topic": "phases", "q": "Which of the following is an output of the Preliminary Phase?", "o": ["The Architecture Contract.", "The Implementation and Migration Plan.", "The Compliance Assessment.", "The Tailored Architecture Framework."], "a": 4, "e": "The answer is four. The Preliminary Phase produces the Tailored Architecture Framework, along with the Organizational Model for Enterprise Architecture and the Architecture Principles. The other options belong to Phases E, F and G."}, {"id": "pool1-13", "topic": "phases", "q": "In which phase is the Business Transformation Readiness Assessment first carried out?", "o": ["Phase H, Architecture Change Management.", "The Preliminary Phase.", "Phase G, Implementation Governance.", "Phase A, Architecture Vision."], "a": 4, "e": "The answer is four. The readiness assessment is done in Phase A, and its results are refined in Phases E and F, where they inform implementation and migration planning."}, {"id": "pool1-14", "topic": "phases", "q": "Which phase develops the Target Business Architecture, describing how the enterprise needs to operate to achieve its business goals?", "o": ["Phase A, Architecture Vision.", "Phase C, Information Systems Architectures.", "Phase B, Business Architecture.", "Phase E, Opportunities and Solutions."], "a": 3, "e": "The answer is three. Phase B develops the Target Business Architecture and identifies candidate roadmap components from the gaps between the Baseline and Target Business Architectures."}, {"id": "pool1-15", "topic": "phases", "q": "Which statement about Phase C is correct?", "o": ["It covers both the Data and the Application Architectures, which may be developed in either order or together.", "It covers the Technology Architecture.", "It covers only the Data Architecture.", "It requires the Application Architecture to be completed before any data work starts."], "a": 1, "e": "The answer is one. Phase C covers the Information Systems Architectures, meaning Data and Application. TOGAF allows them to be developed in either order, or in parallel."}, {"id": "pool1-16", "topic": "phases", "q": "Which phase has the objective of developing the Target Technology Architecture that enables the logical and physical application and data components?", "o": ["Phase B.", "Phase D.", "Phase C.", "Phase E."], "a": 2, "e": "The answer is two. Phase D, Technology Architecture, develops the Target Technology Architecture and identifies candidate roadmap components based on the technology gaps."}, {"id": "pool1-17", "topic": "phases", "q": "Which phase is the first to be directly concerned with how the target architecture will be implemented?", "o": ["Phase D, Technology Architecture.", "Phase H, Architecture Change Management.", "Phase G, Implementation Governance.", "Phase E, Opportunities and Solutions."], "a": 4, "e": "The answer is four. Phase E is the first phase directly concerned with implementation. It consolidates the gaps, identifies work packages and Transition Architectures, and produces the initial Architecture Roadmap."}, {"id": "pool1-18", "topic": "phases", "q": "Which deliverable is central to Phase G, as a joint agreement between development partners and sponsors on the deliverables, quality, and fitness for purpose of an architecture?", "o": ["The Architecture Contract.", "The Statement of Architecture Work.", "The Request for Architecture Work.", "The Architecture Vision."], "a": 1, "e": "The answer is one. The Architecture Contract is the key governance instrument in Phase G. The Request for Architecture Work and the Statement of Architecture Work belong to the start of the cycle."}, {"id": "pool1-19", "topic": "phases", "q": "Which phase has the objective of ensuring conformance with the Target Architecture by implementation projects?", "o": ["Phase F, Migration Planning.", "Phase H, Architecture Change Management.", "Phase G, Implementation Governance.", "Requirements Management."], "a": 3, "e": "The answer is three. Phase G ensures that implementation projects conform to the Target Architecture, and performs governance functions for the solution and any implementation-driven change requests."}, {"id": "pool1-20", "topic": "requirements", "q": "Where does TOGAF place the authorized architecture requirements agreed with the Architecture Board?", "o": ["In the Governance Log.", "In the Architecture Requirements Repository.", "In the Reference Library.", "In the Standards Library."], "a": 2, "e": "The answer is two. The Architecture Requirements Repository, part of the Architecture Repository, holds all authorized architecture requirements. The Governance Log records governance activity, and the libraries hold standards and reference material."}, {"id": "pool1-21", "topic": "content", "q": "Which type of work product is contractually specified, and formally reviewed, agreed, and signed off by the stakeholders?", "o": ["An artifact.", "A deliverable.", "A building block.", "A catalog."], "a": 2, "e": "The answer is two. A deliverable is contractually specified and signed off. Artifacts are more granular work products, usually contained in deliverables, and a catalog is one kind of artifact."}, {"id": "pool1-22", "topic": "content", "q": "How are architecture artifacts generally classified in the TOGAF Standard?", "o": ["Views, viewpoints, and models.", "Deliverables, artifacts, and building blocks.", "Catalogs, matrices, and diagrams.", "Lists, tables, and charts."], "a": 3, "e": "The answer is three. Catalogs are lists of building blocks, matrices show relationships between them, and diagrams present them visually. Deliverables, artifacts and building blocks are the three categories of work product, not kinds of artifact."}, {"id": "pool1-23", "topic": "content", "q": "Which statement about Architecture Building Blocks is correct?", "o": ["They capture architecture requirements and direct and guide the development of Solution Building Blocks.", "They are specific vendor products.", "They are always formal deliverables.", "They describe only the physical implementation."], "a": 1, "e": "The answer is one. Architecture Building Blocks describe required capability and shape the specification of Solution Building Blocks. Solution Building Blocks are the product- or vendor-aware ones."}, {"id": "pool1-24", "topic": "continuum", "q": "The Enterprise Continuum is made up of which two complementary concepts?", "o": ["The Architecture Repository and the Standards Library.", "The Baseline Architecture and the Target Architecture.", "Foundation Architectures and Industry Architectures.", "The Architecture Continuum and the Solutions Continuum."], "a": 4, "e": "The answer is four. The Enterprise Continuum consists of the Architecture Continuum and the Solutions Continuum. The Architecture Continuum guides the Solutions Continuum, and the Solutions Continuum realizes it."}, {"id": "pool1-25", "topic": "continuum", "q": "Which part of the Architecture Repository is the architectural representation of assets in use, or planned, by the enterprise at particular points in time?", "o": ["The Reference Library.", "The Architecture Landscape.", "The Governance Log.", "The Architecture Metamodel."], "a": 2, "e": "The answer is two. The Architecture Landscape shows the enterprise's assets at particular points in time, at strategic, segment and capability levels."}, {"id": "pool1-26", "topic": "techniques", "q": "Using the power and interest grid, how should you manage a stakeholder with high power but low interest?", "o": ["Manage closely, as a key player.", "Keep informed.", "Monitor with minimal effort.", "Keep satisfied."], "a": 4, "e": "The answer is four. High power and low interest means keep satisfied. Key players have high power and high interest, and stakeholders with low power and high interest should be kept informed."}, {"id": "pool1-27", "topic": "techniques", "q": "In TOGAF risk management, what is the risk that remains after mitigating actions have been implemented?", "o": ["Initial risk.", "Inherent risk.", "Residual risk.", "Transition risk."], "a": 3, "e": "The answer is three. Residual risk is what remains after mitigation. Initial risk is the risk before any mitigating actions are determined and implemented."}, {"id": "pool1-28", "topic": "techniques", "q": "Which of the following is not one of the criteria TOGAF gives for a good set of architecture principles?", "o": ["Profitable.", "Robust.", "Complete.", "Understandable."], "a": 1, "e": "The answer is one. The five criteria are understandable, robust, complete, consistent, and stable. Profitability is not one of them."}, {"id": "pool1-29", "topic": "governance", "q": "Which body typically enforces architecture compliance and grants dispensations?", "o": ["The implementation team.", "The Project Management Office.", "The Architecture Board.", "The Change Advisory Board."], "a": 3, "e": "The answer is three. The Architecture Board oversees the architecture governance strategy. Its responsibilities include enforcing compliance, resolving escalated conflicts, and granting dispensations."}, {"id": "pool1-30", "topic": "governance", "q": "Some features in the architecture specification are not implemented, but all the features that are implemented are covered by the specification and in accordance with it. What is the conformance level?", "o": ["Consistent.", "Compliant.", "Conformant.", "Fully conformant."], "a": 2, "e": "The answer is two. That is the definition of compliant. Conformant is the reverse case: everything in the specification is implemented, plus some extra features that are not in accordance with it."}, {"id": "pool2-1", "topic": "concepts", "q": "Which statement best describes the purpose of Enterprise Architecture according to the TOGAF Standard?", "o": ["To describe the structure and behavior of the enterprise so that it can be changed in a controlled way.", "To select IT products for the enterprise.", "To replace project and portfolio management.", "To document existing IT systems only."], "a": 1, "e": "The answer is one. Enterprise Architecture describes the enterprise so that change can be controlled, balancing business transformation with continuous operational efficiency. It works with project and portfolio management rather than replacing them."}, {"id": "pool2-2", "topic": "concepts", "q": "Which level of the Architecture Landscape is the most detailed, and is typically used at project level?", "o": ["Strategic Architecture.", "Segment Architecture.", "Enterprise Architecture.", "Capability Architecture."], "a": 4, "e": "The answer is four. Capability Architecture is the most detailed level, describing how the enterprise can support a particular unit of capability. Strategic is the widest, summary view, and Segment sits between them."}, {"id": "pool2-3", "topic": "concepts", "q": "Which document of the TOGAF Fundamental Content describes techniques such as gap analysis, stakeholder management, and business scenarios?", "o": ["Architecture Content.", "Applying the A D M.", "Enterprise Architecture Capability and Governance.", "A D M Techniques."], "a": 4, "e": "The answer is four. The A D M Techniques document describes the techniques that support the A D M, including principles, stakeholder management, gap analysis, business scenarios, risk management and migration planning techniques."}, {"id": "pool2-4", "topic": "terminology", "q": "What is the TOGAF term for an interest in a system relevant to one or more of its stakeholders?", "o": ["A principle.", "A requirement.", "A concern.", "A constraint."], "a": 3, "e": "The answer is three. Stakeholders have concerns, such as performance, security or cost. Architecture views are created to address those concerns."}, {"id": "pool2-5", "topic": "terminology", "q": "What is the TOGAF term for a statement of probable fact that has not been fully validated at this stage, due to external constraints?", "o": ["An assumption.", "A principle.", "A constraint.", "A requirement."], "a": 1, "e": "The answer is one. An assumption is a probable fact not yet fully validated. A constraint is an external factor that prevents an organization from pursuing particular approaches."}, {"id": "pool2-6", "topic": "terminology", "q": "Which term describes a specification that has been formally reviewed and agreed upon, and that serves as the basis for further development or change?", "o": ["A target.", "A baseline.", "A roadmap.", "A transition."], "a": 2, "e": "The answer is two. A baseline is a formally reviewed and agreed specification that serves as the basis for further change. In practice, the Baseline Architecture describes the existing state."}, {"id": "pool2-7", "topic": "adm", "q": "Which of the following is a valid reason to adapt the A D M?", "o": ["The A D M phases cannot be iterated.", "To remove the need for architecture governance.", "Because the A D M applies only to IT departments.", "To fit the enterprise's maturity, its existing processes, or its use alongside other frameworks."], "a": 4, "e": "The answer is four. The A D M is generic and is meant to be tailored, for example to the enterprise's architecture maturity, its project and portfolio processes, or a federated use with other frameworks. The other options are not true statements about the A D M."}, {"id": "pool2-8", "topic": "adm", "q": "Which group of iteration cycles covers Phases E and F?", "o": ["Transition Planning.", "Architecture Definition.", "Architecture Context.", "Architecture Governance."], "a": 1, "e": "The answer is one. Transition Planning iterations cover Phases E and F, supporting the creation of the formal change roadmap. Architecture Definition covers B to D, and Architecture Governance covers G and H."}, {"id": "pool2-9", "topic": "adm", "q": "What does the hierarchy of A D M processes refer to?", "o": ["The order in which the phases must always be executed.", "The reporting lines of the architecture team.", "Applying the A D M at different levels, such as strategic, segment and capability, where one cycle can start others.", "The ranking of stakeholders by power and interest."], "a": 3, "e": "The answer is three. The A D M can be applied at strategic, segment and capability level. A strategic cycle can trigger segment cycles, which in turn trigger capability cycles."}, {"id": "pool2-10", "topic": "phases", "q": "In which phase are the Architecture Principles first defined?", "o": ["Phase A, Architecture Vision.", "The Preliminary Phase.", "Phase B, Business Architecture.", "Phase H, Architecture Change Management."], "a": 2, "e": "The answer is two. Architecture Principles are defined in the Preliminary Phase, as part of establishing the Architecture Capability. They are confirmed or refined in Phase A for each architecture cycle."}, {"id": "pool2-11", "topic": "phases", "q": "What normally triggers the start of Phase A?", "o": ["Approval of the Architecture Contract.", "Receipt of a Request for Architecture Work from the sponsoring organization.", "Completion of a Compliance Assessment.", "Signing of the Statement of Architecture Work."], "a": 2, "e": "The answer is two. Phase A starts with a Request for Architecture Work. The Statement of Architecture Work is approved at the end of Phase A, and Architecture Contracts belong to Phase G."}, {"id": "pool2-12", "topic": "phases", "q": "Which of the following is one of the common steps in Phases B, C and D?", "o": ["Conduct implementation compliance reviews.", "Create the Architecture Contract.", "Perform gap analysis.", "Finalize the Implementation and Migration Plan."], "a": 3, "e": "The answer is three. Phases B, C and D share the same steps, including describing the baseline and target, performing gap analysis and defining candidate roadmap components. The other options belong to Phases F and G."}, {"id": "pool2-13", "topic": "phases", "q": "Which deliverable provides a set of quantitative statements that outline what an implementation project must do to comply with the architecture?", "o": ["The Architecture Requirements Specification.", "The Architecture Vision.", "The Statement of Architecture Work.", "The Architecture Definition Document."], "a": 1, "e": "The answer is one. The Architecture Requirements Specification holds the measurable requirements. Its companion, the Architecture Definition Document, describes the architecture itself in a qualitative way."}, {"id": "pool2-14", "topic": "phases", "q": "In Phases E and F, what is the term for a set of actions identified to achieve one or more objectives for the business?", "o": ["A building block.", "A viewpoint.", "A principle.", "A work package."], "a": 4, "e": "The answer is four. Work packages group the actions needed to close the gaps. In Phase E they are identified and grouped, and in Phase F they are given a business value and prioritized."}, {"id": "pool2-15", "topic": "phases", "q": "Which phase assigns a business value to each work package, and prioritizes the migration projects through cost, benefit and risk validation?", "o": ["Phase E, Opportunities and Solutions.", "Phase F, Migration Planning.", "Phase G, Implementation Governance.", "Phase H, Architecture Change Management."], "a": 2, "e": "The answer is two. Phase F finalizes the Architecture Roadmap and the Implementation and Migration Plan, and aligns them with the enterprise's change portfolio. Assigning business value and prioritizing projects are part of that work."}, {"id": "pool2-16", "topic": "phases", "q": "In Phase G, what is the role of the architecture function?", "o": ["To build all the solutions itself.", "To write the Request for Architecture Work.", "To approve project budgets only.", "To govern implementation, making sure that projects conform to the architecture."], "a": 4, "e": "The answer is four. Architects govern implementation rather than carry it out. The projects themselves are run through the enterprise's normal project management."}, {"id": "pool2-17", "topic": "phases", "q": "Which of the following can be a driver for an architecture change request in Phase H?", "o": ["The approval of the Statement of Architecture Work.", "The selection of architecture viewpoints.", "A new business requirement, or a new technology.", "The creation of an application catalog."], "a": 3, "e": "The answer is three. Phase H monitors business and technology changes. New requirements, new technology and cost reduction opportunities are typical drivers of change requests."}, {"id": "pool2-18", "topic": "phases", "q": "How is a simplification change normally handled in Phase H?", "o": ["Through change management techniques.", "By starting a new A D M cycle.", "By repeating the Preliminary Phase.", "It is ignored until the next audit."], "a": 1, "e": "The answer is one. A simplification change can normally be handled through change management. A re-architecting change is the kind that requires a new A D M cycle."}, {"id": "pool2-19", "topic": "requirements", "q": "Does the TOGAF Standard mandate a specific tool or process for requirements management?", "o": ["Yes, it mandates a specific requirements tool.", "Yes, requirements must be kept in spreadsheets.", "No, it describes a process for managing requirements throughout the A D M, but does not mandate any tool or process.", "No, requirements management is outside the scope of Enterprise Architecture."], "a": 3, "e": "The answer is three. Requirements management sits at the centre of the A D M, but TOGAF does not prescribe a specific tool or process for it. Organizations can use their own."}, {"id": "pool2-20", "topic": "content", "q": "What is the Architecture Definition Document?", "o": ["The contract between the sponsor and the implementation partners.", "The deliverable that contains the core architectural artifacts created during a project, across the relevant domains.", "The list of requirements an implementation project must comply with.", "The record of governance decisions."], "a": 2, "e": "The answer is two. The Architecture Definition Document is the deliverable container for the core architectural artifacts. Option one is the Architecture Contract, option three is the Architecture Requirements Specification, and option four is the Governance Log."}, {"id": "pool2-21", "topic": "content", "q": "Which of the following is a characteristic of a good building block?", "o": ["It is re-usable and replaceable, and well specified with published interfaces.", "It cannot contain other building blocks.", "It must be a single product from a single vendor.", "It is always specific to one organization."], "a": 1, "e": "The answer is one. A good building block has a defined boundary and published interfaces, and is ideally re-usable and replaceable. Building blocks can be assembled from other building blocks."}, {"id": "pool2-22", "topic": "content", "q": "What is the purpose of the TOGAF Enterprise Metamodel?", "o": ["To schedule implementation projects.", "To rank stakeholders by influence.", "To store the approved standards.", "To define a formal structure for the terms used to describe the architecture, so that it is described consistently."], "a": 4, "e": "The answer is four. The metamodel defines the entities, such as actors, services and components, and the relationships between them. That consistency makes models integrable and analyzable."}, {"id": "pool2-23", "topic": "continuum", "q": "In the Architecture Continuum, which stage is the most generic?", "o": ["Organization-Specific Architectures.", "Industry Architectures.", "Common Systems Architectures.", "Foundation Architectures."], "a": 4, "e": "The answer is four. The order from generic to specific is Foundation, Common Systems, Industry, and Organization-Specific."}, {"id": "pool2-24", "topic": "continuum", "q": "Which part of the Architecture Repository represents the Solution Building Blocks that support the Architecture Landscape?", "o": ["The Reference Library.", "The Standards Library.", "The Solutions Landscape.", "The Governance Log."], "a": 3, "e": "The answer is three. The Solutions Landscape is the architectural representation of the Solution Building Blocks, planned or deployed, that support the Architecture Landscape."}, {"id": "pool2-25", "topic": "techniques", "q": "During gap analysis, a building block appears in the Target Architecture but not in the Baseline Architecture. What does this mean?", "o": ["It is new, and must be developed or procured.", "It has been eliminated.", "It is carried over unchanged.", "It is an error and should be removed from the target."], "a": 1, "e": "The answer is one. A building block present only in the target is new, so it becomes a gap to be filled by development or procurement. A building block only in the baseline is the one marked as eliminated."}, {"id": "pool2-26", "topic": "techniques", "q": "What is the purpose of the Business Transformation Readiness Assessment?", "o": ["To assess the maturity of IT infrastructure only.", "To evaluate and quantify the organization's readiness to undergo change.", "To check implementation projects for compliance.", "To select vendors for Solution Building Blocks."], "a": 2, "e": "The answer is two. The assessment looks at readiness factors such as vision, desire, sponsorship, funding and capacity to execute. It is done in Phase A and refined in Phases E and F."}, {"id": "pool2-27", "topic": "techniques", "q": "Which statement best describes capability-based planning?", "o": ["A technique for ranking stakeholders.", "A method for designing database schemas.", "A way of tracking project budgets.", "A technique that focuses on planning, engineering and delivering strategic business capabilities, driven and led by the business."], "a": 4, "e": "The answer is four. Capability-based planning keeps the roadmap tied to business outcomes. Capabilities are often delivered in increments that correspond to Transition Architectures."}, {"id": "pool2-28", "topic": "techniques", "q": "In the TOGAF Standard, what does interoperability mean?", "o": ["The ability to share information and services.", "The ability to run on several operating systems.", "The ability to outsource operations.", "The ability to scale a system horizontally."], "a": 1, "e": "The answer is one. Interoperability is the ability to share information and services. TOGAF distinguishes business, information and technical interoperability, and it is considered especially in Phase E."}, {"id": "pool2-29", "topic": "governance", "q": "Which characteristic of good governance means that processes, decisions, and mechanisms are set up to minimize or avoid conflicts of interest?", "o": ["Transparency.", "Accountability.", "Independence.", "Fairness."], "a": 3, "e": "The answer is three. Independence means minimizing or avoiding conflicts of interest. Transparency means all actions and decisions are available for inspection."}, {"id": "pool2-30", "topic": "governance", "q": "An implementation has no features in common with the architecture specification. What is its conformance level?", "o": ["Consistent.", "Irrelevant.", "Compliant.", "Non-conformant."], "a": 2, "e": "The answer is two. With no features in common, the specification simply does not apply, which TOGAF calls irrelevant. Non-conformant means that some implemented features are not in accordance with the specification."}];
+const CLIPS = {"confirm1": "audio/drill/togaf-foundation/confirm1.mp3", "confirm2": "audio/drill/togaf-foundation/confirm2.mp3", "confirm3": "audio/drill/togaf-foundation/confirm3.mp3", "confirm4": "audio/drill/togaf-foundation/confirm4.mp3", "correct": "audio/drill/togaf-foundation/correct.mp3", "e0": "audio/drill/togaf-foundation/e0.mp3", "e1": "audio/drill/togaf-foundation/e1.mp3", "e10": "audio/drill/togaf-foundation/e10.mp3", "e11": "audio/drill/togaf-foundation/e11.mp3", "e12": "audio/drill/togaf-foundation/e12.mp3", "e13": "audio/drill/togaf-foundation/e13.mp3", "e14": "audio/drill/togaf-foundation/e14.mp3", "e15": "audio/drill/togaf-foundation/e15.mp3", "e16": "audio/drill/togaf-foundation/e16.mp3", "e17": "audio/drill/togaf-foundation/e17.mp3", "e18": "audio/drill/togaf-foundation/e18.mp3", "e19": "audio/drill/togaf-foundation/e19.mp3", "e2": "audio/drill/togaf-foundation/e2.mp3", "e20": "audio/drill/togaf-foundation/e20.mp3", "e21": "audio/drill/togaf-foundation/e21.mp3", "e22": "audio/drill/togaf-foundation/e22.mp3", "e23": "audio/drill/togaf-foundation/e23.mp3", "e24": "audio/drill/togaf-foundation/e24.mp3", "e25": "audio/drill/togaf-foundation/e25.mp3", "e26": "audio/drill/togaf-foundation/e26.mp3", "e27": "audio/drill/togaf-foundation/e27.mp3", "e28": "audio/drill/togaf-foundation/e28.mp3", "e29": "audio/drill/togaf-foundation/e29.mp3", "e3": "audio/drill/togaf-foundation/e3.mp3", "e30": "audio/drill/togaf-foundation/e30.mp3", "e31": "audio/drill/togaf-foundation/e31.mp3", "e32": "audio/drill/togaf-foundation/e32.mp3", "e33": "audio/drill/togaf-foundation/e33.mp3", "e34": "audio/drill/togaf-foundation/e34.mp3", "e35": "audio/drill/togaf-foundation/e35.mp3", "e36": "audio/drill/togaf-foundation/e36.mp3", "e37": "audio/drill/togaf-foundation/e37.mp3", "e38": "audio/drill/togaf-foundation/e38.mp3", "e39": "audio/drill/togaf-foundation/e39.mp3", "e4": "audio/drill/togaf-foundation/e4.mp3", "e40": "audio/drill/togaf-foundation/e40.mp3", "e41": "audio/drill/togaf-foundation/e41.mp3", "e42": "audio/drill/togaf-foundation/e42.mp3", "e43": "audio/drill/togaf-foundation/e43.mp3", "e44": "audio/drill/togaf-foundation/e44.mp3", "e45": "audio/drill/togaf-foundation/e45.mp3", "e46": "audio/drill/togaf-foundation/e46.mp3", "e47": "audio/drill/togaf-foundation/e47.mp3", "e48": "audio/drill/togaf-foundation/e48.mp3", "e49": "audio/drill/togaf-foundation/e49.mp3", "e5": "audio/drill/togaf-foundation/e5.mp3", "e50": "audio/drill/togaf-foundation/e50.mp3", "e51": "audio/drill/togaf-foundation/e51.mp3", "e52": "audio/drill/togaf-foundation/e52.mp3", "e53": "audio/drill/togaf-foundation/e53.mp3", "e54": "audio/drill/togaf-foundation/e54.mp3", "e55": "audio/drill/togaf-foundation/e55.mp3", "e56": "audio/drill/togaf-foundation/e56.mp3", "e57": "audio/drill/togaf-foundation/e57.mp3", "e58": "audio/drill/togaf-foundation/e58.mp3", "e59": "audio/drill/togaf-foundation/e59.mp3", "e6": "audio/drill/togaf-foundation/e6.mp3", "e60": "audio/drill/togaf-foundation/e60.mp3", "e61": "audio/drill/togaf-foundation/e61.mp3", "e62": "audio/drill/togaf-foundation/e62.mp3", "e63": "audio/drill/togaf-foundation/e63.mp3", "e64": "audio/drill/togaf-foundation/e64.mp3", "e65": "audio/drill/togaf-foundation/e65.mp3", "e66": "audio/drill/togaf-foundation/e66.mp3", "e67": "audio/drill/togaf-foundation/e67.mp3", "e68": "audio/drill/togaf-foundation/e68.mp3", "e69": "audio/drill/togaf-foundation/e69.mp3", "e7": "audio/drill/togaf-foundation/e7.mp3", "e70": "audio/drill/togaf-foundation/e70.mp3", "e71": "audio/drill/togaf-foundation/e71.mp3", "e72": "audio/drill/togaf-foundation/e72.mp3", "e73": "audio/drill/togaf-foundation/e73.mp3", "e74": "audio/drill/togaf-foundation/e74.mp3", "e75": "audio/drill/togaf-foundation/e75.mp3", "e76": "audio/drill/togaf-foundation/e76.mp3", "e77": "audio/drill/togaf-foundation/e77.mp3", "e78": "audio/drill/togaf-foundation/e78.mp3", "e79": "audio/drill/togaf-foundation/e79.mp3", "e8": "audio/drill/togaf-foundation/e8.mp3", "e9": "audio/drill/togaf-foundation/e9.mp3", "end": "audio/drill/togaf-foundation/end.mp3", "exam_fail": "audio/drill/togaf-foundation/exam_fail.mp3", "exam_intro": "audio/drill/togaf-foundation/exam_intro.mp3", "exam_intro_buttons": "audio/drill/togaf-foundation/exam_intro_buttons.mp3", "exam_pass": "audio/drill/togaf-foundation/exam_pass.mp3", "intro": "audio/drill/togaf-foundation/intro.mp3", "intro_buttons": "audio/drill/togaf-foundation/intro_buttons.mp3", "o0_1": "audio/drill/togaf-foundation/o0_1.mp3", "o0_2": "audio/drill/togaf-foundation/o0_2.mp3", "o0_3": "audio/drill/togaf-foundation/o0_3.mp3", "o0_4": "audio/drill/togaf-foundation/o0_4.mp3", "o10_1": "audio/drill/togaf-foundation/o10_1.mp3", "o10_2": "audio/drill/togaf-foundation/o10_2.mp3", "o10_3": "audio/drill/togaf-foundation/o10_3.mp3", "o10_4": "audio/drill/togaf-foundation/o10_4.mp3", "o11_1": "audio/drill/togaf-foundation/o11_1.mp3", "o11_2": "audio/drill/togaf-foundation/o11_2.mp3", "o11_3": "audio/drill/togaf-foundation/o11_3.mp3", "o11_4": "audio/drill/togaf-foundation/o11_4.mp3", "o12_1": "audio/drill/togaf-foundation/o12_1.mp3", "o12_2": "audio/drill/togaf-foundation/o12_2.mp3", "o12_3": "audio/drill/togaf-foundation/o12_3.mp3", "o12_4": "audio/drill/togaf-foundation/o12_4.mp3", "o13_1": "audio/drill/togaf-foundation/o13_1.mp3", "o13_2": "audio/drill/togaf-foundation/o13_2.mp3", "o13_3": "audio/drill/togaf-foundation/o13_3.mp3", "o13_4": "audio/drill/togaf-foundation/o13_4.mp3", "o14_1": "audio/drill/togaf-foundation/o14_1.mp3", "o14_2": "audio/drill/togaf-foundation/o14_2.mp3", "o14_3": "audio/drill/togaf-foundation/o14_3.mp3", "o14_4": "audio/drill/togaf-foundation/o14_4.mp3", "o15_1": "audio/drill/togaf-foundation/o15_1.mp3", "o15_2": "audio/drill/togaf-foundation/o15_2.mp3", "o15_3": "audio/drill/togaf-foundation/o15_3.mp3", "o15_4": "audio/drill/togaf-foundation/o15_4.mp3", "o16_1": "audio/drill/togaf-foundation/o16_1.mp3", "o16_2": "audio/drill/togaf-foundation/o16_2.mp3", "o16_3": "audio/drill/togaf-foundation/o16_3.mp3", "o16_4": "audio/drill/togaf-foundation/o16_4.mp3", "o17_1": "audio/drill/togaf-foundation/o17_1.mp3", "o17_2": "audio/drill/togaf-foundation/o17_2.mp3", "o17_3": "audio/drill/togaf-foundation/o17_3.mp3", "o17_4": "audio/drill/togaf-foundation/o17_4.mp3", "o18_1": "audio/drill/togaf-foundation/o18_1.mp3", "o18_2": "audio/drill/togaf-foundation/o18_2.mp3", "o18_3": "audio/drill/togaf-foundation/o18_3.mp3", "o18_4": "audio/drill/togaf-foundation/o18_4.mp3", "o19_1": "audio/drill/togaf-foundation/o19_1.mp3", "o19_2": "audio/drill/togaf-foundation/o19_2.mp3", "o19_3": "audio/drill/togaf-foundation/o19_3.mp3", "o19_4": "audio/drill/togaf-foundation/o19_4.mp3", "o1_1": "audio/drill/togaf-foundation/o1_1.mp3", "o1_2": "audio/drill/togaf-foundation/o1_2.mp3", "o1_3": "audio/drill/togaf-foundation/o1_3.mp3", "o1_4": "audio/drill/togaf-foundation/o1_4.mp3", "o20_1": "audio/drill/togaf-foundation/o20_1.mp3", "o20_2": "audio/drill/togaf-foundation/o20_2.mp3", "o20_3": "audio/drill/togaf-foundation/o20_3.mp3", "o20_4": "audio/drill/togaf-foundation/o20_4.mp3", "o21_1": "audio/drill/togaf-foundation/o21_1.mp3", "o21_2": "audio/drill/togaf-foundation/o21_2.mp3", "o21_3": "audio/drill/togaf-foundation/o21_3.mp3", "o21_4": "audio/drill/togaf-foundation/o21_4.mp3", "o22_1": "audio/drill/togaf-foundation/o22_1.mp3", "o22_2": "audio/drill/togaf-foundation/o22_2.mp3", "o22_3": "audio/drill/togaf-foundation/o22_3.mp3", "o22_4": "audio/drill/togaf-foundation/o22_4.mp3", "o23_1": "audio/drill/togaf-foundation/o23_1.mp3", "o23_2": "audio/drill/togaf-foundation/o23_2.mp3", "o23_3": "audio/drill/togaf-foundation/o23_3.mp3", "o23_4": "audio/drill/togaf-foundation/o23_4.mp3", "o24_1": "audio/drill/togaf-foundation/o24_1.mp3", "o24_2": "audio/drill/togaf-foundation/o24_2.mp3", "o24_3": "audio/drill/togaf-foundation/o24_3.mp3", "o24_4": "audio/drill/togaf-foundation/o24_4.mp3", "o25_1": "audio/drill/togaf-foundation/o25_1.mp3", "o25_2": "audio/drill/togaf-foundation/o25_2.mp3", "o25_3": "audio/drill/togaf-foundation/o25_3.mp3", "o25_4": "audio/drill/togaf-foundation/o25_4.mp3", "o26_1": "audio/drill/togaf-foundation/o26_1.mp3", "o26_2": "audio/drill/togaf-foundation/o26_2.mp3", "o26_3": "audio/drill/togaf-foundation/o26_3.mp3", "o26_4": "audio/drill/togaf-foundation/o26_4.mp3", "o27_1": "audio/drill/togaf-foundation/o27_1.mp3", "o27_2": "audio/drill/togaf-foundation/o27_2.mp3", "o27_3": "audio/drill/togaf-foundation/o27_3.mp3", "o27_4": "audio/drill/togaf-foundation/o27_4.mp3", "o28_1": "audio/drill/togaf-foundation/o28_1.mp3", "o28_2": "audio/drill/togaf-foundation/o28_2.mp3", "o28_3": "audio/drill/togaf-foundation/o28_3.mp3", "o28_4": "audio/drill/togaf-foundation/o28_4.mp3", "o29_1": "audio/drill/togaf-foundation/o29_1.mp3", "o29_2": "audio/drill/togaf-foundation/o29_2.mp3", "o29_3": "audio/drill/togaf-foundation/o29_3.mp3", "o29_4": "audio/drill/togaf-foundation/o29_4.mp3", "o2_1": "audio/drill/togaf-foundation/o2_1.mp3", "o2_2": "audio/drill/togaf-foundation/o2_2.mp3", "o2_3": "audio/drill/togaf-foundation/o2_3.mp3", "o2_4": "audio/drill/togaf-foundation/o2_4.mp3", "o30_1": "audio/drill/togaf-foundation/o30_1.mp3", "o30_2": "audio/drill/togaf-foundation/o30_2.mp3", "o30_3": "audio/drill/togaf-foundation/o30_3.mp3", "o30_4": "audio/drill/togaf-foundation/o30_4.mp3", "o31_1": "audio/drill/togaf-foundation/o31_1.mp3", "o31_2": "audio/drill/togaf-foundation/o31_2.mp3", "o31_3": "audio/drill/togaf-foundation/o31_3.mp3", "o31_4": "audio/drill/togaf-foundation/o31_4.mp3", "o32_1": "audio/drill/togaf-foundation/o32_1.mp3", "o32_2": "audio/drill/togaf-foundation/o32_2.mp3", "o32_3": "audio/drill/togaf-foundation/o32_3.mp3", "o32_4": "audio/drill/togaf-foundation/o32_4.mp3", "o33_1": "audio/drill/togaf-foundation/o33_1.mp3", "o33_2": "audio/drill/togaf-foundation/o33_2.mp3", "o33_3": "audio/drill/togaf-foundation/o33_3.mp3", "o33_4": "audio/drill/togaf-foundation/o33_4.mp3", "o34_1": "audio/drill/togaf-foundation/o34_1.mp3", "o34_2": "audio/drill/togaf-foundation/o34_2.mp3", "o34_3": "audio/drill/togaf-foundation/o34_3.mp3", "o34_4": "audio/drill/togaf-foundation/o34_4.mp3", "o35_1": "audio/drill/togaf-foundation/o35_1.mp3", "o35_2": "audio/drill/togaf-foundation/o35_2.mp3", "o35_3": "audio/drill/togaf-foundation/o35_3.mp3", "o35_4": "audio/drill/togaf-foundation/o35_4.mp3", "o36_1": "audio/drill/togaf-foundation/o36_1.mp3", "o36_2": "audio/drill/togaf-foundation/o36_2.mp3", "o36_3": "audio/drill/togaf-foundation/o36_3.mp3", "o36_4": "audio/drill/togaf-foundation/o36_4.mp3", "o37_1": "audio/drill/togaf-foundation/o37_1.mp3", "o37_2": "audio/drill/togaf-foundation/o37_2.mp3", "o37_3": "audio/drill/togaf-foundation/o37_3.mp3", "o37_4": "audio/drill/togaf-foundation/o37_4.mp3", "o38_1": "audio/drill/togaf-foundation/o38_1.mp3", "o38_2": "audio/drill/togaf-foundation/o38_2.mp3", "o38_3": "audio/drill/togaf-foundation/o38_3.mp3", "o38_4": "audio/drill/togaf-foundation/o38_4.mp3", "o39_1": "audio/drill/togaf-foundation/o39_1.mp3", "o39_2": "audio/drill/togaf-foundation/o39_2.mp3", "o39_3": "audio/drill/togaf-foundation/o39_3.mp3", "o39_4": "audio/drill/togaf-foundation/o39_4.mp3", "o3_1": "audio/drill/togaf-foundation/o3_1.mp3", "o3_2": "audio/drill/togaf-foundation/o3_2.mp3", "o3_3": "audio/drill/togaf-foundation/o3_3.mp3", "o3_4": "audio/drill/togaf-foundation/o3_4.mp3", "o40_1": "audio/drill/togaf-foundation/o40_1.mp3", "o40_2": "audio/drill/togaf-foundation/o40_2.mp3", "o40_3": "audio/drill/togaf-foundation/o40_3.mp3", "o40_4": "audio/drill/togaf-foundation/o40_4.mp3", "o41_1": "audio/drill/togaf-foundation/o41_1.mp3", "o41_2": "audio/drill/togaf-foundation/o41_2.mp3", "o41_3": "audio/drill/togaf-foundation/o41_3.mp3", "o41_4": "audio/drill/togaf-foundation/o41_4.mp3", "o42_1": "audio/drill/togaf-foundation/o42_1.mp3", "o42_2": "audio/drill/togaf-foundation/o42_2.mp3", "o42_3": "audio/drill/togaf-foundation/o42_3.mp3", "o42_4": "audio/drill/togaf-foundation/o42_4.mp3", "o43_1": "audio/drill/togaf-foundation/o43_1.mp3", "o43_2": "audio/drill/togaf-foundation/o43_2.mp3", "o43_3": "audio/drill/togaf-foundation/o43_3.mp3", "o43_4": "audio/drill/togaf-foundation/o43_4.mp3", "o44_1": "audio/drill/togaf-foundation/o44_1.mp3", "o44_2": "audio/drill/togaf-foundation/o44_2.mp3", "o44_3": "audio/drill/togaf-foundation/o44_3.mp3", "o44_4": "audio/drill/togaf-foundation/o44_4.mp3", "o45_1": "audio/drill/togaf-foundation/o45_1.mp3", "o45_2": "audio/drill/togaf-foundation/o45_2.mp3", "o45_3": "audio/drill/togaf-foundation/o45_3.mp3", "o45_4": "audio/drill/togaf-foundation/o45_4.mp3", "o46_1": "audio/drill/togaf-foundation/o46_1.mp3", "o46_2": "audio/drill/togaf-foundation/o46_2.mp3", "o46_3": "audio/drill/togaf-foundation/o46_3.mp3", "o46_4": "audio/drill/togaf-foundation/o46_4.mp3", "o47_1": "audio/drill/togaf-foundation/o47_1.mp3", "o47_2": "audio/drill/togaf-foundation/o47_2.mp3", "o47_3": "audio/drill/togaf-foundation/o47_3.mp3", "o47_4": "audio/drill/togaf-foundation/o47_4.mp3", "o48_1": "audio/drill/togaf-foundation/o48_1.mp3", "o48_2": "audio/drill/togaf-foundation/o48_2.mp3", "o48_3": "audio/drill/togaf-foundation/o48_3.mp3", "o48_4": "audio/drill/togaf-foundation/o48_4.mp3", "o49_1": "audio/drill/togaf-foundation/o49_1.mp3", "o49_2": "audio/drill/togaf-foundation/o49_2.mp3", "o49_3": "audio/drill/togaf-foundation/o49_3.mp3", "o49_4": "audio/drill/togaf-foundation/o49_4.mp3", "o4_1": "audio/drill/togaf-foundation/o4_1.mp3", "o4_2": "audio/drill/togaf-foundation/o4_2.mp3", "o4_3": "audio/drill/togaf-foundation/o4_3.mp3", "o4_4": "audio/drill/togaf-foundation/o4_4.mp3", "o50_1": "audio/drill/togaf-foundation/o50_1.mp3", "o50_2": "audio/drill/togaf-foundation/o50_2.mp3", "o50_3": "audio/drill/togaf-foundation/o50_3.mp3", "o50_4": "audio/drill/togaf-foundation/o50_4.mp3", "o51_1": "audio/drill/togaf-foundation/o51_1.mp3", "o51_2": "audio/drill/togaf-foundation/o51_2.mp3", "o51_3": "audio/drill/togaf-foundation/o51_3.mp3", "o51_4": "audio/drill/togaf-foundation/o51_4.mp3", "o52_1": "audio/drill/togaf-foundation/o52_1.mp3", "o52_2": "audio/drill/togaf-foundation/o52_2.mp3", "o52_3": "audio/drill/togaf-foundation/o52_3.mp3", "o52_4": "audio/drill/togaf-foundation/o52_4.mp3", "o53_1": "audio/drill/togaf-foundation/o53_1.mp3", "o53_2": "audio/drill/togaf-foundation/o53_2.mp3", "o53_3": "audio/drill/togaf-foundation/o53_3.mp3", "o53_4": "audio/drill/togaf-foundation/o53_4.mp3", "o54_1": "audio/drill/togaf-foundation/o54_1.mp3", "o54_2": "audio/drill/togaf-foundation/o54_2.mp3", "o54_3": "audio/drill/togaf-foundation/o54_3.mp3", "o54_4": "audio/drill/togaf-foundation/o54_4.mp3", "o55_1": "audio/drill/togaf-foundation/o55_1.mp3", "o55_2": "audio/drill/togaf-foundation/o55_2.mp3", "o55_3": "audio/drill/togaf-foundation/o55_3.mp3", "o55_4": "audio/drill/togaf-foundation/o55_4.mp3", "o56_1": "audio/drill/togaf-foundation/o56_1.mp3", "o56_2": "audio/drill/togaf-foundation/o56_2.mp3", "o56_3": "audio/drill/togaf-foundation/o56_3.mp3", "o56_4": "audio/drill/togaf-foundation/o56_4.mp3", "o57_1": "audio/drill/togaf-foundation/o57_1.mp3", "o57_2": "audio/drill/togaf-foundation/o57_2.mp3", "o57_3": "audio/drill/togaf-foundation/o57_3.mp3", "o57_4": "audio/drill/togaf-foundation/o57_4.mp3", "o58_1": "audio/drill/togaf-foundation/o58_1.mp3", "o58_2": "audio/drill/togaf-foundation/o58_2.mp3", "o58_3": "audio/drill/togaf-foundation/o58_3.mp3", "o58_4": "audio/drill/togaf-foundation/o58_4.mp3", "o59_1": "audio/drill/togaf-foundation/o59_1.mp3", "o59_2": "audio/drill/togaf-foundation/o59_2.mp3", "o59_3": "audio/drill/togaf-foundation/o59_3.mp3", "o59_4": "audio/drill/togaf-foundation/o59_4.mp3", "o5_1": "audio/drill/togaf-foundation/o5_1.mp3", "o5_2": "audio/drill/togaf-foundation/o5_2.mp3", "o5_3": "audio/drill/togaf-foundation/o5_3.mp3", "o5_4": "audio/drill/togaf-foundation/o5_4.mp3", "o60_1": "audio/drill/togaf-foundation/o60_1.mp3", "o60_2": "audio/drill/togaf-foundation/o60_2.mp3", "o60_3": "audio/drill/togaf-foundation/o60_3.mp3", "o60_4": "audio/drill/togaf-foundation/o60_4.mp3", "o61_1": "audio/drill/togaf-foundation/o61_1.mp3", "o61_2": "audio/drill/togaf-foundation/o61_2.mp3", "o61_3": "audio/drill/togaf-foundation/o61_3.mp3", "o61_4": "audio/drill/togaf-foundation/o61_4.mp3", "o62_1": "audio/drill/togaf-foundation/o62_1.mp3", "o62_2": "audio/drill/togaf-foundation/o62_2.mp3", "o62_3": "audio/drill/togaf-foundation/o62_3.mp3", "o62_4": "audio/drill/togaf-foundation/o62_4.mp3", "o63_1": "audio/drill/togaf-foundation/o63_1.mp3", "o63_2": "audio/drill/togaf-foundation/o63_2.mp3", "o63_3": "audio/drill/togaf-foundation/o63_3.mp3", "o63_4": "audio/drill/togaf-foundation/o63_4.mp3", "o64_1": "audio/drill/togaf-foundation/o64_1.mp3", "o64_2": "audio/drill/togaf-foundation/o64_2.mp3", "o64_3": "audio/drill/togaf-foundation/o64_3.mp3", "o64_4": "audio/drill/togaf-foundation/o64_4.mp3", "o65_1": "audio/drill/togaf-foundation/o65_1.mp3", "o65_2": "audio/drill/togaf-foundation/o65_2.mp3", "o65_3": "audio/drill/togaf-foundation/o65_3.mp3", "o65_4": "audio/drill/togaf-foundation/o65_4.mp3", "o66_1": "audio/drill/togaf-foundation/o66_1.mp3", "o66_2": "audio/drill/togaf-foundation/o66_2.mp3", "o66_3": "audio/drill/togaf-foundation/o66_3.mp3", "o66_4": "audio/drill/togaf-foundation/o66_4.mp3", "o67_1": "audio/drill/togaf-foundation/o67_1.mp3", "o67_2": "audio/drill/togaf-foundation/o67_2.mp3", "o67_3": "audio/drill/togaf-foundation/o67_3.mp3", "o67_4": "audio/drill/togaf-foundation/o67_4.mp3", "o68_1": "audio/drill/togaf-foundation/o68_1.mp3", "o68_2": "audio/drill/togaf-foundation/o68_2.mp3", "o68_3": "audio/drill/togaf-foundation/o68_3.mp3", "o68_4": "audio/drill/togaf-foundation/o68_4.mp3", "o69_1": "audio/drill/togaf-foundation/o69_1.mp3", "o69_2": "audio/drill/togaf-foundation/o69_2.mp3", "o69_3": "audio/drill/togaf-foundation/o69_3.mp3", "o69_4": "audio/drill/togaf-foundation/o69_4.mp3", "o6_1": "audio/drill/togaf-foundation/o6_1.mp3", "o6_2": "audio/drill/togaf-foundation/o6_2.mp3", "o6_3": "audio/drill/togaf-foundation/o6_3.mp3", "o6_4": "audio/drill/togaf-foundation/o6_4.mp3", "o70_1": "audio/drill/togaf-foundation/o70_1.mp3", "o70_2": "audio/drill/togaf-foundation/o70_2.mp3", "o70_3": "audio/drill/togaf-foundation/o70_3.mp3", "o70_4": "audio/drill/togaf-foundation/o70_4.mp3", "o71_1": "audio/drill/togaf-foundation/o71_1.mp3", "o71_2": "audio/drill/togaf-foundation/o71_2.mp3", "o71_3": "audio/drill/togaf-foundation/o71_3.mp3", "o71_4": "audio/drill/togaf-foundation/o71_4.mp3", "o72_1": "audio/drill/togaf-foundation/o72_1.mp3", "o72_2": "audio/drill/togaf-foundation/o72_2.mp3", "o72_3": "audio/drill/togaf-foundation/o72_3.mp3", "o72_4": "audio/drill/togaf-foundation/o72_4.mp3", "o73_1": "audio/drill/togaf-foundation/o73_1.mp3", "o73_2": "audio/drill/togaf-foundation/o73_2.mp3", "o73_3": "audio/drill/togaf-foundation/o73_3.mp3", "o73_4": "audio/drill/togaf-foundation/o73_4.mp3", "o74_1": "audio/drill/togaf-foundation/o74_1.mp3", "o74_2": "audio/drill/togaf-foundation/o74_2.mp3", "o74_3": "audio/drill/togaf-foundation/o74_3.mp3", "o74_4": "audio/drill/togaf-foundation/o74_4.mp3", "o75_1": "audio/drill/togaf-foundation/o75_1.mp3", "o75_2": "audio/drill/togaf-foundation/o75_2.mp3", "o75_3": "audio/drill/togaf-foundation/o75_3.mp3", "o75_4": "audio/drill/togaf-foundation/o75_4.mp3", "o76_1": "audio/drill/togaf-foundation/o76_1.mp3", "o76_2": "audio/drill/togaf-foundation/o76_2.mp3", "o76_3": "audio/drill/togaf-foundation/o76_3.mp3", "o76_4": "audio/drill/togaf-foundation/o76_4.mp3", "o77_1": "audio/drill/togaf-foundation/o77_1.mp3", "o77_2": "audio/drill/togaf-foundation/o77_2.mp3", "o77_3": "audio/drill/togaf-foundation/o77_3.mp3", "o77_4": "audio/drill/togaf-foundation/o77_4.mp3", "o78_1": "audio/drill/togaf-foundation/o78_1.mp3", "o78_2": "audio/drill/togaf-foundation/o78_2.mp3", "o78_3": "audio/drill/togaf-foundation/o78_3.mp3", "o78_4": "audio/drill/togaf-foundation/o78_4.mp3", "o79_1": "audio/drill/togaf-foundation/o79_1.mp3", "o79_2": "audio/drill/togaf-foundation/o79_2.mp3", "o79_3": "audio/drill/togaf-foundation/o79_3.mp3", "o79_4": "audio/drill/togaf-foundation/o79_4.mp3", "o7_1": "audio/drill/togaf-foundation/o7_1.mp3", "o7_2": "audio/drill/togaf-foundation/o7_2.mp3", "o7_3": "audio/drill/togaf-foundation/o7_3.mp3", "o7_4": "audio/drill/togaf-foundation/o7_4.mp3", "o8_1": "audio/drill/togaf-foundation/o8_1.mp3", "o8_2": "audio/drill/togaf-foundation/o8_2.mp3", "o8_3": "audio/drill/togaf-foundation/o8_3.mp3", "o8_4": "audio/drill/togaf-foundation/o8_4.mp3", "o9_1": "audio/drill/togaf-foundation/o9_1.mp3", "o9_2": "audio/drill/togaf-foundation/o9_2.mp3", "o9_3": "audio/drill/togaf-foundation/o9_3.mp3", "o9_4": "audio/drill/togaf-foundation/o9_4.mp3", "q0": "audio/drill/togaf-foundation/q0.mp3", "q1": "audio/drill/togaf-foundation/q1.mp3", "q10": "audio/drill/togaf-foundation/q10.mp3", "q11": "audio/drill/togaf-foundation/q11.mp3", "q12": "audio/drill/togaf-foundation/q12.mp3", "q13": "audio/drill/togaf-foundation/q13.mp3", "q14": "audio/drill/togaf-foundation/q14.mp3", "q15": "audio/drill/togaf-foundation/q15.mp3", "q16": "audio/drill/togaf-foundation/q16.mp3", "q17": "audio/drill/togaf-foundation/q17.mp3", "q18": "audio/drill/togaf-foundation/q18.mp3", "q19": "audio/drill/togaf-foundation/q19.mp3", "q2": "audio/drill/togaf-foundation/q2.mp3", "q20": "audio/drill/togaf-foundation/q20.mp3", "q21": "audio/drill/togaf-foundation/q21.mp3", "q22": "audio/drill/togaf-foundation/q22.mp3", "q23": "audio/drill/togaf-foundation/q23.mp3", "q24": "audio/drill/togaf-foundation/q24.mp3", "q25": "audio/drill/togaf-foundation/q25.mp3", "q26": "audio/drill/togaf-foundation/q26.mp3", "q27": "audio/drill/togaf-foundation/q27.mp3", "q28": "audio/drill/togaf-foundation/q28.mp3", "q29": "audio/drill/togaf-foundation/q29.mp3", "q3": "audio/drill/togaf-foundation/q3.mp3", "q30": "audio/drill/togaf-foundation/q30.mp3", "q31": "audio/drill/togaf-foundation/q31.mp3", "q32": "audio/drill/togaf-foundation/q32.mp3", "q33": "audio/drill/togaf-foundation/q33.mp3", "q34": "audio/drill/togaf-foundation/q34.mp3", "q35": "audio/drill/togaf-foundation/q35.mp3", "q36": "audio/drill/togaf-foundation/q36.mp3", "q37": "audio/drill/togaf-foundation/q37.mp3", "q38": "audio/drill/togaf-foundation/q38.mp3", "q39": "audio/drill/togaf-foundation/q39.mp3", "q4": "audio/drill/togaf-foundation/q4.mp3", "q40": "audio/drill/togaf-foundation/q40.mp3", "q41": "audio/drill/togaf-foundation/q41.mp3", "q42": "audio/drill/togaf-foundation/q42.mp3", "q43": "audio/drill/togaf-foundation/q43.mp3", "q44": "audio/drill/togaf-foundation/q44.mp3", "q45": "audio/drill/togaf-foundation/q45.mp3", "q46": "audio/drill/togaf-foundation/q46.mp3", "q47": "audio/drill/togaf-foundation/q47.mp3", "q48": "audio/drill/togaf-foundation/q48.mp3", "q49": "audio/drill/togaf-foundation/q49.mp3", "q5": "audio/drill/togaf-foundation/q5.mp3", "q50": "audio/drill/togaf-foundation/q50.mp3", "q51": "audio/drill/togaf-foundation/q51.mp3", "q52": "audio/drill/togaf-foundation/q52.mp3", "q53": "audio/drill/togaf-foundation/q53.mp3", "q54": "audio/drill/togaf-foundation/q54.mp3", "q55": "audio/drill/togaf-foundation/q55.mp3", "q56": "audio/drill/togaf-foundation/q56.mp3", "q57": "audio/drill/togaf-foundation/q57.mp3", "q58": "audio/drill/togaf-foundation/q58.mp3", "q59": "audio/drill/togaf-foundation/q59.mp3", "q6": "audio/drill/togaf-foundation/q6.mp3", "q60": "audio/drill/togaf-foundation/q60.mp3", "q61": "audio/drill/togaf-foundation/q61.mp3", "q62": "audio/drill/togaf-foundation/q62.mp3", "q63": "audio/drill/togaf-foundation/q63.mp3", "q64": "audio/drill/togaf-foundation/q64.mp3", "q65": "audio/drill/togaf-foundation/q65.mp3", "q66": "audio/drill/togaf-foundation/q66.mp3", "q67": "audio/drill/togaf-foundation/q67.mp3", "q68": "audio/drill/togaf-foundation/q68.mp3", "q69": "audio/drill/togaf-foundation/q69.mp3", "q7": "audio/drill/togaf-foundation/q7.mp3", "q70": "audio/drill/togaf-foundation/q70.mp3", "q71": "audio/drill/togaf-foundation/q71.mp3", "q72": "audio/drill/togaf-foundation/q72.mp3", "q73": "audio/drill/togaf-foundation/q73.mp3", "q74": "audio/drill/togaf-foundation/q74.mp3", "q75": "audio/drill/togaf-foundation/q75.mp3", "q76": "audio/drill/togaf-foundation/q76.mp3", "q77": "audio/drill/togaf-foundation/q77.mp3", "q78": "audio/drill/togaf-foundation/q78.mp3", "q79": "audio/drill/togaf-foundation/q79.mp3", "q8": "audio/drill/togaf-foundation/q8.mp3", "q9": "audio/drill/togaf-foundation/q9.mp3", "qnum1": "audio/drill/togaf-foundation/qnum1.mp3", "qnum10": "audio/drill/togaf-foundation/qnum10.mp3", "qnum11": "audio/drill/togaf-foundation/qnum11.mp3", "qnum12": "audio/drill/togaf-foundation/qnum12.mp3", "qnum13": "audio/drill/togaf-foundation/qnum13.mp3", "qnum14": "audio/drill/togaf-foundation/qnum14.mp3", "qnum15": "audio/drill/togaf-foundation/qnum15.mp3", "qnum16": "audio/drill/togaf-foundation/qnum16.mp3", "qnum17": "audio/drill/togaf-foundation/qnum17.mp3", "qnum18": "audio/drill/togaf-foundation/qnum18.mp3", "qnum19": "audio/drill/togaf-foundation/qnum19.mp3", "qnum2": "audio/drill/togaf-foundation/qnum2.mp3", "qnum20": "audio/drill/togaf-foundation/qnum20.mp3", "qnum21": "audio/drill/togaf-foundation/qnum21.mp3", "qnum22": "audio/drill/togaf-foundation/qnum22.mp3", "qnum23": "audio/drill/togaf-foundation/qnum23.mp3", "qnum24": "audio/drill/togaf-foundation/qnum24.mp3", "qnum25": "audio/drill/togaf-foundation/qnum25.mp3", "qnum26": "audio/drill/togaf-foundation/qnum26.mp3", "qnum27": "audio/drill/togaf-foundation/qnum27.mp3", "qnum28": "audio/drill/togaf-foundation/qnum28.mp3", "qnum29": "audio/drill/togaf-foundation/qnum29.mp3", "qnum3": "audio/drill/togaf-foundation/qnum3.mp3", "qnum30": "audio/drill/togaf-foundation/qnum30.mp3", "qnum31": "audio/drill/togaf-foundation/qnum31.mp3", "qnum32": "audio/drill/togaf-foundation/qnum32.mp3", "qnum33": "audio/drill/togaf-foundation/qnum33.mp3", "qnum34": "audio/drill/togaf-foundation/qnum34.mp3", "qnum35": "audio/drill/togaf-foundation/qnum35.mp3", "qnum36": "audio/drill/togaf-foundation/qnum36.mp3", "qnum37": "audio/drill/togaf-foundation/qnum37.mp3", "qnum38": "audio/drill/togaf-foundation/qnum38.mp3", "qnum39": "audio/drill/togaf-foundation/qnum39.mp3", "qnum4": "audio/drill/togaf-foundation/qnum4.mp3", "qnum40": "audio/drill/togaf-foundation/qnum40.mp3", "qnum5": "audio/drill/togaf-foundation/qnum5.mp3", "qnum6": "audio/drill/togaf-foundation/qnum6.mp3", "qnum7": "audio/drill/togaf-foundation/qnum7.mp3", "qnum8": "audio/drill/togaf-foundation/qnum8.mp3", "qnum9": "audio/drill/togaf-foundation/qnum9.mp3", "recorded": "audio/drill/togaf-foundation/recorded.mp3", "reprompt": "audio/drill/togaf-foundation/reprompt.mp3", "rescan": "audio/drill/togaf-foundation/rescan.mp3", "review": "audio/drill/togaf-foundation/review.mp3", "s0": "audio/drill/togaf-foundation/s0.mp3", "s1": "audio/drill/togaf-foundation/s1.mp3", "s10": "audio/drill/togaf-foundation/s10.mp3", "s11": "audio/drill/togaf-foundation/s11.mp3", "s12": "audio/drill/togaf-foundation/s12.mp3", "s13": "audio/drill/togaf-foundation/s13.mp3", "s14": "audio/drill/togaf-foundation/s14.mp3", "s15": "audio/drill/togaf-foundation/s15.mp3", "s16": "audio/drill/togaf-foundation/s16.mp3", "s17": "audio/drill/togaf-foundation/s17.mp3", "s18": "audio/drill/togaf-foundation/s18.mp3", "s19": "audio/drill/togaf-foundation/s19.mp3", "s2": "audio/drill/togaf-foundation/s2.mp3", "s20": "audio/drill/togaf-foundation/s20.mp3", "s21": "audio/drill/togaf-foundation/s21.mp3", "s22": "audio/drill/togaf-foundation/s22.mp3", "s23": "audio/drill/togaf-foundation/s23.mp3", "s24": "audio/drill/togaf-foundation/s24.mp3", "s25": "audio/drill/togaf-foundation/s25.mp3", "s26": "audio/drill/togaf-foundation/s26.mp3", "s27": "audio/drill/togaf-foundation/s27.mp3", "s28": "audio/drill/togaf-foundation/s28.mp3", "s29": "audio/drill/togaf-foundation/s29.mp3", "s3": "audio/drill/togaf-foundation/s3.mp3", "s30": "audio/drill/togaf-foundation/s30.mp3", "s31": "audio/drill/togaf-foundation/s31.mp3", "s32": "audio/drill/togaf-foundation/s32.mp3", "s33": "audio/drill/togaf-foundation/s33.mp3", "s34": "audio/drill/togaf-foundation/s34.mp3", "s35": "audio/drill/togaf-foundation/s35.mp3", "s36": "audio/drill/togaf-foundation/s36.mp3", "s37": "audio/drill/togaf-foundation/s37.mp3", "s38": "audio/drill/togaf-foundation/s38.mp3", "s39": "audio/drill/togaf-foundation/s39.mp3", "s4": "audio/drill/togaf-foundation/s4.mp3", "s40": "audio/drill/togaf-foundation/s40.mp3", "s41": "audio/drill/togaf-foundation/s41.mp3", "s42": "audio/drill/togaf-foundation/s42.mp3", "s43": "audio/drill/togaf-foundation/s43.mp3", "s44": "audio/drill/togaf-foundation/s44.mp3", "s45": "audio/drill/togaf-foundation/s45.mp3", "s46": "audio/drill/togaf-foundation/s46.mp3", "s47": "audio/drill/togaf-foundation/s47.mp3", "s48": "audio/drill/togaf-foundation/s48.mp3", "s49": "audio/drill/togaf-foundation/s49.mp3", "s5": "audio/drill/togaf-foundation/s5.mp3", "s50": "audio/drill/togaf-foundation/s50.mp3", "s51": "audio/drill/togaf-foundation/s51.mp3", "s52": "audio/drill/togaf-foundation/s52.mp3", "s53": "audio/drill/togaf-foundation/s53.mp3", "s54": "audio/drill/togaf-foundation/s54.mp3", "s55": "audio/drill/togaf-foundation/s55.mp3", "s56": "audio/drill/togaf-foundation/s56.mp3", "s57": "audio/drill/togaf-foundation/s57.mp3", "s58": "audio/drill/togaf-foundation/s58.mp3", "s59": "audio/drill/togaf-foundation/s59.mp3", "s6": "audio/drill/togaf-foundation/s6.mp3", "s60": "audio/drill/togaf-foundation/s60.mp3", "s61": "audio/drill/togaf-foundation/s61.mp3", "s62": "audio/drill/togaf-foundation/s62.mp3", "s63": "audio/drill/togaf-foundation/s63.mp3", "s64": "audio/drill/togaf-foundation/s64.mp3", "s65": "audio/drill/togaf-foundation/s65.mp3", "s66": "audio/drill/togaf-foundation/s66.mp3", "s67": "audio/drill/togaf-foundation/s67.mp3", "s68": "audio/drill/togaf-foundation/s68.mp3", "s69": "audio/drill/togaf-foundation/s69.mp3", "s7": "audio/drill/togaf-foundation/s7.mp3", "s70": "audio/drill/togaf-foundation/s70.mp3", "s71": "audio/drill/togaf-foundation/s71.mp3", "s72": "audio/drill/togaf-foundation/s72.mp3", "s73": "audio/drill/togaf-foundation/s73.mp3", "s74": "audio/drill/togaf-foundation/s74.mp3", "s75": "audio/drill/togaf-foundation/s75.mp3", "s76": "audio/drill/togaf-foundation/s76.mp3", "s77": "audio/drill/togaf-foundation/s77.mp3", "s78": "audio/drill/togaf-foundation/s78.mp3", "s79": "audio/drill/togaf-foundation/s79.mp3", "s8": "audio/drill/togaf-foundation/s8.mp3", "s9": "audio/drill/togaf-foundation/s9.mp3", "score0": "audio/drill/togaf-foundation/score0.mp3", "score1": "audio/drill/togaf-foundation/score1.mp3", "score10": "audio/drill/togaf-foundation/score10.mp3", "score11": "audio/drill/togaf-foundation/score11.mp3", "score12": "audio/drill/togaf-foundation/score12.mp3", "score13": "audio/drill/togaf-foundation/score13.mp3", "score14": "audio/drill/togaf-foundation/score14.mp3", "score15": "audio/drill/togaf-foundation/score15.mp3", "score16": "audio/drill/togaf-foundation/score16.mp3", "score17": "audio/drill/togaf-foundation/score17.mp3", "score18": "audio/drill/togaf-foundation/score18.mp3", "score19": "audio/drill/togaf-foundation/score19.mp3", "score2": "audio/drill/togaf-foundation/score2.mp3", "score20": "audio/drill/togaf-foundation/score20.mp3", "score21": "audio/drill/togaf-foundation/score21.mp3", "score22": "audio/drill/togaf-foundation/score22.mp3", "score23": "audio/drill/togaf-foundation/score23.mp3", "score24": "audio/drill/togaf-foundation/score24.mp3", "score25": "audio/drill/togaf-foundation/score25.mp3", "score26": "audio/drill/togaf-foundation/score26.mp3", "score27": "audio/drill/togaf-foundation/score27.mp3", "score28": "audio/drill/togaf-foundation/score28.mp3", "score29": "audio/drill/togaf-foundation/score29.mp3", "score3": "audio/drill/togaf-foundation/score3.mp3", "score30": "audio/drill/togaf-foundation/score30.mp3", "score31": "audio/drill/togaf-foundation/score31.mp3", "score32": "audio/drill/togaf-foundation/score32.mp3", "score33": "audio/drill/togaf-foundation/score33.mp3", "score34": "audio/drill/togaf-foundation/score34.mp3", "score35": "audio/drill/togaf-foundation/score35.mp3", "score36": "audio/drill/togaf-foundation/score36.mp3", "score37": "audio/drill/togaf-foundation/score37.mp3", "score38": "audio/drill/togaf-foundation/score38.mp3", "score39": "audio/drill/togaf-foundation/score39.mp3", "score4": "audio/drill/togaf-foundation/score4.mp3", "score40": "audio/drill/togaf-foundation/score40.mp3", "score5": "audio/drill/togaf-foundation/score5.mp3", "score6": "audio/drill/togaf-foundation/score6.mp3", "score7": "audio/drill/togaf-foundation/score7.mp3", "score8": "audio/drill/togaf-foundation/score8.mp3", "score9": "audio/drill/togaf-foundation/score9.mp3", "timeup": "audio/drill/togaf-foundation/timeup.mp3", "wrong": "audio/drill/togaf-foundation/wrong.mp3"};
+const EXAMS = {"mock1": {"title": "Mock exam 1", "minutes": 60, "pass": 24, "questions": ["pool1-24", "pool1-3", "pool1-12", "pool1-2", "ep10-5", "ep9-5", "pool1-6", "pool1-10", "pool1-18", "pool1-30", "ep9-9", "pool1-21", "ep10-7", "pool1-22", "pool1-28", "pool1-23", "pool1-11", "ep9-7", "pool1-19", "ep10-1", "ep10-9", "pool1-15", "pool1-27", "pool1-20", "pool1-14", "pool1-13", "pool1-1", "pool1-16", "pool1-4", "pool1-7", "pool1-26", "pool1-25", "ep9-1", "pool1-29", "ep9-3", "pool1-8", "pool1-17", "pool1-5", "ep10-3", "pool1-9"]}, "mock2": {"title": "Mock exam 2", "minutes": 60, "pass": 24, "questions": ["pool2-27", "pool2-5", "ep10-10", "pool2-28", "ep9-10", "pool2-16", "pool2-30", "pool2-10", "ep10-2", "ep9-4", "ep9-2", "pool2-26", "pool2-7", "pool2-29", "pool2-8", "pool2-23", "pool2-1", "pool2-2", "pool2-9", "pool2-25", "pool2-15", "pool2-18", "pool2-12", "ep9-8", "ep10-4", "pool2-13", "pool2-21", "ep9-6", "ep10-6", "pool2-22", "pool2-19", "pool2-3", "pool2-14", "pool2-17", "pool2-20", "pool2-11", "pool2-24", "ep10-8", "pool2-6", "pool2-4"]}};
+const IDX = Object.fromEntries(QS.map((q, i) => [q.id, i]));
+const PRACTICE = QS.map((q, i) => i).filter(i => QS[i].id.startsWith("ep"));
+const TOPIC_LABEL = { concepts: "Core concepts", terminology: "Terminology", adm: "ADM: iteration, scope, tailoring",
+  phases: "ADM phases", requirements: "Requirements management", content: "Architecture content",
+  continuum: "Continuum & repository", techniques: "ADM techniques", governance: "Governance & compliance", general: "General" };
+const HOW_LABEL = { "voice-number": "voice (number)", "voice-content": "voice (answer words)", "voice-command": "voice", tap: "tap", key: "keyboard",
+  buttons: "car buttons", skip: "skipped", timeout: "time ran out", unanswered: "not answered" };
 const NUMW = ["one","two","three","four"];
 
-/* ---------- deterministic answer parser ---------- */
-const VOCAB = {
-  1: ["1","one","won","wan","juan","first","van"],
-  2: ["2","two","to","too","tu","second"],
-  3: ["3","three","tree","free","third"],
-  4: ["4","four","for","fore","fourth","ford"]
-};
-const CMD = { repeat: ["repeat","again","pardon"], skip: ["skip","next","pass"] };
-const LOOKUP = {};
-for (const k in VOCAB) VOCAB[k].forEach(w => LOOKUP[w] = +k);
-for (const k in CMD) CMD[k].forEach(w => LOOKUP[w] = k);
+/* ---------- deterministic answer parser (app/matcher.js, inlined at build) ---------- */
+/* Deterministic answer matcher: turns a recognised utterance into 1..n, "repeat", "skip" or null.
+ *
+ * Two ways to answer:
+ *  - by number: "number two", "two", "option three", "4"
+ *  - by content: words from an option, e.g. "business scenarios" or "architecture vision"
+ *
+ * Content matching weighs each option word by how many options contain it (a word unique to one
+ * option counts 1, a word shared by two counts 1/2, ...), tolerates small recognition errors on
+ * longer words, and only answers when one option clearly wins. Loose number homophones ("to",
+ * "for") count only in short utterances, so "to prepare the organization" is not answer 2.
+ *
+ * Shared by app/template.html (inlined at build) and tests/test_matcher.js (Node).
+ */
+const MATCHER = (() => {
+  const STRICT = { 1: ["1", "one", "first"], 2: ["2", "two", "second"], 3: ["3", "three", "third"], 4: ["4", "four", "fourth"] };
+  const LOOSE = { 1: ["won", "wan", "juan", "van"], 2: ["to", "too", "tu"], 3: ["tree", "free"], 4: ["for", "fore", "ford"] };
+  const CMD = { repeat: ["repeat", "again", "pardon"], skip: ["skip", "pass"] };
+  const SHORT = 3;   // utterances up to this many words may use the loose homophones
+
+  const STOP = new Set(("a an the of and or to in on is it its it's for with by as at be are was were this that these those " +
+    "which what who from into than then so if not no all any each one some do does done can could should would will " +
+    "there their them they we you your our i me my number option answer think say said um uh er").split(" "));
+
+  function words(text) {
+    return text.toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9 ]+/g, " ").split(/\s+/).filter(Boolean);
+  }
+  function stem(w) {
+    if (w.length > 4 && w.endsWith("ies")) return w.slice(0, -3) + "y";
+    if (w.length > 3 && w.endsWith("s") && !w.endsWith("ss")) return w.slice(0, -1);
+    return w;
+  }
+  // content tokens: no stop words; single letters kept except "a" and "i" (e.g. "Phase B")
+  function tokens(text) {
+    return words(text).filter(w => !STOP.has(w) && (w.length > 1 || /^[b-hj-z]$/.test(w))).map(stem);
+  }
+  function lev(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+    for (let i = 1; i <= a.length; i++) {
+      const cur = [i];
+      let best = cur[0];
+      for (let j = 1; j <= b.length; j++) {
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        best = Math.min(best, cur[j]);
+      }
+      if (best > max) return max + 1;
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+  function sameWord(a, b) {
+    if (a === b) return true;
+    const n = Math.min(a.length, b.length);
+    if (n >= 8) return lev(a, b, 2) <= 2;
+    if (n >= 5) return lev(a, b, 1) <= 1;
+    return false;
+  }
+
+  function byNumber(ws, loose) {
+    const found = new Set();
+    for (const w of ws) {
+      for (const k in STRICT) if (STRICT[k].includes(w)) found.add(+k);
+      if (loose) for (const k in LOOSE) if (LOOSE[k].includes(w)) found.add(+k);
+    }
+    return found.size === 1 ? [...found][0] : (found.size > 1 ? "ambiguous" : null);
+  }
+  function byCommand(ws) {
+    const found = new Set();
+    for (const w of ws) for (const k in CMD) if (CMD[k].includes(w)) found.add(k);
+    return found.size === 1 ? [...found][0] : null;
+  }
+
+  // Returns {value, score, second} or null. value is 1-based.
+  function byContent(text, options) {
+    const said = [...new Set(tokens(text))];
+    if (!said.length || !options || !options.length) return null;
+    const optTok = options.map(o => [...new Set(tokens(o))]);
+    const df = new Map();
+    optTok.forEach(ts => ts.forEach(t => df.set(t, (df.get(t) || 0) + 1)));
+    const scores = optTok.map(ts => {
+      let s = 0, strong = false;
+      for (const t of ts) {
+        if (df.get(t) >= options.length) continue;            // in every option: says nothing
+        if (said.some(w => sameWord(w, t))) {
+          s += 1 / df.get(t);
+          if (df.get(t) === 1 && t.length >= 3) strong = true;
+        }
+      }
+      return { s, strong };
+    });
+    const order = scores.map((x, i) => i).sort((a, b) => scores[b].s - scores[a].s);
+    const best = scores[order[0]], second = scores[order[1]] || { s: 0 };
+    // accept: at least one word unique to the winner, a total of 1, and a clear lead
+    if (best.strong && best.s >= 1 && best.s >= 2 * second.s)
+      return { value: order[0] + 1, score: +best.s.toFixed(2), second: +second.s.toFixed(2) };
+    // or: what was said is exactly one option's words ("Conformant" vs "Fully conformant")
+    const exact = optTok.map((ts, i) => i).filter(i =>
+      optTok[i].length && optTok[i].every(t => said.some(w => sameWord(w, t))) &&
+      said.every(w => optTok[i].some(t => sameWord(w, t))));
+    if (exact.length === 1) return { value: exact[0] + 1, score: 1, second: 0, exact: true };
+    return null;
+  }
+
+  // Main entry. options: current question's option texts (optional).
+  function parse(text, options) {
+    const ws = words(text);
+    if (!ws.length) return null;
+    const short = ws.length <= SHORT;
+    const cmd = byCommand(ws);
+    // Number and command words can be part of an option ("Baseline first", "Skip the baseline",
+    // "specific to one organization"). If the content clearly matches an option that contains every
+    // such word said, the content wins, unless the user explicitly said "number", "option" or "answer".
+    const explicit = ws.some(w => w === "number" || w === "option" || w === "answer");
+    const special = ws.filter(w => [STRICT, LOOSE, CMD].some(t => Object.values(t).some(l => l.includes(w))));
+    const otherWords = tokens(text).filter(t => !special.includes(t));   // "skip" alone stays a command
+    if (!explicit && special.length && otherWords.length && options) {
+      const c = byContent(text, options);
+      if (c && special.every(w => words(options[c.value - 1]).includes(w)))
+        return { value: c.value, how: "content", score: c.score, second: c.second };
+    }
+    if (short) {
+      const n = byNumber(ws, true);
+      if (typeof n === "number") return { value: n, how: "number" };
+      if (n === "ambiguous") return null;
+      if (cmd) return { value: cmd, how: "command" };
+    }
+    const c = byContent(text, options);
+    if (c) return { value: c.value, how: "content", score: c.score, second: c.second };
+    if (!short) {
+      const n = byNumber(ws, false);
+      if (typeof n === "number") return { value: n, how: "number" };
+      if (cmd) return { value: cmd, how: "command" };
+    }
+    return null;
+  }
+
+  return { parse, byContent, tokens };
+})();
+if (typeof module !== "undefined") module.exports = MATCHER;
+
+// Current question's options, so answers can be given by content ("business scenarios") as well as by number.
+function currentOptions() {
+  return (typeof queue !== "undefined" && queue.length && !$("drillView").hidden) ? QS[queue[pos]].o : null;
+}
 function parseUtterance(text) {
-  const toks = text.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
-  const hits = [...new Set(toks.map(t => LOOKUP[t]).filter(v => v !== undefined))];
-  const nums = hits.filter(h => typeof h === "number");
-  if (nums.length === 1) return nums[0];          // exactly one distinct number: accept
-  if (nums.length > 1) return null;               // ambiguous ("two or three"): ignore
-  const cmds = hits.filter(h => typeof h === "string");
-  return cmds.length === 1 ? cmds[0] : null;
+  const r = MATCHER.parse(text, currentOptions());
+  if (r && r.how === "content") dlog(`matched by content -> ${r.value} (score ${r.score} vs ${r.second}${r.exact ? ", exact" : ""})`);
+  if (r) lastHow = "voice-" + r.how;
+  return r ? r.value : null;
 }
 
 /* ---------- answer mode: "voice" (speech, tap, keys) or "buttons" (next/previous scanning) ---------- */
@@ -316,6 +500,8 @@ function micPressed() { if (micResolve) { const r = micResolve; micResolve = nul
 /* ---------- session state machine ---------- */
 let queue = [], pos = 0, score = 0, results = [], paused = false, answered = false, runId = 0, reviewMode = false;
 let pendingAnswer = null;   // resolver for the current wait-for-answer
+let lastHow = "";           // how the current answer was given (voice-number, voice-content, tap, key, buttons, skip)
+let session = null;         // { kind: "practice" | "review" | "exam", examKey, title, ... }
 
 function setState(s, text) { $("state").dataset.s = s; $("stateText").textContent = text; }
 function renderVoice() {
@@ -324,6 +510,33 @@ function renderVoice() {
   $("bVoice").textContent = usable ? "Voice" : "Voice off";
 }
 function renderStart() {
+  const hist = loadHistory();
+  const list = $("examList"); list.innerHTML = "";
+  Object.entries(EXAMS).forEach(([key, e]) => {
+    const mine = hist.filter(a => a.exam === key);
+    const best = mine.reduce((b, a) => Math.max(b, a.score), -1);
+    const btn = document.createElement("button"); btn.className = "exam"; btn.id = "exam-" + key;
+    btn.innerHTML = `<b></b><span class="d"></span><span class="best"></span>`;
+    btn.querySelector("b").textContent = e.title;
+    btn.querySelector(".d").textContent = `${e.questions.length} questions · ${e.minutes} min · pass ${e.pass}`;
+    btn.querySelector(".best").textContent = best >= 0 ? `best ${best}/${e.questions.length}
+${mine.length} attempt${mine.length === 1 ? "" : "s"}` : "not taken";
+    btn.onclick = () => startExam(key);
+    list.appendChild(btn);
+  });
+  const hl = $("historyList"); hl.innerHTML = "";
+  if (!hist.length) hl.innerHTML = '<p class="modeHint">No results yet. They are saved on this device after each session.</p>';
+  hist.slice(-6).reverse().forEach(a => {
+    const d = document.createElement("div"); d.className = "h";
+    d.innerHTML = `<span class="t"></span><span class="when"></span><span class="chip"></span>`;
+    d.querySelector(".t").textContent = `${a.title}: ${a.score}/${a.total}`;
+    d.querySelector(".when").textContent = a.date.slice(5, 16).replace("T", " ");
+    const c = d.querySelector(".chip");
+    if (a.passed === null) c.textContent = Math.round(a.score / a.total * 100) + "%";
+    else { c.textContent = a.passed ? "pass" : "fail"; c.classList.add(a.passed ? "pass" : "fail"); }
+    hl.appendChild(d);
+  });
+  $("historyActions").hidden = !hist.length;
   const m = missedList().length;
   $("startMissed").disabled = m === 0;
   $("startMissed").textContent = `Review missed (${m})`;
@@ -344,7 +557,7 @@ function renderQuestion() {
     b.className = "pad"; b.id = "pad" + (j + 1);
     b.innerHTML = `<span class="n">${j + 1}</span><span class="o"></span>`;
     b.querySelector(".o").textContent = o;
-    b.onclick = () => submit(j + 1);
+    b.onclick = () => { lastHow = "tap"; submit(j + 1); };
     pads.appendChild(b);
   });
 }
@@ -360,28 +573,39 @@ async function waitPaused(id) { while (paused && id === runId) await new Promise
 
 async function askAndWait(id) {
   // returns 1..4, "skip", or null if the run was cancelled
+  let firstRead = true;
   for (;;) {
     if (id !== runId) return null;
     await waitPaused(id);
     setState("speaking", "Reading question");
     const answerP = new Promise(r => pendingAnswer = r);     // taps/keys accepted while reading
-    const readP = play("q" + queue[pos]);
+    const readP = firstRead ? play("qnum" + (pos + 1)).then(ok => ok ? play("q" + queue[pos]) : false) : play("q" + queue[pos]);
+    firstRead = false;
     let got = await Promise.race([answerP, readP.then(() => "__read")]);
     if (id !== runId) return null;
-    let autoListen = true, reprompts = 0, silent = 0, errors = 0;
+    let autoListen = true, reprompts = 0, errors = 0;
+    // Thinking time: keep listening quietly (restarting the recogniser as Chrome ends each attempt)
+    // until the window runs out; only then reprompt. First window is longer.
+    let windowStart = Date.now(), windowMs = TIMING.firstWindowMs;
     while (typeof got === "string" && got.startsWith("__")) {
-      if (paused) await waitPaused(id);
+      if (paused) { await waitPaused(id); windowStart = Date.now(); }
       if (id !== runId) return null;
-      if (got === "__mic") { autoListen = true; reprompts = 0; silent = 0; errors = 0; }
+      if (got === "__mic") { autoListen = true; reprompts = 0; errors = 0; windowStart = Date.now(); windowMs = TIMING.firstWindowMs; }
       if (voiceUsable() && autoListen) {
-        setState("listening", "Listening · say 1–4"); $("bMic").hidden = true;
-        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce()]);
+        setState("listening", "Listening · say “number two” or the answer"); $("bMic").hidden = true;
+        const t0 = Date.now();
+        const left = Math.max(TIMING.minAttemptMs, windowMs - (t0 - windowStart));
+        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce(left)]);
         stopListening();
         if (id !== runId) return null;
         if (r.kind === "tap" || r.kind === "hit") { got = r.value; break; }
-        if (r.kind === "miss" || (r.kind === "silent" && ++silent % 3 === 0)) {
-          if (reprompts++ < 3) { setState("speaking", "Didn't catch that"); await play("reprompt"); }
-          else autoListen = false;
+        if (r.kind === "miss" || r.kind === "silent") {
+          if (Date.now() - t0 < TIMING.minAttemptMs) await new Promise(res => setTimeout(res, TIMING.restartPauseMs));   // never spin
+          if (Date.now() - windowStart < windowMs) { got = "__again"; continue; }                                     // still thinking time
+          if (reprompts++ < 3) {
+            setState("speaking", "Didn't catch that"); await play("reprompt");
+            windowStart = Date.now(); windowMs = TIMING.laterWindowMs;
+          } else autoListen = false;
         } else if (r.kind === "error" && ++errors <= 3) {
           $("heard").textContent = "speech service: " + r.text + " · retrying";
           await new Promise(res => setTimeout(res, 1500));    // e.g. mic briefly held by the car system
@@ -407,6 +631,10 @@ async function askAndWait(id) {
     return got;
   }
 }
+
+/* ---------- listening windows (overridable for tests via window.DRILL_TIMING) ---------- */
+const TIMING = Object.assign({ firstWindowMs: 12000, laterWindowMs: 8000, minAttemptMs: 1500, restartPauseMs: 400 },
+                             window.DRILL_TIMING || {});
 
 /* ---------- car-buttons mode: scanning ---------- */
 // Inputs become events: {type: "next" | "prev" | "skip" | "tap", value?}
@@ -438,13 +666,15 @@ const CONFIRM_WAIT_MS = 8000;
 async function askScan(id) {
   const qi = queue[pos], n = QS[qi].o.length;
   prefetch(["s" + qi, ...QS[qi].o.map((_, j) => `o${qi}_${j + 1}`), ...[1, 2, 3, 4].map(k => "confirm" + k), "rescan"]);
-  let from = "stem", loops = 0;
+  let from = "stem", loops = 0, announced = false;
   outer: for (;;) {
     if (id !== runId) return null;
     await waitPaused(id);
     if (from === "stem") {
       mark(0); setState("speaking", "Question · next skips to options");
-      const r = await playOrEvent("s" + qi);
+      let r = announced ? { done: true } : await playOrEvent("qnum" + (pos + 1));
+      announced = true;
+      if (!r.ev) r = await playOrEvent("s" + qi);
       if (id !== runId) return null;
       if (r.ev) {
         if (r.ev.type === "tap") return r.ev.value;
@@ -491,7 +721,7 @@ async function askScan(id) {
       if (id !== runId) return null;
       if (!r.ev) continue;                            // no press: ask again, never auto-confirm
       const e = r.ev;
-      if (e.type === "next") { dlog("confirmed " + chosen); return chosen; }
+      if (e.type === "next") { dlog("confirmed " + chosen); lastHow = "buttons"; return chosen; }
       if (e.type === "tap") return e.value;
       if (e.type === "skip") return "skip";
       if (e.type === "prev") { loops = 0; from = "options"; continue outer; }
@@ -509,41 +739,73 @@ function btnPrev() {
   if (!answered) emit({ type: "prev" });
 }
 
-async function run(indices, isReview) {
+/* ---------- sessions: practice (feedback after each question), review, exam (no feedback, timed) ---------- */
+let timerInt = null, timeLeftMs = 0, timerLast = 0;
+function examActive() { return session && session.kind === "exam" && !session.ended; }
+function fmtTime(ms) { const t = Math.max(0, Math.round(ms / 1000)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); }
+function startTimer(ms) {
+  timeLeftMs = ms; timerLast = Date.now(); clearInterval(timerInt);
+  const tick = () => {
+    const now = Date.now();
+    if (!paused) timeLeftMs -= now - timerLast;
+    timerLast = now;
+    $("timer").textContent = fmtTime(timeLeftMs) + " left";
+    $("timer").classList.toggle("low", timeLeftMs < 5 * 60000);
+    if (timeLeftMs <= 0 && examActive()) { clearInterval(timerInt); dlog("exam time up"); endSession("time"); }
+  };
+  tick(); timerInt = setInterval(tick, 500);
+}
+
+async function run(indices, opts) {
   const id = ++runId;
-  queue = indices; pos = 0; score = 0; results = []; paused = false; reviewMode = isReview;
+  session = Object.assign({ kind: "practice", title: "Practice drill" }, opts, { startedAt: Date.now(), ended: false });
+  const exam = session.kind === "exam";
+  queue = indices; pos = 0; score = 0; results = []; paused = false; reviewMode = session.kind === "review";
   $("bPause").setAttribute("aria-pressed", "false"); $("bPause").textContent = "Pause";
   show("drillView"); renderVoice();
-  setState("speaking", "Intro");
-  $("qText").textContent = ""; $("pads").innerHTML = "";
-  prefetch(["intro_buttons", "correct", "wrong"]);
-  await play(isReview ? "review" : (mode === "buttons" ? "intro_buttons" : "intro"));
+  $("scoreBox").hidden = exam; $("timer").hidden = !exam; $("bEnd").hidden = !exam; $("bEnd").textContent = "End exam";
+  setState("speaking", exam ? session.title : "Intro");
+  $("qText").textContent = exam ? `${session.title} · ${queue.length} questions · ${Math.round(session.ms / 60000)} minutes` : "";
+  $("pads").innerHTML = "";
+  prefetch(["intro_buttons", "exam_intro", "exam_intro_buttons", "correct", "wrong", "recorded", "qnum1"]);
+  if (exam) startTimer(session.ms);
+  const intro = reviewMode ? "review" : exam ? (mode === "buttons" ? "exam_intro_buttons" : "exam_intro") : (mode === "buttons" ? "intro_buttons" : "intro");
+  await play(intro);
   for (; pos < queue.length; pos++) {
     if (id !== runId) return;
     answered = false; renderQuestion();
     const qi = queue[pos], q = QS[qi];
-    prefetch(["e" + qi]);
+    prefetch(["qnum" + (pos + 2), exam ? "recorded" : "e" + qi]);
+    const t0 = Date.now(); lastHow = "";
     const v = mode === "buttons" ? await askScan(id) : await askAndWait(id);
     mark(0);
     if (v === null) return;
     answered = true;
-    const s = stats[qi] || { seen: 0, wrong: 0, box: 0 };
-    s.seen++;
-    if (v === "skip") {
-      s.box = 0; results.push({ qi, given: null });
-      setState("wrong", "Skipped");
-    } else {
-      const ok = v === q.a;
-      if (ok) { score++; s.box = Math.min(3, s.box + 1); } else { s.wrong++; s.box = 0; }
-      results.push({ qi, given: v });
+    const how = v === "skip" ? "skip" : (lastHow || (mode === "buttons" ? "buttons" : "voice-number"));
+    const given = v === "skip" ? null : v;
+    const ok = given === q.a;
+    results.push({ qi, given, ms: Date.now() - t0, how });
+    const st = stats[qi] || { seen: 0, wrong: 0, box: 0 };
+    st.seen++;
+    if (ok) { score++; st.box = Math.min(3, st.box + 1); } else { st.wrong++; st.box = 0; }
+    stats[qi] = st; store.set(stats);
+    if (exam) {
+      // no feedback during an exam: mark the choice, confirm it was recorded, move on
+      if (given) $("pad" + given).classList.add("chosen");
+      [...$("pads").children].forEach(b => b.disabled = true);
+      setState("speaking", given ? `Answer ${given} recorded` : "Skipped");
+      await play("recorded");
+      continue;
+    }
+    if (given === null) setState("wrong", "Skipped");
+    else {
       $("pad" + q.a).classList.add("right");
-      if (!ok) $("pad" + v).classList.add("wrong");
+      if (!ok) $("pad" + given).classList.add("wrong");
       [...$("pads").children].forEach(b => b.disabled = true);
       $("score").textContent = score;
       setState(ok ? "right" : "wrong", ok ? "Correct" : `Answer: ${q.a}`);
       await play(ok ? "correct" : "wrong");
     }
-    stats[qi] = s; store.set(stats);
     if (id !== runId) return;
     $("explain").textContent = q.e; $("explain").hidden = false;
     await waitPaused(id);
@@ -553,32 +815,138 @@ async function run(indices, isReview) {
     await waitPaused(id);
   }
   if (id !== runId) return;
-  $("bar").style.width = "100%";
-  finish();
-  await play("score" + Math.min(20, score));
-  if (id === runId) await play("end");
+  endSession("done");
 }
 
-function finish() {
+// Ends the session (normal end, exam time up, or "End exam"); records unanswered questions in an exam.
+async function endSession(reason) {
+  if (!session || session.ended) return;
+  session.ended = true;
+  const id = ++runId;
+  stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; clearInterval(timerInt);
+  if (session.kind === "exam") {
+    const done = new Set(results.map(r => r.qi));
+    queue.forEach(qi => { if (!done.has(qi)) results.push({ qi, given: null, ms: 0, how: reason === "time" ? "timeout" : "unanswered" }); });
+  }
+  const attempt = saveAttempt(reason);
+  finish(attempt);
+  if (reason === "time") { await play("timeup"); if (id !== runId) return; }
+  await play("score" + Math.min(score, maxScoreClip()));
+  if (id !== runId) return;
+  if (session.kind === "exam") await play(attempt.passed ? "exam_pass" : "exam_fail");
+  else await play("end");
+}
+function maxScoreClip() { let n = 0; while (CLIPS["score" + (n + 1)]) n++; return n; }
+
+/* ---------- attempts: history on this device, export ---------- */
+const HISTORY_KEY = "drill-history";
+function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch (e) { return []; } }
+function saveHistory(h) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(h.slice(-50))); } catch (e) {} }
+function saveAttempt(reason) {
+  const exam = session.kind === "exam";
+  const items = results.map((r, k) => {
+    const q = QS[r.qi];
+    return { n: k + 1, id: q.id, topic: q.topic, question: q.q, given: r.given, givenText: r.given ? q.o[r.given - 1] : "",
+             answer: q.a, answerText: q.o[q.a - 1], correct: r.given === q.a, seconds: Math.round(r.ms / 100) / 10, how: r.how };
+  });
+  const attempt = {
+    attemptId: new Date(session.startedAt).toISOString().replace(/[-:]/g, "").slice(0, 15),
+    date: new Date(session.startedAt).toISOString(), kind: session.kind, exam: session.examKey || null, title: session.title,
+    answeredWith: mode === "buttons" ? "car buttons" : "voice / tap", total: queue.length, score,
+    passMark: exam ? session.pass : null, passed: exam ? score >= session.pass : null,
+    minutes: Math.round((Date.now() - session.startedAt) / 6000) / 10, ended: reason, items,
+  };
+  if (attempt.total > 0) { const h = loadHistory(); h.push(attempt); saveHistory(h); }
+  return attempt;
+}
+function byTopic(items) {
+  const t = {};
+  items.forEach(it => { const k = it.topic || "general"; t[k] = t[k] || { right: 0, total: 0 }; t[k].total++; if (it.correct) t[k].right++; });
+  return Object.entries(t).map(([k, v]) => ({ topic: k, label: TOPIC_LABEL[k] || k, ...v, pct: v.right / v.total }))
+    .sort((a, b) => a.pct - b.pct || b.total - a.total);
+}
+function csvCell(v) { const s = v === null || v === undefined ? "" : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+function toCSV(attempts) {
+  const head = ["attempt", "date", "session", "answered_with", "score", "total", "passed", "q_no", "question_id", "topic", "question",
+                "your_answer", "your_answer_text", "correct_answer", "correct_answer_text", "correct", "seconds", "answered_by"];
+  const rows = [head];
+  attempts.forEach(a => a.items.forEach(it => rows.push([a.attemptId, a.date, a.title, a.answeredWith, a.score, a.total,
+    a.passed === null ? "" : (a.passed ? "yes" : "no"), it.n, it.id, it.topic, it.question, it.given ?? "", it.givenText,
+    it.answer, it.answerText, it.correct ? "yes" : "no", it.seconds, HOW_LABEL[it.how] || it.how])));
+  return rows.map(r => r.map(csvCell).join(",")).join("\n") + "\n";
+}
+function summaryText(attempts) {
+  const lines = ["# TOGAF Foundation practice results", ""];
+  attempts.forEach(a => {
+    const pct = Math.round(a.score / a.total * 100);
+    lines.push(`## ${a.title} · ${a.date.slice(0, 16).replace("T", " ")}`);
+    lines.push(`Score: ${a.score}/${a.total} (${pct}%)` + (a.passed === null ? "" : ` · ${a.passed ? "PASS" : "FAIL"} (pass mark ${a.passMark})`) +
+               ` · ${a.minutes} min · answered with ${a.answeredWith}` + (a.ended === "time" ? " · time ran out" : ""));
+    lines.push("", "By topic (weakest first):");
+    byTopic(a.items).forEach(t => lines.push(`- ${t.label}: ${t.right}/${t.total}`));
+    const wrong = a.items.filter(it => !it.correct);
+    if (wrong.length) {
+      lines.push("", "Missed questions:");
+      wrong.forEach(it => lines.push(`- [${TOPIC_LABEL[it.topic] || it.topic}] ${it.question}\n  - my answer: ${it.given ? it.givenText : "(none: " + (HOW_LABEL[it.how] || it.how) + ")"}\n  - correct: ${it.answerText}`));
+    }
+    lines.push("");
+  });
+  lines.push("Please suggest what to study next, based on my weakest topics and the questions I missed.");
+  return lines.join("\n");
+}
+function download(name, text, type) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+}
+function copyText(text, statusEl) {
+  const ok = () => { statusEl.textContent = "Copied. Paste it into a chat or a note."; setTimeout(() => statusEl.textContent = "", 4000); };
+  const fallback = () => {
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); ok(); } catch (e) { statusEl.textContent = "Copy failed: use Download instead."; }
+    ta.remove();
+  };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, fallback); else fallback();
+}
+
+let lastAttempt = null;
+function finish(attempt) {
+  lastAttempt = attempt;
   releaseWake(); stopKeepAlive();
   show("doneView");
-  $("doneScore").textContent = `${score} of ${queue.length} correct`;
-  const pct = Math.round(score / queue.length * 100);
-  $("doneStats").textContent = `${pct}% · pass mark 60%`;
+  const pct = Math.round(attempt.score / Math.max(1, attempt.total) * 100);
+  $("doneTitle").textContent = attempt.title;
+  $("doneScore").textContent = `${attempt.score} of ${attempt.total} correct`;
+  $("doneStats").innerHTML = "";
+  const chip = document.createElement("span");
+  chip.className = "chip" + (attempt.passed === null ? "" : attempt.passed ? " pass" : " fail");
+  chip.textContent = attempt.passed === null ? `${pct}%` : `${pct}% · ${attempt.passed ? "pass" : "fail"}`;
+  $("doneStats").appendChild(chip);
+  $("doneMeta").textContent = `${attempt.minutes} min · answered with ${attempt.answeredWith}` +
+    (attempt.passMark ? ` · pass mark ${attempt.passMark}/${attempt.total}` : "") + (attempt.ended === "time" ? " · time ran out" : "");
+  const topics = $("doneTopics"); topics.innerHTML = "";
+  byTopic(attempt.items).forEach(t => {
+    const d = document.createElement("div"); d.className = "topic" + (t.pct < 0.6 ? " weak" : "");
+    d.innerHTML = `<span class="l"></span><span class="bar"><i style="width:${Math.round(t.pct * 100)}%"></i></span><span class="n">${t.right}/${t.total}</span>`;
+    d.querySelector(".l").textContent = t.label;
+    topics.appendChild(d);
+  });
   const rows = $("doneRows"); rows.innerHTML = "";
-  results.forEach(r => {
-    const q = QS[r.qi], ok = r.given === q.a;
+  attempt.items.forEach(it => {
     const d = document.createElement("div"); d.className = "row";
-    d.innerHTML = `<span class="m ${ok ? "ok" : "ko"}">${ok ? "✓" : "✗"}</span><span class="t"></span><span class="k"></span>`;
-    d.querySelector(".t").textContent = q.q;
-    d.querySelector(".k").textContent = ok ? `${q.a}` : `${r.given ?? "–"} → ${q.a}`;
+    d.innerHTML = `<span class="m ${it.correct ? "ok" : "ko"}">${it.correct ? "✓" : "✗"}</span><span class="t"></span><span class="k"></span>`;
+    d.querySelector(".t").textContent = it.question;
+    d.querySelector(".k").textContent = it.correct ? `${it.answer}` : `${it.given ?? "–"} → ${it.answer}`;
     rows.appendChild(d);
   });
+  const wrong = attempt.items.filter(it => !it.correct).length;
+  $("reviewWrong").hidden = wrong === 0;
+  $("reviewWrong").textContent = `Review ${wrong} mistake${wrong === 1 ? "" : "s"} with explanations`;
   const m = missedList().length;
-  $("again").hidden = m === 0; $("again").textContent = `Review missed (${m})`;
+  $("again").hidden = m === 0; $("again").textContent = `Review all missed questions (${m})`;
 }
 
-function quit() { runId++; stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; stopKeepAlive(); releaseWake(); }
+function quit() { runId++; clearInterval(timerInt); if (session) session.ended = true; stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; stopKeepAlive(); releaseWake(); }
 
 /* ---------- keep the screen on during a session ---------- */
 let wake = null, sessionActive = false;
@@ -619,17 +987,38 @@ function primeMic() {
   });
 }
 // Unlock audio playback inside the gesture (iOS), then start the session after the mic prompt.
-function startRun(list, review) {
+function startRun(list, opts) {
   dlog("session start · " + envLine());
   sessionActive = true; acquireWake();
   audio.muted = true; audio.src = CLIPS.correct;
   audio.play().catch(() => {});          // play() in the session unmutes and swaps the source
-  if (mode === "buttons") { dlog("mode: car buttons"); startKeepAlive(); run(list, review); return; }
-  primeMic().then(() => run(list, review));
+  if (mode === "buttons") { dlog("mode: car buttons"); startKeepAlive(); run(list, opts); return; }
+  primeMic().then(() => run(list, opts));
 }
-$("startAll").onclick = () => startRun(QS.map((_, i) => i), false);
-$("startMissed").onclick = () => startRun(missedList(), true);
-$("again").onclick = () => startRun(missedList(), true);
+$("startAll").onclick = () => startRun(PRACTICE, { kind: "practice", title: "Practice drill" });
+$("startMissed").onclick = () => startRun(missedList(), { kind: "review", title: "Review missed" });
+$("again").onclick = () => startRun(missedList(), { kind: "review", title: "Review missed" });
+function startExam(key) {
+  const e = EXAMS[key];
+  const ms = TIMING.examMs || e.minutes * 60000;
+  startRun(e.questions.map(id => IDX[id]), { kind: "exam", examKey: key, title: e.title, ms, pass: e.pass });
+}
+$("reviewWrong").onclick = () => {
+  if (!lastAttempt) return;
+  const idx = lastAttempt.items.filter(it => !it.correct).map(it => IDX[it.id]);
+  startRun(idx, { kind: "review", title: "Review: " + lastAttempt.title });
+};
+$("dlCsv").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.csv`, toCSV([lastAttempt]), "text/csv");
+$("dlJson").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.json`, JSON.stringify(lastAttempt, null, 2), "application/json");
+$("copySummary").onclick = () => lastAttempt && copyText(summaryText([lastAttempt]), $("copiedOne"));
+$("exportAll").onclick = () => { const h = loadHistory(); if (h.length) download(`togaf-results-all-${new Date().toISOString().slice(0, 10)}.csv`, toCSV(h), "text/csv"); };
+$("copyAll").onclick = () => { const h = loadHistory(); if (h.length) copyText(summaryText(h.slice(-10)), $("copiedAll")); };
+let endArmed = 0;
+$("bEnd").onclick = () => {                       // two taps within 3 s, so a stray tap can't end the exam
+  if (Date.now() - endArmed < 3000) { dlog("exam ended by user"); endSession("ended"); return; }
+  endArmed = Date.now(); $("bEnd").textContent = "Tap again to end";
+  setTimeout(() => { if (examActive()) $("bEnd").textContent = "End exam"; }, 3000);
+};
 $("bMic").onclick = micPressed;
 $("diagEnv").textContent = envLine();
 $("diag").addEventListener("toggle", () => { $("diagEnv").textContent = envLine(); });
@@ -655,7 +1044,7 @@ $("micTest").onclick = () => {
       `The speech service failed (${r.text}). It may need an internet connection.`;
   });
 };
-$("home").onclick = () => { quit(); renderStart(); show("startView"); };
+$("home").onclick = () => { quit(); $("bEnd").hidden = true; renderStart(); show("startView"); };
 $("bRepeat").onclick = () => {
   if (mode === "buttons") return btnPrev();
   if (pendingAnswer) { stopListening(); command("repeat"); }
@@ -679,7 +1068,7 @@ $("bVoice").onclick = () => {
 };
 document.addEventListener("keydown", e => {
   if ($("drillView").hidden) return;
-  if (/^[1-4]$/.test(e.key)) { stopListening(); submit(+e.key); }
+  if (/^[1-4]$/.test(e.key)) { stopListening(); lastHow = "key"; submit(+e.key); }
   else if (e.key === "r" || e.key === "R") $("bRepeat").click();
   else if (e.key === "s" || e.key === "S") $("bSkip").click();
   else if (e.key === " ") { e.preventDefault(); $("bPause").click(); }
@@ -693,7 +1082,7 @@ if ("mediaSession" in navigator) {
   try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Practice Drill", artist: "Practice exam" }); } catch (e) {}
 }
 const MODE_HINT = {
-  voice: "Say “number one” to “number four” after each question: a short phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
+  voice: "Say “number one” to “number four”, or words from the answer you choose: a phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
   buttons: "No microphone. Each option is read in turn: press next on the steering wheel (or headset) on the one you want, then next again to confirm."
 };
 function renderMode() {

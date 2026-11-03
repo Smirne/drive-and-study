@@ -85,6 +85,29 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .diagEnv { font: 500 11.5px var(--mono); margin: 0; overflow-wrap: anywhere; }
 .note { font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; }
 
+.section-h { font-size: 20px; margin: 10px 0 0; }
+.exams { display: grid; gap: 10px; }
+.exam { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; text-align: left; padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.exam b { font-size: 17px; }
+.exam .d { color: var(--muted); font-size: 13.5px; grid-column: 1; }
+.exam .best { grid-column: 2; grid-row: 1 / span 2; font: 600 13px var(--mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; white-space: pre-line; }
+.hist { display: grid; gap: 0; }
+.hist .h { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.hist .h .when { color: var(--muted); font: 500 12px var(--mono); }
+.chip { font: 600 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 3px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.chip.pass { color: var(--ok); border-color: var(--ok); }
+.chip.fail { color: var(--bad); border-color: var(--bad); }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.timer { font-variant-numeric: tabular-nums; }
+.timer.low { color: var(--bad); }
+.topics { display: grid; gap: 6px; margin: 4px 0 8px; }
+.topic { display: grid; grid-template-columns: minmax(0, 9em) 1fr auto; gap: 10px; align-items: center; font-size: 14px; }
+.topic .bar { height: 8px; background: var(--raised); border-radius: 4px; overflow: hidden; }
+.topic .bar i { display: block; height: 100%; background: var(--ok); }
+.topic.weak .bar i { background: var(--bad); }
+.topic .n { font: 600 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.copied { font: 500 12px var(--mono); color: var(--ok); min-height: 1em; margin: 0; }
 .results { display: grid; gap: 8px; }
 .results h2 { margin: 0; font-size: 26px; }
 .row { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
@@ -97,18 +120,28 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 <div class="app" id="app">
   <section class="start" id="startView">
     <div class="strip"><a class="home" href="/">← Drive &amp; Study</a><span id="statsLine"></span></div>
-    <h1>Practice drill</h1>
-    <p>20 practice questions for the TOGAF® Enterprise Architecture Foundation exam, read aloud. Answer by voice, with the car's steering-wheel buttons, by tap or by keyboard. The app scores you, explains the answer and remembers what you missed.</p>
+    <h1>Practice drill &amp; mock exams</h1>
+    <p>Practice questions and mock exams for the TOGAF® Enterprise Architecture Foundation exam, read aloud. Answer by voice, with the car's steering-wheel buttons, by tap or by keyboard. The app scores you, explains the answer and remembers what you missed.</p>
     <div class="modes" role="radiogroup" aria-label="Answer with">
       <button class="mode" id="modeVoice" role="radio" aria-checked="true">Answer by voice</button>
       <button class="mode" id="modeButtons" role="radio" aria-checked="false">Car buttons</button>
     </div>
     <p class="modeHint" id="modeHint"></p>
-    <button class="big" id="startAll">Start all 20</button>
+    <button class="big" id="startAll">Practice: 20 questions with feedback</button>
     <button class="ghost" id="startMissed" disabled>Review missed (0)</button>
+    <h2 class="section-h">Mock exams</h2>
+    <p>Like the real Part 1: 40 questions, 60 minutes, pass mark 24. No feedback until the end, then a score by topic and a review of your mistakes with explanations.</p>
+    <div class="exams" id="examList"></div>
+    <h2 class="section-h">Your results</h2>
+    <div class="hist" id="historyList"></div>
+    <div class="pair" id="historyActions">
+      <button class="ghost" id="exportAll">Download all (CSV)</button>
+      <button class="ghost" id="copyAll">Copy summary</button>
+    </div>
+    <p class="copied" id="copiedAll"></p>
     <a class="ghost linkbtn" href="/lessons">Audio lessons</a>
     <dl class="how">
-      <dt>Say</dt><dd>“number two” (works better than “two” alone) · “repeat” · “skip”</dd>
+      <dt>Say</dt><dd>“number two”, or words from the answer (“business scenarios”) · “repeat” · “skip”</dd>
       <dt>Tap</dt><dd>the numbered pads</dd>
       <dt>Buttons</dt><dd><b>next</b> on the option you want, then <b>next</b> to confirm · <b>previous</b> = question again / change</dd>
       <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause · ← → previous / next</dd>
@@ -119,7 +152,7 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   </section>
 
   <section id="drillView" hidden style="display:flex;flex-direction:column;gap:14px;flex:1">
-    <div class="strip"><span>Q <b id="qNum">1</b>/<span id="qTot">20</span></span><span>Score <b id="score">0</b></span></div>
+    <div class="strip"><span>Q <b id="qNum">1</b>/<span id="qTot">20</span></span><span id="scoreBox">Score <b id="score">0</b></span><span class="timer" id="timer" hidden></span></div>
     <div class="progress"><i id="bar"></i></div>
     <div class="state" id="state" data-s="speaking"><span class="dot"></span><span id="stateText">Reading</span><span class="heard" id="heard"></span></div>
     <p class="qtext" id="qText"></p>
@@ -131,14 +164,26 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
       <button id="bPause" aria-pressed="false">Pause</button>
       <button id="bSkip">Skip</button>
       <button id="bVoice" aria-pressed="true">Voice</button>
+      <button id="bEnd" hidden>End exam</button>
     </div>
   </section>
 
   <section class="results" id="doneView" hidden>
-    <div class="strip"><span>Session complete</span><span id="doneStats"></span></div>
+    <div class="strip"><span id="doneTitle">Session complete</span><span id="doneStats"></span></div>
     <h2 id="doneScore"></h2>
+    <p id="doneMeta" class="modeHint"></p>
+    <h3 class="section-h" id="topicsH">By topic</h3>
+    <div class="topics" id="doneTopics"></div>
+    <button class="big" id="reviewWrong">Review mistakes with explanations</button>
+    <div class="pair">
+      <button class="ghost" id="dlCsv">Download CSV</button>
+      <button class="ghost" id="dlJson">Download JSON</button>
+    </div>
+    <button class="ghost" id="copySummary">Copy summary (paste it to Claude to plan your study)</button>
+    <p class="copied" id="copiedOne"></p>
+    <h3 class="section-h">Questions</h3>
     <div id="doneRows"></div>
-    <button class="big" id="again">Review missed</button>
+    <button class="ghost" id="again">Review missed</button>
     <button class="ghost" id="home">Back to start</button>
   </section>
 
@@ -153,27 +198,27 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 <script>
 const QS = /*__QUESTIONS__*/[];
 const CLIPS = /*__CLIPS__*/{};
+const EXAMS = /*__EXAMS__*/{};
+const IDX = Object.fromEntries(QS.map((q, i) => [q.id, i]));
+const PRACTICE = QS.map((q, i) => i).filter(i => QS[i].id.startsWith("ep"));
+const TOPIC_LABEL = { concepts: "Core concepts", terminology: "Terminology", adm: "ADM: iteration, scope, tailoring",
+  phases: "ADM phases", requirements: "Requirements management", content: "Architecture content",
+  continuum: "Continuum & repository", techniques: "ADM techniques", governance: "Governance & compliance", general: "General" };
+const HOW_LABEL = { "voice-number": "voice (number)", "voice-content": "voice (answer words)", "voice-command": "voice", tap: "tap", key: "keyboard",
+  buttons: "car buttons", skip: "skipped", timeout: "time ran out", unanswered: "not answered" };
 const NUMW = ["one","two","three","four"];
 
-/* ---------- deterministic answer parser ---------- */
-const VOCAB = {
-  1: ["1","one","won","wan","juan","first","van"],
-  2: ["2","two","to","too","tu","second"],
-  3: ["3","three","tree","free","third"],
-  4: ["4","four","for","fore","fourth","ford"]
-};
-const CMD = { repeat: ["repeat","again","pardon"], skip: ["skip","next","pass"] };
-const LOOKUP = {};
-for (const k in VOCAB) VOCAB[k].forEach(w => LOOKUP[w] = +k);
-for (const k in CMD) CMD[k].forEach(w => LOOKUP[w] = k);
+/* ---------- deterministic answer parser (app/matcher.js, inlined at build) ---------- */
+/*__MATCHER__*/
+// Current question's options, so answers can be given by content ("business scenarios") as well as by number.
+function currentOptions() {
+  return (typeof queue !== "undefined" && queue.length && !$("drillView").hidden) ? QS[queue[pos]].o : null;
+}
 function parseUtterance(text) {
-  const toks = text.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
-  const hits = [...new Set(toks.map(t => LOOKUP[t]).filter(v => v !== undefined))];
-  const nums = hits.filter(h => typeof h === "number");
-  if (nums.length === 1) return nums[0];          // exactly one distinct number: accept
-  if (nums.length > 1) return null;               // ambiguous ("two or three"): ignore
-  const cmds = hits.filter(h => typeof h === "string");
-  return cmds.length === 1 ? cmds[0] : null;
+  const r = MATCHER.parse(text, currentOptions());
+  if (r && r.how === "content") dlog(`matched by content -> ${r.value} (score ${r.score} vs ${r.second}${r.exact ? ", exact" : ""})`);
+  if (r) lastHow = "voice-" + r.how;
+  return r ? r.value : null;
 }
 
 /* ---------- answer mode: "voice" (speech, tap, keys) or "buttons" (next/previous scanning) ---------- */
@@ -316,6 +361,8 @@ function micPressed() { if (micResolve) { const r = micResolve; micResolve = nul
 /* ---------- session state machine ---------- */
 let queue = [], pos = 0, score = 0, results = [], paused = false, answered = false, runId = 0, reviewMode = false;
 let pendingAnswer = null;   // resolver for the current wait-for-answer
+let lastHow = "";           // how the current answer was given (voice-number, voice-content, tap, key, buttons, skip)
+let session = null;         // { kind: "practice" | "review" | "exam", examKey, title, ... }
 
 function setState(s, text) { $("state").dataset.s = s; $("stateText").textContent = text; }
 function renderVoice() {
@@ -324,6 +371,33 @@ function renderVoice() {
   $("bVoice").textContent = usable ? "Voice" : "Voice off";
 }
 function renderStart() {
+  const hist = loadHistory();
+  const list = $("examList"); list.innerHTML = "";
+  Object.entries(EXAMS).forEach(([key, e]) => {
+    const mine = hist.filter(a => a.exam === key);
+    const best = mine.reduce((b, a) => Math.max(b, a.score), -1);
+    const btn = document.createElement("button"); btn.className = "exam"; btn.id = "exam-" + key;
+    btn.innerHTML = `<b></b><span class="d"></span><span class="best"></span>`;
+    btn.querySelector("b").textContent = e.title;
+    btn.querySelector(".d").textContent = `${e.questions.length} questions · ${e.minutes} min · pass ${e.pass}`;
+    btn.querySelector(".best").textContent = best >= 0 ? `best ${best}/${e.questions.length}
+${mine.length} attempt${mine.length === 1 ? "" : "s"}` : "not taken";
+    btn.onclick = () => startExam(key);
+    list.appendChild(btn);
+  });
+  const hl = $("historyList"); hl.innerHTML = "";
+  if (!hist.length) hl.innerHTML = '<p class="modeHint">No results yet. They are saved on this device after each session.</p>';
+  hist.slice(-6).reverse().forEach(a => {
+    const d = document.createElement("div"); d.className = "h";
+    d.innerHTML = `<span class="t"></span><span class="when"></span><span class="chip"></span>`;
+    d.querySelector(".t").textContent = `${a.title}: ${a.score}/${a.total}`;
+    d.querySelector(".when").textContent = a.date.slice(5, 16).replace("T", " ");
+    const c = d.querySelector(".chip");
+    if (a.passed === null) c.textContent = Math.round(a.score / a.total * 100) + "%";
+    else { c.textContent = a.passed ? "pass" : "fail"; c.classList.add(a.passed ? "pass" : "fail"); }
+    hl.appendChild(d);
+  });
+  $("historyActions").hidden = !hist.length;
   const m = missedList().length;
   $("startMissed").disabled = m === 0;
   $("startMissed").textContent = `Review missed (${m})`;
@@ -344,7 +418,7 @@ function renderQuestion() {
     b.className = "pad"; b.id = "pad" + (j + 1);
     b.innerHTML = `<span class="n">${j + 1}</span><span class="o"></span>`;
     b.querySelector(".o").textContent = o;
-    b.onclick = () => submit(j + 1);
+    b.onclick = () => { lastHow = "tap"; submit(j + 1); };
     pads.appendChild(b);
   });
 }
@@ -360,28 +434,39 @@ async function waitPaused(id) { while (paused && id === runId) await new Promise
 
 async function askAndWait(id) {
   // returns 1..4, "skip", or null if the run was cancelled
+  let firstRead = true;
   for (;;) {
     if (id !== runId) return null;
     await waitPaused(id);
     setState("speaking", "Reading question");
     const answerP = new Promise(r => pendingAnswer = r);     // taps/keys accepted while reading
-    const readP = play("q" + queue[pos]);
+    const readP = firstRead ? play("qnum" + (pos + 1)).then(ok => ok ? play("q" + queue[pos]) : false) : play("q" + queue[pos]);
+    firstRead = false;
     let got = await Promise.race([answerP, readP.then(() => "__read")]);
     if (id !== runId) return null;
-    let autoListen = true, reprompts = 0, silent = 0, errors = 0;
+    let autoListen = true, reprompts = 0, errors = 0;
+    // Thinking time: keep listening quietly (restarting the recogniser as Chrome ends each attempt)
+    // until the window runs out; only then reprompt. First window is longer.
+    let windowStart = Date.now(), windowMs = TIMING.firstWindowMs;
     while (typeof got === "string" && got.startsWith("__")) {
-      if (paused) await waitPaused(id);
+      if (paused) { await waitPaused(id); windowStart = Date.now(); }
       if (id !== runId) return null;
-      if (got === "__mic") { autoListen = true; reprompts = 0; silent = 0; errors = 0; }
+      if (got === "__mic") { autoListen = true; reprompts = 0; errors = 0; windowStart = Date.now(); windowMs = TIMING.firstWindowMs; }
       if (voiceUsable() && autoListen) {
-        setState("listening", "Listening · say 1–4"); $("bMic").hidden = true;
-        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce()]);
+        setState("listening", "Listening · say “number two” or the answer"); $("bMic").hidden = true;
+        const t0 = Date.now();
+        const left = Math.max(TIMING.minAttemptMs, windowMs - (t0 - windowStart));
+        const r = await Promise.race([answerP.then(v => ({ kind: "tap", value: v })), listenOnce(left)]);
         stopListening();
         if (id !== runId) return null;
         if (r.kind === "tap" || r.kind === "hit") { got = r.value; break; }
-        if (r.kind === "miss" || (r.kind === "silent" && ++silent % 3 === 0)) {
-          if (reprompts++ < 3) { setState("speaking", "Didn't catch that"); await play("reprompt"); }
-          else autoListen = false;
+        if (r.kind === "miss" || r.kind === "silent") {
+          if (Date.now() - t0 < TIMING.minAttemptMs) await new Promise(res => setTimeout(res, TIMING.restartPauseMs));   // never spin
+          if (Date.now() - windowStart < windowMs) { got = "__again"; continue; }                                     // still thinking time
+          if (reprompts++ < 3) {
+            setState("speaking", "Didn't catch that"); await play("reprompt");
+            windowStart = Date.now(); windowMs = TIMING.laterWindowMs;
+          } else autoListen = false;
         } else if (r.kind === "error" && ++errors <= 3) {
           $("heard").textContent = "speech service: " + r.text + " · retrying";
           await new Promise(res => setTimeout(res, 1500));    // e.g. mic briefly held by the car system
@@ -407,6 +492,10 @@ async function askAndWait(id) {
     return got;
   }
 }
+
+/* ---------- listening windows (overridable for tests via window.DRILL_TIMING) ---------- */
+const TIMING = Object.assign({ firstWindowMs: 12000, laterWindowMs: 8000, minAttemptMs: 1500, restartPauseMs: 400 },
+                             window.DRILL_TIMING || {});
 
 /* ---------- car-buttons mode: scanning ---------- */
 // Inputs become events: {type: "next" | "prev" | "skip" | "tap", value?}
@@ -438,13 +527,15 @@ const CONFIRM_WAIT_MS = 8000;
 async function askScan(id) {
   const qi = queue[pos], n = QS[qi].o.length;
   prefetch(["s" + qi, ...QS[qi].o.map((_, j) => `o${qi}_${j + 1}`), ...[1, 2, 3, 4].map(k => "confirm" + k), "rescan"]);
-  let from = "stem", loops = 0;
+  let from = "stem", loops = 0, announced = false;
   outer: for (;;) {
     if (id !== runId) return null;
     await waitPaused(id);
     if (from === "stem") {
       mark(0); setState("speaking", "Question · next skips to options");
-      const r = await playOrEvent("s" + qi);
+      let r = announced ? { done: true } : await playOrEvent("qnum" + (pos + 1));
+      announced = true;
+      if (!r.ev) r = await playOrEvent("s" + qi);
       if (id !== runId) return null;
       if (r.ev) {
         if (r.ev.type === "tap") return r.ev.value;
@@ -491,7 +582,7 @@ async function askScan(id) {
       if (id !== runId) return null;
       if (!r.ev) continue;                            // no press: ask again, never auto-confirm
       const e = r.ev;
-      if (e.type === "next") { dlog("confirmed " + chosen); return chosen; }
+      if (e.type === "next") { dlog("confirmed " + chosen); lastHow = "buttons"; return chosen; }
       if (e.type === "tap") return e.value;
       if (e.type === "skip") return "skip";
       if (e.type === "prev") { loops = 0; from = "options"; continue outer; }
@@ -509,41 +600,73 @@ function btnPrev() {
   if (!answered) emit({ type: "prev" });
 }
 
-async function run(indices, isReview) {
+/* ---------- sessions: practice (feedback after each question), review, exam (no feedback, timed) ---------- */
+let timerInt = null, timeLeftMs = 0, timerLast = 0;
+function examActive() { return session && session.kind === "exam" && !session.ended; }
+function fmtTime(ms) { const t = Math.max(0, Math.round(ms / 1000)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); }
+function startTimer(ms) {
+  timeLeftMs = ms; timerLast = Date.now(); clearInterval(timerInt);
+  const tick = () => {
+    const now = Date.now();
+    if (!paused) timeLeftMs -= now - timerLast;
+    timerLast = now;
+    $("timer").textContent = fmtTime(timeLeftMs) + " left";
+    $("timer").classList.toggle("low", timeLeftMs < 5 * 60000);
+    if (timeLeftMs <= 0 && examActive()) { clearInterval(timerInt); dlog("exam time up"); endSession("time"); }
+  };
+  tick(); timerInt = setInterval(tick, 500);
+}
+
+async function run(indices, opts) {
   const id = ++runId;
-  queue = indices; pos = 0; score = 0; results = []; paused = false; reviewMode = isReview;
+  session = Object.assign({ kind: "practice", title: "Practice drill" }, opts, { startedAt: Date.now(), ended: false });
+  const exam = session.kind === "exam";
+  queue = indices; pos = 0; score = 0; results = []; paused = false; reviewMode = session.kind === "review";
   $("bPause").setAttribute("aria-pressed", "false"); $("bPause").textContent = "Pause";
   show("drillView"); renderVoice();
-  setState("speaking", "Intro");
-  $("qText").textContent = ""; $("pads").innerHTML = "";
-  prefetch(["intro_buttons", "correct", "wrong"]);
-  await play(isReview ? "review" : (mode === "buttons" ? "intro_buttons" : "intro"));
+  $("scoreBox").hidden = exam; $("timer").hidden = !exam; $("bEnd").hidden = !exam; $("bEnd").textContent = "End exam";
+  setState("speaking", exam ? session.title : "Intro");
+  $("qText").textContent = exam ? `${session.title} · ${queue.length} questions · ${Math.round(session.ms / 60000)} minutes` : "";
+  $("pads").innerHTML = "";
+  prefetch(["intro_buttons", "exam_intro", "exam_intro_buttons", "correct", "wrong", "recorded", "qnum1"]);
+  if (exam) startTimer(session.ms);
+  const intro = reviewMode ? "review" : exam ? (mode === "buttons" ? "exam_intro_buttons" : "exam_intro") : (mode === "buttons" ? "intro_buttons" : "intro");
+  await play(intro);
   for (; pos < queue.length; pos++) {
     if (id !== runId) return;
     answered = false; renderQuestion();
     const qi = queue[pos], q = QS[qi];
-    prefetch(["e" + qi]);
+    prefetch(["qnum" + (pos + 2), exam ? "recorded" : "e" + qi]);
+    const t0 = Date.now(); lastHow = "";
     const v = mode === "buttons" ? await askScan(id) : await askAndWait(id);
     mark(0);
     if (v === null) return;
     answered = true;
-    const s = stats[qi] || { seen: 0, wrong: 0, box: 0 };
-    s.seen++;
-    if (v === "skip") {
-      s.box = 0; results.push({ qi, given: null });
-      setState("wrong", "Skipped");
-    } else {
-      const ok = v === q.a;
-      if (ok) { score++; s.box = Math.min(3, s.box + 1); } else { s.wrong++; s.box = 0; }
-      results.push({ qi, given: v });
+    const how = v === "skip" ? "skip" : (lastHow || (mode === "buttons" ? "buttons" : "voice-number"));
+    const given = v === "skip" ? null : v;
+    const ok = given === q.a;
+    results.push({ qi, given, ms: Date.now() - t0, how });
+    const st = stats[qi] || { seen: 0, wrong: 0, box: 0 };
+    st.seen++;
+    if (ok) { score++; st.box = Math.min(3, st.box + 1); } else { st.wrong++; st.box = 0; }
+    stats[qi] = st; store.set(stats);
+    if (exam) {
+      // no feedback during an exam: mark the choice, confirm it was recorded, move on
+      if (given) $("pad" + given).classList.add("chosen");
+      [...$("pads").children].forEach(b => b.disabled = true);
+      setState("speaking", given ? `Answer ${given} recorded` : "Skipped");
+      await play("recorded");
+      continue;
+    }
+    if (given === null) setState("wrong", "Skipped");
+    else {
       $("pad" + q.a).classList.add("right");
-      if (!ok) $("pad" + v).classList.add("wrong");
+      if (!ok) $("pad" + given).classList.add("wrong");
       [...$("pads").children].forEach(b => b.disabled = true);
       $("score").textContent = score;
       setState(ok ? "right" : "wrong", ok ? "Correct" : `Answer: ${q.a}`);
       await play(ok ? "correct" : "wrong");
     }
-    stats[qi] = s; store.set(stats);
     if (id !== runId) return;
     $("explain").textContent = q.e; $("explain").hidden = false;
     await waitPaused(id);
@@ -553,32 +676,138 @@ async function run(indices, isReview) {
     await waitPaused(id);
   }
   if (id !== runId) return;
-  $("bar").style.width = "100%";
-  finish();
-  await play("score" + Math.min(20, score));
-  if (id === runId) await play("end");
+  endSession("done");
 }
 
-function finish() {
+// Ends the session (normal end, exam time up, or "End exam"); records unanswered questions in an exam.
+async function endSession(reason) {
+  if (!session || session.ended) return;
+  session.ended = true;
+  const id = ++runId;
+  stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; clearInterval(timerInt);
+  if (session.kind === "exam") {
+    const done = new Set(results.map(r => r.qi));
+    queue.forEach(qi => { if (!done.has(qi)) results.push({ qi, given: null, ms: 0, how: reason === "time" ? "timeout" : "unanswered" }); });
+  }
+  const attempt = saveAttempt(reason);
+  finish(attempt);
+  if (reason === "time") { await play("timeup"); if (id !== runId) return; }
+  await play("score" + Math.min(score, maxScoreClip()));
+  if (id !== runId) return;
+  if (session.kind === "exam") await play(attempt.passed ? "exam_pass" : "exam_fail");
+  else await play("end");
+}
+function maxScoreClip() { let n = 0; while (CLIPS["score" + (n + 1)]) n++; return n; }
+
+/* ---------- attempts: history on this device, export ---------- */
+const HISTORY_KEY = "drill-history";
+function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch (e) { return []; } }
+function saveHistory(h) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(h.slice(-50))); } catch (e) {} }
+function saveAttempt(reason) {
+  const exam = session.kind === "exam";
+  const items = results.map((r, k) => {
+    const q = QS[r.qi];
+    return { n: k + 1, id: q.id, topic: q.topic, question: q.q, given: r.given, givenText: r.given ? q.o[r.given - 1] : "",
+             answer: q.a, answerText: q.o[q.a - 1], correct: r.given === q.a, seconds: Math.round(r.ms / 100) / 10, how: r.how };
+  });
+  const attempt = {
+    attemptId: new Date(session.startedAt).toISOString().replace(/[-:]/g, "").slice(0, 15),
+    date: new Date(session.startedAt).toISOString(), kind: session.kind, exam: session.examKey || null, title: session.title,
+    answeredWith: mode === "buttons" ? "car buttons" : "voice / tap", total: queue.length, score,
+    passMark: exam ? session.pass : null, passed: exam ? score >= session.pass : null,
+    minutes: Math.round((Date.now() - session.startedAt) / 6000) / 10, ended: reason, items,
+  };
+  if (attempt.total > 0) { const h = loadHistory(); h.push(attempt); saveHistory(h); }
+  return attempt;
+}
+function byTopic(items) {
+  const t = {};
+  items.forEach(it => { const k = it.topic || "general"; t[k] = t[k] || { right: 0, total: 0 }; t[k].total++; if (it.correct) t[k].right++; });
+  return Object.entries(t).map(([k, v]) => ({ topic: k, label: TOPIC_LABEL[k] || k, ...v, pct: v.right / v.total }))
+    .sort((a, b) => a.pct - b.pct || b.total - a.total);
+}
+function csvCell(v) { const s = v === null || v === undefined ? "" : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+function toCSV(attempts) {
+  const head = ["attempt", "date", "session", "answered_with", "score", "total", "passed", "q_no", "question_id", "topic", "question",
+                "your_answer", "your_answer_text", "correct_answer", "correct_answer_text", "correct", "seconds", "answered_by"];
+  const rows = [head];
+  attempts.forEach(a => a.items.forEach(it => rows.push([a.attemptId, a.date, a.title, a.answeredWith, a.score, a.total,
+    a.passed === null ? "" : (a.passed ? "yes" : "no"), it.n, it.id, it.topic, it.question, it.given ?? "", it.givenText,
+    it.answer, it.answerText, it.correct ? "yes" : "no", it.seconds, HOW_LABEL[it.how] || it.how])));
+  return rows.map(r => r.map(csvCell).join(",")).join("\n") + "\n";
+}
+function summaryText(attempts) {
+  const lines = ["# TOGAF Foundation practice results", ""];
+  attempts.forEach(a => {
+    const pct = Math.round(a.score / a.total * 100);
+    lines.push(`## ${a.title} · ${a.date.slice(0, 16).replace("T", " ")}`);
+    lines.push(`Score: ${a.score}/${a.total} (${pct}%)` + (a.passed === null ? "" : ` · ${a.passed ? "PASS" : "FAIL"} (pass mark ${a.passMark})`) +
+               ` · ${a.minutes} min · answered with ${a.answeredWith}` + (a.ended === "time" ? " · time ran out" : ""));
+    lines.push("", "By topic (weakest first):");
+    byTopic(a.items).forEach(t => lines.push(`- ${t.label}: ${t.right}/${t.total}`));
+    const wrong = a.items.filter(it => !it.correct);
+    if (wrong.length) {
+      lines.push("", "Missed questions:");
+      wrong.forEach(it => lines.push(`- [${TOPIC_LABEL[it.topic] || it.topic}] ${it.question}\n  - my answer: ${it.given ? it.givenText : "(none: " + (HOW_LABEL[it.how] || it.how) + ")"}\n  - correct: ${it.answerText}`));
+    }
+    lines.push("");
+  });
+  lines.push("Please suggest what to study next, based on my weakest topics and the questions I missed.");
+  return lines.join("\n");
+}
+function download(name, text, type) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+}
+function copyText(text, statusEl) {
+  const ok = () => { statusEl.textContent = "Copied. Paste it into a chat or a note."; setTimeout(() => statusEl.textContent = "", 4000); };
+  const fallback = () => {
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); ok(); } catch (e) { statusEl.textContent = "Copy failed: use Download instead."; }
+    ta.remove();
+  };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, fallback); else fallback();
+}
+
+let lastAttempt = null;
+function finish(attempt) {
+  lastAttempt = attempt;
   releaseWake(); stopKeepAlive();
   show("doneView");
-  $("doneScore").textContent = `${score} of ${queue.length} correct`;
-  const pct = Math.round(score / queue.length * 100);
-  $("doneStats").textContent = `${pct}% · pass mark 60%`;
+  const pct = Math.round(attempt.score / Math.max(1, attempt.total) * 100);
+  $("doneTitle").textContent = attempt.title;
+  $("doneScore").textContent = `${attempt.score} of ${attempt.total} correct`;
+  $("doneStats").innerHTML = "";
+  const chip = document.createElement("span");
+  chip.className = "chip" + (attempt.passed === null ? "" : attempt.passed ? " pass" : " fail");
+  chip.textContent = attempt.passed === null ? `${pct}%` : `${pct}% · ${attempt.passed ? "pass" : "fail"}`;
+  $("doneStats").appendChild(chip);
+  $("doneMeta").textContent = `${attempt.minutes} min · answered with ${attempt.answeredWith}` +
+    (attempt.passMark ? ` · pass mark ${attempt.passMark}/${attempt.total}` : "") + (attempt.ended === "time" ? " · time ran out" : "");
+  const topics = $("doneTopics"); topics.innerHTML = "";
+  byTopic(attempt.items).forEach(t => {
+    const d = document.createElement("div"); d.className = "topic" + (t.pct < 0.6 ? " weak" : "");
+    d.innerHTML = `<span class="l"></span><span class="bar"><i style="width:${Math.round(t.pct * 100)}%"></i></span><span class="n">${t.right}/${t.total}</span>`;
+    d.querySelector(".l").textContent = t.label;
+    topics.appendChild(d);
+  });
   const rows = $("doneRows"); rows.innerHTML = "";
-  results.forEach(r => {
-    const q = QS[r.qi], ok = r.given === q.a;
+  attempt.items.forEach(it => {
     const d = document.createElement("div"); d.className = "row";
-    d.innerHTML = `<span class="m ${ok ? "ok" : "ko"}">${ok ? "✓" : "✗"}</span><span class="t"></span><span class="k"></span>`;
-    d.querySelector(".t").textContent = q.q;
-    d.querySelector(".k").textContent = ok ? `${q.a}` : `${r.given ?? "–"} → ${q.a}`;
+    d.innerHTML = `<span class="m ${it.correct ? "ok" : "ko"}">${it.correct ? "✓" : "✗"}</span><span class="t"></span><span class="k"></span>`;
+    d.querySelector(".t").textContent = it.question;
+    d.querySelector(".k").textContent = it.correct ? `${it.answer}` : `${it.given ?? "–"} → ${it.answer}`;
     rows.appendChild(d);
   });
+  const wrong = attempt.items.filter(it => !it.correct).length;
+  $("reviewWrong").hidden = wrong === 0;
+  $("reviewWrong").textContent = `Review ${wrong} mistake${wrong === 1 ? "" : "s"} with explanations`;
   const m = missedList().length;
-  $("again").hidden = m === 0; $("again").textContent = `Review missed (${m})`;
+  $("again").hidden = m === 0; $("again").textContent = `Review all missed questions (${m})`;
 }
 
-function quit() { runId++; stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; stopKeepAlive(); releaseWake(); }
+function quit() { runId++; clearInterval(timerInt); if (session) session.ended = true; stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; stopKeepAlive(); releaseWake(); }
 
 /* ---------- keep the screen on during a session ---------- */
 let wake = null, sessionActive = false;
@@ -619,17 +848,38 @@ function primeMic() {
   });
 }
 // Unlock audio playback inside the gesture (iOS), then start the session after the mic prompt.
-function startRun(list, review) {
+function startRun(list, opts) {
   dlog("session start · " + envLine());
   sessionActive = true; acquireWake();
   audio.muted = true; audio.src = CLIPS.correct;
   audio.play().catch(() => {});          // play() in the session unmutes and swaps the source
-  if (mode === "buttons") { dlog("mode: car buttons"); startKeepAlive(); run(list, review); return; }
-  primeMic().then(() => run(list, review));
+  if (mode === "buttons") { dlog("mode: car buttons"); startKeepAlive(); run(list, opts); return; }
+  primeMic().then(() => run(list, opts));
 }
-$("startAll").onclick = () => startRun(QS.map((_, i) => i), false);
-$("startMissed").onclick = () => startRun(missedList(), true);
-$("again").onclick = () => startRun(missedList(), true);
+$("startAll").onclick = () => startRun(PRACTICE, { kind: "practice", title: "Practice drill" });
+$("startMissed").onclick = () => startRun(missedList(), { kind: "review", title: "Review missed" });
+$("again").onclick = () => startRun(missedList(), { kind: "review", title: "Review missed" });
+function startExam(key) {
+  const e = EXAMS[key];
+  const ms = TIMING.examMs || e.minutes * 60000;
+  startRun(e.questions.map(id => IDX[id]), { kind: "exam", examKey: key, title: e.title, ms, pass: e.pass });
+}
+$("reviewWrong").onclick = () => {
+  if (!lastAttempt) return;
+  const idx = lastAttempt.items.filter(it => !it.correct).map(it => IDX[it.id]);
+  startRun(idx, { kind: "review", title: "Review: " + lastAttempt.title });
+};
+$("dlCsv").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.csv`, toCSV([lastAttempt]), "text/csv");
+$("dlJson").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.json`, JSON.stringify(lastAttempt, null, 2), "application/json");
+$("copySummary").onclick = () => lastAttempt && copyText(summaryText([lastAttempt]), $("copiedOne"));
+$("exportAll").onclick = () => { const h = loadHistory(); if (h.length) download(`togaf-results-all-${new Date().toISOString().slice(0, 10)}.csv`, toCSV(h), "text/csv"); };
+$("copyAll").onclick = () => { const h = loadHistory(); if (h.length) copyText(summaryText(h.slice(-10)), $("copiedAll")); };
+let endArmed = 0;
+$("bEnd").onclick = () => {                       // two taps within 3 s, so a stray tap can't end the exam
+  if (Date.now() - endArmed < 3000) { dlog("exam ended by user"); endSession("ended"); return; }
+  endArmed = Date.now(); $("bEnd").textContent = "Tap again to end";
+  setTimeout(() => { if (examActive()) $("bEnd").textContent = "End exam"; }, 3000);
+};
 $("bMic").onclick = micPressed;
 $("diagEnv").textContent = envLine();
 $("diag").addEventListener("toggle", () => { $("diagEnv").textContent = envLine(); });
@@ -655,7 +905,7 @@ $("micTest").onclick = () => {
       `The speech service failed (${r.text}). It may need an internet connection.`;
   });
 };
-$("home").onclick = () => { quit(); renderStart(); show("startView"); };
+$("home").onclick = () => { quit(); $("bEnd").hidden = true; renderStart(); show("startView"); };
 $("bRepeat").onclick = () => {
   if (mode === "buttons") return btnPrev();
   if (pendingAnswer) { stopListening(); command("repeat"); }
@@ -679,7 +929,7 @@ $("bVoice").onclick = () => {
 };
 document.addEventListener("keydown", e => {
   if ($("drillView").hidden) return;
-  if (/^[1-4]$/.test(e.key)) { stopListening(); submit(+e.key); }
+  if (/^[1-4]$/.test(e.key)) { stopListening(); lastHow = "key"; submit(+e.key); }
   else if (e.key === "r" || e.key === "R") $("bRepeat").click();
   else if (e.key === "s" || e.key === "S") $("bSkip").click();
   else if (e.key === " ") { e.preventDefault(); $("bPause").click(); }
@@ -693,7 +943,7 @@ if ("mediaSession" in navigator) {
   try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Practice Drill", artist: "Practice exam" }); } catch (e) {}
 }
 const MODE_HINT = {
-  voice: "Say “number one” to “number four” after each question: a short phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
+  voice: "Say “number one” to “number four”, or words from the answer you choose: a phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
   buttons: "No microphone. Each option is read in turn: press next on the steering wheel (or headset) on the one you want, then next again to confirm."
 };
 function renderMode() {

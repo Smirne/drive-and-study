@@ -5,6 +5,7 @@ Usage: python3 tools/parse.py content/togaf-foundation
 Reads <pack>/source/*.txt (in natural order: ep9 before ep10). Each question block:
 
     Question <n>.
+    Topic: <topic>            (optional; used for the per-topic breakdown of results)
     <question text>
     A. ...
     B. ...
@@ -36,6 +37,9 @@ def parse(pack: Path):
         for b in blocks:
             b = b.split('\n\nThat')[0].strip()
             lines = b.split('\n')
+            topic = 'general'
+            if lines[0].startswith('Topic:'):
+                topic = lines.pop(0).split(':', 1)[1].strip()
             q, opts = lines[0], [l[3:] for l in lines[1:5]]
             assert all(l[1:3] == '. ' for l in lines[1:5]), lines[1:5]
             assert lines[5] == '[THINK]', lines[5]
@@ -48,7 +52,8 @@ def parse(pack: Path):
             opts[i], opts[j] = opts[j], opts[i]
             ex = re.sub(r'\b([Oo]ptions?|answer is) ([ABCD])\b', lambda m: m.group(1) + ' ' + perm[m.group(2)], ex)
             ex = re.sub(r'\b([Oo]ptions?|answer is) ([ABCD])\b', lambda m: m.group(1) + ' ' + NUM[m.group(2)], ex)
-            qs.append({'q': q, 'o': opts, 'a': 'ABCD'.index(tgt) + 1, 'e': ex})
+            qs.append({'id': f'{f.stem}-{len([x for x in qs if x["id"].startswith(f.stem + "-")]) + 1}',
+                       'topic': topic, 'q': q, 'o': opts, 'a': 'ABCD'.index(tgt) + 1, 'e': ex})
     return qs
 
 

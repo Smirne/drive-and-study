@@ -12,7 +12,8 @@ Serve over HTTPS so the browser allows the microphone (speech recognition).
 import json, sys
 from pathlib import Path
 
-pack = Path(sys.argv[1] if len(sys.argv) > 1 else 'content/togaf-foundation')
+args = [a for a in sys.argv[1:] if not a.startswith('--')]
+pack = Path(args[0] if args else 'content/togaf-foundation')
 out = Path('public')
 
 HEAD = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
@@ -30,15 +31,27 @@ def write(name, body):
 
 # Voice drill
 qs = json.loads((pack / 'questions.json').read_text())
+exams = json.loads((pack / 'exams.json').read_text()) if (pack / 'exams.json').exists() else {}
+for k, e in exams.items():
+    unknown = [i for i in e['questions'] if i not in {q['id'] for q in qs}]
+    assert not unknown, f'{k}: unknown question ids {unknown}'
 clip_dir = out / 'audio' / 'drill' / pack.name
 clips = {f.stem: f'audio/drill/{pack.name}/{f.name}' for f in sorted(clip_dir.glob('*.mp3'))}
-needed = ['intro', 'intro_buttons', 'review', 'correct', 'wrong', 'reprompt', 'rescan', 'end'] \
-    + [f'confirm{j}' for j in range(1, 5)] + [f'score{i}' for i in range(len(qs) + 1)] \
+longest = max([20] + [len(e['questions']) for e in exams.values()])
+needed = ['intro', 'intro_buttons', 'review', 'correct', 'wrong', 'reprompt', 'rescan', 'end',
+          'exam_intro', 'exam_intro_buttons', 'recorded', 'timeup', 'exam_pass', 'exam_fail'] \
+    + [f'qnum{n}' for n in range(1, longest + 1)] \
+    + [f'confirm{j}' for j in range(1, 5)] + [f'score{i}' for i in range(longest + 1)] \
     + [n for i, q in enumerate(qs) for n in (f'q{i}', f'e{i}', f's{i}', *[f'o{i}_{j}' for j in range(1, len(q['o']) + 1)])]
 missing = [n for n in needed if n not in clips]
-assert not missing, f'missing clips: {missing[:10]}... (run tools/gen_clips.py)'
+if missing and '--allow-missing' in sys.argv:
+    print(f'WARNING: {len(missing)} clips missing (allowed for testing)')
+else:
+    assert not missing, f'missing clips: {missing[:10]}... (run tools/gen_clips.py)'
 drill = (Path('app/template.html').read_text()
+         .replace('/*__MATCHER__*/', Path('app/matcher.js').read_text())
          .replace('/*__QUESTIONS__*/[]', json.dumps(qs))
+         .replace('/*__EXAMS__*/{}', json.dumps(exams))
          .replace('/*__CLIPS__*/{}', json.dumps(clips)))
 t = write('drill.html', drill)
 print(f'{len(qs)} questions, {len(clips)} clips -> {t} ({t.stat().st_size // 1024} KB)')

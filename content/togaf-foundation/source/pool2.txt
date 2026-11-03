@@ -1,0 +1,301 @@
+Question pool two. Original practice questions for the mock exams.
+
+Question 1.
+Topic: concepts
+Which statement best describes the purpose of Enterprise Architecture according to the TOGAF Standard?
+A. To select IT products for the enterprise.
+B. To describe the structure and behavior of the enterprise so that it can be changed in a controlled way.
+C. To replace project and portfolio management.
+D. To document existing IT systems only.
+[THINK]
+The answer is B. Enterprise Architecture describes the enterprise so that change can be controlled, balancing business transformation with continuous operational efficiency. It works with project and portfolio management rather than replacing them.
+
+Question 2.
+Topic: concepts
+Which level of the Architecture Landscape is the most detailed, and is typically used at project level?
+A. Strategic Architecture.
+B. Segment Architecture.
+C. Enterprise Architecture.
+D. Capability Architecture.
+[THINK]
+The answer is D. Capability Architecture is the most detailed level, describing how the enterprise can support a particular unit of capability. Strategic is the widest, summary view, and Segment sits between them.
+
+Question 3.
+Topic: concepts
+Which document of the TOGAF Fundamental Content describes techniques such as gap analysis, stakeholder management, and business scenarios?
+A. Architecture Content.
+B. Applying the A D M.
+C. A D M Techniques.
+D. Enterprise Architecture Capability and Governance.
+[THINK]
+The answer is C. The A D M Techniques document describes the techniques that support the A D M, including principles, stakeholder management, gap analysis, business scenarios, risk management and migration planning techniques.
+
+Question 4.
+Topic: terminology
+What is the TOGAF term for an interest in a system relevant to one or more of its stakeholders?
+A. A concern.
+B. A requirement.
+C. A principle.
+D. A constraint.
+[THINK]
+The answer is A. Stakeholders have concerns, such as performance, security or cost. Architecture views are created to address those concerns.
+
+Question 5.
+Topic: terminology
+What is the TOGAF term for a statement of probable fact that has not been fully validated at this stage, due to external constraints?
+A. A constraint.
+B. A principle.
+C. An assumption.
+D. A requirement.
+[THINK]
+The answer is C. An assumption is a probable fact not yet fully validated. A constraint is an external factor that prevents an organization from pursuing particular approaches.
+
+Question 6.
+Topic: terminology
+Which term describes a specification that has been formally reviewed and agreed upon, and that serves as the basis for further development or change?
+A. A baseline.
+B. A target.
+C. A roadmap.
+D. A transition.
+[THINK]
+The answer is A. A baseline is a formally reviewed and agreed specification that serves as the basis for further change. In practice, the Baseline Architecture describes the existing state.
+
+Question 7.
+Topic: adm
+Which of the following is a valid reason to adapt the A D M?
+A. The A D M phases cannot be iterated.
+B. To remove the need for architecture governance.
+C. Because the A D M applies only to IT departments.
+D. To fit the enterprise's maturity, its existing processes, or its use alongside other frameworks.
+[THINK]
+The answer is D. The A D M is generic and is meant to be tailored, for example to the enterprise's architecture maturity, its project and portfolio processes, or a federated use with other frameworks. The other options are not true statements about the A D M.
+
+Question 8.
+Topic: adm
+Which group of iteration cycles covers Phases E and F?
+A. Architecture Context.
+B. Architecture Definition.
+C. Transition Planning.
+D. Architecture Governance.
+[THINK]
+The answer is C. Transition Planning iterations cover Phases E and F, supporting the creation of the formal change roadmap. Architecture Definition covers B to D, and Architecture Governance covers G and H.
+
+Question 9.
+Topic: adm
+What does the hierarchy of A D M processes refer to?
+A. The order in which the phases must always be executed.
+B. Applying the A D M at different levels, such as strategic, segment and capability, where one cycle can start others.
+C. The reporting lines of the architecture team.
+D. The ranking of stakeholders by power and interest.
+[THINK]
+The answer is B. The A D M can be applied at strategic, segment and capability level. A strategic cycle can trigger segment cycles, which in turn trigger capability cycles.
+
+Question 10.
+Topic: phases
+In which phase are the Architecture Principles first defined?
+A. The Preliminary Phase.
+B. Phase A, Architecture Vision.
+C. Phase B, Business Architecture.
+D. Phase H, Architecture Change Management.
+[THINK]
+The answer is A. Architecture Principles are defined in the Preliminary Phase, as part of establishing the Architecture Capability. They are confirmed or refined in Phase A for each architecture cycle.
+
+Question 11.
+Topic: phases
+What normally triggers the start of Phase A?
+A. Approval of the Architecture Contract.
+B. Signing of the Statement of Architecture Work.
+C. Completion of a Compliance Assessment.
+D. Receipt of a Request for Architecture Work from the sponsoring organization.
+[THINK]
+The answer is D. Phase A starts with a Request for Architecture Work. The Statement of Architecture Work is approved at the end of Phase A, and Architecture Contracts belong to Phase G.
+
+Question 12.
+Topic: phases
+Which of the following is one of the common steps in Phases B, C and D?
+A. Perform gap analysis.
+B. Create the Architecture Contract.
+C. Conduct implementation compliance reviews.
+D. Finalize the Implementation and Migration Plan.
+[THINK]
+The answer is A. Phases B, C and D share the same steps, including describing the baseline and target, performing gap analysis and defining candidate roadmap components. The other options belong to Phases F and G.
+
+Question 13.
+Topic: phases
+Which deliverable provides a set of quantitative statements that outline what an implementation project must do to comply with the architecture?
+A. The Architecture Definition Document.
+B. The Architecture Vision.
+C. The Statement of Architecture Work.
+D. The Architecture Requirements Specification.
+[THINK]
+The answer is D. The Architecture Requirements Specification holds the measurable requirements. Its companion, the Architecture Definition Document, describes the architecture itself in a qualitative way.
+
+Question 14.
+Topic: phases
+In Phases E and F, what is the term for a set of actions identified to achieve one or more objectives for the business?
+A. A building block.
+B. A viewpoint.
+C. A work package.
+D. A principle.
+[THINK]
+The answer is C. Work packages group the actions needed to close the gaps. In Phase E they are identified and grouped, and in Phase F they are given a business value and prioritized.
+
+Question 15.
+Topic: phases
+Which phase assigns a business value to each work package, and prioritizes the migration projects through cost, benefit and risk validation?
+A. Phase E, Opportunities and Solutions.
+B. Phase F, Migration Planning.
+C. Phase G, Implementation Governance.
+D. Phase H, Architecture Change Management.
+[THINK]
+The answer is B. Phase F finalizes the Architecture Roadmap and the Implementation and Migration Plan, and aligns them with the enterprise's change portfolio. Assigning business value and prioritizing projects are part of that work.
+
+Question 16.
+Topic: phases
+In Phase G, what is the role of the architecture function?
+A. To build all the solutions itself.
+B. To govern implementation, making sure that projects conform to the architecture.
+C. To approve project budgets only.
+D. To write the Request for Architecture Work.
+[THINK]
+The answer is B. Architects govern implementation rather than carry it out. The projects themselves are run through the enterprise's normal project management.
+
+Question 17.
+Topic: phases
+Which of the following can be a driver for an architecture change request in Phase H?
+A. The approval of the Statement of Architecture Work.
+B. The selection of architecture viewpoints.
+C. A new business requirement, or a new technology.
+D. The creation of an application catalog.
+[THINK]
+The answer is C. Phase H monitors business and technology changes. New requirements, new technology and cost reduction opportunities are typical drivers of change requests.
+
+Question 18.
+Topic: phases
+How is a simplification change normally handled in Phase H?
+A. Through change management techniques.
+B. By starting a new A D M cycle.
+C. By repeating the Preliminary Phase.
+D. It is ignored until the next audit.
+[THINK]
+The answer is A. A simplification change can normally be handled through change management. A re-architecting change is the kind that requires a new A D M cycle.
+
+Question 19.
+Topic: requirements
+Does the TOGAF Standard mandate a specific tool or process for requirements management?
+A. Yes, it mandates a specific requirements tool.
+B. Yes, requirements must be kept in spreadsheets.
+C. No, requirements management is outside the scope of Enterprise Architecture.
+D. No, it describes a process for managing requirements throughout the A D M, but does not mandate any tool or process.
+[THINK]
+The answer is D. Requirements management sits at the centre of the A D M, but TOGAF does not prescribe a specific tool or process for it. Organizations can use their own.
+
+Question 20.
+Topic: content
+What is the Architecture Definition Document?
+A. The deliverable that contains the core architectural artifacts created during a project, across the relevant domains.
+B. The contract between the sponsor and the implementation partners.
+C. The list of requirements an implementation project must comply with.
+D. The record of governance decisions.
+[THINK]
+The answer is A. The Architecture Definition Document is the deliverable container for the core architectural artifacts. Option B is the Architecture Contract, option C is the Architecture Requirements Specification, and option D is the Governance Log.
+
+Question 21.
+Topic: content
+Which of the following is a characteristic of a good building block?
+A. It must be a single product from a single vendor.
+B. It cannot contain other building blocks.
+C. It is re-usable and replaceable, and well specified with published interfaces.
+D. It is always specific to one organization.
+[THINK]
+The answer is C. A good building block has a defined boundary and published interfaces, and is ideally re-usable and replaceable. Building blocks can be assembled from other building blocks.
+
+Question 22.
+Topic: content
+What is the purpose of the TOGAF Enterprise Metamodel?
+A. To define a formal structure for the terms used to describe the architecture, so that it is described consistently.
+B. To rank stakeholders by influence.
+C. To store the approved standards.
+D. To schedule implementation projects.
+[THINK]
+The answer is A. The metamodel defines the entities, such as actors, services and components, and the relationships between them. That consistency makes models integrable and analyzable.
+
+Question 23.
+Topic: continuum
+In the Architecture Continuum, which stage is the most generic?
+A. Organization-Specific Architectures.
+B. Industry Architectures.
+C. Common Systems Architectures.
+D. Foundation Architectures.
+[THINK]
+The answer is D. The order from generic to specific is Foundation, Common Systems, Industry, and Organization-Specific.
+
+Question 24.
+Topic: continuum
+Which part of the Architecture Repository represents the Solution Building Blocks that support the Architecture Landscape?
+A. The Solutions Landscape.
+B. The Standards Library.
+C. The Reference Library.
+D. The Governance Log.
+[THINK]
+The answer is A. The Solutions Landscape is the architectural representation of the Solution Building Blocks, planned or deployed, that support the Architecture Landscape.
+
+Question 25.
+Topic: techniques
+During gap analysis, a building block appears in the Target Architecture but not in the Baseline Architecture. What does this mean?
+A. It has been eliminated.
+B. It is new, and must be developed or procured.
+C. It is carried over unchanged.
+D. It is an error and should be removed from the target.
+[THINK]
+The answer is B. A building block present only in the target is new, so it becomes a gap to be filled by development or procurement. A building block only in the baseline is the one marked as eliminated.
+
+Question 26.
+Topic: techniques
+What is the purpose of the Business Transformation Readiness Assessment?
+A. To assess the maturity of IT infrastructure only.
+B. To evaluate and quantify the organization's readiness to undergo change.
+C. To check implementation projects for compliance.
+D. To select vendors for Solution Building Blocks.
+[THINK]
+The answer is B. The assessment looks at readiness factors such as vision, desire, sponsorship, funding and capacity to execute. It is done in Phase A and refined in Phases E and F.
+
+Question 27.
+Topic: techniques
+Which statement best describes capability-based planning?
+A. A technique for ranking stakeholders.
+B. A method for designing database schemas.
+C. A technique that focuses on planning, engineering and delivering strategic business capabilities, driven and led by the business.
+D. A way of tracking project budgets.
+[THINK]
+The answer is C. Capability-based planning keeps the roadmap tied to business outcomes. Capabilities are often delivered in increments that correspond to Transition Architectures.
+
+Question 28.
+Topic: techniques
+In the TOGAF Standard, what does interoperability mean?
+A. The ability to share information and services.
+B. The ability to run on several operating systems.
+C. The ability to outsource operations.
+D. The ability to scale a system horizontally.
+[THINK]
+The answer is A. Interoperability is the ability to share information and services. TOGAF distinguishes business, information and technical interoperability, and it is considered especially in Phase E.
+
+Question 29.
+Topic: governance
+Which characteristic of good governance means that processes, decisions, and mechanisms are set up to minimize or avoid conflicts of interest?
+A. Transparency.
+B. Accountability.
+C. Independence.
+D. Fairness.
+[THINK]
+The answer is C. Independence means minimizing or avoiding conflicts of interest. Transparency means all actions and decisions are available for inspection.
+
+Question 30.
+Topic: governance
+An implementation has no features in common with the architecture specification. What is its conformance level?
+A. Irrelevant.
+B. Consistent.
+C. Compliant.
+D. Non-conformant.
+[THINK]
+The answer is A. With no features in common, the specification simply does not apply, which TOGAF calls irrelevant. Non-conformant means that some implemented features are not in accordance with the specification.
