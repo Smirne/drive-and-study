@@ -79,6 +79,24 @@ with sync_playwright() as p:
     pg.keyboard.press(str(qs[qi]['a']))
     pg.wait_for_function("document.getElementById('score').textContent=='1'")
     print('review gives feedback: score after a right answer =', pg.text_content('#score'))
+    # finish the review: right on odd positions (1, 3, 5, 7, 9), wrong on even -> 5 fixed, 5 still wrong
+    for n in range(2, 11):
+        ready(pg, n, timeout=15000)
+        qi = IDX[js['items'][29 + n]['id']]
+        a = qs[qi]['a']
+        pg.keyboard.press(str(a if n % 2 else a % 4 + 1))
+    pg.wait_for_selector('#doneView:not([hidden])')
+    pg.click('#copySummary')
+    pg.wait_for_function("document.getElementById('copiedOne').textContent.startsWith('Copied')")
+    rsum = pg.evaluate('navigator.clipboard.readText()')
+    print('review summary:', [l for l in rsum.splitlines() if l.startswith(('This was', 'Still wrong', 'Fixed on'))],
+          '| first-try lines:', rsum.count('- first try:'))
+    with pg.expect_download() as d:
+        pg.click('#dlCsv')
+    rrows = list(csv.reader(io.StringIO(open(d.value.path()).read())))
+    print('review CSV extra columns:', rrows[0][-3:], '| first try filled:', sum(bool(r[-1]) for r in rrows[1:]))
+    assert rsum.count('- first try:') == 10 and 'Still wrong on review (5)' in rsum and 'Fixed on review (5)' in rsum
+    assert all(r[-3] == js['attemptId'] for r in rrows[1:])
     assert errs == [], errs
 
     # ---- B: time runs out in mock exam 2 ----
