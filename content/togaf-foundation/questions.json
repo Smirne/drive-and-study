@@ -1038,5 +1038,1045 @@
   ],
   "a": 2,
   "e": "The answer is two. With no features in common, the specification simply does not apply, which TOGAF calls irrelevant. Non-conformant means that some implemented features are not in accordance with the specification."
+ },
+ {
+  "id": "pool3-1",
+  "topic": "concepts",
+  "q": "Which of the following is not one of the documents of the TOGAF Fundamental Content?",
+  "o": [
+   "The Architecture Development Method.",
+   "A Series Guide on business models.",
+   "Architecture Content.",
+   "The A D M Techniques."
+  ],
+  "a": 2,
+  "e": "The answer is two. Series Guides sit outside the Fundamental Content. They give more specific guidance and change more often. The Architecture Development Method, the A D M Techniques and Architecture Content are all Fundamental Content documents."
+ },
+ {
+  "id": "pool3-2",
+  "topic": "concepts",
+  "q": "Which of the following best matches the TOGAF definition of architecture?",
+  "o": [
+   "The set of products and vendors chosen by the organization.",
+   "The detailed design of software components, ready to be coded.",
+   "The fundamental concepts or properties of a system in its environment, embodied in its elements, relationships, and the principles of its design and evolution.",
+   "A diagram showing the servers and networks of the data center."
+  ],
+  "a": 3,
+  "e": "The answer is three. Architecture is about fundamental concepts, elements, relationships and the principles that guide design and evolution. Detailed software design, product choices and infrastructure diagrams are all much narrower."
+ },
+ {
+  "id": "pool3-3",
+  "topic": "concepts",
+  "q": "What is an architecture framework, according to the TOGAF Standard?",
+  "o": [
+   "A conceptual structure used to plan, develop, implement, govern, and sustain an architecture.",
+   "A software tool used to draw architecture models.",
+   "A contract between the architects and the development partners.",
+   "A catalog of the standards that all projects must comply with."
+  ],
+  "a": 1,
+  "e": "The answer is one. An architecture framework is a conceptual structure for planning, developing, implementing, governing and sustaining an architecture. TOGAF is one. It is not a tool, a contract, or a list of standards."
+ },
+ {
+  "id": "pool3-4",
+  "topic": "concepts",
+  "q": "Which level of the Architecture Landscape gives a detailed, formal description of areas within an enterprise, used at program or portfolio level to organize and align change activity?",
+  "o": [
+   "Strategic Architecture.",
+   "Capability Architecture.",
+   "Transition Architecture.",
+   "Segment Architecture."
+  ],
+  "a": 4,
+  "e": "The answer is four. Segment Architecture works at program or portfolio level. Strategic Architecture is the summary view of the whole enterprise, and Capability Architecture is the most detailed, at project level. Transition Architecture is about a point in time, not a level of the landscape."
+ },
+ {
+  "id": "pool3-5",
+  "topic": "concepts",
+  "q": "Which statement best describes a Solution Architecture?",
+  "o": [
+   "A summary view of the whole enterprise, used for executive direction setting.",
+   "A description of a discrete and focused business operation or activity, and how information systems and technology support it.",
+   "The set of principles that guide all architecture work.",
+   "A generic architecture that can be reused by many industries."
+  ],
+  "a": 2,
+  "e": "The answer is two. A Solution Architecture is focused on one discrete business operation or activity, and how systems and technology support it. The whole-enterprise summary view is the Strategic Architecture."
+ },
+ {
+  "id": "pool3-6",
+  "topic": "terminology",
+  "q": "What is the TOGAF term for an external factor that prevents an organization from pursuing particular approaches to meet its goals?",
+  "o": [
+   "A principle.",
+   "An assumption.",
+   "A requirement.",
+   "A constraint."
+  ],
+  "a": 4,
+  "e": "The answer is four. A constraint is an external factor that rules out certain approaches. An assumption is a probable fact not yet validated, a requirement is a statement of need, and a principle is a qualitative statement of intent."
+ },
+ {
+  "id": "pool3-7",
+  "topic": "terminology",
+  "q": "What is the TOGAF term for a statement of need that must be met by a particular architecture or work package?",
+  "o": [
+   "A concern.",
+   "A principle.",
+   "A requirement.",
+   "A gap."
+  ],
+  "a": 3,
+  "e": "The answer is three. A requirement is a statement of need that must be met. A concern is a stakeholder's interest in a system, a principle is a statement of intent, and a gap is a difference between two states."
+ },
+ {
+  "id": "pool3-8",
+  "topic": "terminology",
+  "q": "In TOGAF, what is a representation of a subject of interest, such as a system, that is simpler or more abstract than the subject itself?",
+  "o": [
+   "A model.",
+   "A deliverable.",
+   "A viewpoint.",
+   "A building block."
+  ],
+  "a": 1,
+  "e": "The answer is one. A model is a representation of a subject of interest. A viewpoint is a convention for building views, a deliverable is a contractual work product, and a building block is a reusable component of capability."
+ },
+ {
+  "id": "pool3-9",
+  "topic": "terminology",
+  "q": "What is the Target Architecture?",
+  "o": [
+   "The description of the existing architecture, used as the starting point for change.",
+   "An intermediate state of the architecture between today and the future.",
+   "The description of a future state of the architecture being developed for an organization.",
+   "The architecture of a single project."
+  ],
+  "a": 3,
+  "e": "The answer is three. The Target Architecture describes the future state. The existing state is the Baseline Architecture, and an intermediate state at a point in time is a Transition Architecture."
+ },
+ {
+  "id": "pool3-10",
+  "topic": "terminology",
+  "q": "Which term describes a succinct description of the Target Architecture, its business value, and the changes it will bring, serving as an aspirational vision and a boundary for detailed architecture development?",
+  "o": [
+   "The Architecture Roadmap.",
+   "The Architecture Vision.",
+   "The Statement of Architecture Work.",
+   "The Architecture Definition Document."
+  ],
+  "a": 2,
+  "e": "The answer is two. The Architecture Vision is short, aspirational, and sets the boundary for detailed work in the following phases. The Statement of Architecture Work defines the scope and approach of the work. The roadmap lists the work packages over time."
+ },
+ {
+  "id": "pool3-11",
+  "topic": "terminology",
+  "q": "What is the TOGAF term for an abstracted plan for business or technology change, typically operating across multiple disciplines over multiple years?",
+  "o": [
+   "A roadmap.",
+   "A work package.",
+   "A Transition Architecture.",
+   "An Architecture Contract."
+  ],
+  "a": 1,
+  "e": "The answer is one. A roadmap is an abstracted plan for change over multiple years. A work package is a set of actions to achieve objectives, and a Transition Architecture is one state of the architecture at a point in time."
+ },
+ {
+  "id": "pool3-12",
+  "topic": "terminology",
+  "q": "Which term describes an implementation-independent definition of the architecture, often grouping related physical entities according to their purpose and structure?",
+  "o": [
+   "Physical.",
+   "Baseline.",
+   "Generic.",
+   "Logical."
+  ],
+  "a": 4,
+  "e": "The answer is four. Logical means implementation-independent. Physical describes real-world entities, such as a specific product or server. For example, a customer database is logical, while a specific database product is physical."
+ },
+ {
+  "id": "pool3-13",
+  "topic": "adm",
+  "q": "Which statement about iteration in the A D M is correct?",
+  "o": [
+   "Iteration is only allowed within Phase B.",
+   "The A D M must always be followed strictly in sequence, with no iteration.",
+   "Iteration is only used when a re-architecting change is raised in Phase H.",
+   "Iteration can happen across the whole cycle, between phases, and within a single phase."
+  ],
+  "a": 4,
+  "e": "The answer is four. The A D M is iterative at every level. You can cycle through the whole method, go back and forth between phases, and repeat steps within a phase."
+ },
+ {
+  "id": "pool3-14",
+  "topic": "adm",
+  "q": "Which group of iteration cycles covers the Preliminary Phase and Phase A?",
+  "o": [
+   "Transition Planning.",
+   "Architecture Definition.",
+   "Architecture Context.",
+   "Architecture Governance."
+  ],
+  "a": 3,
+  "e": "The answer is three. Architecture Context covers Preliminary and Phase A. Architecture Definition covers B, C and D, Transition Planning covers E and F, and Architecture Governance covers G and H."
+ },
+ {
+  "id": "pool3-15",
+  "topic": "adm",
+  "q": "When is a target-first approach to architecture definition most suitable?",
+  "o": [
+   "When the target state is agreed at a high level, and the enterprise wants to move effectively to that target.",
+   "When there is no budget for an architecture effort.",
+   "When the current state is complex, poorly understood, or not agreed.",
+   "When the Architecture Board has rejected the Statement of Architecture Work."
+  ],
+  "a": 1,
+  "e": "The answer is one. Target first elaborates the target in detail, then maps it back to the baseline to find the changes needed. Baseline first suits a current state that is complex, poorly understood or not agreed."
+ },
+ {
+  "id": "pool3-16",
+  "topic": "adm",
+  "q": "Which dimension of the scope of an architecture activity sets the level of detail the architecture effort should go into?",
+  "o": [
+   "Breadth.",
+   "Depth.",
+   "Time period.",
+   "Architecture domains."
+  ],
+  "a": 2,
+  "e": "The answer is two. Depth is the level of detail. Breadth is how much of the enterprise is covered, time period is how far ahead the architecture looks, and domains are which of business, data, application and technology are included."
+ },
+ {
+  "id": "pool3-17",
+  "topic": "phases",
+  "q": "Which of the following is an objective of the Preliminary Phase?",
+  "o": [
+   "To ensure conformance of implementation projects with the Target Architecture.",
+   "To develop the Target Business Architecture.",
+   "To create the initial complete version of the Architecture Roadmap.",
+   "To determine the Architecture Capability desired by the organization."
+  ],
+  "a": 4,
+  "e": "The answer is four. The Preliminary Phase prepares the organization: it determines the Architecture Capability it wants, and establishes it. The Target Business Architecture is Phase B, the initial roadmap is Phase E, and conformance of projects is Phase G."
+ },
+ {
+  "id": "pool3-18",
+  "topic": "phases",
+  "q": "In which phase is the architecture framework selected and tailored for the organization?",
+  "o": [
+   "The Preliminary Phase.",
+   "Phase B.",
+   "Phase H.",
+   "Phase A."
+  ],
+  "a": 1,
+  "e": "The answer is one. Selecting and tailoring the architecture framework is a step of the Preliminary Phase, and the Tailored Architecture Framework is one of its outputs."
+ },
+ {
+  "id": "pool3-19",
+  "topic": "phases",
+  "q": "Which of the following is an objective of Phase A, Architecture Vision?",
+  "o": [
+   "To establish the Architecture Capability of the organization.",
+   "To finalize the Implementation and Migration Plan.",
+   "To obtain approval for a Statement of Architecture Work that defines a program of works to develop and deploy the architecture.",
+   "To develop the Target Data Architecture."
+  ],
+  "a": 3,
+  "e": "The answer is three. Phase A develops a high-level vision and gets the Statement of Architecture Work approved. Establishing the capability is Preliminary, finalizing the plan is Phase F, and the Data Architecture is Phase C."
+ },
+ {
+  "id": "pool3-20",
+  "topic": "phases",
+  "q": "Which of the following is a step in Phase A?",
+  "o": [
+   "Perform a post-implementation review.",
+   "Assess readiness for business transformation.",
+   "Resolve impacts across the Architecture Landscape.",
+   "Assign a business value to each work package."
+  ],
+  "a": 2,
+  "e": "The answer is two. Assessing readiness for business transformation is a step in Phase A. The post-implementation review is in Phase G, resolving impacts across the landscape is one of the common steps in Phases B, C and D, and assigning business value is in Phase F."
+ },
+ {
+  "id": "pool3-21",
+  "topic": "phases",
+  "q": "In Phases B, C, and D, which step normally comes first?",
+  "o": [
+   "Perform gap analysis.",
+   "Select reference models, viewpoints, and tools.",
+   "Conduct a formal stakeholder review.",
+   "Create the Architecture Definition Document."
+  ],
+  "a": 2,
+  "e": "The answer is two. The common steps start by selecting reference models, viewpoints and tools. Then you describe the baseline and the target, perform gap analysis, define roadmap components, resolve impacts, review with stakeholders, finalize, and create the Architecture Definition Document."
+ },
+ {
+  "id": "pool3-22",
+  "topic": "phases",
+  "q": "Business capability maps, value stream maps, and organization maps are typically developed in which phase?",
+  "o": [
+   "Phase D.",
+   "Phase C.",
+   "Phase B.",
+   "Phase G."
+  ],
+  "a": 3,
+  "e": "The answer is three. Capabilities, value streams and organization maps describe the business, so they belong to Phase B, Business Architecture."
+ },
+ {
+  "id": "pool3-23",
+  "topic": "phases",
+  "q": "Which of the following is a step in Phase E?",
+  "o": [
+   "Formulate the Implementation and Migration Strategy.",
+   "Identify deployment resources and skills.",
+   "Develop the Statement of Architecture Work.",
+   "Establish the value realization process."
+  ],
+  "a": 1,
+  "e": "The answer is one. Phase E formulates the Implementation and Migration Strategy and identifies the work packages and Transition Architectures. Value realization is in Phase H, deployment resources are in Phase G, and the Statement of Architecture Work is in Phase A."
+ },
+ {
+  "id": "pool3-24",
+  "topic": "phases",
+  "q": "In which phase is the architecture development cycle completed, with lessons learned documented?",
+  "o": [
+   "Phase E.",
+   "Phase H.",
+   "Phase G.",
+   "Phase F."
+  ],
+  "a": 4,
+  "e": "The answer is four. The last step of Phase F is to complete the architecture development cycle and document lessons learned. Phases G and H then govern the implementation and manage change."
+ },
+ {
+  "id": "pool3-25",
+  "topic": "phases",
+  "q": "Which of the following is a step in Phase G?",
+  "o": [
+   "Deploy monitoring tools.",
+   "Perform Enterprise Architecture compliance reviews.",
+   "Formulate the Implementation and Migration Strategy.",
+   "Define the scope of the architecture effort."
+  ],
+  "a": 2,
+  "e": "The answer is two. Phase G performs compliance reviews of the implementation projects. Deploying monitoring tools is in Phase H, the strategy is in Phase E, and defining scope is in Phase A."
+ },
+ {
+  "id": "pool3-26",
+  "topic": "phases",
+  "q": "Which of the following is an objective of Phase H, Architecture Change Management?",
+  "o": [
+   "To ensure conformance with the Target Architecture by implementation projects.",
+   "To finalize the Architecture Roadmap.",
+   "To develop a high-level vision of the business value to be delivered.",
+   "To ensure that the Architecture Capability meets current requirements."
+  ],
+  "a": 4,
+  "e": "The answer is four. Phase H keeps the architecture lifecycle and the Architecture Capability current. Making projects conform is Phase G, which is the classic trap. Finalizing the roadmap is Phase F, and the vision is Phase A."
+ },
+ {
+  "id": "pool3-27",
+  "topic": "phases",
+  "q": "In Phase H, which class of change may be handled through change management techniques, or may require partial re-architecting?",
+  "o": [
+   "Simplification change.",
+   "Re-architecting change.",
+   "Incremental change.",
+   "Transition change."
+  ],
+  "a": 3,
+  "e": "The answer is three. An incremental change may go through change management or need partial re-architecting. A simplification change is normally handled by change management, and a re-architecting change needs a new A D M cycle. There is no class called transition change."
+ },
+ {
+  "id": "pool3-28",
+  "topic": "requirements",
+  "q": "Which statement about the Requirements Management process is correct?",
+  "o": [
+   "It does not itself dispose of, address, or prioritize requirements; that happens within the relevant phase.",
+   "It decides the priority of every requirement on its own.",
+   "It replaces the Architecture Board.",
+   "It only runs in Phase H."
+  ],
+  "a": 1,
+  "e": "The answer is one. Requirements Management is a central, continuous process that identifies, stores and feeds requirements to the phases. The phases themselves address and prioritize them."
+ },
+ {
+  "id": "pool3-29",
+  "topic": "content",
+  "q": "What is an artifact in TOGAF?",
+  "o": [
+   "A reusable component of enterprise capability.",
+   "A contractually specified work product, signed off by stakeholders.",
+   "An architectural work product that describes an aspect of the architecture.",
+   "A specification of conventions for building a view."
+  ],
+  "a": 3,
+  "e": "The answer is three. An artifact describes an aspect of the architecture. The contractual work product is a deliverable, the reusable component is a building block, and the specification of conventions is a viewpoint."
+ },
+ {
+  "id": "pool3-30",
+  "topic": "content",
+  "q": "Which kind of artifact shows the relationships between building blocks of specific types?",
+  "o": [
+   "A catalog.",
+   "A matrix.",
+   "A diagram.",
+   "A viewpoint."
+  ],
+  "a": 2,
+  "e": "The answer is two. A matrix shows relationships. A catalog is a list of building blocks, and a diagram is a graphical representation. A viewpoint is not a kind of artifact."
+ },
+ {
+  "id": "pool3-31",
+  "topic": "content",
+  "q": "Which statement about deliverables, artifacts, and building blocks is correct?",
+  "o": [
+   "Deliverables contain artifacts, and artifacts describe building blocks.",
+   "Building blocks contain deliverables, and deliverables describe artifacts.",
+   "Artifacts contain deliverables, and deliverables describe building blocks.",
+   "They are different names for the same thing."
+  ],
+  "a": 1,
+  "e": "The answer is one. A deliverable, such as the Architecture Definition Document, contains artifacts, such as catalogs and diagrams. The artifacts in turn describe building blocks."
+ },
+ {
+  "id": "pool3-32",
+  "topic": "content",
+  "q": "What is a building block, according to the TOGAF Standard?",
+  "o": [
+   "A phase of the A D M.",
+   "A section of the Architecture Definition Document.",
+   "A diagram of the target state.",
+   "A potentially reusable component of enterprise capability that can be combined with other building blocks to deliver architectures and solutions."
+  ],
+  "a": 4,
+  "e": "The answer is four. A building block is a potentially reusable component of capability, which can be combined with others. Architecture Building Blocks describe what is needed, and Solution Building Blocks describe how it will be delivered."
+ },
+ {
+  "id": "pool3-33",
+  "topic": "continuum",
+  "q": "What is the Enterprise Continuum?",
+  "o": [
+   "A tool for scheduling migration projects.",
+   "The sequence of phases in the A D M.",
+   "The list of approved standards for the enterprise.",
+   "A categorization mechanism for classifying architecture and solution artifacts as they evolve from generic Foundation Architectures to Organization-Specific Architectures."
+  ],
+  "a": 4,
+  "e": "The answer is four. The Enterprise Continuum is a way to classify assets, from generic to specific. It is made up of the Architecture Continuum and the Solutions Continuum."
+ },
+ {
+  "id": "pool3-34",
+  "topic": "continuum",
+  "q": "Which part of the Architecture Repository records governance activity, such as decisions, compliance assessments, and dispensations?",
+  "o": [
+   "The Standards Library.",
+   "The Reference Library.",
+   "The Governance Log.",
+   "The Architecture Capability."
+  ],
+  "a": 3,
+  "e": "The answer is three. The Governance Log records decisions, compliance assessments, capability assessments and dispensations. The Standards Library holds what you must comply with, and the Reference Library holds what you may reuse."
+ },
+ {
+  "id": "pool3-35",
+  "topic": "continuum",
+  "q": "Which part of the Architecture Repository defines the parameters, structures, and processes that support governance of the Architecture Repository itself?",
+  "o": [
+   "The Architecture Capability.",
+   "The Solutions Landscape.",
+   "The Architecture Landscape.",
+   "The Architecture Requirements Repository."
+  ],
+  "a": 1,
+  "e": "The answer is one. The Architecture Capability describes how the architecture function and its repository are run. The two landscapes describe assets, and the Requirements Repository holds the authorized requirements."
+ },
+ {
+  "id": "pool3-36",
+  "topic": "continuum",
+  "q": "Which part of the Architecture Repository describes the organizationally tailored application of an architecture framework, including a method for architecture development and a metamodel for architecture content?",
+  "o": [
+   "The Reference Library.",
+   "The Architecture Metamodel.",
+   "The Standards Library.",
+   "The Governance Log."
+  ],
+  "a": 2,
+  "e": "The answer is two. The Architecture Metamodel holds the tailored framework: the method and the content metamodel that the organization actually uses."
+ },
+ {
+  "id": "pool3-37",
+  "topic": "continuum",
+  "q": "In the Architecture Continuum, which kind of architecture is common to many, but not necessarily all, types of enterprise?",
+  "o": [
+   "Organization-Specific Architectures.",
+   "Foundation Architectures.",
+   "Industry Architectures.",
+   "Common Systems Architectures."
+  ],
+  "a": 4,
+  "e": "The answer is four. Common Systems Architectures are shared by many types of enterprise. Foundation Architectures are the most generic, Industry Architectures are specific to an industry, and Organization-Specific Architectures describe one enterprise."
+ },
+ {
+  "id": "pool3-38",
+  "topic": "techniques",
+  "q": "Which section of the principle template describes the requirements, for both the business and technology, for carrying out the principle, in terms of resources, costs, and activities?",
+  "o": [
+   "Implications.",
+   "Statement.",
+   "Rationale.",
+   "Name."
+  ],
+  "a": 1,
+  "e": "The answer is one. Implications describe what it takes to carry out the principle. The rationale highlights the business benefits, the statement communicates the rule, and the name is a short memorable label."
+ },
+ {
+  "id": "pool3-39",
+  "topic": "techniques",
+  "q": "Using the power and interest grid, how should you manage a stakeholder with high power and high interest?",
+  "o": [
+   "Keep them informed.",
+   "Keep them satisfied.",
+   "Treat them as key players, and engage them fully.",
+   "Monitor them with minimal effort."
+  ],
+  "a": 3,
+  "e": "The answer is three. High power and high interest means a key player, to be fully engaged. High power with low interest means keep satisfied, low power with high interest means keep informed, and low on both means minimal effort."
+ },
+ {
+  "id": "pool3-40",
+  "topic": "governance",
+  "q": "Which characteristic of architecture governance means that all actions implemented, and their decision support, are available for inspection by authorized parties?",
+  "o": [
+   "Discipline.",
+   "Transparency.",
+   "Accountability.",
+   "Fairness."
+  ],
+  "a": 2,
+  "e": "The answer is two. Transparency means actions and decisions are open to inspection. Discipline means commitment to follow the agreed procedures, accountability means identifiable groups are answerable for their actions, and fairness means no unfair advantage for any one party."
+ },
+ {
+  "id": "pool4-1",
+  "topic": "concepts",
+  "q": "Which document of the TOGAF Fundamental Content covers the Architecture Board, Architecture Contracts, and architecture compliance?",
+  "o": [
+   "Architecture Content.",
+   "Enterprise Architecture Capability and Governance.",
+   "Applying the A D M.",
+   "The A D M Techniques."
+  ],
+  "a": 2,
+  "e": "The answer is two. Enterprise Architecture Capability and Governance describes how to set up and run the architecture function, including the board, contracts and compliance. Architecture Content covers work products, and the A D M Techniques cover techniques such as gap analysis."
+ },
+ {
+  "id": "pool4-2",
+  "topic": "concepts",
+  "q": "Which document of the TOGAF Fundamental Content describes how to use iteration, and how to apply the A D M across the Architecture Landscape at different levels?",
+  "o": [
+   "Architecture Content.",
+   "Introduction and Core Concepts.",
+   "Applying the A D M.",
+   "Enterprise Architecture Capability and Governance."
+  ],
+  "a": 3,
+  "e": "The answer is three. Applying the A D M covers iteration, the levels of the landscape, and other ways of adapting the method. Introduction and Core Concepts gives the overview and the definitions."
+ },
+ {
+  "id": "pool4-3",
+  "topic": "concepts",
+  "q": "Which of the following is a typical benefit of an effective Enterprise Architecture?",
+  "o": [
+   "Faster, simpler, and cheaper procurement.",
+   "It guarantees that no project will ever fail.",
+   "It removes the need for project management.",
+   "Business stakeholders no longer need to approve changes."
+  ],
+  "a": 1,
+  "e": "The answer is one. TOGAF lists benefits such as more efficient business and technology operations, better return on existing investment, lower risk for future investment, and faster, simpler and cheaper procurement. No architecture can guarantee success or remove the need for management."
+ },
+ {
+  "id": "pool4-4",
+  "topic": "concepts",
+  "q": "Which architecture domain describes the structure of an organization's logical and physical data assets and data management resources?",
+  "o": [
+   "Business Architecture.",
+   "Application Architecture.",
+   "Technology Architecture.",
+   "Data Architecture."
+  ],
+  "a": 4,
+  "e": "The answer is four. Data Architecture covers the logical and physical data assets and the resources to manage them. Application Architecture is about the applications and their interactions, and Technology Architecture is about platforms and infrastructure."
+ },
+ {
+  "id": "pool4-5",
+  "topic": "concepts",
+  "q": "Which architecture domain provides a blueprint for the individual applications to be deployed, their interactions, and their relationships to the core business processes?",
+  "o": [
+   "Data Architecture.",
+   "Application Architecture.",
+   "Business Architecture.",
+   "Technology Architecture."
+  ],
+  "a": 2,
+  "e": "The answer is two. Application Architecture describes the applications, how they interact, and how they relate to the business processes. Together with Data Architecture it forms the Information Systems Architectures."
+ },
+ {
+  "id": "pool4-6",
+  "topic": "terminology",
+  "q": "A stakeholder says that she is worried about the running cost of the new solution. In TOGAF terms, what is the running cost for her?",
+  "o": [
+   "A constraint.",
+   "A principle.",
+   "A requirement.",
+   "A concern."
+  ],
+  "a": 4,
+  "e": "The answer is four. A concern is an interest in a system that matters to one or more stakeholders, such as cost, performance or security. It may later lead to requirements, but the worry itself is a concern."
+ },
+ {
+  "id": "pool4-7",
+  "topic": "terminology",
+  "q": "Which statement correctly distinguishes the Baseline Architecture from the Target Architecture?",
+  "o": [
+   "The baseline is the future state, and the target is the current state.",
+   "The baseline is produced in Phase H, and the target in the Preliminary Phase.",
+   "The baseline is a specification that has been formally reviewed and agreed, and serves as the basis for further change; the target describes the future state being developed.",
+   "The baseline applies only to technology, and the target only to business."
+  ],
+  "a": 3,
+  "e": "The answer is three. A baseline is formally reviewed and agreed, and is the basis for further change. It usually describes the current state. The target describes the future state, and transition architectures sit in between."
+ },
+ {
+  "id": "pool4-8",
+  "topic": "terminology",
+  "q": "What is the TOGAF term for an end-to-end collection of value-adding activities that create an overall result for a customer, stakeholder, or end user?",
+  "o": [
+   "A value stream.",
+   "A business capability.",
+   "A business service.",
+   "A work package."
+  ],
+  "a": 1,
+  "e": "The answer is one. A value stream is an end-to-end set of value-adding activities. A business capability is a particular ability that the business may possess, which is what it can do rather than how value flows."
+ },
+ {
+  "id": "pool4-9",
+  "topic": "terminology",
+  "q": "What is the TOGAF term for a model that describes how, and with what, the architecture will be described in a structured way?",
+  "o": [
+   "A viewpoint.",
+   "A reference model.",
+   "A metamodel.",
+   "An architecture framework."
+  ],
+  "a": 3,
+  "e": "The answer is three. A metamodel is a model of the model: it defines the types of entities and relationships used to describe the architecture."
+ },
+ {
+  "id": "pool4-10",
+  "topic": "terminology",
+  "q": "Which term describes a highly detailed description of the architectural approach to realize a particular solution or solution aspect?",
+  "o": [
+   "Strategic Architecture.",
+   "Capability Architecture.",
+   "Transition Architecture.",
+   "Segment Architecture."
+  ],
+  "a": 2,
+  "e": "The answer is two. Capability Architecture is the most detailed level of the landscape, at project level. Segment Architecture describes an area of the enterprise, and Strategic Architecture the whole enterprise."
+ },
+ {
+  "id": "pool4-11",
+  "topic": "terminology",
+  "q": "A regulation forbids the company from storing customer data outside the European Union. For the architecture team, what is this regulation best described as?",
+  "o": [
+   "A constraint.",
+   "An assumption.",
+   "A gap.",
+   "A viewpoint."
+  ],
+  "a": 1,
+  "e": "The answer is one. An external factor that prevents the organization from pursuing particular approaches is a constraint. An assumption is not yet validated, and a gap is a difference between two states."
+ },
+ {
+  "id": "pool4-12",
+  "topic": "adm",
+  "q": "Which statement best describes the A D M?",
+  "o": [
+   "A modeling notation for drawing architecture diagrams.",
+   "A software product for storing architecture content.",
+   "A list of the standards that projects must follow.",
+   "A tested and repeatable process for developing architectures."
+  ],
+  "a": 4,
+  "e": "The answer is four. The Architecture Development Method is the core of TOGAF: a tested and repeatable process for developing architectures. It is not a notation, a list of standards, or a tool."
+ },
+ {
+  "id": "pool4-13",
+  "topic": "adm",
+  "q": "Which group of iteration cycles covers Phases B, C, and D?",
+  "o": [
+   "Architecture Context.",
+   "Transition Planning.",
+   "Architecture Governance.",
+   "Architecture Definition."
+  ],
+  "a": 4,
+  "e": "The answer is four. Architecture Definition covers B, C and D. Architecture Context covers Preliminary and A, Transition Planning covers E and F, and Architecture Governance covers G and H."
+ },
+ {
+  "id": "pool4-14",
+  "topic": "adm",
+  "q": "How can the A D M be used across the levels of the Architecture Landscape?",
+  "o": [
+   "It can only be used for Capability Architectures.",
+   "A separate method must be bought for each level.",
+   "A Strategic Architecture gives direction to Segment Architectures, which in turn guide Capability Architectures, each developed with the A D M.",
+   "It can only be used once, for the whole enterprise."
+  ],
+  "a": 3,
+  "e": "The answer is three. The A D M can be applied at each level. Strategic Architecture sets direction for the segments, and segments set direction for the detailed capability architectures."
+ },
+ {
+  "id": "pool4-15",
+  "topic": "adm",
+  "q": "Which statement about the A D M and other frameworks is correct?",
+  "o": [
+   "The A D M is generic, and can be used together with the deliverables of other frameworks.",
+   "The A D M cannot be used if the organization uses any other framework.",
+   "The A D M requires the use of a specific modeling language.",
+   "The A D M is only for technology architecture."
+  ],
+  "a": 1,
+  "e": "The answer is one. The A D M is a generic method. It can be adapted, and used with other frameworks and their deliverables, and it does not mandate a modeling language or tool."
+ },
+ {
+  "id": "pool4-16",
+  "topic": "phases",
+  "q": "Which output of the Preliminary Phase describes the scope of the organizations impacted, the maturity assessment, the roles and responsibilities, and the budget for the architecture function?",
+  "o": [
+   "The Statement of Architecture Work.",
+   "The Organizational Model for Enterprise Architecture.",
+   "The Architecture Vision.",
+   "The Communications Plan."
+  ],
+  "a": 2,
+  "e": "The answer is two. The Organizational Model for Enterprise Architecture is produced in the Preliminary Phase, and describes who does architecture work and how it is funded. The Statement of Architecture Work, the Communications Plan and the Architecture Vision come from Phase A."
+ },
+ {
+  "id": "pool4-17",
+  "topic": "phases",
+  "q": "The sponsor sends the architecture organization a document asking it to start an architecture effort. What is this document, and which phase does it trigger?",
+  "o": [
+   "A change request, which triggers Phase H.",
+   "The Statement of Architecture Work, which triggers Phase A.",
+   "The Architecture Contract, which triggers Phase G.",
+   "The Request for Architecture Work, which triggers Phase A."
+  ],
+  "a": 4,
+  "e": "The answer is four. The Request for Architecture Work comes in from the sponsor and starts Phase A. The Statement of Architecture Work is what Phase A produces and gets approved: request comes in, statement goes out."
+ },
+ {
+  "id": "pool4-18",
+  "topic": "phases",
+  "q": "In which phase is the Communications Plan for the architecture work first produced?",
+  "o": [
+   "Phase A.",
+   "The Preliminary Phase.",
+   "Phase B.",
+   "Phase G."
+  ],
+  "a": 1,
+  "e": "The answer is one. Phase A identifies the stakeholders and their concerns, and produces the Communications Plan, along with the Architecture Vision and the Statement of Architecture Work."
+ },
+ {
+  "id": "pool4-19",
+  "topic": "phases",
+  "q": "What happens to the Architecture Principles in Phase A?",
+  "o": [
+   "They are written for the first time.",
+   "They are replaced by the Architecture Vision.",
+   "They are reviewed and confirmed, having first been defined in the Preliminary Phase.",
+   "They are handed over to the implementation projects."
+  ],
+  "a": 3,
+  "e": "The answer is three. The Architecture Principles are first defined in the Preliminary Phase. Phase A confirms them, or refines them if needed, for the work in hand."
+ },
+ {
+  "id": "pool4-20",
+  "topic": "phases",
+  "q": "In Phases B, C, and D, once the baseline and target descriptions have been developed, which step follows?",
+  "o": [
+   "Select reference models, viewpoints, and tools.",
+   "Perform gap analysis.",
+   "Sign the Architecture Contract.",
+   "Establish the value realization process."
+  ],
+  "a": 2,
+  "e": "The answer is two. With baseline and target described, the next step is gap analysis, which then feeds the candidate roadmap components. Selecting reference models comes first, and the other two belong to Phases G and H."
+ },
+ {
+  "id": "pool4-21",
+  "topic": "phases",
+  "q": "Which phase identifies candidate Architecture Roadmap components, based on gaps between the Baseline and Target Technology Architectures?",
+  "o": [
+   "Phase G.",
+   "Phase D.",
+   "Phase H.",
+   "The Preliminary Phase."
+  ],
+  "a": 2,
+  "e": "The answer is two. Phase D, Technology Architecture, develops the baseline and target technology descriptions and identifies roadmap components from the gaps between them."
+ },
+ {
+  "id": "pool4-22",
+  "topic": "phases",
+  "q": "Which of the following is not one of the strategic implementation directions considered in Phase E?",
+  "o": [
+   "Greenfield.",
+   "Revolutionary.",
+   "Waterfall.",
+   "Evolutionary."
+  ],
+  "a": 3,
+  "e": "The answer is three. When formulating the Implementation and Migration Strategy, Phase E chooses between greenfield, revolutionary and evolutionary directions. Waterfall is a project delivery approach, not one of these."
+ },
+ {
+  "id": "pool4-23",
+  "topic": "phases",
+  "q": "Which phase ensures that the Implementation and Migration Plan is coordinated with the enterprise's approach to managing and implementing change in its overall change portfolio?",
+  "o": [
+   "Phase F.",
+   "Phase E.",
+   "Phase G.",
+   "Phase H."
+  ],
+  "a": 1,
+  "e": "The answer is one. Phase F finalizes the roadmap and the Implementation and Migration Plan, and aligns them with the enterprise's change portfolio. Phase E produces the initial versions."
+ },
+ {
+  "id": "pool4-24",
+  "topic": "phases",
+  "q": "Implementation projects are underway, and the architects review whether they comply with the architecture. Which phase is this?",
+  "o": [
+   "Phase E.",
+   "Phase F.",
+   "Phase H.",
+   "Phase G."
+  ],
+  "a": 4,
+  "e": "The answer is four. Reviewing the compliance of implementation projects is Phase G, Implementation Governance. Phase H keeps the architecture itself current once it is in place."
+ },
+ {
+  "id": "pool4-25",
+  "topic": "phases",
+  "q": "Which of the following is a step in Phase H?",
+  "o": [
+   "Perform Enterprise Architecture compliance reviews.",
+   "Establish the value realization process.",
+   "Identify deployment resources and skills.",
+   "Develop the Architecture Vision."
+  ],
+  "a": 2,
+  "e": "The answer is two. Establishing the value realization process, deploying monitoring tools and managing risks are steps of Phase H. Compliance reviews and deployment resources are steps of Phase G."
+ },
+ {
+  "id": "pool4-26",
+  "topic": "phases",
+  "q": "Which output of Phase H can start a new cycle of the A D M?",
+  "o": [
+   "A Compliance Assessment.",
+   "A Statement of Architecture Work.",
+   "An Architecture Contract.",
+   "A Request for Architecture Work."
+  ],
+  "a": 4,
+  "e": "The answer is four. When a change needs new architecture work, Phase H raises a new Request for Architecture Work, which starts a new cycle at Phase A. This closes the loop."
+ },
+ {
+  "id": "pool4-27",
+  "topic": "requirements",
+  "q": "Which output of Requirements Management describes how a change to the requirements affects the architecture, and what needs to change in the current phase?",
+  "o": [
+   "The Architecture Vision.",
+   "The Governance Log.",
+   "The Requirements Impact Assessment.",
+   "The Communications Plan."
+  ],
+  "a": 3,
+  "e": "The answer is three. When requirements change, Requirements Management produces a Requirements Impact Assessment, which identifies the phases to revisit and the effect on the architecture."
+ },
+ {
+  "id": "pool4-28",
+  "topic": "content",
+  "q": "Which of the following is an example of a deliverable?",
+  "o": [
+   "The Statement of Architecture Work.",
+   "A business service.",
+   "A catalog of application components.",
+   "A viewpoint for security."
+  ],
+  "a": 1,
+  "e": "The answer is one. The Statement of Architecture Work is a contractual work product, formally reviewed and signed off, so it is a deliverable. A catalog is an artifact, and a business service is a building block."
+ },
+ {
+  "id": "pool4-29",
+  "topic": "content",
+  "q": "Which of the following is an artifact, rather than a deliverable?",
+  "o": [
+   "The Architecture Contract.",
+   "The Architecture Definition Document.",
+   "A Stakeholder Map matrix.",
+   "The Statement of Architecture Work."
+  ],
+  "a": 3,
+  "e": "The answer is three. A Stakeholder Map matrix is an artifact, a matrix that describes one aspect of the architecture. The Architecture Contract, the Architecture Definition Document and the Statement of Architecture Work are all deliverables."
+ },
+ {
+  "id": "pool4-30",
+  "topic": "content",
+  "q": "Which statement about building blocks and the A D M is correct?",
+  "o": [
+   "Solution Building Blocks are defined in the Preliminary Phase.",
+   "Architecture Building Blocks are mostly defined in Phases B, C, and D, while Solution Building Blocks are identified from Phase E onwards.",
+   "Building blocks are not used in the A D M.",
+   "Architecture Building Blocks are only defined in Phase H."
+  ],
+  "a": 2,
+  "e": "The answer is two. Phases B, C and D describe what is needed, which are Architecture Building Blocks. From Phase E onwards the work turns to implementation, and Solution Building Blocks are identified."
+ },
+ {
+  "id": "pool4-31",
+  "topic": "content",
+  "q": "What is the purpose of the Architecture Content Framework?",
+  "o": [
+   "It gives a detailed model of architectural work products, including deliverables, artifacts, and building blocks.",
+   "It schedules the implementation projects.",
+   "It defines the conformance levels used in compliance reviews.",
+   "It replaces the A D M for small projects."
+  ],
+  "a": 1,
+  "e": "The answer is one. The Architecture Content Framework structures the outputs of the A D M, so that work products are consistent. It works alongside the method, it does not replace it."
+ },
+ {
+  "id": "pool4-32",
+  "topic": "continuum",
+  "q": "What is the relationship between the Architecture Continuum and the Solutions Continuum?",
+  "o": [
+   "They are the same thing under two names.",
+   "The Architecture Continuum holds products, and the Solutions Continuum holds principles.",
+   "The Solutions Continuum is only used in the Preliminary Phase.",
+   "The Solutions Continuum contains implementations of the corresponding definitions in the Architecture Continuum."
+  ],
+  "a": 4,
+  "e": "The answer is four. The Architecture Continuum holds architectures of increasing specialization. The Solutions Continuum holds the reusable solutions that implement them. Together they form the Enterprise Continuum."
+ },
+ {
+  "id": "pool4-33",
+  "topic": "continuum",
+  "q": "What is the difference between the Enterprise Continuum and the Architecture Repository?",
+  "o": [
+   "The Enterprise Continuum is a phase of the A D M.",
+   "The Enterprise Continuum stores the assets, while the Architecture Repository classifies them.",
+   "There is no difference.",
+   "The Enterprise Continuum is a way of classifying assets, while the Architecture Repository is where the assets are actually stored."
+  ],
+  "a": 4,
+  "e": "The answer is four. The Enterprise Continuum is a classification, from generic to specific. The Architecture Repository is the store that holds the outputs of architecture work."
+ },
+ {
+  "id": "pool4-34",
+  "topic": "continuum",
+  "q": "What does a Foundation Architecture provide?",
+  "o": [
+   "A detailed design for one project.",
+   "The architecture of a single, specific organization.",
+   "Generic building blocks, their relationships, and the principles and guidelines on which more specific architectures can be built.",
+   "The list of risks for the current A D M cycle."
+  ],
+  "a": 3,
+  "e": "The answer is three. A Foundation Architecture is the most generic stage of the Architecture Continuum. It provides building blocks, relationships, principles and guidelines as a base for more specific architectures."
+ },
+ {
+  "id": "pool4-35",
+  "topic": "continuum",
+  "q": "A new architecture must comply with the organization's chosen data exchange standard. In which part of the Architecture Repository is that standard recorded?",
+  "o": [
+   "The Standards Library.",
+   "The Governance Log.",
+   "The Solutions Landscape.",
+   "The Reference Library."
+  ],
+  "a": 1,
+  "e": "The answer is one. The Standards Library holds what architectures must comply with. The Reference Library holds what you may reuse, the Governance Log records governance activity, and the Solutions Landscape shows the deployed solutions."
+ },
+ {
+  "id": "pool4-36",
+  "topic": "continuum",
+  "q": "Which part of the Architecture Repository would you check to see the Solution Building Blocks currently deployed, or planned, in support of the Architecture Landscape?",
+  "o": [
+   "The Standards Library.",
+   "The Solutions Landscape.",
+   "The Reference Library.",
+   "The Architecture Metamodel."
+  ],
+  "a": 2,
+  "e": "The answer is two. The Solutions Landscape represents the Solution Building Blocks in use or planned. The Architecture Landscape is the architectural view of the same estate, and the two sit side by side."
+ },
+ {
+  "id": "pool4-37",
+  "topic": "techniques",
+  "q": "Which two dimensions does TOGAF use to classify risks?",
+  "o": [
+   "Cost and schedule.",
+   "Breadth and depth.",
+   "Power and interest.",
+   "Effect and frequency."
+  ],
+  "a": 4,
+  "e": "The answer is four. Risks are classified by their effect, meaning the impact if they happen, and their frequency, meaning how likely they are. Power and interest are for stakeholders, and breadth and depth are dimensions of scope."
+ },
+ {
+  "id": "pool4-38",
+  "topic": "techniques",
+  "q": "In a business scenario, business goals and objectives should be SMART. What does SMART stand for?",
+  "o": [
+   "Specific, Measurable, Actionable, Realistic, Time-bound.",
+   "Strategic, Modeled, Approved, Reusable, Traceable.",
+   "Simple, Manageable, Agreed, Reviewed, Tested.",
+   "Signed, Monitored, Audited, Recorded, Tracked."
+  ],
+  "a": 1,
+  "e": "The answer is one. SMART means Specific, Measurable, Actionable, Realistic and Time-bound. It helps turn a vague business problem into objectives the architecture can be measured against."
+ },
+ {
+  "id": "pool4-39",
+  "topic": "governance",
+  "q": "What does TOGAF call the time-bound permission granted to a project that is unable to comply with the architecture?",
+  "o": [
+   "A change request.",
+   "A compliance assessment.",
+   "A dispensation.",
+   "An Architecture Contract."
+  ],
+  "a": 3,
+  "e": "The answer is three. A dispensation is granted, usually by the Architecture Board, when a project cannot conform. It is time-bound and recorded in the Governance Log."
+ },
+ {
+  "id": "pool4-40",
+  "topic": "governance",
+  "q": "An implementation has some features in common with the architecture specification, and these are implemented in accordance with it. However, some features of the specification are not implemented, and some implemented features are not covered by the specification. What is its conformance level?",
+  "o": [
+   "Compliant.",
+   "Consistent.",
+   "Conformant.",
+   "Irrelevant."
+  ],
+  "a": 2,
+  "e": "The answer is two. Consistent means partial overlap in both directions, with what overlaps done correctly. Compliant means everything built is in the specification, but not all of it was built. Conformant means all of the specification was built, plus extras."
  }
 ]

@@ -113,6 +113,9 @@ with sync_playwright() as p:
 
     # ---- C: history and export on the start screen ----
     pg2.click('#home')
+    shown = [k for k in exams if pg2.is_visible(f'#exam-{k}')]
+    print('mock exams listed:', shown)
+    assert shown == list(exams), shown
     print('history rows:', pg2.locator('#historyList .h').count(), '| mock1 button:', pg2.text_content('#exam-mock1 .best').replace('\n', ' '))
     with pg2.expect_download() as d:
         pg2.click('#exportAll')
