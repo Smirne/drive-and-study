@@ -19,7 +19,7 @@ The site has three pages:
 - `/lessons` has 13 audio episodes: 8 lessons, 2 practice exams, a recap podcast, commonly confused pairs and a 30-minute story of one full ADM cycle. They play in order and the page remembers where you stopped.
 - `/drill` is the practice drill and mock exams:
   - **Practice**: 20 questions, with feedback and an explanation after each one.
-  - **Mock exams 1–4**: like the real Part 1: 40 questions, 60 minutes, pass mark 24, no feedback until
+  - **Mock exams 1–5** (5 is hard: balanced option lengths): like the real Part 1: 40 questions, 60 minutes, pass mark 24, no feedback until
     the end. Then a score by topic, a review of the mistakes with explanations, and export.
   - **Results**: every session is saved in the browser. Download one attempt as CSV or JSON, download all
     attempts as CSV, or copy a summary (score, weakest topics, missed questions) to paste into a chat.
@@ -59,7 +59,7 @@ public/                           what Vercel serves (committed, no build step o
 app/template.html                 drill UI + state machine (matcher, questions and clip URLs injected)
 app/matcher.js                    deterministic answer matcher (numbers, option content, commands)
 app/lessons.html                  lessons player UI
-content/<pack>/source/*.txt       question scripts (ep9/ep10 practice set, pool1–pool4 mock-exam pools)
+content/<pack>/source/*.txt       question scripts (ep9/ep10 practice set, pool1–pool5 mock-exam pools)
 content/<pack>/questions.json     parsed questions with id and topic (answers balanced over 1–4)
 content/<pack>/exams.json         mock exams: title, minutes, pass mark, question ids
 content/<pack>/lessons/ep*.txt    lesson scripts (ep11 recap, ep12 confused pairs and ep13 full-cycle story are two-host podcasts)
