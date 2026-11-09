@@ -1,0 +1,249 @@
+S: Welcome back. I'm Sara.
+A: And I'm Alex. This is the long one. Half an hour, and one single story: a full cycle of the A D M, from the very first day, before any architecture work exists, all the way round to the change request that starts the next cycle.
+S: Why a story? Because the exam asks you scenario questions. A sponsor sends a document, which phase starts? A project builds extra features, which conformance level? A stakeholder is worried about cost, what is that worry called? If you have walked through one cycle in your head, with real people and real documents, those questions answer themselves.
+A: Our company is invented. Lakeside Energy, a regional utility. It sells electricity and gas, it runs a call center, a billing platform that is twenty years old, and a mobile app that customers love to complain about.
+S: The new chief executive wants Lakeside to become a digital energy company in three years. Self-service for customers, smart meter data in real time, and new products like home batteries.
+A: Along the way we'll stop and ask you questions. When you hear the pause, answer out loud, then listen for the answer.
+S: Let's go.
+
+A: Chapter one. Before anything else: the Preliminary Phase.
+S: Lakeside has never done Enterprise Architecture properly. There are a few architects, scattered across projects, each drawing diagrams in their own way. So the first question is not what the target looks like. The first question is: how will we do architecture here at all?
+A: That's exactly the purpose of the Preliminary Phase. Prepare the organization. Determine the Architecture Capability it wants, and then establish it.
+S: So the new head of architecture, let's call her Marta, starts by working out who does what. Which organizations are in scope, what the architecture team's roles and responsibilities are, how mature the current practice is, and what budget it will have.
+A: All of that goes into one output with a long name: the Organizational Model for Enterprise Architecture. Scope of the organizations impacted, maturity assessment, roles and responsibilities, constraints, budget, and governance and support strategy.
+S: Next, Marta picks a framework and tailors it. TOGAF, adapted to Lakeside's size, vocabulary and existing processes. The result is the Tailored Architecture Framework, another Preliminary output.
+A: And here's the one that cost points in the mock exam. The Architecture Principles. They are first defined here, in the Preliminary Phase. Not in Phase A. Phase A will confirm them later.
+S: Lakeside writes about a dozen principles. Let's take one. Name: Data is an asset. Statement: data is managed as a shared enterprise asset. Rationale: accurate data drives better decisions and lowers cost. Implications: we need data owners, a data catalog, and budget for data quality.
+A: That's the template. Name, statement, rationale, implications. The rationale gives the business benefits. The implications give what it takes, in resources, costs and activities.
+S: And a good set of principles has five qualities. Understandable, robust, complete, consistent and stable.
+A: Marta also sets up the Architecture Repository, the place where everything will be stored, and the governance framework, including the Architecture Board.
+S: Quick question. Lakeside is choosing and adapting TOGAF to fit the organization. Which phase is that?
+[PAUSE]
+A: The Preliminary Phase. The output is the Tailored Architecture Framework.
+S: And in which phase are the Architecture Principles first defined?
+[PAUSE]
+A: Also the Preliminary Phase. Phase A only confirms them.
+
+S: Chapter two. The request arrives.
+A: The chief executive, who is the sponsor, sends Marta a document. It says: we want a customer self-service platform and real-time smart meter data, here is the business context, here are the goals, the budget and the constraints, please start.
+S: That document is the Request for Architecture Work. It comes in from the sponsor, and it triggers Phase A.
+A: Not the Statement of Architecture Work. The Statement is what goes out at the end of Phase A, once it's approved. Request comes in, statement goes out.
+S: Phase A, Architecture Vision. Two objectives. Develop a high-level, aspirational vision of the capabilities and business value the work will deliver. And obtain approval for a Statement of Architecture Work, which defines the program of work to develop and deploy the architecture.
+A: The first thing the team does is establish the project, and identify the stakeholders, their concerns and the business requirements.
+S: Let's meet some stakeholders. The chief financial officer is worried about the running cost of the new platform. The head of customer service is worried that her agents will be overwhelmed during the migration. The security officer is worried about meter data privacy.
+A: Each of those worries is a concern. A concern is an interest in a system that is relevant to one or more of its stakeholders. Cost, performance, security, usability. Concerns can later lead to requirements, but the worry itself is a concern.
+S: Then the team maps the stakeholders on the power and interest grid. The chief executive: high power, high interest. A key player, fully engaged. The board's audit committee: high power, but low interest in this program. Keep them satisfied.
+A: The call center agents: low power, but high interest, because their daily work will change. Keep them informed. And a team with low power and low interest just needs minimal effort.
+S: The stakeholder management steps, by the way, are: identify stakeholders, classify their positions, determine the management approach, and tailor the engagement deliverables.
+A: To get the real business requirements, the team runs a business scenario. They describe the problem, the environment, the people and the processes, and the desired outcomes. Business goals must be SMART. Specific, measurable, actionable, realistic and time-bound.
+S: So not "better customer experience", but "eighty percent of meter readings submitted through self-service within eighteen months".
+A: The team also confirms the business goals, drivers and constraints. Here is a constraint: the regulator says customer data must stay in the European Union. That's an external factor that rules out some approaches. A constraint, not a requirement and not a principle.
+S: And here is an assumption: we assume the new meters will be rolled out by the network operator next year. A statement of probable fact, not yet validated.
+A: Next, the team evaluates capabilities, and then assesses readiness for business transformation. That's the Business Transformation Readiness Assessment. Is Lakeside ready to change? Does it have the vision, the sponsorship, the skills, the funding? It's first carried out here, in Phase A, and it comes back in Phases E and F.
+S: Then they define the scope. Four dimensions. Breadth: which parts of the enterprise, say retail customers only, not the network business. Depth: how much detail. Time period: three years. And architecture domains: all four, business, data, application and technology.
+A: They confirm the Architecture Principles, the ones written in the Preliminary Phase. Then they develop the Architecture Vision, define the value propositions and key performance indicators, and identify the transformation risks and how to mitigate them.
+S: They also write a Communications Plan, so the right people hear the right things at the right time.
+A: Finally, they develop the Statement of Architecture Work and get it approved by the sponsor. Phase A is done.
+S: One detail for the exam. At the end of Phase A, the Architecture Definition Document exists only as a draft, at version zero point one. It reaches version one point zero at the end of Phases B, C and D.
+A: Let's test it. The chief executive sends a document asking the architects to start. What is it, and what does it trigger?
+[PAUSE]
+S: The Request for Architecture Work. It triggers Phase A.
+A: The chief financial officer worries about the running cost. In TOGAF terms, what is the running cost for her?
+[PAUSE]
+S: A concern.
+A: Customer data must stay in the European Union, by regulation. What is that?
+[PAUSE]
+S: A constraint.
+A: And what document must be approved at the end of Phase A?
+[PAUSE]
+S: The Statement of Architecture Work.
+
+A: Chapter three. Drawing the architecture: Phases B, C and D.
+S: Phase B is Business Architecture. Phase C is Information Systems Architectures, which means data and application. Phase D is Technology Architecture.
+A: The nice thing is that all three follow the same steps. Let's say them once, slowly. Select reference models, viewpoints and tools. Develop the baseline description. Develop the target description. Perform gap analysis. Define candidate roadmap components. Resolve impacts across the Architecture Landscape. Conduct a formal stakeholder review. Finalize the architecture. And create the Architecture Definition Document.
+S: Select, baseline, target, gaps, roadmap, impacts, review, finalize, document.
+A: In Phase B, Lakeside describes its business. Business capabilities, like billing, metering, or customer onboarding. Value streams, like "move into a new home", the end-to-end flow of value-adding activities that creates a result for the customer. And organization maps.
+S: Remember the difference. A business capability is a particular ability that the business may possess, what it can do. A value stream is how value flows, end to end, for a customer.
+A: Now a choice. Baseline first, or target first?
+S: Lakeside's billing landscape is twenty years old. Nobody fully understands it, and different teams describe it in different ways. When the current state is complex, poorly understood, or not agreed, you go baseline first. You describe today, find the problems and the opportunities, and then design the target.
+A: Target first is the other way round. You elaborate the target in detail, then map it back to the baseline to find the changes. It suits a situation where the target is agreed at a high level, and the enterprise wants to move to it effectively.
+S: Lakeside goes baseline first for billing, and target first for the brand new home battery product, where there's hardly any baseline at all.
+A: Let's talk about the words for the two states. The Baseline Architecture is a specification that has been formally reviewed and agreed, and serves as the basis for further change. In practice, today's state, agreed.
+S: The Target Architecture is the description of the future state being developed.
+A: And how do you describe them? With views. Each stakeholder gets a view: a representation of the system from the perspective of a related set of concerns. The chief financial officer gets a cost view. The security officer gets a security view.
+S: And the viewpoint is the convention behind it. Where you look from, the template for building that kind of view. The viewpoint is reusable. The view belongs to one system.
+A: Inside those views you find artifacts. An artifact is an architectural work product that describes one aspect of the architecture. Three kinds. A catalog is a list, for example the list of all application components. A matrix shows relationships, for example which applications use which data. And a diagram is a picture.
+S: And artifacts describe building blocks. In these phases they are Architecture Building Blocks. They say what is needed, independent of products. For example, "a customer identity service".
+A: Later, from Phase E onwards, Solution Building Blocks appear: a specific identity product from a specific vendor. Architecture building block, what is needed. Solution building block, how it's delivered, vendor aware.
+S: Then gap analysis. Put the baseline down one side of a matrix and the target across the top. The old paper bill printing service is in the baseline, but not in the target. That's a gap: something eliminated. Was it eliminated on purpose? Good. By accident? Then you have a problem to fix.
+A: The real-time meter data platform is in the target, but not in the baseline. That's a new building block, to be developed or procured.
+S: And the definition of a gap: a statement of difference between two states.
+A: Phase C splits into data and application. Data Architecture: the structure of the logical and physical data assets, and the data management resources. Application Architecture: the applications to deploy, their interactions, and their relationships to the core business processes.
+S: Here a useful pair: logical and physical. "A customer data store" is logical: implementation independent. "This specific database cluster in this data center" is physical.
+A: Phase D does the same for technology. Platforms, networks, hosting. It develops the baseline and target technology descriptions, and identifies candidate roadmap components from the gaps between them.
+S: By the end of Phase D, the team has two key deliverables. The Architecture Definition Document, which describes the architecture in a qualitative way, and the Architecture Requirements Specification, which gives the quantitative statements that implementation projects must comply with. Words versus numbers.
+A: And the Architecture Definition Document is now at version one point zero.
+S: One more thing runs through all these phases, and all the others. Requirements Management. It sits at the center of the A D M diagram. It identifies requirements, stores them, and feeds them in and out of the phases.
+A: But it does not itself dispose of, address or prioritize requirements. The phases do that. When a requirement changes, Requirements Management produces a Requirements Impact Assessment, which says what the change affects.
+S: Question time. The billing landscape is complex and nobody agrees on how it works. Baseline first, or target first?
+[PAUSE]
+A: Baseline first.
+S: A list of all the application components. Which kind of artifact?
+[PAUSE]
+A: A catalog.
+S: Which deliverable gives the measurable statements that projects must comply with?
+[PAUSE]
+A: The Architecture Requirements Specification.
+S: A building block is in the target, but not in the baseline. What does that mean?
+[PAUSE]
+A: It's new. It must be developed or procured.
+
+S: Chapter four. Planning the change: Phases E and F.
+A: Phase E, Opportunities and Solutions. This is the first phase directly concerned with implementation. Its objectives: generate the initial complete version of the Architecture Roadmap, based on the gaps from Phases B, C and D, and decide whether an incremental approach is needed. If it is, identify Transition Architectures.
+S: Lakeside cannot replace billing, launch self-service and connect real-time meters all in one weekend. So the team defines Transition Architectures.
+A: A Transition Architecture is a formal description of one state of the architecture, at an architecturally significant point in time. Transition one, in twelve months: new customer identity and self-service portal, old billing still in place. Transition two, in twenty-four months: new billing live. Then the target.
+S: Remember: transition is about time. Segment is about scope. We'll come back to segment.
+A: In Phase E, the team consolidates the gap analysis results, reviews the requirements, reconciles the interoperability requirements, and confirms the readiness and risks for the transformation.
+S: And it formulates the Implementation and Migration Strategy. One choice is the strategic implementation direction. Greenfield: start from scratch. Revolutionary: a radical change, switch over in one go. Evolutionary: a gradual, phased change.
+A: Lakeside chooses evolutionary for billing, because a revolutionary switch of billing for a whole utility is a scary thing, and greenfield for the home battery product.
+S: Then the team groups the work into work packages. A work package is a set of actions identified to achieve one or more objectives for the business. It can be part of a project, a complete project, or a program.
+A: And here, Solution Building Blocks come in. Which identity product, which billing platform, which cloud.
+S: Risk management also lives here. TOGAF classifies risk by effect and frequency. Effect is the impact if it happens. Frequency is how likely it is.
+A: For each risk, you first assess the initial risk, before any mitigation. Then you plan mitigation, and what remains afterwards is the residual risk. For example, the risk that billing data is corrupted in migration. Initial risk: high. After parallel running and reconciliation: the residual risk is low.
+S: Phase F, Migration Planning. F is for final. It finalizes the Architecture Roadmap and the Implementation and Migration Plan.
+A: It makes sure the plan is coordinated with the enterprise's approach to managing and implementing change in its overall change portfolio. Lakeside has a project management office and a portfolio board; the plan has to fit into them.
+S: It also makes sure the business value and cost of the work packages and Transition Architectures are understood by the key stakeholders. So Phase F assigns a business value to each work package, estimates resources and timings, and prioritizes the migration projects through a cost, benefit and risk assessment.
+A: And the last step of Phase F is to complete the architecture development cycle and document the lessons learned. That surprises people. The development cycle ends in F. G and H are about governing and changing what was developed.
+S: Let's check. Which phase produces the initial complete version of the Architecture Roadmap?
+[PAUSE]
+A: Phase E.
+S: Which phase aligns the plan with the enterprise's change portfolio, and assigns business value to each work package?
+[PAUSE]
+A: Phase F.
+S: A risk, assessed after the mitigation actions are in place. What is it called?
+[PAUSE]
+A: Residual risk.
+
+A: Chapter five. Keeping the projects honest: Phase G.
+S: Phase G, Implementation Governance. The projects are now being built. The objective: ensure that the implementation projects conform to the Target Architecture, and perform the appropriate governance functions for the solution.
+A: The key deliverable is the Architecture Contract. A joint agreement between the development partners and the sponsors on the deliverables, quality and fitness for purpose of the architecture. Lakeside signs one with the systems integrator building the self-service portal.
+S: Then the architects perform compliance reviews. They compare what the project is building with the architecture specification.
+A: And this is where the conformance levels come in. Six of them. Let's do them with the portal project.
+S: Scenario one. The portal team built everything in the specification, exactly, and nothing else. Fully conformant.
+A: Scenario two. They built everything in the specification, plus a chat feature that isn't in it. Conformant. All of the spec, plus extras.
+S: Scenario three. They built only half of the specification, but everything they built is in the spec and done correctly. Compliant. Everything built is in the spec, but not all of the spec was built.
+A: Scenario four. Some overlap in both directions. Some spec features missing, some extra features added, and the overlapping part done correctly. Consistent.
+S: Scenario five. They built something with nothing in common with the specification at all. Irrelevant. The spec simply does not apply.
+A: Scenario six. They built a feature that contradicts the specification, for example they store customer data outside the European Union. Non-conformant.
+S: Now, what if a project really cannot conform, for a good reason? Say the old billing system cannot support the new identity standard until it's replaced. The Architecture Board can grant a dispensation. A time-bound exception, recorded in the Governance Log.
+A: The Architecture Board is the body that enforces compliance and grants dispensations. And remember the characteristics of good governance. Discipline, transparency, independence, accountability, responsibility and fairness.
+S: Transparency: all actions and decisions are available for inspection by authorized parties. Independence: processes and decisions are set up to minimize conflicts of interest.
+A: Phase G steps, in short: confirm the scope and priorities for deployment, identify the deployment resources and skills, guide the development of the solutions, perform compliance reviews, implement the business and technology operations, and do a post-implementation review.
+S: Quiz. The portal team built the whole specification, plus a chat feature. Conformance level?
+[PAUSE]
+A: Conformant.
+S: The billing team built only part of the specification, but everything built is in it. Conformance level?
+[PAUSE]
+A: Compliant.
+S: Who grants a dispensation, and where is it recorded?
+[PAUSE]
+A: The Architecture Board grants it, and it's recorded in the Governance Log.
+
+S: Chapter six. After go-live: Phase H.
+A: The portal is live. Customers use it. Is the architecture work over? No. Phase H, Architecture Change Management.
+S: The objectives: ensure that the architecture lifecycle is maintained, that the architecture governance framework is executed, and that the Architecture Capability meets current requirements.
+A: Let's be very clear on G versus H, because the exam loves it. G makes sure the projects conform to the architecture. H keeps the architecture itself, and the architecture capability, current and fit for purpose.
+S: Phase H steps: establish the value realization process, deploy monitoring tools, manage risks, provide analysis for architecture change management, develop change requirements to meet performance targets, manage the governance process, and activate the process to implement change.
+A: Changes arrive from many directions. Technology changes: a new technology, a product withdrawn by the vendor, a cost reduction. Business changes: a new regulation, a new product, an acquisition. Changes can be strategic and top-down, or bottom-up from operations, or come from lessons learned.
+S: And each change gets classified. Three classes. Simplification change: usually handled through change management. Incremental change: may go through change management, or need partial re-architecting. Re-architecting change: needs a new cycle of the A D M.
+A: Lakeside gets three changes in the first year. One: rename two fields on the portal and remove a duplicate report. Simplification. Change management handles it.
+S: Two: add a new payment method to the portal. Incremental. It might be handled through change management, or need a little re-architecting.
+A: Three: the government launches a new market for home batteries, and Lakeside wants to become an aggregator, trading flexibility from thousands of customer batteries. That changes the business model. Re-architecting.
+S: So what does Phase H do with change number three? It raises a new Request for Architecture Work.
+A: And a Request for Architecture Work triggers Phase A. The loop is closed. The cycle starts again.
+S: Quiz. A change requires the whole architecture development cycle to be redone. Which change class?
+[PAUSE]
+A: Re-architecting change.
+S: Which output of Phase H starts a new A D M cycle?
+[PAUSE]
+A: A new Request for Architecture Work.
+S: Ensuring that the Architecture Capability meets current requirements. G or H?
+[PAUSE]
+A: H.
+
+A: Chapter seven. Where everything was kept: the Architecture Repository.
+S: Throughout this story, Lakeside produced a lot of material. Where did it all go? Into the Architecture Repository. Let's walk through its parts, using what Lakeside put in each.
+A: The Architecture Metamodel. The tailored framework from the Preliminary Phase: the method Lakeside actually uses, and the metamodel for its architecture content.
+S: The Architecture Capability. How the architecture function and the repository themselves are run. The parameters, structures and processes that support governance of the repository.
+A: The Architecture Landscape. The architectural representation of the assets in use, or planned, at particular points in time. This is where our three levels live.
+S: Strategic Architecture: the summary, long-term view of the whole enterprise, for executive direction setting. Lakeside's three-year digital energy picture.
+A: Segment Architecture: a detailed, formal description of an area of the enterprise, used at program or portfolio level. The retail customer segment, for instance.
+S: Capability Architecture: the most detailed, at project level. The architecture for the self-service portal project.
+A: So: strategic is the whole enterprise, segment is an area, capability is the most detailed. And the strategic level gives direction to the segments, which in turn guide the capability architectures, each developed with the A D M.
+S: The Standards Library. What new architectures must comply with. Lakeside's chosen data exchange standard and the identity standard live here. Must.
+A: The Reference Library. Guidelines, templates and patterns that you may reuse to go faster. Lakeside's reference pattern for event streaming lives here. May. If the question says accelerate, it's the Reference Library.
+S: The Governance Log. Decisions, compliance assessments, capability assessments, calendar, project portfolio, performance measurement, and dispensations. The billing dispensation lives here.
+A: The Architecture Requirements Repository. All the authorized architecture requirements, agreed with the Architecture Board.
+S: And the Solutions Landscape. The architectural representation of the Solution Building Blocks in use, or planned, supporting the Architecture Landscape. The actual identity product, the actual billing platform, deployed.
+A: Architecture Landscape and Solutions Landscape sit side by side. One is the architecture view, the other the solutions view.
+S: Now, a different concept that people confuse with the repository: the Enterprise Continuum. The repository is where things are stored. The continuum is how you classify them, from generic to specific.
+A: The Enterprise Continuum has two parts. The Architecture Continuum: architectures with increasing detail and specialization. And the Solutions Continuum: reusable solutions that implement them.
+S: The Architecture Continuum runs from Foundation Architectures, the most generic, to Common Systems Architectures, common to many but not all enterprises, to Industry Architectures, specific to an industry such as energy utilities, and finally to Organization-Specific Architectures: Lakeside itself.
+A: Foundation, common systems, industry, organization. From generic to specific.
+S: Quiz. Templates and patterns to speed up new architectures. Which part of the repository?
+[PAUSE]
+A: The Reference Library.
+S: The billing and identity products actually deployed today. Which part?
+[PAUSE]
+A: The Solutions Landscape.
+S: The architecture of one project, the most detailed level. Which level of the landscape?
+[PAUSE]
+A: Capability Architecture.
+S: Common to many, but not all, types of enterprise. Which stage of the Architecture Continuum?
+[PAUSE]
+A: Common Systems Architectures.
+
+A: Chapter eight. The rapid-fire round. Twelve questions, short answers, the whole story. Ready?
+S: Ready. Number one. The document from the sponsor that starts Phase A.
+[PAUSE]
+A: The Request for Architecture Work.
+S: Two. The phase where the principles are first defined.
+[PAUSE]
+A: The Preliminary Phase.
+S: Three. A stakeholder's interest in a system, such as cost or security.
+[PAUSE]
+A: A concern.
+S: Four. Formally reviewed and agreed, and the basis for further change.
+[PAUSE]
+A: A baseline.
+S: Five. One state of the architecture at an architecturally significant point in time.
+[PAUSE]
+A: A Transition Architecture.
+S: Six. The three kinds of artifact.
+[PAUSE]
+A: Catalogs, matrices and diagrams.
+S: Seven. The iteration cycle that covers Phases B, C and D.
+[PAUSE]
+A: Architecture Definition.
+S: Eight. The phase that finalizes the roadmap and documents the lessons learned.
+[PAUSE]
+A: Phase F.
+S: Nine. The joint agreement signed in Phase G.
+[PAUSE]
+A: The Architecture Contract.
+S: Ten. Nothing in common with the specification.
+[PAUSE]
+A: Irrelevant.
+S: Eleven. A change that is normally handled through change management.
+[PAUSE]
+A: A simplification change.
+S: Twelve. The document of the Fundamental Content that describes gap analysis, stakeholder management and business scenarios.
+[PAUSE]
+A: The A D M Techniques.
+
+S: That's the whole cycle. Preliminary sets up the practice and writes the principles. A request arrives, and Phase A turns it into a vision and an approved statement of work.
+A: B, C and D draw the baseline and the target in four domains, and find the gaps. E and F turn the gaps into a roadmap, transition architectures and a plan.
+S: G keeps the projects conformant, with a contract and compliance reviews. H keeps the architecture itself alive, and when a big enough change comes, it raises a new request.
+A: And Requirements Management sits in the middle, the whole time.
+S: Next time you answer a scenario question, picture Lakeside. Who sent what, which document went where, and which phase you're in.
+A: Good luck with the exam.
