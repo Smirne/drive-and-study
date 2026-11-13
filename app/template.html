@@ -56,6 +56,12 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .pad.chosen { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
 .pad.chosen .n { color: var(--accent); }
 
+/* Touch mode: silent, options are read on screen, so they get full width and full-size text */
+.app[data-mode="touch"] .pads { grid-template-columns: 1fr; gap: 8px; }
+.app[data-mode="touch"] .pad { min-height: 0; flex-direction: row; align-items: baseline; gap: 12px; padding: 14px; }
+.app[data-mode="touch"] .pad .n { font-size: 20px; flex: none; }
+.app[data-mode="touch"] .pad .o { font-size: 16px; color: var(--fg); }
+.app[data-mode="touch"] .explain { color: var(--fg); }
 .explain { background: var(--surface); border-left: 3px solid var(--accent); padding: 10px 12px; font-size: 14.5px; color: var(--muted); margin: 0; }
 
 .transport { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin-top: auto; }
@@ -68,7 +74,7 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .big { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 14px; min-height: 64px; font-size: 19px; font-weight: 700; }
 .ghost { background: var(--raised); border: 1px solid var(--line); border-radius: 14px; min-height: 52px; font-weight: 700; }
 .ghost:disabled { opacity: .5; cursor: default; }
-.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .mode { background: var(--raised); border: 1px solid var(--line); border-radius: 12px; min-height: 48px; font-weight: 700; }
 .mode[aria-checked="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .modeHint { font-size: 14px; }
@@ -121,9 +127,10 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   <section class="start" id="startView">
     <div class="strip"><a class="home" href="/">← Drive &amp; Study</a><span id="statsLine"></span></div>
     <h1>Practice drill &amp; mock exams</h1>
-    <p>Practice questions and mock exams for the TOGAF® Enterprise Architecture Foundation exam, read aloud. Answer by voice, with the car's steering-wheel buttons, by tap or by keyboard. The app scores you, explains the answer and remembers what you missed.</p>
+    <p>Practice questions and mock exams for the TOGAF® Enterprise Architecture Foundation exam. Read and tap in silence, or have them read aloud and answer by voice or with the car's steering-wheel buttons. The app scores you, explains the answer and remembers what you missed.</p>
     <div class="modes" role="radiogroup" aria-label="Answer with">
-      <button class="mode" id="modeVoice" role="radio" aria-checked="true">Answer by voice</button>
+      <button class="mode" id="modeTouch" role="radio" aria-checked="false">Touch</button>
+      <button class="mode" id="modeVoice" role="radio" aria-checked="true">Voice</button>
       <button class="mode" id="modeButtons" role="radio" aria-checked="false">Car buttons</button>
     </div>
     <p class="modeHint" id="modeHint"></p>
@@ -142,9 +149,9 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
     <a class="ghost linkbtn" href="/lessons">Audio lessons</a>
     <dl class="how">
       <dt>Say</dt><dd>“number two”, or words from the answer (“business scenarios”) · “repeat” · “skip”</dd>
-      <dt>Tap</dt><dd>the numbered pads</dd>
+      <dt>Touch</dt><dd>silent: tap an answer, then <b>Next</b> after the explanation</dd>
       <dt>Buttons</dt><dd><b>next</b> on the option you want, then <b>next</b> to confirm · <b>previous</b> = question again / change</dd>
-      <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause · ← → previous / next</dd>
+      <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause (touch: next) · ← → previous / next</dd>
     </dl>
     <p class="note" id="voiceNote">Checking voice support…</p>
     <button class="ghost" id="micTest">Test microphone</button>
@@ -158,6 +165,7 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
     <p class="qtext" id="qText"></p>
     <div class="pads" id="pads"></div>
     <p class="explain" id="explain" hidden></p>
+    <button class="big" id="bNext" hidden>Next question</button>
     <button class="big" id="bMic" hidden>Tap to talk</button>
     <div class="transport">
       <button id="bRepeat">Repeat</button>
@@ -221,8 +229,9 @@ function parseUtterance(text) {
   return r ? r.value : null;
 }
 
-/* ---------- answer mode: "voice" (speech, tap, keys) or "buttons" (next/previous scanning) ---------- */
-let mode = (() => { try { return localStorage.getItem("drill-mode") === "buttons" ? "buttons" : "voice"; } catch (e) { return "voice"; } })();
+/* ---------- answer mode: "touch" (silent, tap/keys), "voice" (read aloud; speech, tap, keys) or "buttons" (next/previous scanning) ---------- */
+const MODES = ["touch", "voice", "buttons"];
+let mode = (() => { try { const m = localStorage.getItem("drill-mode"); return MODES.includes(m) ? m : "voice"; } catch (e) { return "voice"; } })();
 function setMode(m) {
   mode = m;
   try { localStorage.setItem("drill-mode", m); } catch (e) {}
@@ -242,6 +251,7 @@ const $ = id => document.getElementById(id);
 const audio = new Audio();
 let playToken = 0, curResolve = null;
 function play(name) {
+  if (mode === "touch") return Promise.resolve(true);   // touch mode is silent: nothing is read aloud
   const tok = ++playToken;
   return new Promise(res => {
     curResolve = () => res(false);
@@ -256,6 +266,7 @@ function stopAudio() { playToken++; audio.pause(); if (curResolve) { const r = c
 // Warm the browser cache for the clips a question will need (clips are separate files).
 const prefetched = new Map();
 function prefetch(names) {
+  if (mode === "touch") return;
   names.forEach(n => {
     if (!CLIPS[n] || prefetched.has(n)) return;
     const a = new Audio(); a.preload = "auto"; a.src = CLIPS[n]; prefetched.set(n, a);
@@ -264,10 +275,10 @@ function prefetch(names) {
 }
 // Car-buttons mode: a near-silent loop keeps the page the phone's active media player,
 // so steering-wheel next/previous reach it between clips.
-const keep = new Audio("audio/test/quiet.mp3");
+const keep = new Audio();   // source set on first use, so touch and voice sessions never download it
 keep.loop = true;
 let keepOn = false;
-function startKeepAlive() { keepOn = true; keep.play().then(() => dlog("keep-alive playing")).catch(e => dlog("keep-alive failed: " + e.name)); }
+function startKeepAlive() { keepOn = true; if (!keep.src) keep.src = "audio/test/quiet.mp3"; keep.play().then(() => dlog("keep-alive playing")).catch(e => dlog("keep-alive failed: " + e.name)); }
 function stopKeepAlive() { keepOn = false; keep.pause(); }
 keep.addEventListener("pause", () => { if (keepOn) { dlog("keep-alive paused by system: resuming"); keep.play().catch(() => {}); } });
 
@@ -493,6 +504,22 @@ async function askAndWait(id) {
   }
 }
 
+/* ---------- touch mode: silent, tap to answer, Next after the explanation ---------- */
+async function askTouch(id) {
+  for (;;) {
+    setState("idle", "Tap an answer");
+    const v = await new Promise(r => pendingAnswer = r);
+    pendingAnswer = null;
+    if (id !== runId) return null;
+    if (v === "repeat") continue;
+    if (!lastHow) lastHow = "tap";
+    return v;
+  }
+}
+let nextResolve = null;
+function waitNext() { return new Promise(r => nextResolve = r); }
+function touchNext() { if (nextResolve) { const r = nextResolve; nextResolve = null; r(); } }
+
 /* ---------- listening windows (overridable for tests via window.DRILL_TIMING) ---------- */
 const TIMING = Object.assign({ firstWindowMs: 12000, laterWindowMs: 8000, minAttemptMs: 1500, restartPauseMs: 400 },
                              window.DRILL_TIMING || {});
@@ -638,7 +665,7 @@ async function run(indices, opts) {
     const qi = queue[pos], q = QS[qi];
     prefetch(["qnum" + (pos + 2), exam ? "recorded" : "e" + qi]);
     const t0 = Date.now(); lastHow = "";
-    const v = mode === "buttons" ? await askScan(id) : await askAndWait(id);
+    const v = mode === "touch" ? await askTouch(id) : mode === "buttons" ? await askScan(id) : await askAndWait(id);
     mark(0);
     if (v === null) return;
     answered = true;
@@ -656,9 +683,13 @@ async function run(indices, opts) {
       [...$("pads").children].forEach(b => b.disabled = true);
       setState("speaking", given ? `Answer ${given} recorded` : "Skipped");
       await play("recorded");
+      if (mode === "touch") await new Promise(r => setTimeout(r, 250));   // let the tap register visually
       continue;
     }
-    if (given === null) setState("wrong", "Skipped");
+    if (given === null) {
+      setState("wrong", "Skipped");
+      if (mode === "touch") { $("pad" + q.a).classList.add("right"); [...$("pads").children].forEach(b => b.disabled = true); }
+    }
     else {
       $("pad" + q.a).classList.add("right");
       if (!ok) $("pad" + given).classList.add("wrong");
@@ -669,6 +700,15 @@ async function run(indices, opts) {
     }
     if (id !== runId) return;
     $("explain").textContent = q.e; $("explain").hidden = false;
+    if (mode === "touch") {
+      $("bNext").textContent = pos + 1 < queue.length ? "Next question" : "See results";
+      $("bNext").hidden = false;
+      try { $("bNext").scrollIntoView({ block: "nearest" }); } catch (e) {}
+      await waitNext();
+      $("bNext").hidden = true;
+      if (id !== runId) return;
+      continue;
+    }
     await waitPaused(id);
     if (id !== runId) return;
     setState($("state").dataset.s, $("stateText").textContent + " · explaining");
@@ -684,7 +724,7 @@ async function endSession(reason) {
   if (!session || session.ended) return;
   session.ended = true;
   const id = ++runId;
-  stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; clearInterval(timerInt);
+  stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; nextResolve = null; $("bNext").hidden = true; clearInterval(timerInt);
   if (session.kind === "exam") {
     const done = new Set(results.map(r => r.qi));
     queue.forEach(qi => { if (!done.has(qi)) results.push({ qi, given: null, ms: 0, how: reason === "time" ? "timeout" : "unanswered" }); });
@@ -715,7 +755,7 @@ function saveAttempt(reason) {
   const attempt = {
     attemptId: new Date(session.startedAt).toISOString().replace(/[-:]/g, "").slice(0, 15),
     date: new Date(session.startedAt).toISOString(), kind: session.kind, exam: session.examKey || null, title: session.title,
-    answeredWith: mode === "buttons" ? "car buttons" : "voice / tap", total: queue.length, score,
+    answeredWith: mode === "buttons" ? "car buttons" : mode === "touch" ? "touch" : "voice / tap", total: queue.length, score,
     passMark: exam ? session.pass : null, passed: exam ? score >= session.pass : null,
     minutes: Math.round((Date.now() - session.startedAt) / 6000) / 10, ended: reason, items,
     reviewOf: session.reviewOf ? { attemptId: session.reviewOf.attemptId, title: session.reviewOf.title,
@@ -825,7 +865,7 @@ function finish(attempt) {
   $("again").hidden = m === 0; $("again").textContent = `Review all missed questions (${m})`;
 }
 
-function quit() { runId++; clearInterval(timerInt); if (session) session.ended = true; stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; stopKeepAlive(); releaseWake(); }
+function quit() { runId++; clearInterval(timerInt); if (session) session.ended = true; stopAudio(); stopListening(); pendingAnswer = null; evResolve = null; nextResolve = null; $("bNext").hidden = true; stopKeepAlive(); releaseWake(); }
 
 /* ---------- keep the screen on during a session ---------- */
 let wake = null, sessionActive = false;
@@ -869,6 +909,7 @@ function primeMic() {
 function startRun(list, opts) {
   dlog("session start · " + envLine());
   sessionActive = true; acquireWake();
+  if (mode === "touch") { dlog("mode: touch"); run(list, opts); return; }   // silent: no audio unlock, no microphone
   audio.muted = true; audio.src = CLIPS.correct;
   audio.play().catch(() => {});          // play() in the session unmutes and swaps the source
   if (mode === "buttons") { dlog("mode: car buttons"); startKeepAlive(); run(list, opts); return; }
@@ -932,8 +973,10 @@ $("bRepeat").onclick = () => {
   if (mode === "buttons") return btnPrev();
   if (pendingAnswer) { stopListening(); command("repeat"); }
 };
+$("bNext").onclick = touchNext;
 $("bSkip").onclick = () => {
   if (mode === "buttons") return btnNext();
+  if (mode === "touch") { if (nextResolve) touchNext(); else command("skip"); return; }
   if (pendingAnswer) { stopListening(); command("skip"); } else if (answered) { stopAudio(); }
 };
 $("bPause").onclick = () => {
@@ -954,6 +997,7 @@ document.addEventListener("keydown", e => {
   if (/^[1-4]$/.test(e.key)) { stopListening(); lastHow = "key"; submit(+e.key); }
   else if (e.key === "r" || e.key === "R") $("bRepeat").click();
   else if (e.key === "s" || e.key === "S") $("bSkip").click();
+  else if (mode === "touch" && (e.key === " " || e.key === "Enter" || e.key === "ArrowRight")) { e.preventDefault(); touchNext(); }
   else if (e.key === " ") { e.preventDefault(); $("bPause").click(); }
   else if (e.key === "ArrowRight") { e.preventDefault(); btnNext(); }
   else if (e.key === "ArrowLeft") { e.preventDefault(); btnPrev(); }
@@ -965,10 +1009,13 @@ if ("mediaSession" in navigator) {
   try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Practice Drill", artist: "Practice exam" }); } catch (e) {}
 }
 const MODE_HINT = {
+  touch: "Silent and fast: nothing is read aloud. Tap an answer; in practice you see the explanation and tap Next. In a mock exam a tap records the answer and moves on.",
   voice: "Say “number one” to “number four”, or words from the answer you choose: a phrase is recognised more reliably than a single word. Uses the microphone and your browser's speech service.",
   buttons: "No microphone. Each option is read in turn: press next on the steering wheel (or headset) on the one you want, then next again to confirm."
 };
 function renderMode() {
+  $("app").dataset.mode = mode;
+  $("modeTouch").setAttribute("aria-checked", String(mode === "touch"));
   $("modeVoice").setAttribute("aria-checked", String(mode === "voice"));
   $("modeButtons").setAttribute("aria-checked", String(mode === "buttons"));
   $("modeHint").textContent = MODE_HINT[mode];
@@ -976,9 +1023,12 @@ function renderMode() {
   $("micTest").hidden = mode !== "voice" || !SR;
   if (mode !== "voice") $("micResult").hidden = true;
   $("bVoice").hidden = mode !== "voice";
+  $("bRepeat").hidden = mode === "touch";
+  $("bPause").hidden = mode === "touch";
   $("bRepeat").textContent = mode === "buttons" ? "Previous" : "Repeat";
   $("bSkip").textContent = mode === "buttons" ? "Next" : "Skip";
 }
+$("modeTouch").onclick = () => setMode("touch");
 $("modeVoice").onclick = () => setMode("voice");
 $("modeButtons").onclick = () => setMode("buttons");
 renderMode();

@@ -19,11 +19,14 @@ The site has three pages:
 - `/lessons` has 13 audio episodes: 8 lessons, 2 practice exams, a recap podcast, commonly confused pairs and a 30-minute story of one full ADM cycle. They play in order and the page remembers where you stopped.
 - `/drill` is the practice drill and mock exams:
   - **Practice**: 20 questions, with feedback and an explanation after each one.
-  - **Mock exams 1–5** (5 is hard: balanced option lengths): like the real Part 1: 40 questions, 60 minutes, pass mark 24, no feedback until
+  - **Mock exams 1–7** (5 is hard: balanced option lengths; 6 and 7 are weighted to governance, the Enterprise
+    Continuum and Phases A, E–H, and each reuses five questions from earlier mocks that were often missed): like the real Part 1: 40 questions, 60 minutes, pass mark 24, no feedback until
     the end. Then a score by topic, a review of the mistakes with explanations, and export.
   - **Results**: every session is saved in the browser. Download one attempt as CSV or JSON, download all
     attempts as CSV, or copy a summary (score, weakest topics, missed questions) to paste into a chat.
   Choose how to answer on the start screen:
+  - **Touch**: silent and fast. Nothing is read aloud and no audio is downloaded. Tap an answer; in practice
+    the explanation appears with a *Next* button (or Space / Enter). In a mock exam a tap records the answer and moves on.
   - **Answer by voice**: say "number two" or words from the answer. You get 12 s of quiet
     listening to think before any reprompt (8 s after a reprompt). Uses the microphone and the
     browser's speech service.
@@ -59,7 +62,7 @@ public/                           what Vercel serves (committed, no build step o
 app/template.html                 drill UI + state machine (matcher, questions and clip URLs injected)
 app/matcher.js                    deterministic answer matcher (numbers, option content, commands)
 app/lessons.html                  lessons player UI
-content/<pack>/source/*.txt       question scripts (ep9/ep10 practice set, pool1–pool5 mock-exam pools)
+content/<pack>/source/*.txt       question scripts (ep9/ep10 practice set, pool1–pool7 mock-exam pools)
 content/<pack>/questions.json     parsed questions with id and topic (answers balanced over 1–4)
 content/<pack>/exams.json         mock exams: title, minutes, pass mark, question ids
 content/<pack>/lessons/ep*.txt    lesson scripts (ep11 recap, ep12 confused pairs and ep13 full-cycle story are two-host podcasts)
@@ -72,6 +75,7 @@ tests/test_matcher.js             matcher vs every option in the bank (node; mus
 tests/smoke_tap.py                drill: full session by keyboard, review queue
 tests/smoke_voice.py              drill: voice paths with a fake speech engine
 tests/smoke_buttons.py            drill: car-buttons scanning via simulated next/previous
+tests/smoke_touch.py              drill: touch mode is silent (no clip played or fetched), practice, review, full mock exam
 tests/smoke_exam.py               mock exam: no feedback, timer, results, CSV/JSON/summary, review, time-up, history
 tests/smoke_site.py               site: home, lessons player, cross-links, audio files, button-test gesture
 ```
@@ -82,7 +86,7 @@ tests/smoke_site.py               site: home, lessons player, cross-links, audio
 python3 tools/parse.py content/togaf-foundation       # only if source/*.txt changed
 python3 tools/gen_clips.py content/togaf-foundation models --only-missing   # after adding questions (see script header)
 python3 tools/build.py content/togaf-foundation        # writes public/drill.html and public/lessons.html
-node tests/test_matcher.js && for t in tap voice buttons exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
+node tests/test_matcher.js && for t in tap voice buttons touch exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
 ```
 
 ## Deploy (Vercel)
