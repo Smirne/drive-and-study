@@ -1,0 +1,351 @@
+Question pool seven. Original practice questions for Mock exam 7, weighted towards governance and compliance, the Enterprise Continuum, Phases A, E, F, G and H, and terminology.
+
+Question 1.
+Topic: concepts
+Which document of the TOGAF Fundamental Content describes the Architecture Content Framework, the Enterprise Metamodel, artifacts, deliverables and building blocks?
+A. Architecture Content.
+B. A D M Techniques.
+C. Enterprise Architecture Capability and Governance.
+D. Applying the A D M.
+[THINK]
+The answer is A. Architecture Content covers the content framework, the metamodel, artifacts, deliverables and building blocks. A D M Techniques holds the techniques, Applying the A D M covers iteration and levels, and Capability and Governance covers the Architecture Board, contracts and compliance.
+
+Question 2.
+Topic: concepts
+A team describes, in high detail, the architecture for a new customer portal that one project will deliver. Which level of architecture is this?
+A. Strategic Architecture.
+B. Segment Architecture.
+C. Capability Architecture.
+D. Transition Architecture.
+[THINK]
+The answer is C. A highly detailed description of the architecture for a particular solution, at project level, is a Capability Architecture. Segment Architecture works at program or portfolio level, and Strategic Architecture covers the whole enterprise.
+
+Question 3.
+Topic: concepts
+Which of the following is not one of the four architecture domains of the TOGAF Standard?
+A. Business Architecture.
+B. Data Architecture.
+C. Security Architecture.
+D. Technology Architecture.
+[THINK]
+The answer is C. The four domains are Business, Data, Application and Technology Architecture. Security is a concern that cuts across all of them, rather than a separate domain of the four.
+
+Question 4.
+Topic: concepts
+In the TOGAF Standard, what is the relationship between architecture governance and IT governance?
+A. Architecture governance replaces IT governance, once the A D M has been adopted.
+B. IT governance is one part of architecture governance, which is the widest level.
+C. They are independent, so each reports directly to the board of directors.
+D. Architecture governance sits within IT governance, which sits within corporate governance.
+[THINK]
+The answer is D. TOGAF describes a hierarchy: corporate governance at the top, then technology and IT governance, and architecture governance within them. They are levels of one system, not alternatives.
+
+Question 5.
+Topic: terminology
+Which term describes an architecture used to organize and align change activity across a program or portfolio?
+A. Strategic Architecture.
+B. Segment Architecture.
+C. Capability Architecture.
+D. Solution Architecture.
+[THINK]
+The answer is B. Segment Architecture is a detailed, formal description of areas within an enterprise, used at program or portfolio level. Capability Architecture is more detailed, at project level, and Strategic Architecture is less detailed, at enterprise level.
+
+Question 6.
+Topic: terminology
+What does TOGAF call a set of actions identified to achieve one or more objectives for the business?
+A. A work package.
+B. A building block.
+C. A capability.
+D. A value stream.
+[THINK]
+The answer is A. A work package is a set of actions to achieve one or more business objectives, and can be a project, a program or a portfolio. A capability is an ability, and a value stream is an end-to-end set of value-adding activities.
+
+Question 7.
+Topic: terminology
+In TOGAF terms, what is a deliverable?
+A. Any diagram, catalog or matrix that describes one aspect of the architecture.
+B. A work product that is contractually specified, reviewed, agreed and signed off.
+C. A reusable component of business, IT or architectural capability.
+D. A template that says how a set of views should be constructed and used.
+[THINK]
+The answer is B. A deliverable is contractually specified and formally reviewed, agreed and signed off by the stakeholders. Option A describes an artifact, option C a building block, and option D a viewpoint.
+
+Question 8.
+Topic: terminology
+Which statement correctly distinguishes an Architecture Building Block from a Solution Building Block?
+A. An Architecture Building Block is a product, and a Solution Building Block is its requirement.
+B. Architecture Building Blocks exist only in Phase G, and Solution Building Blocks in Phase B.
+C. An Architecture Building Block captures required capability, and a Solution Building Block implements it.
+D. They are the same thing, described at the same level of detail by different teams.
+[THINK]
+The answer is C. An Architecture Building Block describes the required capability and shapes the specification of the Solution Building Block. The Solution Building Block is the real component that implements it, often product or vendor aware.
+
+Question 9.
+Topic: terminology
+What does TOGAF call the ability of systems or business units to provide and receive services and information, and to use them to operate together effectively?
+A. Interoperability.
+B. Integration.
+C. Portability.
+D. Scalability.
+[THINK]
+The answer is A. Interoperability is the ability to share information and services, so that systems or business units can operate together effectively. It is reconciled across the architecture in Phase E.
+
+Question 10.
+Topic: adm
+Which group of iteration cycles covers Phases E and F?
+A. Architecture Context iterations.
+B. Architecture Definition iterations.
+C. Transition Planning iterations.
+D. Architecture Governance iterations.
+[THINK]
+The answer is C. Transition Planning iterations cover Phases E and F, to support the creation of formal change roadmaps. Architecture Definition covers Phases B, C and D, and Architecture Governance covers Phases G and H.
+
+Question 11.
+Topic: adm
+Which of the following is one of the four dimensions used to define the scope of an architecture activity?
+A. Budget.
+B. Time period.
+C. Number of stakeholders.
+D. Number of projects.
+[THINK]
+The answer is B. The four dimensions are breadth, depth, time period and architecture domains. Budget and the number of stakeholders affect the effort, but are not scope dimensions.
+
+Question 12.
+Topic: adm
+How can the A D M be used across the levels of the Architecture Landscape?
+A. Only once, at the Strategic level, because projects use other methods.
+B. Only at the Capability level, because that is where the detail is.
+C. Only for Segment Architecture, under the control of the program office.
+D. At each level, with a higher level cycle guiding and governing lower level cycles.
+[THINK]
+The answer is D. The A D M can be run at strategic, segment and capability level. Higher level architectures provide the context and governance for the lower level ones.
+
+Question 13.
+Topic: phases
+In Phase A, which step comes immediately before developing the Statement of Architecture Work?
+A. Identify the business transformation risks and mitigation activities.
+B. Establish the architecture project.
+C. Select reference models, viewpoints and tools.
+D. Formulate the Implementation and Migration Strategy.
+[THINK]
+The answer is A. Identifying business transformation risks and mitigation activities is the step before the Statement of Architecture Work, which closes Phase A. Establishing the project is the first Phase A step.
+
+Question 14.
+Topic: phases
+In Phase A, which deliverable gives a high level, aspirational view of the target, to help the sponsor communicate the benefits?
+A. The Architecture Definition Document.
+B. The Architecture Vision.
+C. The Architecture Roadmap.
+D. The Architecture Requirements Specification.
+[THINK]
+The answer is B. The Architecture Vision is a high level, aspirational view of the Target Architecture, created in Phase A. It is the sponsor's tool to sell the benefits of the proposed work.
+
+Question 15.
+Topic: phases
+Which of the following is a step in Phase E?
+A. Identify and group major work packages.
+B. Assign a business value to each work package.
+C. Estimate resource requirements, project timings and availability.
+D. Prioritize the migration projects through a cost benefit assessment.
+[THINK]
+The answer is A. Identifying and grouping major work packages is a Phase E step. Assigning business value, estimating resources and timings, and prioritizing migration projects are all Phase F steps.
+
+Question 16.
+Topic: phases
+In Phase E, the enterprise decides to replace its old billing systems in one radical step, with a clean break. Which implementation approach is this?
+A. Greenfield.
+B. Revolutionary.
+C. Evolutionary.
+D. Achievable targets.
+[THINK]
+The answer is B. A revolutionary approach makes a radical change in one step. Evolutionary is phased and incremental, and greenfield starts from the beginning with nothing to replace. Achievable targets is an implementation methodology, not one of the approaches.
+
+Question 17.
+Topic: phases
+Which phase finalizes the Architecture Roadmap and the Implementation and Migration Plan?
+A. Phase D.
+B. Phase E.
+C. Phase F.
+D. Phase G.
+[THINK]
+The answer is C. Phase E creates the complete Architecture Roadmap and an initial Implementation and Migration Plan. Phase F, Migration Planning, finalizes both, and Phase G then governs the implementation.
+
+Question 18.
+Topic: phases
+Which step in Phase F closes the architecture development cycle?
+A. Perform a post-implementation review and close the implementation.
+B. Activate the process to implement the change.
+C. Complete the architecture development cycle and document lessons learned.
+D. Confirm the Architecture Roadmap and update the Architecture Definition Document.
+[THINK]
+The answer is C. The last step of Phase F completes the architecture development cycle and documents lessons learned. The post-implementation review closes Phase G, and activating change is the last step of Phase H.
+
+Question 19.
+Topic: phases
+In Phase G, which statement about the role of the architecture function is correct?
+A. It builds the solutions itself, replacing the development partners.
+B. It governs and checks the implementation, through reviews and the Architecture Contract.
+C. It plays no part, because the architecture work finished in Phase F.
+D. It rewrites the Target Architecture for each project, to match what was built.
+[THINK]
+The answer is B. In Phase G the architecture function provides oversight: it agrees the Architecture Contract and performs compliance reviews, while development partners build the solutions.
+
+Question 20.
+Topic: phases
+Which of the following is an output of Phase H that can start a new cycle of the A D M?
+A. A Compliance Assessment.
+B. A Request for Architecture Work.
+C. An Implementation Governance Model.
+D. A Capability Assessment.
+[THINK]
+The answer is B. When a change needs re-architecting, Phase H produces a new Request for Architecture Work, which starts a new cycle. Compliance Assessments come from Phase G, and the Implementation Governance Model from Phase F.
+
+Question 21.
+Topic: phases
+In Phase H, which kind of change normally requires putting the whole architecture through the A D M again?
+A. A simplification change.
+B. An incremental change.
+C. A re-architecting change.
+D. A dispensation change.
+[THINK]
+The answer is C. A re-architecting change needs a new A D M cycle. A simplification change is normally handled by change management, and an incremental change may use change management or partial re-architecting.
+
+Question 22.
+Topic: requirements
+A new regulation changes an approved requirement while Phase C is underway. Which output describes how this affects the architecture and what must change?
+A. A Requirements Impact Assessment.
+B. A Compliance Assessment.
+C. A Capability Assessment.
+D. A Business Transformation Readiness Assessment.
+[THINK]
+The answer is A. Requirements Management produces a Requirements Impact Assessment, showing how the change affects the current and earlier phases. The other assessments cover compliance, capabilities and readiness for change.
+
+Question 23.
+Topic: content
+Which deliverable is the main container for the core architectural artifacts created during a project, and describes the architecture qualitatively?
+A. The Architecture Requirements Specification.
+B. The Architecture Definition Document.
+C. The Architecture Repository.
+D. The Implementation and Migration Plan.
+[THINK]
+The answer is B. The Architecture Definition Document holds the core architectural artifacts and describes the architecture qualitatively. The Architecture Requirements Specification gives the quantitative criteria implementations must meet.
+
+Question 24.
+Topic: content
+Which of the following is an example of an artifact?
+A. The Statement of Architecture Work.
+B. The Architecture Contract.
+C. An application portfolio catalog.
+D. The Architecture Definition Document.
+[THINK]
+The answer is C. Catalogs, matrices and diagrams are artifacts: they describe one aspect of the architecture. The other three are deliverables, which are formally signed off.
+
+Question 25.
+Topic: content
+Which document is a contract between the architecture function and the development partners or business users, used to govern the implementation?
+A. The Request for Architecture Work.
+B. The Architecture Contract.
+C. The Communications Plan.
+D. The Architecture Vision.
+[THINK]
+The answer is B. Architecture Contracts are joint agreements between development partners and sponsors on the deliverables, quality and fitness for purpose of an architecture. They are agreed in Phase G.
+
+Question 26.
+Topic: content
+Which deliverable is produced by the sponsor, and triggers the start of an A D M cycle in Phase A?
+A. The Statement of Architecture Work.
+B. The Architecture Vision.
+C. The Request for Architecture Work.
+D. The Communications Plan.
+[THINK]
+The answer is C. The Request for Architecture Work is sent by the sponsor and starts Phase A. The Statement of Architecture Work, the Architecture Vision and the Communications Plan are all produced during Phase A.
+
+Question 27.
+Topic: continuum
+In the Architecture Continuum, which stage comes between Common Systems Architectures and Organization-Specific Architectures?
+A. Foundation Architectures.
+B. Industry Architectures.
+C. Segment Architectures.
+D. Transition Architectures.
+[THINK]
+The answer is B. The Architecture Continuum goes from Foundation, to Common Systems, to Industry, to Organization-Specific Architectures. Segment and Transition Architectures are not stages of the continuum.
+
+Question 28.
+Topic: continuum
+Which part of the Architecture Repository holds the standards with which new architectures must comply?
+A. The Reference Library.
+B. The Standards Library.
+C. The Governance Log.
+D. The Architecture Metamodel.
+[THINK]
+The answer is B. The Standards Library holds the standards new architectures must comply with, such as industry standards or selected products. The Reference Library holds guidelines, templates and patterns that may be used, but are not mandatory.
+
+Question 29.
+Topic: continuum
+Which statement best describes the purpose of the Enterprise Continuum?
+A. To record decisions and dispensations of the Architecture Board.
+B. To store the deployed Solution Building Blocks of the enterprise.
+C. To give a way of classifying architecture and solution assets, from generic to specific.
+D. To define the steps for architecture development in each phase.
+[THINK]
+The answer is C. The Enterprise Continuum is a classification model for architecture and solution assets, from generic to organization specific. It is a view of the repository, not the store itself. Decisions go in the Governance Log.
+
+Question 30.
+Topic: techniques
+In the Business Transformation Readiness Assessment, what happens after the readiness factors have been assessed and the risks identified?
+A. The improvement actions are worked into the Implementation and Migration Plan.
+B. The assessment is archived, and has no further effect on planning.
+C. The Architecture Board grants a dispensation for each low readiness factor.
+D. The sponsor writes a new Request for Architecture Work for each factor.
+[THINK]
+The answer is A. The readiness factors are identified, assessed with maturity models, and their risks and improvement actions are worked into the Implementation and Migration Plan in Phases E and F.
+
+Question 31.
+Topic: techniques
+In stakeholder management, which step comes after classifying stakeholder positions?
+A. Identify the stakeholders.
+B. Determine the stakeholder management approach.
+C. Tailor the engagement deliverables.
+D. Formulate the Implementation and Migration Strategy.
+[THINK]
+The answer is B. The steps are: identify stakeholders, classify their positions, determine the management approach, using the power and interest grid, and tailor the engagement deliverables.
+
+Question 32.
+Topic: techniques
+Which of the following are the four parts of an architecture principle, according to the principle template?
+A. Name, owner, scope and priority.
+B. Name, statement, rationale and implications.
+C. Goal, objective, measure and target.
+D. Statement, constraint, assumption and risk.
+[THINK]
+The answer is B. A principle has a name, a statement, a rationale, which gives the business benefits, and implications, which describe what is needed to carry it out.
+
+Question 33.
+Topic: governance
+Some features of the specification are implemented correctly, some are missing, and one is implemented in a way that contradicts the specification. What is the conformance level?
+A. Consistent.
+B. Compliant.
+C. Irrelevant.
+D. Non-conformant.
+[THINK]
+The answer is D. As soon as any feature of the specification is implemented not in accordance with it, the implementation is non-conformant, whatever else is true. Missing features alone would only make it compliant or consistent.
+
+Question 34.
+Topic: governance
+Which of the following is a reason TOGAF gives for performing architecture compliance reviews?
+A. To catch errors in the project architecture early, when they are cheaper to fix.
+B. To replace the testing activities of the development project.
+C. To approve the project budget before implementation starts.
+D. To assess the personal performance of the project's architects.
+[THINK]
+The answer is A. Compliance reviews catch errors early, check that the project follows the architecture and standards, and feed lessons back into the Enterprise Architecture. They do not replace testing, budgeting or performance reviews.
+
+Question 35.
+Topic: governance
+Which characteristic of architecture governance means that identifiable groups in the organization are authorized, and answerable, for their actions?
+A. Accountability.
+B. Transparency.
+C. Fairness.
+D. Discipline.
+[THINK]
+The answer is A. Accountability means identifiable groups are authorized and accountable for their actions. Transparency means decisions can be inspected, fairness means no unfair advantage, and discipline means everyone commits to the agreed processes.
