@@ -43,8 +43,8 @@ The answer is B. Metadata is data about data. A metamodel is a model that descri
 Question 5.
 Topic: terminology
 In TOGAF terms, what is a Transition Architecture?
-A. The most detailed level of the Architecture Landscape, used for projects.
-B. The architecture of the enterprise as it currently exists today.
+A. The most detailed level of the Architecture Landscape, used for single projects.
+B. The architecture of the enterprise as it exists today, formally agreed.
 C. An architecture for a single program, aligned with the enterprise strategy.
 D. A formal description of the enterprise at an architecturally significant point in time.
 [THINK]
@@ -82,13 +82,13 @@ The answer is D. Architecture Governance iterations cover Phases G and H. Archit
 
 Question 9.
 Topic: adm
-The current state is well understood and stable, and the team wants to base the target on it. Which approach to architecture definition fits best?
+The current state is complex, poorly documented, and described differently by each team. Which approach to architecture definition fits best?
 A. Baseline first.
 B. Target first.
 C. Greenfield first.
 D. Transition first.
 [THINK]
-The answer is A. Baseline first suits a current state that is well understood and agreed, so the target can build on it. Target first suits a current state that is complex, poorly understood or disputed.
+The answer is A. Baseline first suits a current state that is complex, poorly understood or not agreed: you describe it first, find the problems, then design the target. Target first suits a target that is agreed at a high level, which is then mapped back to the baseline.
 
 Question 10.
 Topic: adm
@@ -173,8 +173,8 @@ The answer is A. Phase F produces the Implementation Governance Model, together 
 Question 18.
 Topic: phases
 Which of the following is a step in Phase G?
-A. Establish the value realization process.
-B. Deploy monitoring tools.
+A. Establish the value realization process for the solutions.
+B. Deploy monitoring tools for the architecture.
 C. Perform Enterprise Architecture compliance reviews.
 D. Assign a business value to each work package.
 [THINK]
@@ -303,9 +303,9 @@ The answer is B. A business scenario first identifies the problem, then the busi
 Question 31.
 Topic: techniques
 Which of the following is a migration planning technique used in Phases E and F?
-A. The power and interest grid.
+A. The stakeholder power and interest grid.
 B. The Business Value Assessment technique.
-C. The principle template.
+C. The architecture principle template.
 D. The business scenario technique.
 [THINK]
 The answer is B. The Business Value Assessment technique, together with the Implementation Factor Catalog and the Consolidated Gaps, Solutions and Dependencies Matrix, supports migration planning. The power and interest grid is for stakeholders, and the principle template is for principles.

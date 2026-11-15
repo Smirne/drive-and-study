@@ -35,7 +35,7 @@ Topic: concepts
 In the TOGAF Standard, what is the relationship between architecture governance and IT governance?
 A. Architecture governance replaces IT governance, once the A D M has been adopted.
 B. IT governance is one part of architecture governance, which is the widest level.
-C. They are independent, so each reports directly to the board of directors.
+C. They are independent structures, so each reports directly to the board of directors.
 D. Architecture governance sits within IT governance, which sits within corporate governance.
 [THINK]
 The answer is D. TOGAF describes a hierarchy: corporate governance at the top, then technology and IT governance, and architecture governance within them. They are levels of one system, not alternatives.
@@ -74,9 +74,9 @@ Question 8.
 Topic: terminology
 Which statement correctly distinguishes an Architecture Building Block from a Solution Building Block?
 A. An Architecture Building Block is a product, and a Solution Building Block is its requirement.
-B. Architecture Building Blocks exist only in Phase G, and Solution Building Blocks in Phase B.
+B. Architecture Building Blocks exist only in Phase G, and Solution Building Blocks only in Phase B.
 C. An Architecture Building Block captures required capability, and a Solution Building Block implements it.
-D. They are the same thing, described at the same level of detail by different teams.
+D. They are the same thing, described at the same level of detail by different teams in each phase.
 [THINK]
 The answer is C. An Architecture Building Block describes the required capability and shapes the specification of the Solution Building Block. The Solution Building Block is the real component that implements it, often product or vendor aware.
 
@@ -113,8 +113,8 @@ The answer is B. The four dimensions are breadth, depth, time period and archite
 Question 12.
 Topic: adm
 How can the A D M be used across the levels of the Architecture Landscape?
-A. Only once, at the Strategic level, because projects use other methods.
-B. Only at the Capability level, because that is where the detail is.
+A. Only once, at the Strategic level, because the projects then use their own methods.
+B. Only at the Capability level, because that is where the detail for projects is.
 C. Only for Segment Architecture, under the control of the program office.
 D. At each level, with a higher level cycle guiding and governing lower level cycles.
 [THINK]
@@ -124,9 +124,9 @@ Question 13.
 Topic: phases
 In Phase A, which step comes immediately before developing the Statement of Architecture Work?
 A. Identify the business transformation risks and mitigation activities.
-B. Establish the architecture project.
-C. Select reference models, viewpoints and tools.
-D. Formulate the Implementation and Migration Strategy.
+B. Establish the architecture project and its governance.
+C. Select reference models, viewpoints and tools for the vision.
+D. Formulate the Implementation and Migration Strategy for the work.
 [THINK]
 The answer is A. Identifying business transformation risks and mitigation activities is the step before the Statement of Architecture Work, which closes Phase A. Establishing the project is the first Phase A step.
 
@@ -183,9 +183,9 @@ The answer is C. The last step of Phase F completes the architecture development
 Question 19.
 Topic: phases
 In Phase G, which statement about the role of the architecture function is correct?
-A. It builds the solutions itself, replacing the development partners.
+A. It builds the solutions itself, replacing the development partners named in the contract.
 B. It governs and checks the implementation, through reviews and the Architecture Contract.
-C. It plays no part, because the architecture work finished in Phase F.
+C. It plays no part, because the architecture development cycle finished in Phase F.
 D. It rewrites the Target Architecture for each project, to match what was built.
 [THINK]
 The answer is B. In Phase G the architecture function provides oversight: it agrees the Architecture Contract and performs compliance reviews, while development partners build the solutions.
@@ -283,8 +283,8 @@ The answer is B. The Standards Library holds the standards new architectures mus
 Question 29.
 Topic: continuum
 Which statement best describes the purpose of the Enterprise Continuum?
-A. To record decisions and dispensations of the Architecture Board.
-B. To store the deployed Solution Building Blocks of the enterprise.
+A. To record the decisions, compliance assessments and dispensations of the Architecture Board.
+B. To store the deployed Solution Building Blocks and the standards of the enterprise.
 C. To give a way of classifying architecture and solution assets, from generic to specific.
 D. To define the steps for architecture development in each phase.
 [THINK]
@@ -306,7 +306,7 @@ In stakeholder management, which step comes after classifying stakeholder positi
 A. Identify the stakeholders.
 B. Determine the stakeholder management approach.
 C. Tailor the engagement deliverables.
-D. Formulate the Implementation and Migration Strategy.
+D. Formulate the Implementation and Migration Strategy for the work.
 [THINK]
 The answer is B. The steps are: identify stakeholders, classify their positions, determine the management approach, using the power and interest grid, and tailor the engagement deliverables.
 
@@ -334,8 +334,8 @@ Question 34.
 Topic: governance
 Which of the following is a reason TOGAF gives for performing architecture compliance reviews?
 A. To catch errors in the project architecture early, when they are cheaper to fix.
-B. To replace the testing activities of the development project.
-C. To approve the project budget before implementation starts.
+B. To replace the acceptance testing activities of the development project.
+C. To approve the project budget and the schedule before implementation starts.
 D. To assess the personal performance of the project's architects.
 [THINK]
 The answer is A. Compliance reviews catch errors early, check that the project follows the architecture and standards, and feed lessons back into the Enterprise Architecture. They do not replace testing, budgeting or performance reviews.

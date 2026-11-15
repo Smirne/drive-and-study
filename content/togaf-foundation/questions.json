@@ -2656,10 +2656,10 @@
   "topic": "terminology",
   "q": "In TOGAF terms, what is a Transition Architecture?",
   "o": [
-   "The most detailed level of the Architecture Landscape, used for projects.",
+   "The most detailed level of the Architecture Landscape, used for single projects.",
    "A formal description of the enterprise at an architecturally significant point in time.",
    "An architecture for a single program, aligned with the enterprise strategy.",
-   "The architecture of the enterprise as it currently exists today."
+   "The architecture of the enterprise as it exists today, formally agreed."
   ],
   "a": 2,
   "e": "The answer is two. A Transition Architecture shows the enterprise at an architecturally significant state between the baseline and the target. Option one describes a Capability Architecture, option four the Baseline Architecture, and option three a Segment Architecture."
@@ -2706,7 +2706,7 @@
  {
   "id": "pool6-9",
   "topic": "adm",
-  "q": "The current state is well understood and stable, and the team wants to base the target on it. Which approach to architecture definition fits best?",
+  "q": "The current state is complex, poorly documented, and described differently by each team. Which approach to architecture definition fits best?",
   "o": [
    "Greenfield first.",
    "Target first.",
@@ -2714,7 +2714,7 @@
    "Transition first."
   ],
   "a": 3,
-  "e": "The answer is three. Baseline first suits a current state that is well understood and agreed, so the target can build on it. Target first suits a current state that is complex, poorly understood or disputed."
+  "e": "The answer is three. Baseline first suits a current state that is complex, poorly understood or not agreed: you describe it first, find the problems, then design the target. Target first suits a target that is agreed at a high level, which is then mapped back to the baseline."
  },
  {
   "id": "pool6-10",
@@ -2826,8 +2826,8 @@
   "q": "Which of the following is a step in Phase G?",
   "o": [
    "Perform Enterprise Architecture compliance reviews.",
-   "Deploy monitoring tools.",
-   "Establish the value realization process.",
+   "Deploy monitoring tools for the architecture.",
+   "Establish the value realization process for the solutions.",
    "Assign a business value to each work package."
   ],
   "a": 1,
@@ -2995,8 +2995,8 @@
   "q": "Which of the following is a migration planning technique used in Phases E and F?",
   "o": [
    "The Business Value Assessment technique.",
-   "The power and interest grid.",
-   "The principle template.",
+   "The stakeholder power and interest grid.",
+   "The architecture principle template.",
    "The business scenario technique."
   ],
   "a": 1,
@@ -3101,7 +3101,7 @@
    "Architecture governance replaces IT governance, once the A D M has been adopted.",
    "IT governance is one part of architecture governance, which is the widest level.",
    "Architecture governance sits within IT governance, which sits within corporate governance.",
-   "They are independent, so each reports directly to the board of directors."
+   "They are independent structures, so each reports directly to the board of directors."
   ],
   "a": 3,
   "e": "The answer is three. TOGAF describes a hierarchy: corporate governance at the top, then technology and IT governance, and architecture governance within them. They are levels of one system, not alternatives."
@@ -3151,9 +3151,9 @@
   "q": "Which statement correctly distinguishes an Architecture Building Block from a Solution Building Block?",
   "o": [
    "An Architecture Building Block captures required capability, and a Solution Building Block implements it.",
-   "Architecture Building Blocks exist only in Phase G, and Solution Building Blocks in Phase B.",
+   "Architecture Building Blocks exist only in Phase G, and Solution Building Blocks only in Phase B.",
    "An Architecture Building Block is a product, and a Solution Building Block is its requirement.",
-   "They are the same thing, described at the same level of detail by different teams."
+   "They are the same thing, described at the same level of detail by different teams in each phase."
   ],
   "a": 1,
   "e": "The answer is one. An Architecture Building Block describes the required capability and shapes the specification of the Solution Building Block. The Solution Building Block is the real component that implements it, often product or vendor aware."
@@ -3202,8 +3202,8 @@
   "topic": "adm",
   "q": "How can the A D M be used across the levels of the Architecture Landscape?",
   "o": [
-   "Only once, at the Strategic level, because projects use other methods.",
-   "Only at the Capability level, because that is where the detail is.",
+   "Only once, at the Strategic level, because the projects then use their own methods.",
+   "Only at the Capability level, because that is where the detail for projects is.",
    "At each level, with a higher level cycle guiding and governing lower level cycles.",
    "Only for Segment Architecture, under the control of the program office."
   ],
@@ -3216,9 +3216,9 @@
   "q": "In Phase A, which step comes immediately before developing the Statement of Architecture Work?",
   "o": [
    "Identify the business transformation risks and mitigation activities.",
-   "Establish the architecture project.",
-   "Select reference models, viewpoints and tools.",
-   "Formulate the Implementation and Migration Strategy."
+   "Establish the architecture project and its governance.",
+   "Select reference models, viewpoints and tools for the vision.",
+   "Formulate the Implementation and Migration Strategy for the work."
   ],
   "a": 1,
   "e": "The answer is one. Identifying business transformation risks and mitigation activities is the step before the Statement of Architecture Work, which closes Phase A. Establishing the project is the first Phase A step."
@@ -3293,8 +3293,8 @@
   "topic": "phases",
   "q": "In Phase G, which statement about the role of the architecture function is correct?",
   "o": [
-   "It builds the solutions itself, replacing the development partners.",
-   "It plays no part, because the architecture work finished in Phase F.",
+   "It builds the solutions itself, replacing the development partners named in the contract.",
+   "It plays no part, because the architecture development cycle finished in Phase F.",
    "It governs and checks the implementation, through reviews and the Architecture Contract.",
    "It rewrites the Target Architecture for each project, to match what was built."
   ],
@@ -3423,8 +3423,8 @@
   "topic": "continuum",
   "q": "Which statement best describes the purpose of the Enterprise Continuum?",
   "o": [
-   "To record decisions and dispensations of the Architecture Board.",
-   "To store the deployed Solution Building Blocks of the enterprise.",
+   "To record the decisions, compliance assessments and dispensations of the Architecture Board.",
+   "To store the deployed Solution Building Blocks and the standards of the enterprise.",
    "To define the steps for architecture development in each phase.",
    "To give a way of classifying architecture and solution assets, from generic to specific."
   ],
@@ -3450,7 +3450,7 @@
   "q": "In stakeholder management, which step comes after classifying stakeholder positions?",
   "o": [
    "Identify the stakeholders.",
-   "Formulate the Implementation and Migration Strategy.",
+   "Formulate the Implementation and Migration Strategy for the work.",
    "Tailor the engagement deliverables.",
    "Determine the stakeholder management approach."
   ],
@@ -3488,8 +3488,8 @@
   "topic": "governance",
   "q": "Which of the following is a reason TOGAF gives for performing architecture compliance reviews?",
   "o": [
-   "To approve the project budget before implementation starts.",
-   "To replace the testing activities of the development project.",
+   "To approve the project budget and the schedule before implementation starts.",
+   "To replace the acceptance testing activities of the development project.",
    "To catch errors in the project architecture early, when they are cheaper to fix.",
    "To assess the personal performance of the project's architects."
   ],
