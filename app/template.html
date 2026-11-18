@@ -53,6 +53,11 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .pad:disabled { cursor: default; }
 .pad.scan { border-color: var(--accent); }
 .pad.scan .n { color: var(--accent); }
+.scen { margin: 0 0 10px; padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 8px; font-size: 15px; line-height: 1.5; }
+.pad .gr { font: 600 11px var(--mono); padding: 2px 6px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); align-self: flex-start; white-space: nowrap; }
+.pad .gr[data-g="5"] { color: var(--ok); border-color: var(--ok); }
+.pad .gr[data-g="0"] { color: var(--bad); border-color: var(--bad); }
+.app[data-mode="touch"] .pad .gr { margin-left: auto; flex: none; }
 .pad.chosen { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
 .pad.chosen .n { color: var(--accent); }
 
@@ -162,6 +167,7 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
     <div class="strip"><span>Q <b id="qNum">1</b>/<span id="qTot">20</span></span><span id="scoreBox">Score <b id="score">0</b></span><span class="timer" id="timer" hidden></span></div>
     <div class="progress"><i id="bar"></i></div>
     <div class="state" id="state" data-s="speaking"><span class="dot"></span><span id="stateText">Reading</span><span class="heard" id="heard"></span></div>
+    <p class="scen" id="qScen" hidden></p>
     <p class="qtext" id="qText"></p>
     <div class="pads" id="pads"></div>
     <p class="explain" id="explain" hidden></p>
@@ -211,7 +217,14 @@ const IDX = Object.fromEntries(QS.map((q, i) => [q.id, i]));
 const PRACTICE = QS.map((q, i) => i).filter(i => QS[i].id.startsWith("ep"));
 const TOPIC_LABEL = { concepts: "Core concepts", terminology: "Terminology", adm: "ADM: iteration, scope, tailoring",
   phases: "ADM phases", requirements: "Requirements management", content: "Architecture content",
-  continuum: "Continuum & repository", techniques: "ADM techniques", governance: "Governance & compliance", general: "General" };
+  continuum: "Continuum & repository", techniques: "ADM techniques", governance: "Governance & compliance", general: "General",
+  "p2-context": "Part 2 · Context for EA", "p2-stakeholders": "Part 2 · Stakeholder management", "p2-phaseA": "Part 2 · Phase A",
+  "p2-bcd": "Part 2 · Phases B, C, D", "p2-efg": "Part 2 · Phases E, F, G", "p2-h": "Part 2 · Phase H",
+  "p2-req": "Part 2 · Requirements management", "p2-support": "Part 2 · Supporting the ADM" };
+const GRADED = q => Array.isArray(q.g);
+const maxPts = q => GRADED(q) ? Math.max(...q.g) : 1;
+const ptsOf = (q, given) => GRADED(q) ? (given ? q.g[given - 1] : 0) : (given === q.a ? 1 : 0);
+const GRADE_NAME = { 5: "best", 3: "second best", 1: "third best", 0: "distractor" };
 const HOW_LABEL = { "voice-number": "voice (number)", "voice-content": "voice (answer words)", "voice-command": "voice", tap: "tap", key: "keyboard",
   buttons: "car buttons", skip: "skipped", timeout: "time ran out", unanswered: "not answered" };
 const NUMW = ["one","two","three","four"];
@@ -387,11 +400,13 @@ function renderStart() {
   Object.entries(EXAMS).forEach(([key, e]) => {
     const mine = hist.filter(a => a.exam === key);
     const best = mine.reduce((b, a) => Math.max(b, a.score), -1);
+    const qs = e.questions.map(id => QS[IDX[id]]), maxP = qs.reduce((t, q) => t + maxPts(q), 0), graded = qs.some(GRADED);
     const btn = document.createElement("button"); btn.className = "exam"; btn.id = "exam-" + key;
     btn.innerHTML = `<b></b><span class="d"></span><span class="best"></span>`;
     btn.querySelector("b").textContent = e.title;
-    btn.querySelector(".d").textContent = `${e.questions.length} questions · ${e.minutes} min · pass ${e.pass}`;
-    btn.querySelector(".best").textContent = best >= 0 ? `best ${best}/${e.questions.length}
+    btn.querySelector(".d").textContent = e.practice ? `${qs.length} ${graded ? "scenarios" : "questions"} · feedback after each · 5/3/1/0 points`
+      : graded ? `${qs.length} scenarios · ${e.minutes} min · pass ${e.pass}/${maxP} points` : `${qs.length} questions · ${e.minutes} min · pass ${e.pass}`;
+    btn.querySelector(".best").textContent = best >= 0 ? `best ${best}/${maxP}
 ${mine.length} attempt${mine.length === 1 ? "" : "s"}` : "not taken";
     btn.onclick = () => startExam(key);
     list.appendChild(btn);
@@ -401,10 +416,10 @@ ${mine.length} attempt${mine.length === 1 ? "" : "s"}` : "not taken";
   hist.slice(-6).reverse().forEach(a => {
     const d = document.createElement("div"); d.className = "h";
     d.innerHTML = `<span class="t"></span><span class="when"></span><span class="chip"></span>`;
-    d.querySelector(".t").textContent = `${a.title}: ${a.score}/${a.total}`;
+    d.querySelector(".t").textContent = `${a.title}: ${a.score}/${a.maxPoints || a.total}`;
     d.querySelector(".when").textContent = a.date.slice(5, 16).replace("T", " ");
     const c = d.querySelector(".chip");
-    if (a.passed === null) c.textContent = Math.round(a.score / a.total * 100) + "%";
+    if (a.passed === null) c.textContent = Math.round(a.score / (a.maxPoints || a.total) * 100) + "%";
     else { c.textContent = a.passed ? "pass" : "fail"; c.classList.add(a.passed ? "pass" : "fail"); }
     hl.appendChild(d);
   });
@@ -422,12 +437,13 @@ function renderQuestion() {
   $("qNum").textContent = pos + 1; $("qTot").textContent = queue.length; $("score").textContent = score;
   $("bar").style.width = (pos / queue.length * 100) + "%";
   $("qText").textContent = q.q;
+  $("qScen").textContent = q.sc || ""; $("qScen").hidden = !q.sc;
   $("explain").hidden = true; $("heard").textContent = "";
   const pads = $("pads"); pads.innerHTML = "";
   q.o.forEach((o, j) => {
     const b = document.createElement("button");
     b.className = "pad"; b.id = "pad" + (j + 1);
-    b.innerHTML = `<span class="n">${j + 1}</span><span class="o"></span>`;
+    b.innerHTML = `<span class="n">${j + 1}</span><span class="o"></span><span class="gr" hidden></span>`;
     b.querySelector(".o").textContent = o;
     b.onclick = () => { lastHow = "tap"; submit(j + 1); };
     pads.appendChild(b);
@@ -648,16 +664,20 @@ async function run(indices, opts) {
   const id = ++runId;
   session = Object.assign({ kind: "practice", title: "Practice drill" }, opts, { startedAt: Date.now(), ended: false });
   const exam = session.kind === "exam";
+  const p2 = indices.some(i => GRADED(QS[i])) && !indices.some(i => !GRADED(QS[i]));
+  session.maxPoints = indices.reduce((t, i) => t + maxPts(QS[i]), 0);
   queue = indices; pos = 0; score = 0; results = []; paused = false; reviewMode = session.kind === "review";
   $("bPause").setAttribute("aria-pressed", "false"); $("bPause").textContent = "Pause";
   show("drillView"); renderVoice();
   $("scoreBox").hidden = exam; $("timer").hidden = !exam; $("bEnd").hidden = !exam; $("bEnd").textContent = "End exam";
   setState("speaking", exam ? session.title : "Intro");
-  $("qText").textContent = exam ? `${session.title} · ${queue.length} questions · ${Math.round(session.ms / 60000)} minutes` : "";
+  $("qText").textContent = exam ? `${session.title} · ${queue.length} ${p2 ? "scenarios" : "questions"} · ${Math.round(session.ms / 60000)} minutes` : "";
+  $("qScen").hidden = true;
   $("pads").innerHTML = "";
   prefetch(["intro_buttons", "exam_intro", "exam_intro_buttons", "correct", "wrong", "recorded", "qnum1"]);
   if (exam) startTimer(session.ms);
-  const intro = reviewMode ? "review" : exam ? (mode === "buttons" ? "exam_intro_buttons" : "exam_intro") : (mode === "buttons" ? "intro_buttons" : "intro");
+  const intro = reviewMode ? "review" : exam ? (p2 ? (mode === "buttons" ? "p2_intro_buttons" : "p2_intro") : (mode === "buttons" ? "exam_intro_buttons" : "exam_intro"))
+    : p2 ? (mode === "buttons" ? "p2_practice_buttons" : "p2_practice") : (mode === "buttons" ? "intro_buttons" : "intro");
   await play(intro);
   for (; pos < queue.length; pos++) {
     if (id !== runId) return;
@@ -671,11 +691,12 @@ async function run(indices, opts) {
     answered = true;
     const how = v === "skip" ? "skip" : (lastHow || (mode === "buttons" ? "buttons" : "voice-number"));
     const given = v === "skip" ? null : v;
-    const ok = given === q.a;
-    results.push({ qi, given, ms: Date.now() - t0, how });
+    const ok = given === q.a, pts = ptsOf(q, given);
+    results.push({ qi, given, ms: Date.now() - t0, how, pts });
     const st = stats[qi] || { seen: 0, wrong: 0, box: 0 };
     st.seen++;
-    if (ok) { score++; st.box = Math.min(3, st.box + 1); } else { st.wrong++; st.box = 0; }
+    score += pts;
+    if (ok) { st.box = Math.min(3, st.box + 1); } else { st.wrong++; st.box = 0; }
     stats[qi] = st; store.set(stats);
     if (exam) {
       // no feedback during an exam: mark the choice, confirm it was recorded, move on
@@ -686,7 +707,15 @@ async function run(indices, opts) {
       if (mode === "touch") await new Promise(r => setTimeout(r, 250));   // let the tap register visually
       continue;
     }
-    if (given === null) {
+    if (GRADED(q)) {                                   // Part 2 style: show what every option was worth
+      [...$("pads").children].forEach((b, j) => { const g = b.querySelector(".gr"); g.hidden = false; g.dataset.g = q.g[j]; g.textContent = q.g[j] + " pts"; b.disabled = true; });
+      $("pad" + q.a).classList.add("right");
+      if (given && !ok) $("pad" + given).classList.add(pts > 0 ? "chosen" : "wrong");
+      $("score").textContent = score;
+      setState(ok ? "right" : "wrong", given === null ? `Skipped · best: ${q.a}` : ok ? "Best answer · 5 points" : `${GRADE_NAME[pts]} · ${pts} point${pts === 1 ? "" : "s"} · best: ${q.a}`);
+      await play(given === null ? "wrong" : "worth" + pts);
+    }
+    else if (given === null) {
       setState("wrong", "Skipped");
       if (mode === "touch") { $("pad" + q.a).classList.add("right"); [...$("pads").children].forEach(b => b.disabled = true); }
     }
@@ -732,7 +761,8 @@ async function endSession(reason) {
   const attempt = saveAttempt(reason);
   finish(attempt);
   if (reason === "time") { await play("timeup"); if (id !== runId) return; }
-  await play("score" + Math.min(score, maxScoreClip()));
+  if (session.maxPoints !== queue.length) await play("points" + Math.min(score, 40));
+  else await play("score" + Math.min(score, maxScoreClip()));
   if (id !== runId) return;
   if (session.kind === "exam") await play(attempt.passed ? "exam_pass" : "exam_fail");
   else await play("end");
@@ -749,13 +779,14 @@ function saveAttempt(reason) {
     const q = QS[r.qi];
     const first = session.reviewOf && session.reviewOf.first[q.id];
     return { n: k + 1, id: q.id, topic: q.topic, question: q.q, given: r.given, givenText: r.given ? q.o[r.given - 1] : "",
-             answer: q.a, answerText: q.o[q.a - 1], correct: r.given === q.a, seconds: Math.round(r.ms / 100) / 10, how: r.how,
+             answer: q.a, answerText: q.o[q.a - 1], correct: r.given === q.a, points: r.pts ?? ptsOf(q, r.given), maxPoints: maxPts(q), seconds: Math.round(r.ms / 100) / 10, how: r.how,
              firstTry: first || null };
   });
   const attempt = {
     attemptId: new Date(session.startedAt).toISOString().replace(/[-:]/g, "").slice(0, 15),
     date: new Date(session.startedAt).toISOString(), kind: session.kind, exam: session.examKey || null, title: session.title,
     answeredWith: mode === "buttons" ? "car buttons" : mode === "touch" ? "touch" : "voice / tap", total: queue.length, score,
+    maxPoints: session.maxPoints, graded: session.maxPoints !== queue.length,
     passMark: exam ? session.pass : null, passed: exam ? score >= session.pass : null,
     minutes: Math.round((Date.now() - session.startedAt) / 6000) / 10, ended: reason, items,
     reviewOf: session.reviewOf ? { attemptId: session.reviewOf.attemptId, title: session.reviewOf.title,
@@ -766,7 +797,7 @@ function saveAttempt(reason) {
 }
 function byTopic(items) {
   const t = {};
-  items.forEach(it => { const k = it.topic || "general"; t[k] = t[k] || { right: 0, total: 0 }; t[k].total++; if (it.correct) t[k].right++; });
+  items.forEach(it => { const k = it.topic || "general"; t[k] = t[k] || { right: 0, total: 0 }; t[k].total += it.maxPoints || 1; t[k].right += it.maxPoints ? it.points : (it.correct ? 1 : 0); });
   return Object.entries(t).map(([k, v]) => ({ topic: k, label: TOPIC_LABEL[k] || k, ...v, pct: v.right / v.total }))
     .sort((a, b) => a.pct - b.pct || b.total - a.total);
 }
@@ -774,20 +805,20 @@ function csvCell(v) { const s = v === null || v === undefined ? "" : String(v); 
 function toCSV(attempts) {
   const head = ["attempt", "date", "session", "answered_with", "score", "total", "passed", "q_no", "question_id", "topic", "question",
                 "your_answer", "your_answer_text", "correct_answer", "correct_answer_text", "correct", "seconds", "answered_by",
-                "review_of", "first_try_answer", "first_try_answer_text"];
+                "review_of", "first_try_answer", "first_try_answer_text", "points", "max_points"];
   const rows = [head];
   attempts.forEach(a => a.items.forEach(it => rows.push([a.attemptId, a.date, a.title, a.answeredWith, a.score, a.total,
     a.passed === null ? "" : (a.passed ? "yes" : "no"), it.n, it.id, it.topic, it.question, it.given ?? "", it.givenText,
     it.answer, it.answerText, it.correct ? "yes" : "no", it.seconds, HOW_LABEL[it.how] || it.how,
-    a.reviewOf ? a.reviewOf.attemptId : "", it.firstTry ? (it.firstTry.given ?? "") : "", it.firstTry ? it.firstTry.givenText : ""])));
+    a.reviewOf ? a.reviewOf.attemptId : "", it.firstTry ? (it.firstTry.given ?? "") : "", it.firstTry ? it.firstTry.givenText : "", it.points ?? "", it.maxPoints ?? ""])));
   return rows.map(r => r.map(csvCell).join(",")).join("\n") + "\n";
 }
 function summaryText(attempts) {
-  const lines = ["# TOGAF Foundation practice results", ""];
+  const lines = ["# TOGAF practice results", ""];
   attempts.forEach(a => {
-    const pct = Math.round(a.score / a.total * 100);
+    const max = a.maxPoints || a.total, pct = Math.round(a.score / max * 100);
     lines.push(`## ${a.title} · ${a.date.slice(0, 16).replace("T", " ")}`);
-    lines.push(`Score: ${a.score}/${a.total} (${pct}%)` + (a.passed === null ? "" : ` · ${a.passed ? "PASS" : "FAIL"} (pass mark ${a.passMark})`) +
+    lines.push(`Score: ${a.score}/${max}${a.graded ? " points" : ""} (${pct}%)` + (a.passed === null ? "" : ` · ${a.passed ? "PASS" : "FAIL"} (pass mark ${a.passMark})`) +
                ` · ${a.minutes} min · answered with ${a.answeredWith}` + (a.ended === "time" ? " · time ran out" : ""));
     lines.push("", "By topic (weakest first):");
     byTopic(a.items).forEach(t => lines.push(`- ${t.label}: ${t.right}/${t.total}`));
@@ -806,7 +837,8 @@ function summaryText(attempts) {
     const wrong = a.items.filter(it => !it.correct);
     if (wrong.length) {
       lines.push("", "Missed questions:");
-      wrong.forEach(it => lines.push(`- [${TOPIC_LABEL[it.topic] || it.topic}] ${it.question}\n  - my answer: ${it.given ? it.givenText : "(none: " + (HOW_LABEL[it.how] || it.how) + ")"}\n  - correct: ${it.answerText}`));
+      const pt = it => it.maxPoints > 1 ? ` (${it.points} of ${it.maxPoints} points)` : "";
+      wrong.forEach(it => lines.push(`- [${TOPIC_LABEL[it.topic] || it.topic}] ${it.question}\n  - my answer: ${it.given ? it.givenText : "(none: " + (HOW_LABEL[it.how] || it.how) + ")"}${pt(it)}\n  - ${it.maxPoints > 1 ? "best" : "correct"}: ${it.answerText}`));
     }
     lines.push("");
   });
@@ -833,16 +865,16 @@ function finish(attempt) {
   lastAttempt = attempt;
   releaseWake(); stopKeepAlive();
   show("doneView");
-  const pct = Math.round(attempt.score / Math.max(1, attempt.total) * 100);
+  const maxP = attempt.maxPoints || attempt.total, pct = Math.round(attempt.score / Math.max(1, maxP) * 100);
   $("doneTitle").textContent = attempt.title;
-  $("doneScore").textContent = `${attempt.score} of ${attempt.total} correct`;
+  $("doneScore").textContent = attempt.graded ? `${attempt.score} of ${maxP} points` : `${attempt.score} of ${attempt.total} correct`;
   $("doneStats").innerHTML = "";
   const chip = document.createElement("span");
   chip.className = "chip" + (attempt.passed === null ? "" : attempt.passed ? " pass" : " fail");
   chip.textContent = attempt.passed === null ? `${pct}%` : `${pct}% · ${attempt.passed ? "pass" : "fail"}`;
   $("doneStats").appendChild(chip);
   $("doneMeta").textContent = `${attempt.minutes} min · answered with ${attempt.answeredWith}` +
-    (attempt.passMark ? ` · pass mark ${attempt.passMark}/${attempt.total}` : "") + (attempt.ended === "time" ? " · time ran out" : "");
+    (attempt.passMark ? ` · pass mark ${attempt.passMark}/${maxP}` : "") + (attempt.ended === "time" ? " · time ran out" : "");
   const topics = $("doneTopics"); topics.innerHTML = "";
   byTopic(attempt.items).forEach(t => {
     const d = document.createElement("div"); d.className = "topic" + (t.pct < 0.6 ? " weak" : "");
@@ -855,7 +887,7 @@ function finish(attempt) {
     const d = document.createElement("div"); d.className = "row";
     d.innerHTML = `<span class="m ${it.correct ? "ok" : "ko"}">${it.correct ? "✓" : "✗"}</span><span class="t"></span><span class="k"></span>`;
     d.querySelector(".t").textContent = it.question;
-    d.querySelector(".k").textContent = it.correct ? `${it.answer}` : `${it.given ?? "–"} → ${it.answer}`;
+    d.querySelector(".k").textContent = (it.correct ? `${it.answer}` : `${it.given ?? "–"} → ${it.answer}`) + (it.maxPoints > 1 ? ` · ${it.points} pts` : "");
     rows.appendChild(d);
   });
   const wrong = attempt.items.filter(it => !it.correct).length;
@@ -920,6 +952,7 @@ $("startMissed").onclick = () => startRun(missedList(), { kind: "review", title:
 $("again").onclick = () => startRun(missedList(), { kind: "review", title: "Review missed" });
 function startExam(key) {
   const e = EXAMS[key];
+  if (e.practice) return startRun(e.questions.map(id => IDX[id]), { kind: "practice", examKey: key, title: e.title });
   const ms = TIMING.examMs || e.minutes * 60000;
   startRun(e.questions.map(id => IDX[id]), { kind: "exam", examKey: key, title: e.title, ms, pass: e.pass });
 }

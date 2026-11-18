@@ -327,5 +327,57 @@
    "pool7-25",
    "pool7-15"
   ]
+ },
+ "p2practice": {
+  "title": "Part 2 practice: 16 scenarios",
+  "practice": true,
+  "questions": [
+   "scenarios-1",
+   "scenarios-2",
+   "scenarios-3",
+   "scenarios-4",
+   "scenarios-5",
+   "scenarios-6",
+   "scenarios-7",
+   "scenarios-8",
+   "scenarios-9",
+   "scenarios-10",
+   "scenarios-11",
+   "scenarios-12",
+   "scenarios-13",
+   "scenarios-14",
+   "scenarios-15",
+   "scenarios-16"
+  ]
+ },
+ "p2mock1": {
+  "title": "Part 2 mock 1",
+  "minutes": 90,
+  "pass": 24,
+  "questions": [
+   "scenarios-1",
+   "scenarios-2",
+   "scenarios-3",
+   "scenarios-4",
+   "scenarios-5",
+   "scenarios-6",
+   "scenarios-7",
+   "scenarios-8"
+  ]
+ },
+ "p2mock2": {
+  "title": "Part 2 mock 2",
+  "minutes": 90,
+  "pass": 24,
+  "questions": [
+   "scenarios-9",
+   "scenarios-10",
+   "scenarios-11",
+   "scenarios-12",
+   "scenarios-13",
+   "scenarios-14",
+   "scenarios-15",
+   "scenarios-16"
+  ]
  }
 }
