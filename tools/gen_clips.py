@@ -74,7 +74,7 @@ def word(n):
 
 qs = json.loads((pack / 'questions.json').read_text())
 exams = json.loads((pack / 'exams.json').read_text()) if (pack / 'exams.json').exists() else {}
-longest = max([len(qs) if not exams else 20] + [len(e['questions']) for e in exams.values()])
+longest = max([len(qs) if not exams else 20] + [len(e['questions']) for e in exams.values() if not e.get('practice')])
 
 # ---- shared prompts ----
 G = {
@@ -97,6 +97,19 @@ G = {
     'timeup': 'Time is up. The exam is over.',
     'exam_pass': 'That is a pass. The pass mark is twenty-four out of forty.',
     'exam_fail': 'That is below the pass mark of twenty-four out of forty.',
+    # Part 2 style (graded scenario questions)
+    'p2_intro': 'TOGAF Part 2 mock exam. Eight scenarios, ninety minutes, and no feedback until the end. '
+                'Each answer earns five, three, one or zero points. Answer by saying number one to four.',
+    'p2_intro_buttons': 'TOGAF Part 2 mock exam. Eight scenarios, ninety minutes, and no feedback until the end. '
+                        'Each answer earns five, three, one or zero points. Press next on the option you want, then next again to confirm.',
+    'p2_practice': 'TOGAF Part 2 scenario practice. Each answer earns five, three, one or zero points, '
+                   'and you hear why after each scenario. Answer by saying number one to four.',
+    'p2_practice_buttons': 'TOGAF Part 2 scenario practice. Each answer earns five, three, one or zero points. '
+                           'Press next on the option you want, then next again to confirm.',
+    'worth5': 'Best answer. Five points.',
+    'worth3': 'Second best. Three points.',
+    'worth1': 'Third best. One point.',
+    'worth0': 'Distractor. Zero points.',
 }
 for n, t in G.items():
     write(n, lambda t=t: [say(t)])
@@ -104,19 +117,21 @@ for j in range(1, 5):
     write(f'confirm{j}', lambda j=j: [say(f'You chose {NUM[j - 1]}.'), sil(0.25), say('Next to confirm. Previous to change.')])
 for i in range(0, longest + 1):
     write(f'score{i}', lambda i=i: [say(f'You got {word(i)} right.')])
+for i in range(0, 41):
+    write(f'points{i}', lambda i=i: [say(f'You scored {word(i)} point{"" if i == 1 else "s"}.')])
 for n in range(1, longest + 1):
     write(f'qnum{n}', lambda n=n: [say(f'Question {word(n)}.')])
 
 # ---- per question (no question number inside: the app plays qnum<n> for the position in the session) ----
 for i, q in enumerate(qs):
     def voice_q(q=q):
-        p = [say(q['q']), sil(0.5)]
+        p = ([say(q['sc']), sil(0.6)] if q.get('sc') else []) + [say(q['q']), sil(0.5)]
         for j, o in enumerate(q['o']):
             p += [say(f'{NUM[j].capitalize()}. {o}'), sil(0.35)]
         return p + [sil(0.2), say('Your answer?')]
     write(f'q{i}', voice_q)                                   # voice mode: question + options
     write(f'e{i}', lambda q=q: [say(q['e'])])                 # explanation
-    write(f's{i}', lambda q=q: [say(q['q'])])                 # buttons mode: question only
+    write(f's{i}', lambda q=q: ([say(q['sc']), sil(0.6)] if q.get('sc') else []) + [say(q['q'])])                 # buttons mode: question only
     for j, o in enumerate(q['o'], start=1):
         write(f'o{i}_{j}', lambda j=j, o=o: [say(f'{NUM[j - 1].capitalize()}. {o}')])   # one option
     print(f'{i + 1}/{len(qs)}', flush=True)

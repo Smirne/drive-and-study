@@ -94,9 +94,10 @@ with sync_playwright() as p:
     with pg.expect_download() as d:
         pg.click('#dlCsv')
     rrows = list(csv.reader(io.StringIO(open(d.value.path()).read())))
-    print('review CSV extra columns:', rrows[0][-3:], '| first try filled:', sum(bool(r[-1]) for r in rrows[1:]))
+    h = rrows[0]; c_rev, c_ft, c_ftt = h.index('review_of'), h.index('first_try_answer'), h.index('first_try_answer_text')
+    print('review CSV columns:', h[c_rev:c_ftt + 1], '| first try filled:', sum(bool(r[c_ftt]) for r in rrows[1:]))
     assert rsum.count('- first try:') == 10 and 'Still wrong on review (5)' in rsum and 'Fixed on review (5)' in rsum
-    assert all(r[-3] == js['attemptId'] for r in rrows[1:])
+    assert all(r[c_rev] == js['attemptId'] for r in rrows[1:])
     assert errs == [], errs
 
     # ---- B: time runs out in mock exam 2 ----

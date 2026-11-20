@@ -14,7 +14,21 @@ Reads <pack>/source/*.txt (in natural order: ep9 before ep10). Each question blo
     [THINK]
     The answer is <letter>... explanation...
 
-Options are re-ordered deterministically so correct answers are spread evenly over 1-4,
+Graded (Part 2 style) questions add a scenario and a grade per option:
+
+    Question <n>.
+    Topic: <topic>
+    Scenario: <scenario text, one line>
+    <question text>
+    A. ... (four options)
+    Grades: A=5 B=3 C=1 D=0
+    [THINK]
+    The best answer is A... explanation...
+
+Graded questions keep the option order of the source (spread the best answers when writing them);
+"a" is the best option, "g" the points per option in display order and "sc" the scenario.
+
+Options of ungraded questions are re-ordered deterministically so correct answers are spread evenly over 1-4,
 and letter references in the explanation ("option B", "The answer is C") are rewritten
 to the spoken numbers used by the app ("option two").
 """
@@ -40,20 +54,32 @@ def parse(pack: Path):
             topic = 'general'
             if lines[0].startswith('Topic:'):
                 topic = lines.pop(0).split(':', 1)[1].strip()
+            sc = lines.pop(0).split(':', 1)[1].strip() if lines[0].startswith('Scenario:') else None
             q, opts = lines[0], [l[3:] for l in lines[1:5]]
             assert all(l[1:3] == '. ' for l in lines[1:5]), lines[1:5]
+            grades = None
+            if lines[5].startswith('Grades:'):
+                g = dict(x.split('=') for x in lines.pop(5).split(':', 1)[1].split())
+                grades = [int(g[l]) for l in 'ABCD']
+                assert sorted(grades) == [0, 1, 3, 5], grades
             assert lines[5] == '[THINK]', lines[5]
             ex = ' '.join(lines[6:])
+            qid = f'{f.stem}-{len([x for x in qs if x["id"].startswith(f.stem + "-")]) + 1}'
+            if grades:
+                best = 'ABCD'[grades.index(5)]
+                assert re.match(r'The best answer is ' + best, ex), (qid, ex[:40])
+                ex = re.sub(r'\b([Oo]ptions?|answer is) ([ABCD])\b', lambda m: m.group(1) + ' ' + NUM[m.group(2)], ex)
+                qs.append({'id': qid, 'topic': topic, 'sc': sc, 'q': q, 'o': opts, 'a': grades.index(5) + 1, 'g': grades, 'e': ex})
+                continue
             ans = re.match(r'The answer is ([ABCD])', ex).group(1)
-            tgt = 'ABCD'[TARGET[len(qs) % len(TARGET)]]
+            tgt = 'ABCD'[TARGET[len([x for x in qs if 'g' not in x]) % len(TARGET)]]
             perm = {l: l for l in 'ABCD'}
             perm[ans], perm[tgt] = tgt, ans
             i, j = 'ABCD'.index(ans), 'ABCD'.index(tgt)
             opts[i], opts[j] = opts[j], opts[i]
             ex = re.sub(r'\b([Oo]ptions?|answer is) ([ABCD])\b', lambda m: m.group(1) + ' ' + perm[m.group(2)], ex)
             ex = re.sub(r'\b([Oo]ptions?|answer is) ([ABCD])\b', lambda m: m.group(1) + ' ' + NUM[m.group(2)], ex)
-            qs.append({'id': f'{f.stem}-{len([x for x in qs if x["id"].startswith(f.stem + "-")]) + 1}',
-                       'topic': topic, 'q': q, 'o': opts, 'a': 'ABCD'.index(tgt) + 1, 'e': ex})
+            qs.append({'id': qid, 'topic': topic, 'q': q, 'o': opts, 'a': 'ABCD'.index(tgt) + 1, 'e': ex})
     return qs
 
 

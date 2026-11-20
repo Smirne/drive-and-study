@@ -37,9 +37,11 @@ for k, e in exams.items():
     assert not unknown, f'{k}: unknown question ids {unknown}'
 clip_dir = out / 'audio' / 'drill' / pack.name
 clips = {f.stem: f'audio/drill/{pack.name}/{f.name}' for f in sorted(clip_dir.glob('*.mp3'))}
-longest = max([20] + [len(e['questions']) for e in exams.values()])
+longest = max([20] + [len(e['questions']) for e in exams.values() if not e.get('practice')])
 needed = ['intro', 'intro_buttons', 'review', 'correct', 'wrong', 'reprompt', 'rescan', 'end',
           'exam_intro', 'exam_intro_buttons', 'recorded', 'timeup', 'exam_pass', 'exam_fail'] \
+    + (['p2_intro', 'p2_intro_buttons', 'p2_practice', 'p2_practice_buttons', 'worth0', 'worth1', 'worth3', 'worth5']
+       + [f'points{i}' for i in range(41)] if any('g' in q for q in qs) else []) \
     + [f'qnum{n}' for n in range(1, longest + 1)] \
     + [f'confirm{j}' for j in range(1, 5)] + [f'score{i}' for i in range(longest + 1)] \
     + [n for i, q in enumerate(qs) for n in (f'q{i}', f'e{i}', f's{i}', *[f'o{i}_{j}' for j in range(1, len(q['o']) + 1)])]

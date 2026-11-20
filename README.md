@@ -22,6 +22,9 @@ The site has three pages:
   - **Mock exams 1–7** (5 is hard: balanced option lengths; 6 and 7 are weighted to governance, the Enterprise
     Continuum and Phases A, E–H, and each reuses five questions from earlier mocks that were often missed): like the real Part 1: 40 questions, 60 minutes, pass mark 24, no feedback until
     the end. Then a score by topic, a review of the mistakes with explanations, and export.
+  - **Part 2 (Practitioner)**: 16 original case-study scenarios graded like the real Part 2: each option is worth
+    5 (best), 3, 1 or 0 points. *Part 2 practice* shows the points of every option and the explanation after each
+    scenario; *Part 2 mocks 1 and 2* are 8 scenarios, 90 minutes, pass mark 24/40 points, no feedback until the end.
   - **Results**: every session is saved in the browser. Download one attempt as CSV or JSON, download all
     attempts as CSV, or copy a summary (score, weakest topics, missed questions) to paste into a chat.
   Choose how to answer on the start screen:
@@ -62,7 +65,8 @@ public/                           what Vercel serves (committed, no build step o
 app/template.html                 drill UI + state machine (matcher, questions and clip URLs injected)
 app/matcher.js                    deterministic answer matcher (numbers, option content, commands)
 app/lessons.html                  lessons player UI
-content/<pack>/source/*.txt       question scripts (ep9/ep10 practice set, pool1–pool7 mock-exam pools)
+content/<pack>/source/*.txt       question scripts (ep9/ep10 practice set, pool1–pool7 mock-exam pools,
+                                  scenarios: graded Part 2 case studies with `Scenario:` and `Grades:` lines)
 content/<pack>/questions.json     parsed questions with id and topic (answers balanced over 1–4)
 content/<pack>/exams.json         mock exams: title, minutes, pass mark, question ids
 content/<pack>/lessons/ep*.txt    lesson scripts (ep11 recap, ep12 confused pairs and ep13 full-cycle story are two-host podcasts)
@@ -75,6 +79,7 @@ tests/test_matcher.js             matcher vs every option in the bank (node; mus
 tests/smoke_tap.py                drill: full session by keyboard, review queue
 tests/smoke_voice.py              drill: voice paths with a fake speech engine
 tests/smoke_buttons.py            drill: car-buttons scanning via simulated next/previous
+tests/smoke_part2.py              drill: graded scenarios, per-option points, mock scored in points, summary/CSV
 tests/smoke_touch.py              drill: touch mode is silent (no clip played or fetched), practice, review, full mock exam
 tests/smoke_exam.py               mock exam: no feedback, timer, results, CSV/JSON/summary, review, time-up, history
 tests/smoke_site.py               site: home, lessons player, cross-links, audio files, button-test gesture
@@ -86,7 +91,7 @@ tests/smoke_site.py               site: home, lessons player, cross-links, audio
 python3 tools/parse.py content/togaf-foundation       # only if source/*.txt changed
 python3 tools/gen_clips.py content/togaf-foundation models --only-missing   # after adding questions (see script header)
 python3 tools/build.py content/togaf-foundation        # writes public/drill.html and public/lessons.html
-node tests/test_matcher.js && for t in tap voice buttons touch exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
+node tests/test_matcher.js && for t in tap voice buttons touch part2 exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
 ```
 
 ## Deploy (Vercel)

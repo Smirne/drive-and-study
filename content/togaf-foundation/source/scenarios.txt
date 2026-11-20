@@ -1,0 +1,193 @@
+Part 2 scenarios. Original case-study questions in the style of the TOGAF Enterprise Architecture Practitioner exam. Each option is graded: best answer five points, second best three, third best one, distractor zero. Questions 1 to 8 follow Voltaris, an energy distributor; questions 9 to 16 follow Lumira, an insurer.
+
+Question 1.
+Topic: p2-context
+Scenario: Voltaris is a regional energy distributor with three thousand employees. It has grown by acquiring two smaller grid operators, and each still runs its own processes and IT. There is no architecture function. An earlier attempt failed because the business units saw it as an IT documentation exercise. The board has approved a three-year program to integrate customer billing and meter data across the three companies, and the CIO has asked you to set up an Enterprise Architecture capability based on TOGAF.
+How should you establish the Enterprise Architecture capability?
+A. Run the Preliminary Phase: confirm the organizations in scope and the sponsors, set up the team and an Architecture Board with business members, agree principles with the business, tailor TOGAF to the existing PMO and change processes, then make the integration program the first A D M cycle.
+B. Define a set of architecture principles and set up an Architecture Board made of the senior IT architects from the three companies. Adopt the TOGAF Standard as published, without tailoring, so that all three companies work the same way, and then start Phase A for the integration program under that board.
+C. Start Phase A for the billing and meter data integration straight away, because the board has set a deadline. Produce the Architecture Vision and the Statement of Architecture Work first, and set up principles and governance later, once the program has shown its value.
+D. Buy an architecture repository tool and ask each company to record all its current applications and infrastructure in it. When the baseline is complete, present it to the board as the foundation of the new architecture practice, and then start planning the integration program.
+Grades: A=5 B=3 C=1 D=0
+[THINK]
+The best answer is A, for five points. It follows the Preliminary Phase: scope the organizations, set up the team and governance with the business involved, agree principles, and tailor the framework to the processes that already exist. Business involvement directly tackles the reason the last attempt failed. Option B scores three. It creates principles and a board, but the board is IT only, which repeats the old mistake, and using the standard untailored ignores a key Preliminary step. Option C scores one. Starting delivery is reasonable, but skipping principles and governance leaves the cycle with nothing to steer it. Option D scores zero. Documenting everything first is exactly the IT documentation exercise that failed before.
+
+Question 2.
+Topic: p2-stakeholders
+Scenario: The Voltaris integration program is in Phase A. The stakeholders include the CFO, who sponsors the program and cares about cost; the heads of grid operations of the two acquired companies, who fear losing autonomy and have strong influence over field staff; the customer service manager; the regulatory compliance officer, who must approve any change to billing; the IT operations team; and an external metering vendor. The two grid operations heads have skipped the last two vision workshops.
+What is the best way to manage these stakeholders?
+A. Build a stakeholder map with a power and interest grid. Manage the CFO closely as the sponsor, keep the compliance officer satisfied, and keep the grid operations heads informed through a regular newsletter and progress reports until they become more cooperative and ready to attend the workshops.
+B. Classify the stakeholders on a power and interest grid. Treat the grid operations heads as key players: meet them one to one and address their concerns about autonomy in the vision. Keep the compliance officer satisfied with views on regulatory impact, and tailor the Communications Plan.
+C. Escalate the absence of the grid operations heads to the CFO, and ask the CFO to instruct them to attend the next workshops. Meanwhile, continue the vision work with the CFO, customer service and IT operations, so that the Architecture Vision is still delivered on schedule.
+D. Leave the grid operations heads out of the remaining workshops, since they are resistant to the program. Focus the engagement on IT operations and the metering vendor instead, because they are the ones who will actually implement and run the new platform.
+Grades: A=3 B=5 C=1 D=0
+[THINK]
+The best answer is B, for five points. The grid operations heads have high power and high interest, so they are key players to manage closely; their concerns must be captured and answered with suitable views. Option A scores three. It uses the right technique, but it treats the grid heads as stakeholders to keep informed, which underestimates their power to block the program. Option C scores one. Sponsor support can help, but forcing attendance without addressing their concerns usually hardens resistance. Option D scores zero. Excluding powerful stakeholders is the surest way to make the architecture fail at implementation.
+
+Question 3.
+Topic: p2-phaseA
+Scenario: Voltaris receives a Request for Architecture Work for a smart meter data platform. The sponsor wants an Architecture Vision within six weeks. The business goals are to cut estimated bills and to meet a regulatory deadline for fifteen-minute meter data. Architecture principles were agreed in the Preliminary Phase. Two concerns have been raised: field teams have limited digital skills, and a previous IT project in the same area failed. The budget is not yet confirmed.
+What should the architect do in Phase A?
+A. Confirm the goals and drivers, define the scope, and develop the Architecture Vision, using a business scenario to clarify the fifteen-minute data requirement. Get the Statement of Architecture Work approved, and record the skills and past-failure concerns so they can be handled in Phase E, when migration is planned.
+B. Start a detailed Business Architecture for the metering processes, so that the vision is well grounded. Model the baseline and target business processes first, and then summarize them as the Architecture Vision to present to the sponsor at the end of the six weeks.
+C. Confirm goals, drivers and stakeholder concerns, evaluate capabilities, assess readiness for transformation, including skills and the earlier failure, set the scope, develop the vision with K P Is, identify risks, and secure approval and budget through the Statement of Architecture Work.
+D. Because the regulatory deadline is fixed, select the meter data platform vendor during Phase A, and adopt the vendor's reference architecture as the Architecture Vision. This saves time in the later phases and gives the sponsor a concrete solution to approve.
+Grades: A=3 B=1 C=5 D=0
+[THINK]
+The best answer is C, for five points. It covers the Phase A steps, and it uses the readiness assessment and risk identification to address the two concerns, which Phase A must do. Approval of the Statement of Architecture Work is where the budget gets settled. Option A scores three. It produces a sound vision, but it postpones readiness and risk to Phase E, when they should shape the vision and scope now. Option B scores one. Detailed process modeling belongs to Phase B, and doing it first risks missing the six-week vision. Option D scores zero. Choosing a product in Phase A lets a vendor define the architecture before the problem is understood.
+
+Question 4.
+Topic: p2-bcd
+Scenario: The smart meter Business Architecture is approved, and the team starts the Data Architecture. Meter readings arrive in three formats from three metering systems. Customer master data is duplicated across two billing systems. Consumption data is personal data under data protection law. The Architecture Repository contains an industry reference data model for utilities, which other energy companies use.
+How should the team approach the Data Architecture?
+A. Develop a detailed baseline data model of all three metering systems and both billing systems first, field by field. The target cannot be designed safely until the baseline is fully documented, so the target data model will be developed only after the baseline is complete and signed off.
+B. Skip the Data Architecture, because the chosen platform's product comes with its own data model. Go straight to the Technology Architecture, and let the vendor map the three meter formats and the billing data onto its product model during implementation.
+C. Develop a target data model based on the industry reference model, run a gap analysis against the three metering systems, and add a candidate roadmap component for master data consolidation. Leave privacy and data security to the Technology Architecture, where they will be implemented.
+D. Use the industry reference model and suitable viewpoints, describe the baseline only as far as needed, and develop a target with lifecycle, migration and security views for personal data. Run a gap analysis, define roadmap components, check impacts and review with stakeholders.
+Grades: A=1 B=0 C=3 D=5
+[THINK]
+The best answer is D, for five points. It follows the Phase C steps: reference models and viewpoints, a baseline only as detailed as needed, a target with views that answer the privacy concern, gap analysis, roadmap components, impact checks and stakeholder review. Option C scores three. Its core is right, but privacy is a data concern that must be addressed in the Data Architecture, not pushed into technology. Option A scores one. Some baseline is useful, but documenting everything field by field wastes effort; TOGAF says to describe the baseline only to the extent needed. Option B scores zero. A product's data model does not resolve duplicated master data or the privacy obligations.
+
+Question 5.
+Topic: p2-efg
+Scenario: The Voltaris Target Architecture is approved. The gaps include a new meter data platform, the migration of three metering systems, and the consolidation of two billing systems. The constraints are a regulatory deadline in eighteen months for fifteen-minute data, a billing freeze every December during tariff changes, a limited budget, and metering contracts of the acquired companies that end on different dates.
+How should the implementation and migration be planned?
+A. In Phase E, confirm the constraints, consolidate gaps and dependencies, and choose an evolutionary strategy with regulatory meter data first, grouping work packages into Transition Architectures aligned to the contract dates. In Phase F, assess business value, estimate resources, prioritize and produce the plan.
+B. Group the gaps into work packages and define one Transition Architecture per year. Prioritize the work packages by their technical dependencies, so that the platform comes first, and agree the Implementation and Migration Plan with the PMO, without a separate assessment of each work package's business value or risk.
+C. Start with the billing consolidation, because it gives the largest cost savings and frees budget for the rest. Schedule the meter data migration afterwards, and produce the Implementation and Migration Plan with the PMO, so that the most valuable project is delivered first.
+D. Take a revolutionary approach: switch all three metering systems and both billing systems to the new platform in a single weekend in December. This keeps the period of running old and new systems in parallel as short as possible and avoids paying for duplicate licenses.
+Grades: A=5 B=3 C=1 D=0
+[THINK]
+The best answer is A, for five points. It uses the constraints to shape an evolutionary strategy, puts the regulatory deadline first, aligns Transition Architectures with the contract dates, and completes the Phase F steps, including business value. Option B scores three. Transition Architectures and dependencies are right, but skipping business value and ignoring the regulatory priority weakens the plan. Option C scores one. Savings matter, but putting billing first risks missing the regulatory deadline. Option D scores zero. A big bang cutover in December collides with the billing freeze and carries the highest possible risk.
+
+Question 6.
+Topic: p2-h
+Scenario: The Voltaris meter data platform has been live for six months. Three changes arrive. Customer service asks for one extra field on a consumption report. The regulator announces that some prosumers will need five-minute data in two years. The board launches a new electric vehicle charging business, which needs the platform to work with charging stations and a new pricing model.
+How should these changes be handled in Phase H?
+A. Raise every one of these as a change request to the operations change board. The platform is in production and the architecture cycle has closed, so production change control is now the right place to decide on any modification.
+B. Handle the report field through change management. Send the regulatory change and the electric vehicle business together into one new A D M cycle, since both change the requirements of the platform and can be analyzed together by the same architecture team in one pass.
+C. Start a new A D M cycle for each of the three changes, including the report field. This keeps the architecture complete and up to date, and ensures that every change to the platform is fully documented and approved.
+D. The report field is a simplification change for change management. The regulatory change is incremental: assess its impact through Requirements Management. The charging business is a new business model, so re-architect: raise a new Request for Architecture Work.
+Grades: A=0 B=3 C=1 D=5
+[THINK]
+The best answer is D, for five points. Phase H classifies changes: simplification through change management, incremental changes assessed for impact, and re-architecting through a new A D M cycle started by a Request for Architecture Work. A new business model is the classic re-architecting trigger. Option B scores three. It handles the report field well, but it pushes the regulatory change into a full cycle without first assessing its impact. Option C scores one. It is safe but wasteful: a report field does not need a new cycle. Option A scores zero. Treating a new business line as an operations change bypasses architecture governance altogether.
+
+Question 7.
+Topic: p2-req
+Scenario: During Phase C at Voltaris, the data protection officer adds a new requirement: consumption data of Swiss customers must be stored in Switzerland. The Business Architecture has already been approved. The shortlisted platform vendor hosts its service only in an E U region.
+What should the architect do?
+A. Note the requirement for Phase H. The Business Architecture is approved, and reopening it now would delay the program, so the requirement should be handled as a change once the platform is live.
+B. Add the requirement to the Architecture Requirements Specification, and address it in the Technology Architecture by requiring Swiss hosting from the vendor. Earlier phases do not need to be revisited, because data location is a technology matter that the business architecture does not cover.
+C. Reject the requirement, because it conflicts with the shortlisted vendor and would force the procurement to start again. Ask the data protection officer to accept E U hosting, since Switzerland and the E U have equivalent data protection.
+D. Record the requirement and assess its impact on the current and earlier phases, revisiting them if needed. Update the Architecture Requirements Specification, and take the conflict with the shortlisted vendor to the sponsor and the Architecture Board for a decision.
+Grades: A=1 B=3 C=0 D=5
+[THINK]
+The best answer is D, for five points. Requirements Management records new requirements, assesses their impact across phases, and gets decisions from the right stakeholders. The conflict with the vendor shortlist needs a governed decision. Option B scores three. It does capture and address the requirement, but it assumes the impact without assessing it; data location may also affect the data and application architectures. Option A scores one. Postponing a compliance requirement to after go-live builds in a known breach. Option C scores zero. Architects do not reject legal requirements to protect a vendor choice.
+
+Question 8.
+Topic: p2-support
+Scenario: Three Voltaris program teams have each built their own adapter to bring meter data into their systems. The adapters do the same job in different ways, and each team maintains its own. An architect proposes making meter data ingestion a reusable element of the architecture, so future projects stop building their own.
+How should TOGAF be used to support this reuse?
+A. Define an Architecture Building Block for meter data ingestion, with its capability, interfaces and standards. Classify it in the Enterprise Continuum and store it in the Architecture Repository, identify Solution Building Blocks that implement it, and check its use in compliance reviews.
+B. Choose the best of the three adapters and publish it in the Standards Library as the mandatory Solution Building Block. Require all future projects to use this implementation, and ask the other two teams to migrate to it within the next release.
+C. Write a design guideline on the intranet describing how meter data adapters should be built. Teams can consult it when they start a new project, and the guideline can be updated as more adapters are built.
+D. Leave the three adapters as they are. Reuse of components is a decision for each project, and it is outside the scope of Enterprise Architecture, which should focus on business strategy.
+Grades: A=5 B=3 C=1 D=0
+[THINK]
+The best answer is A, for five points. An Architecture Building Block captures the required capability independently of any product, the Enterprise Continuum and the repository make it findable, Solution Building Blocks implement it, and governance makes reuse stick. Option B scores three. A mandated standard does promote reuse, but it jumps straight to one implementation without defining the required capability and interfaces. Option C scores one. Guidance helps a little, but without building blocks or governance, teams will keep diverging. Option D scores zero. Reuse of building blocks is a central purpose of the architecture function.
+
+Question 9.
+Topic: p2-context
+Scenario: Lumira is an insurer whose digital teams deliver in two-week sprints. The teams see Enterprise Architecture as slow, and several products were built without considering shared customer data, causing duplicated data stores. The CTO wants Enterprise Architecture to guide the agile teams without slowing them down.
+How should Enterprise Architecture be positioned?
+A. Complete Phases B, C and D for the whole enterprise before the next product increment starts. Hand the finished architecture to the teams as a specification, so that every team builds against the same agreed design.
+B. Stop using the A D M. Let the teams self-organize and allow the architecture to emerge from the code, with architects joining the sprint reviews as advisers when the teams invite them.
+C. Tailor the A D M and use it at several levels: a strategic architecture sets direction and principles, segment architectures guide each portfolio, and capability architectures iterate with the release cadence, under lightweight governance.
+D. Have the architects define principles and a strategic Target Architecture. Let the teams design their own solutions freely, and have the Architecture Board review compliance once per quarter, at each major release, against the agreed principles.
+Grades: A=1 B=0 C=5 D=3
+[THINK]
+The best answer is C, for five points. TOGAF supports tailoring the A D M, iterating it, and using it at strategic, segment and capability levels, so that detailed architecture work keeps pace with delivery while higher levels give direction. Option D scores three. Principles and a strategic target help, but with nothing at segment or capability level the duplicated data problem is caught late, at quarterly reviews. Option A scores one. It provides direction, but finishing all of B to D first is the slow, big up-front design the teams object to. Option B scores zero. It drops architecture and governance, which caused the duplicated data in the first place.
+
+Question 10.
+Topic: p2-stakeholders
+Scenario: Lumira is transforming its claims process with automated triage. The Chief Claims Officer is the sponsor. Representatives of the claims handlers fear that automation will cut jobs; they have little formal power, but they can slow adoption. The data protection officer can block any use of personal data. The insurance regulator must be kept informed, and an external network of repair shops will use the new system.
+How should the architect manage these stakeholders?
+A. Map all the stakeholders, and focus engagement on those with high power: the sponsor, the data protection officer and the regulator. Send the claims handler representatives a monthly bulletin on the program's progress and its expected benefits.
+B. Classify the stakeholders: manage the sponsor and the data protection officer closely, keep the regulator satisfied, and involve the handler representatives with business scenarios and views showing how their work will change.
+C. Treat the concerns of the claims handlers as a human resources matter, outside the scope of the architecture. Engage the other stakeholders normally, and leave communication with the handlers to HR and to line management.
+D. Hold back information about the level of automation from the claims handler representatives until implementation, so as not to create resistance early in the program. Engage the other stakeholders as usual.
+Grades: A=3 B=5 C=1 D=0
+[THINK]
+The best answer is B, for five points. Stakeholder management classifies each group and engages it according to its power, interest and concerns. Groups with high interest and the ability to slow adoption need active involvement, with views that answer their concerns. Option A scores three. The grid is used correctly for the powerful stakeholders, but a bulletin underestimates a group that can stall adoption. Option C scores one. Organizational impact is a real architecture concern; handing it entirely to HR misses it. Option D scores zero. Hiding information destroys trust and usually increases resistance.
+
+Question 11.
+Topic: p2-phaseA
+Scenario: The new CEO of Lumira sends a Request for Architecture Work that says only: make claims digital first. It has no measurable goals, and it is unclear whether it covers all lines of business or only motor insurance. The sponsor wants the work to start quickly.
+What should the architect do?
+A. Ask the sponsor to rewrite the Request for Architecture Work with measurable goals and a clear scope. Do not start any architecture work until a complete and approved request has been received.
+B. Run a business scenario with the sponsor and stakeholders to define the problem and measurable objectives, such as settlement time. Scope the work by breadth, depth, time and domains, starting with motor, then develop the vision.
+C. Scope the work to all lines of business, to avoid rework later. Develop an Architecture Vision describing digital-first claims, and secure approval of the Statement of Architecture Work, leaving measurable goals to be defined in Phase B.
+D. Start Phase B and model the current claims processes in every line of business. Measurable goals will emerge from the analysis of the baseline, and the scope can then be decided based on what the models show.
+Grades: A=1 B=5 C=3 D=0
+[THINK]
+The best answer is B, for five points. The business scenario technique is designed to turn a vague request into a clear problem and measurable objectives, and Phase A sets the scope along breadth, depth, time period and architecture domains. Option C scores three. It produces a vision and approval, but a scope that covers everything and goals deferred to Phase B leave the work hard to steer. Option A scores one. Clear goals are needed, but the architect should help define them in Phase A, not wait. Option D scores zero. Modeling the whole baseline without goals or scope is open-ended and skips Phase A.
+
+Question 12.
+Topic: p2-bcd
+Scenario: Lumira's motor claims are handled by three call centers that each follow a different process. The target is digital self-service for the first notice of loss, with automated triage. The business wants to start by selecting an artificial intelligence triage product.
+How should the Business Architecture be developed?
+A. Select the triage product now, so that the business can see a working solution early. Then model the target business process around the features of the selected product, which also reduces the cost of customization later.
+B. Model the target processes for digital notice of loss and automated triage in detail. Run a gap analysis against the process of one call center, taken as representative, and record automated triage as a requirement for the Application Architecture.
+C. Use viewpoints such as a capability map and a claims value stream. Describe the three current processes only as far as needed, define the target capabilities, value stream and roles, run a gap analysis, and leave product choice to later phases.
+D. Document the current processes of all three call centers in full detail first, including every exception and workaround. The target processes are then derived from the complete baseline once all three processes are understood.
+Grades: A=0 B=3 C=5 D=1
+[THINK]
+The best answer is C, for five points. It follows Phase B: reference models and viewpoints, a baseline described only as needed, a target expressed in capabilities and value streams, gap analysis, and product choices left to later phases, informed by Phases C and D. Option B scores three. The target work is sound, but using one call center as the baseline hides the differences that the target must resolve. Option D scores one. Understanding the baseline matters, but documenting everything in full detail is wasteful. Option A scores zero. Selecting a product first lets the product shape the business, instead of the other way round.
+
+Question 13.
+Topic: p2-efg
+Scenario: Lumira's claims system is being implemented under a signed Architecture Contract. Midway, the vendor proposes storing claim photos in its United States cloud region for better performance. This breaks the principle that customer data stays in the E U, and it differs from the contract. The project manager wants to accept the change to keep to the schedule.
+What should the architect do?
+A. Reject the deviation outright and require the vendor to comply with the Architecture Contract exactly as signed. The architecture principles are not negotiable, and any delay is the vendor's responsibility under the terms of the contract.
+B. Accept the deviation, because the schedule is critical for the business. Record it in the project's risk log, and plan to move the photos back to an E U region in a later release.
+C. Leave the decision to the vendor. Under the contract, implementation details are the vendor's responsibility, and the architecture function should not interfere in how the vendor delivers the solution.
+D. Run a compliance review and take the deviation to the Architecture Board, which either requires compliance or grants a time-limited dispensation with conditions agreed with the data protection officer, and records the decision.
+Grades: A=3 B=1 C=0 D=5
+[THINK]
+The best answer is D, for five points. In Phase G, deviations are found through compliance reviews and decided by the Architecture Board, which can require compliance or grant a dispensation, and the decision is recorded. Option A scores three. It protects the principle, but it bypasses the governance process and the possibility of a justified dispensation. Option B scores one. It records the risk, but it accepts a principle breach without any governance decision. Option C scores zero. The Architecture Contract exists precisely so that the architecture function governs such decisions.
+
+Question 14.
+Topic: p2-h
+Scenario: Lumira's digital claims service has been live for nine months. The target was to cut settlement time by thirty percent, and it has fallen by only ten percent. The target for customers using the app was sixty percent, but only twenty percent use it.
+What should the architect do in Phase H?
+A. Raise a new Request for Architecture Work for a second claims transformation, since the targets were missed. A new A D M cycle will redesign the solution end to end and fix whatever caused the shortfall in both measures.
+B. Use value realization and monitoring to find why the targets were missed, develop change requirements to meet them, classify the resulting changes through the Architecture Board, and raise a new Request for Architecture Work only if needed.
+C. Report the figures to the sponsor and close the architecture work. The implementation complied with the architecture, so the shortfall is an operational matter for the claims department.
+D. Adjust the K P I targets to match the actual results, since the original targets were clearly too ambitious. Record the new targets as the baseline for future measurement.
+Grades: A=3 B=5 C=1 D=0
+[THINK]
+The best answer is B, for five points. Phase H uses value realization and monitoring to compare results with targets, develops change requirements, and classifies changes before deciding whether a new cycle is needed. Option A scores three. A new cycle may be needed, but starting one before analyzing the causes may be expensive and miss a simple fix. Option C scores one. Reporting is useful, but Phase H exists to keep the architecture delivering value after go-live. Option D scores zero. Lowering the targets hides the problem instead of solving it.
+
+Question 15.
+Topic: p2-req
+Scenario: Lumira is in Phase F with a fixed budget. The sponsor asks to add a claims chatbot to the app. At the same time, a new legal accessibility requirement for digital services comes into force, and it applies to the claims app.
+How should the architect handle these two requirements?
+A. Add both requirements to the plan as new work packages, and ask the sponsor to increase the budget so that both can be delivered within the current Implementation and Migration Plan.
+B. Defer both requirements to Phase H. Phase F is for planning, the requirements were frozen at the end of Phase D, and any new requirement must wait until the solution is live.
+C. Record and assess both. Treat accessibility as mandatory and update the target and plan for it. Weigh the chatbot's business value against the budget, and agree with the sponsor whether to place it in a later Transition Architecture.
+D. Implement the chatbot immediately as a quick win, because the sponsor requested it and users will notice it. Plan the accessibility requirement for a later release, once the chatbot is live and the budget position is clearer.
+Grades: A=3 B=1 C=5 D=0
+[THINK]
+The best answer is C, for five points. Requirements Management records and assesses every new requirement. A legal requirement is mandatory, while an optional feature is weighed by business value and can be placed in a later Transition Architecture. Option A scores three. Both are captured and planned, but nothing is prioritized, and the budget constraint is simply pushed back to the sponsor. Option B scores one. Requirements are never frozen in TOGAF; deferring a legal obligation is risky. Option D scores zero. It puts an optional feature ahead of a legal requirement.
+
+Question 16.
+Topic: p2-support
+Scenario: The Lumira architects have produced a two-hundred-page Architecture Definition Document. The executives do not read it, the data protection officer cannot find the personal data flows, and the developers want interface specifications that are buried in an appendix.
+How should the architects fix this?
+A. Add an executive summary to the Architecture Definition Document and present it to all the stakeholders in a single workshop, so that everybody understands the architecture in the same way and can ask questions.
+B. Shorten the Architecture Definition Document to twenty pages by removing the data and interface detail, so that it becomes readable for everybody, including the executives.
+C. Split the Architecture Definition Document into three documents, one for each stakeholder group, each written and maintained separately by a different architect who knows that group well.
+D. Build views from viewpoints for each group: a capability map and roadmap for executives, data lifecycle and security diagrams for the data protection officer, interface catalogs for developers, all generated from one repository model.
+Grades: A=1 B=0 C=3 D=5
+[THINK]
+The best answer is D, for five points. TOGAF addresses stakeholder concerns with views built from viewpoints, using catalogs, matrices and diagrams generated from one consistent repository. Option C scores three. Separate documents do target each group, but maintaining them separately soon makes them inconsistent. Option A scores one. A summary helps the executives a little, but it does nothing for the data protection officer or the developers. Option B scores zero. It removes exactly the content two of the groups need.
