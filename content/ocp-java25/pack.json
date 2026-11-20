@@ -45,67 +45,67 @@
    {
     "t": "The exam and the Java 25 landscape",
     "s": "Format, pass mark, what changed from 17 to 25, the four Java 25 finals, how to study",
-    "d": 0
+    "d": 572
    },
    {
     "t": "Numbers, operators and strings",
     "s": "Promotion, overflow, compound assignment, wrappers and caching, String and StringBuilder, text blocks",
-    "d": 0
+    "d": 524
    },
    {
     "t": "Dates and times",
     "s": "java.time classes, Period vs Duration, daylight saving gaps, formatter patterns",
-    "d": 0
+    "d": 445
    },
    {
     "t": "Control flow, switch and patterns",
     "s": "Switch expressions, yield, exhaustiveness, instanceof and switch patterns, guards, record patterns, unnamed _",
-    "d": 0
+    "d": 440
    },
    {
     "t": "Classes, constructors and interfaces",
     "s": "Initialization order, flexible constructor bodies, overloading, overriding, hiding, default methods",
-    "d": 0
+    "d": 531
    },
    {
     "t": "Records, sealed types, enums, nested classes",
     "s": "Compact constructors, permits, enum bodies, inner classes, compact source files and instance main",
-    "d": 0
+    "d": 507
    },
    {
     "t": "Exceptions",
     "s": "Checked vs unchecked, catch rules, multi-catch, finally, try-with-resources, suppressed exceptions",
-    "d": 0
+    "d": 437
    },
    {
     "t": "Arrays, collections and generics",
     "s": "Arrays helpers, List/Set/Map/Deque, unmodifiable collections, sequenced collections, wildcards",
-    "d": 0
+    "d": 510
    },
    {
     "t": "Lambdas and streams",
     "s": "Functional interfaces, method references, laziness, collectors, Optional, gatherers, parallel",
-    "d": 0
+    "d": 533
    },
    {
     "t": "Concurrency",
     "s": "Executors, futures, locks, atomics, concurrent collections, virtual threads, scoped values",
-    "d": 0
+    "d": 471
    },
    {
     "t": "Packages, modules and deployment",
     "s": "Imports and module imports, module-info directives, services, javac/java/jar/jdeps/jlink",
-    "d": 0
+    "d": 515
    },
    {
     "t": "I/O, files and localization",
     "s": "Readers and streams, Path and Files, serialization, Locale, number formats, resource bundles",
-    "d": 0
+    "d": 581
    },
    {
     "t": "Recap podcast",
     "s": "Two hosts, the most common traps topic by topic, and a rapid-fire round",
-    "d": 0
+    "d": 600
    }
   ]
  },
