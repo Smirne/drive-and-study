@@ -1,0 +1,41 @@
+Java 25 Developer Professional. Episode three. Dates and times.
+
+The date and time API in the package java dot time appears on every version of this exam. The good news: once you understand a handful of principles, most questions become easy.
+
+Principle one: everything is immutable. LocalDate, LocalTime, LocalDateTime, ZonedDateTime, Instant, Period and Duration never change. Methods like plusDays, minusHours, withYear or withDayOfMonth return a new object. The classic trap is a line that calls date dot plusDays one, ignores the result, and then prints the original date. The output is unchanged.
+
+Principle two: you create objects with static factory methods, not constructors. LocalDate dot of, with year, month and day. LocalTime dot of, with hours, minutes and optionally seconds and nanoseconds. LocalDateTime dot of. And now, which gives the current value. The constructors are private, so "new LocalDate" doesn't compile. Months are numbered from one to twelve, unlike the old Calendar class, and you can also use the Month enum, such as Month dot JANUARY. Invalid values, like the thirty-first of April or a month thirteen, throw DateTimeException at runtime, not at compile time.
+
+Principle three: know which class holds what. LocalDate has only a date: year, month, day. LocalTime only a time of day. LocalDateTime has both, but no time zone. ZonedDateTime adds a zone, such as Europe slash Rome, and therefore an offset from UTC that may change with daylight saving time. Instant is a point on the global timeline, counted from the epoch, the first of January nineteen seventy, UTC. An Instant has no human calendar fields; to get a year or a month you convert it to a ZonedDateTime with atZone.
+
+Principle four: you can only use units that make sense for the object. Adding hours to a LocalDate throws UnsupportedTemporalTypeException, because a date has no hours. Asking a LocalTime for its year does the same.
+
+Next, Period versus Duration. A Period is a date-based amount: years, months and days. A Duration is a time-based amount: hours, minutes, seconds and nanoseconds. You add a Period to a LocalDate or a LocalDateTime; you add a Duration to a LocalTime, a LocalDateTime, a ZonedDateTime or an Instant. Adding a Duration to a LocalDate throws an exception, because the date has no time part.
+
+A Period trap: the static factory methods don't chain. Period dot ofYears one, followed by dot ofWeeks two, compiles, because a static method can be called through an instance, but the result is only two weeks: the second call creates a new Period and discards the first. Use Period dot of with years, months and days instead. Also, when printed, a Period shows as P, followed by years with Y, months with M, and days with D, for example P1Y2M3D; weeks are converted to days. A Duration prints as PT, followed by hours, minutes and seconds, like PT1H30M.
+
+Between: ChronoUnit dot DAYS dot between, two dates, gives the number of days between them, and it's negative if the second is before the first. Period dot between gives years, months and days. Duration dot between works on time-based objects. And the until method does the same from the other side.
+
+Daylight saving time is a favorite trick. In Europe, at the end of March, clocks jump forward by one hour at two in the morning. So two thirty that night doesn't exist. If you create a ZonedDateTime for that local time, Java moves it forward by the length of the gap, to three thirty. At the end of October, clocks go back, so one local hour happens twice; Java picks the earlier offset by default. And adding one hour to a ZonedDateTime just before the change follows the real timeline, so the local clock may jump by two hours or not move at all. When a question involves dates in late March or late October with a zone, slow down.
+
+Formatting and parsing use DateTimeFormatter. You can use predefined formatters like ISO_LOCAL_DATE, localized styles with ofLocalizedDate and a FormatStyle such as SHORT or MEDIUM, or a pattern with ofPattern. In patterns, letter case matters. Lowercase y is the year, uppercase M is the month, lowercase m is the minute. Lowercase d is the day of the month. Uppercase H is the hour from zero to twenty-three, lowercase h is the hour from one to twelve, used together with a for AM or PM. More letters usually means a longer form: M gives the month number, MMM the short name, MMMM the full name. Text inside single quotes is literal. A trap: formatting a LocalDate with a pattern that includes hours throws an exception at runtime, because the date has no hour field.
+
+Parsing is the reverse: LocalDate dot parse, with a text and optionally a formatter. Text that doesn't match throws DateTimeParseException.
+
+The old classes, Date and Calendar in java dot util, aren't the focus of the exam, but remember that they're mutable, and that Calendar months start at zero. If an option mentions them, it's usually a distractor.
+
+Quick check.
+A LocalDate is set to the first of January. The code calls plusDays ten on it, without assigning the result, then prints it. What's printed?
+[THINK]
+The first of January, unchanged, because LocalDate is immutable.
+What happens if you add a Duration of one hour to a LocalDate?
+[THINK]
+An UnsupportedTemporalTypeException at runtime.
+What's the result of Period dot ofYears one, dot ofDays two?
+[THINK]
+A period of two days only, printed as P2D. Static factory calls don't combine.
+In a date pattern, what's the difference between uppercase M and lowercase m?
+[THINK]
+Uppercase M is the month, lowercase m is the minute.
+
+In the next episode: control flow, switch, and pattern matching.

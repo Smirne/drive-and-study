@@ -1,0 +1,43 @@
+Java 25 Developer Professional. Episode twelve. Input and output, files, serialization, and localization.
+
+This episode covers the java dot io streams, the NIO two Path and Files APIs, serialization, and localization with Locale, number formatting and resource bundles.
+
+java dot io first. Byte streams end in InputStream or OutputStream, like FileInputStream. Character streams end in Reader or Writer, like FileReader and FileWriter. Wrapping a stream in a buffered one, like BufferedReader, improves performance. BufferedReader dot readLine returns null at the end of the file, not an empty string, so the classic loop reads while the line isn't null. The basic read method of a stream returns an int, and minus one at the end. PrintWriter and PrintStream offer print, println and printf, and don't throw IOException; System dot out is a PrintStream. Always close streams, ideally with try-with-resources; closing the outermost wrapper closes the wrapped stream too.
+
+The Console class, from System dot console, can read lines and passwords. It may return null when there's no interactive console. In Java 25, the IO class in java dot lang offers a simpler readln and println.
+
+NIO two. A Path represents a location in the file system, and it may or may not exist. You create it with Path dot of, or the older Paths dot get. Path objects are immutable, so methods like normalize or resolve return a new Path; calling them without using the result does nothing. A trap repeated on every exam.
+
+Path methods. getFileName returns the last element. getParent returns the path without the last element, or null. getRoot returns the slash for an absolute path, or null for a relative one. getNameCount and getName count the elements without the root, starting from zero. subpath, with a begin and an end index, excludes the end index and also ignores the root. normalize removes dot and resolves double dot, purely on the text: slash a, slash b, double dot, slash c becomes slash a, slash c. resolve appends a path, but if the argument is absolute, it returns the argument unchanged. relativize builds the path from one path to another: from slash a slash b to slash a slash c slash d, it gives double dot, slash c, slash d. Mixing an absolute and a relative path in relativize throws IllegalArgumentException. toAbsolutePath doesn't check the file system, but toRealPath does: it resolves links and throws NoSuchFileException if the file doesn't exist.
+
+The Files class does the real work, and most methods throw IOException. exists, isDirectory, isRegularFile, and size. createDirectory creates one directory, and throws if it already exists, or if the parent is missing; createDirectories creates the whole chain and doesn't complain if it exists. copy and move throw FileAlreadyExistsException if the target exists, unless you pass StandardCopyOption dot REPLACE_EXISTING. delete throws NoSuchFileException if the file doesn't exist, and DirectoryNotEmptyException for a non-empty directory; deleteIfExists returns a boolean instead. isSameFile compares two paths, and mismatch returns minus one if two files have the same content, or the position of the first difference.
+
+Reading and writing: readString and writeString, readAllLines, which loads everything into a list, and lines, which returns a lazy Stream of String that should be closed, typically with try-with-resources. newBufferedReader and newBufferedWriter give you buffered streams. Directory traversal: list returns the direct children only; walk goes down recursively, with an optional maximum depth, and find adds a filter that also receives the file's attributes. All three return streams that should be closed.
+
+Serialization. A class must implement Serializable, a marker interface with no methods; otherwise ObjectOutputStream dot writeObject throws NotSerializableException. Every field must be serializable too, unless it's transient. Transient and static fields aren't written. On deserialization, the constructor of the serializable class doesn't run, and neither do its field initializers; transient fields get their default values, like zero or null. But the no-argument constructor of the first non-serializable superclass does run, so fields set there get the values from that constructor. A record is the exception: it's deserialized through its canonical constructor, so any validation in it runs. The serialVersionUID field identifies the class version; a mismatch throws InvalidClassException.
+
+Localization. A Locale has a lowercase language code, and optionally an uppercase country code, like en underscore US. You create one with Locale dot of, with language and country; the old constructors are deprecated. Locale dot Builder also works, and normalizes the case. Locale dot getDefault returns the default; setDefault changes it, optionally for a Locale dot Category, DISPLAY or FORMAT.
+
+NumberFormat. getInstance or getNumberInstance formats numbers: with Locale US, one thousand two hundred thirty-four point five becomes one comma two three four point five, while with Germany the comma and point swap. getCurrencyInstance adds the currency, like a dollar sign with two decimals. getPercentInstance multiplies by a hundred, and rounds: zero point two five six becomes twenty-six percent. getCompactNumberInstance gives short forms: with the short style, one thousand five hundred fifty becomes two K, because it rounds; with the long style, two million becomes the words two million. The parse method throws ParseException, a checked exception, if the text doesn't start with a number; it stops at the first invalid character, so twelve point five x parses as twelve point five.
+
+DecimalFormat patterns: a zero always shows a digit, padding with zeros, while a hash shows a digit only if needed. So the pattern zero zero zero point zero zero formats three point one four one five nine as zero zero three point one four.
+
+Dates are localized with DateTimeFormatter dot ofLocalizedDate, ofLocalizedTime, or ofLocalizedDateTime, with a FormatStyle like SHORT, MEDIUM, LONG or FULL. MessageFormat dot format replaces placeholders in braces, numbered from zero.
+
+Resource bundles hold localized text, usually in properties files named with the base name, an underscore, and the locale, like Messages underscore fr underscore CA dot properties. ResourceBundle dot getBundle looks for the best match in this order: the requested locale with language and country; the requested language only; the default locale, with country, then language only; and finally the base bundle without a locale. If nothing is found, it throws MissingResourceException, also thrown by getString for a missing key. Once a bundle is chosen, keys missing from it are looked up in its parents only, for example from fr underscore CA to fr to the base bundle, never in the default locale's bundles. For each candidate, a Java class bundle is preferred over a properties file.
+
+Quick check.
+What does BufferedReader dot readLine return at the end of the file?
+[THINK]
+null.
+What does slash a slash b resolve, slash x, return?
+[THINK]
+Slash x. If the argument is absolute, resolve returns it unchanged.
+After deserialization, what value does a transient int field have?
+[THINK]
+Zero, its default value. The serializable class's constructor and initializers don't run.
+With Locale fr CA requested and en US as default, which bundle is tried right after Messages underscore fr?
+[THINK]
+Messages underscore en underscore US, the default locale.
+
+In the last episode: a two-voice recap of the traps that come up most often.

@@ -41,6 +41,11 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .heard { font: 500 12px var(--mono); color: var(--muted); margin-left: auto; text-transform: none; letter-spacing: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .qtext { font-size: 19px; font-weight: 700; margin: 0; text-wrap: balance; min-height: 3em; }
+.code { margin: 0; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; font: 13px/1.45 var(--mono); overflow-x: auto; white-space: pre; tab-size: 4; max-width: 100%; box-sizing: border-box; }
+.qtext code, .pad .o code, .explain code { font: 0.92em var(--mono); background: color-mix(in srgb, var(--fg) 8%, transparent); padding: 0 3px; border-radius: 4px; overflow-wrap: anywhere; }
+.qtext.withcode { min-height: 0; font-size: 17px; }
+#bSubmit:disabled { opacity: .55; cursor: default; }
+@media (max-width: 420px) { .code { font-size: 12px; padding: 10px 12px; } }
 
 .pads { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .pad { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 12px; min-height: 120px; text-align: left; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
@@ -168,8 +173,10 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
     <div class="progress"><i id="bar"></i></div>
     <div class="state" id="state" data-s="speaking"><span class="dot"></span><span id="stateText">Reading</span><span class="heard" id="heard"></span></div>
     <p class="scen" id="qScen" hidden></p>
+    <pre class="code" id="qCode" hidden></pre>
     <p class="qtext" id="qText"></p>
     <div class="pads" id="pads"></div>
+    <button class="big" id="bSubmit" hidden disabled>Submit</button>
     <p class="explain" id="explain" hidden></p>
     <button class="big" id="bNext" hidden>Next question</button>
     <button class="big" id="bMic" hidden>Tap to talk</button>
@@ -219,7 +226,21 @@ const PRACTICE = QS.map((q, i) => i).filter(i => QS[i].id.startsWith(PACK.practi
 const TOPIC_LABEL = Object.assign({ general: "General" }, PACK.topics);
 const GRADED = q => Array.isArray(q.g);
 const maxPts = q => GRADED(q) ? Math.max(...q.g) : 1;
-const ptsOf = (q, given) => GRADED(q) ? (given ? q.g[given - 1] : 0) : (given === q.a ? 1 : 0);
+const MULTI = q => Array.isArray(q.a);                       // "choose two" questions: q.a is the list of right options
+const ANS = q => [].concat(q.a);
+const isRight = (q, given) => MULTI(q) ? Array.isArray(given) && given.length === q.a.length && given.every(x => q.a.includes(x)) : given === q.a;
+const fmtAns = v => Array.isArray(v) ? v.join(" & ") : v;
+const optText = (q, v) => v ? [].concat(v).map(j => q.o[j - 1]).join(" | ") : "";
+const ptsOf = (q, given) => GRADED(q) ? (given ? q.g[given - 1] : 0) : (isRight(q, given) ? 1 : 0);
+// Text with `inline code` spans (rendered safely, no HTML from the content).
+function rich(el, s) {
+  el.textContent = "";
+  String(s).split("`").forEach((part, k) => {
+    if (!part) return;
+    if (k % 2) { const c = document.createElement("code"); c.textContent = part; el.appendChild(c); }
+    else el.appendChild(document.createTextNode(part));
+  });
+}
 const GRADE_NAME = { 5: "best", 3: "second best", 1: "third best", 0: "distractor" };
 const HOW_LABEL = { "voice-number": "voice (number)", "voice-content": "voice (answer words)", "voice-command": "voice", tap: "tap", key: "keyboard",
   buttons: "car buttons", skip: "skipped", timeout: "time ran out", unanswered: "not answered" };
@@ -397,11 +418,13 @@ function renderStart() {
     const mine = hist.filter(a => a.exam === key);
     const best = mine.reduce((b, a) => Math.max(b, a.score), -1);
     const qs = e.questions.map(id => QS[IDX[id]]), maxP = qs.reduce((t, q) => t + maxPts(q), 0), graded = qs.some(GRADED);
+    const silent = qs.some(q => q.na) ? " · touch only" : "";
     const btn = document.createElement("button"); btn.className = "exam"; btn.id = "exam-" + key;
     btn.innerHTML = `<b></b><span class="d"></span><span class="best"></span>`;
     btn.querySelector("b").textContent = e.title;
-    btn.querySelector(".d").textContent = e.practice ? `${qs.length} ${graded ? "scenarios" : "questions"} · feedback after each · 5/3/1/0 points`
+    btn.querySelector(".d").textContent = e.practice ? `${qs.length} ${graded ? "scenarios" : "questions"} · feedback after each${graded ? " · 5/3/1/0 points" : ""}`
       : graded ? `${qs.length} scenarios · ${e.minutes} min · pass ${e.pass}/${maxP} points` : `${qs.length} questions · ${e.minutes} min · pass ${e.pass}`;
+    btn.querySelector(".d").textContent += silent;
     btn.querySelector(".best").textContent = best >= 0 ? `best ${best}/${maxP}
 ${mine.length} attempt${mine.length === 1 ? "" : "s"}` : "not taken";
     btn.onclick = () => startExam(key);
@@ -432,23 +455,44 @@ function renderQuestion() {
   const qi = queue[pos], q = QS[qi];
   $("qNum").textContent = pos + 1; $("qTot").textContent = queue.length; $("score").textContent = score;
   $("bar").style.width = (pos / queue.length * 100) + "%";
-  $("qText").textContent = q.q;
+  rich($("qText"), q.q); $("qText").classList.toggle("withcode", !!q.c);
+  $("qCode").textContent = q.c || ""; $("qCode").hidden = !q.c;
   $("qScen").textContent = q.sc || ""; $("qScen").hidden = !q.sc;
   $("explain").hidden = true; $("heard").textContent = "";
+  picked = [];
+  $("bSubmit").hidden = !MULTI(q); $("bSubmit").disabled = true;
+  if (MULTI(q)) $("bSubmit").textContent = `Choose ${q.a.length}`;
   const pads = $("pads"); pads.innerHTML = "";
   q.o.forEach((o, j) => {
     const b = document.createElement("button");
     b.className = "pad"; b.id = "pad" + (j + 1);
     b.innerHTML = `<span class="n">${j + 1}</span><span class="o"></span><span class="gr" hidden></span>`;
-    b.querySelector(".o").textContent = o;
+    rich(b.querySelector(".o"), o);
     b.onclick = () => { lastHow = "tap"; submit(j + 1); };
     pads.appendChild(b);
   });
 }
+// Multi-answer questions: taps toggle a selection; Submit sends it once the right number is chosen.
+let picked = [];
+function togglePick(v) {
+  const q = QS[queue[pos]], k = picked.indexOf(v);
+  if (k >= 0) picked.splice(k, 1); else if (picked.length < q.a.length) picked.push(v); else return;
+  [...$("pads").children].forEach((b, i) => b.classList.toggle("chosen", picked.includes(i + 1)));
+  const left = q.a.length - picked.length;
+  $("bSubmit").disabled = left !== 0;
+  $("bSubmit").textContent = left ? `Choose ${left} more` : "Submit";
+}
+$("bSubmit").onclick = () => {
+  const q = QS[queue[pos]];
+  if (!MULTI(q) || picked.length !== q.a.length || answered || !pendingAnswer) return;
+  const r = pendingAnswer; pendingAnswer = null; r(picked.slice().sort((x, y) => x - y));
+};
 
 function submit(v) {
   if (mode === "buttons") { if (!answered) emit({ type: "tap", value: v }); return; }
   if (answered || !pendingAnswer) return;
+  if (typeof v === "number" && v > QS[queue[pos]].o.length) return;
+  if (MULTI(QS[queue[pos]])) { if (v >= 1 && v <= QS[queue[pos]].o.length) togglePick(v); return; }
   const r = pendingAnswer; pendingAnswer = null; r(v);
 }
 function command(c) { if (pendingAnswer) { const r = pendingAnswer; pendingAnswer = null; r(c); } }
@@ -687,7 +731,8 @@ async function run(indices, opts) {
     answered = true;
     const how = v === "skip" ? "skip" : (lastHow || (mode === "buttons" ? "buttons" : "voice-number"));
     const given = v === "skip" ? null : v;
-    const ok = given === q.a, pts = ptsOf(q, given);
+    const ok = isRight(q, given), pts = ptsOf(q, given);
+    $("bSubmit").hidden = true;
     results.push({ qi, given, ms: Date.now() - t0, how, pts });
     const st = stats[qi] || { seen: 0, wrong: 0, box: 0 };
     st.seen++;
@@ -696,9 +741,9 @@ async function run(indices, opts) {
     stats[qi] = st; store.set(stats);
     if (exam) {
       // no feedback during an exam: mark the choice, confirm it was recorded, move on
-      if (given) $("pad" + given).classList.add("chosen");
+      if (given) [].concat(given).forEach(j => $("pad" + j).classList.add("chosen"));
       [...$("pads").children].forEach(b => b.disabled = true);
-      setState("speaking", given ? `Answer ${given} recorded` : "Skipped");
+      setState("speaking", given ? `Answer ${fmtAns(given)} recorded` : "Skipped");
       await play("recorded");
       if (mode === "touch") await new Promise(r => setTimeout(r, 250));   // let the tap register visually
       continue;
@@ -713,18 +758,18 @@ async function run(indices, opts) {
     }
     else if (given === null) {
       setState("wrong", "Skipped");
-      if (mode === "touch") { $("pad" + q.a).classList.add("right"); [...$("pads").children].forEach(b => b.disabled = true); }
+      if (mode === "touch") { ANS(q).forEach(j => $("pad" + j).classList.add("right")); [...$("pads").children].forEach(b => b.disabled = true); }
     }
     else {
-      $("pad" + q.a).classList.add("right");
-      if (!ok) $("pad" + given).classList.add("wrong");
+      ANS(q).forEach(j => $("pad" + j).classList.add("right"));
+      [].concat(given).forEach(j => { if (!ANS(q).includes(j)) $("pad" + j).classList.add("wrong"); });
       [...$("pads").children].forEach(b => b.disabled = true);
       $("score").textContent = score;
-      setState(ok ? "right" : "wrong", ok ? "Correct" : `Answer: ${q.a}`);
+      setState(ok ? "right" : "wrong", ok ? "Correct" : `Answer: ${fmtAns(q.a)}`);
       await play(ok ? "correct" : "wrong");
     }
     if (id !== runId) return;
-    $("explain").textContent = q.e; $("explain").hidden = false;
+    rich($("explain"), q.e); $("explain").hidden = false;
     if (mode === "touch") {
       $("bNext").textContent = pos + 1 < queue.length ? "Next question" : "See results";
       $("bNext").hidden = false;
@@ -774,8 +819,8 @@ function saveAttempt(reason) {
   const items = results.map((r, k) => {
     const q = QS[r.qi];
     const first = session.reviewOf && session.reviewOf.first[q.id];
-    return { n: k + 1, id: q.id, topic: q.topic, question: q.q, given: r.given, givenText: r.given ? q.o[r.given - 1] : "",
-             answer: q.a, answerText: q.o[q.a - 1], correct: r.given === q.a, points: r.pts ?? ptsOf(q, r.given), maxPoints: maxPts(q), seconds: Math.round(r.ms / 100) / 10, how: r.how,
+    return { n: k + 1, id: q.id, topic: q.topic, question: q.q, code: q.c || undefined, given: r.given, givenText: optText(q, r.given),
+             answer: q.a, answerText: optText(q, q.a), correct: isRight(q, r.given), points: r.pts ?? ptsOf(q, r.given), maxPoints: maxPts(q), seconds: Math.round(r.ms / 100) / 10, how: r.how,
              firstTry: first || null };
   });
   const attempt = {
@@ -804,9 +849,9 @@ function toCSV(attempts) {
                 "review_of", "first_try_answer", "first_try_answer_text", "points", "max_points"];
   const rows = [head];
   attempts.forEach(a => a.items.forEach(it => rows.push([a.attemptId, a.date, a.title, a.answeredWith, a.score, a.total,
-    a.passed === null ? "" : (a.passed ? "yes" : "no"), it.n, it.id, it.topic, it.question, it.given ?? "", it.givenText,
-    it.answer, it.answerText, it.correct ? "yes" : "no", it.seconds, HOW_LABEL[it.how] || it.how,
-    a.reviewOf ? a.reviewOf.attemptId : "", it.firstTry ? (it.firstTry.given ?? "") : "", it.firstTry ? it.firstTry.givenText : "", it.points ?? "", it.maxPoints ?? ""])));
+    a.passed === null ? "" : (a.passed ? "yes" : "no"), it.n, it.id, it.topic, it.question, fmtAns(it.given ?? ""), it.givenText,
+    fmtAns(it.answer), it.answerText, it.correct ? "yes" : "no", it.seconds, HOW_LABEL[it.how] || it.how,
+    a.reviewOf ? a.reviewOf.attemptId : "", it.firstTry ? fmtAns(it.firstTry.given ?? "") : "", it.firstTry ? it.firstTry.givenText : "", it.points ?? "", it.maxPoints ?? ""])));
   return rows.map(r => r.map(csvCell).join(",")).join("\n") + "\n";
 }
 function summaryText(attempts) {
@@ -834,7 +879,8 @@ function summaryText(attempts) {
     if (wrong.length) {
       lines.push("", "Missed questions:");
       const pt = it => it.maxPoints > 1 ? ` (${it.points} of ${it.maxPoints} points)` : "";
-      wrong.forEach(it => lines.push(`- [${TOPIC_LABEL[it.topic] || it.topic}] ${it.question}\n  - my answer: ${it.given ? it.givenText : "(none: " + (HOW_LABEL[it.how] || it.how) + ")"}${pt(it)}\n  - ${it.maxPoints > 1 ? "best" : "correct"}: ${it.answerText}`));
+      const code = it => it.code ? "\n  ```java\n" + it.code.replace(/^/gm, "  ") + "\n  ```" : "";
+      wrong.forEach(it => lines.push(`- [${TOPIC_LABEL[it.topic] || it.topic}] ${it.question}${code(it)}\n  - my answer: ${it.given ? it.givenText : "(none: " + (HOW_LABEL[it.how] || it.how) + ")"}${pt(it)}\n  - ${it.maxPoints > 1 ? "best" : "correct"}: ${it.answerText}`));
     }
     lines.push("");
   });
@@ -883,7 +929,7 @@ function finish(attempt) {
     const d = document.createElement("div"); d.className = "row";
     d.innerHTML = `<span class="m ${it.correct ? "ok" : "ko"}">${it.correct ? "✓" : "✗"}</span><span class="t"></span><span class="k"></span>`;
     d.querySelector(".t").textContent = it.question;
-    d.querySelector(".k").textContent = (it.correct ? `${it.answer}` : `${it.given ?? "–"} → ${it.answer}`) + (it.maxPoints > 1 ? ` · ${it.points} pts` : "");
+    d.querySelector(".k").textContent = (it.correct ? `${fmtAns(it.answer)}` : `${fmtAns(it.given ?? "–")} → ${fmtAns(it.answer)}`) + (it.maxPoints > 1 ? ` · ${it.points} pts` : "");
     rows.appendChild(d);
   });
   const wrong = attempt.items.filter(it => !it.correct).length;
@@ -934,8 +980,13 @@ function primeMic() {
   });
 }
 // Unlock audio playback inside the gesture (iOS), then start the session after the mic prompt.
+// Questions with code or more than four options have no audio: sessions containing them run in touch mode.
+let modeBeforeSilent = null;
+function restoreMode() { if (modeBeforeSilent) { mode = modeBeforeSilent; modeBeforeSilent = null; renderMode(); } }
 function startRun(list, opts) {
   dlog("session start · " + envLine());
+  restoreMode();
+  if (mode !== "touch" && list.some(i => QS[i].na)) { modeBeforeSilent = mode; mode = "touch"; renderMode(); dlog("silent questions: touch mode for this session"); }
   sessionActive = true; acquireWake();
   if (mode === "touch") { dlog("mode: touch"); run(list, opts); return; }   // silent: no audio unlock, no microphone
   audio.muted = true; audio.src = CLIPS.correct;
@@ -997,7 +1048,7 @@ $("micTest").onclick = () => {
       `The speech service failed (${r.text}). It may need an internet connection.`;
   });
 };
-$("home").onclick = () => { quit(); $("bEnd").hidden = true; renderStart(); show("startView"); };
+$("home").onclick = () => { quit(); restoreMode(); $("bEnd").hidden = true; renderStart(); show("startView"); };
 $("bRepeat").onclick = () => {
   if (mode === "buttons") return btnPrev();
   if (pendingAnswer) { stopListening(); command("repeat"); }
@@ -1023,7 +1074,7 @@ $("bVoice").onclick = () => {
 };
 document.addEventListener("keydown", e => {
   if ($("drillView").hidden) return;
-  if (/^[1-4]$/.test(e.key)) { stopListening(); lastHow = "key"; submit(+e.key); }
+  if (/^[1-6]$/.test(e.key)) { stopListening(); lastHow = "key"; submit(+e.key); }
   else if (e.key === "r" || e.key === "R") $("bRepeat").click();
   else if (e.key === "s" || e.key === "S") $("bSkip").click();
   else if (mode === "touch" && (e.key === " " || e.key === "Enter" || e.key === "ArrowRight")) { e.preventDefault(); touchNext(); }

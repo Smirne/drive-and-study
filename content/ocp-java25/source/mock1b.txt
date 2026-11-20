@@ -1,0 +1,547 @@
+Mock exam one, part two.
+
+Question 1.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    String[] arr = {"x", "y", "z"};
+    List<String> a = Arrays.asList(arr);
+    a.set(0, "q");
+    List<String> b = List.copyOf(a);
+    arr[1] = "w";
+    IO.println(a + " " + b);
+}
+```
+What is the result?
+A. `[q, y, z] [q, y, z]`
+B. `[q, w, z] [q, w, z]`
+C. `[q, w, z] [q, y, z]`
+D. An UnsupportedOperationException is thrown
+Check: output
+[THINK]
+The answer is C. Arrays.asList returns a list backed by the array: set works, and changes to the array show through the list. List.copyOf makes an independent unmodifiable copy, taken before arr[1] changed.
+
+Question 2.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    List<Integer> list = new ArrayList<>(List.of(10, 20, 30, 1));
+    list.remove(1);
+    list.remove(Integer.valueOf(1));
+    IO.println(list);
+}
+```
+What is the result?
+A. `[10, 30]`
+B. `[20, 30]`
+C. `[10, 20, 30]`
+D. `[30, 1]`
+Check: output
+[THINK]
+The answer is A. remove(1) with an int removes the element at index 1, which is 20. remove(Integer.valueOf(1)) removes by value, the element 1.
+
+Question 3.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    var set = new LinkedHashSet<>(List.of("b", "a", "c"));
+    set.addFirst("c");
+    set.addLast("b");
+    IO.println(set + " " + set.reversed().getFirst());
+}
+```
+What is the result?
+A. `[c, b, a, c, b] b`
+B. `[c, a, b] b`
+C. `[b, a, c] c`
+D. An UnsupportedOperationException is thrown
+Check: output
+[THINK]
+The answer is B. LinkedHashSet is a SequencedCollection. addFirst and addLast move an element that's already present to the requested end. reversed returns a reversed view, whose first element is the last of the set.
+
+Question 4.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    Map<String, Integer> m = new TreeMap<>();
+    for (String w : "the cat and the hat".split(" "))
+        m.merge(w, 1, Integer::sum);
+    m.computeIfPresent("and", (k, v) -> null);
+    m.putIfAbsent("cat", 9);
+    IO.println(m);
+}
+```
+What is the result?
+A. `{and=null, cat=1, hat=1, the=2}`
+B. `{the=2, cat=1, hat=1}`
+C. `{cat=9, hat=1, the=2}`
+D. `{cat=1, hat=1, the=2}`
+Check: output
+[THINK]
+The answer is D. merge counts the words. When the remapping function of computeIfPresent returns null, the entry is removed. putIfAbsent does nothing because cat is already mapped. A TreeMap keeps its keys sorted.
+
+Question 5.
+Topic: java-collections
+```
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<? extends Number> nums = new ArrayList<Integer>();
+        List<? super Integer> sink = new ArrayList<Number>();
+        /*?*/;
+    }
+}
+```
+Which two statements can replace /*?*/ so that the code compiles? Choose two.
+A. `nums.add(1)`
+B. `sink.add(1)`
+C. `Number n = nums.isEmpty() ? null : nums.get(0)`
+D. `Integer i = sink.get(0)`
+E. `List<Number> l = new ArrayList<Integer>()`
+Check: options
+[THINK]
+The answers are B and C. With extends you can read elements as Number but not add, so option A fails. With super you can add Integers, but reading gives Object, so option D fails. Option E fails because generics are invariant.
+
+Question 6.
+Topic: java-collections
+```
+import java.util.*;
+
+record Emp(String name, int age) {}
+
+void main() {
+    var list = new ArrayList<>(List.of(new Emp("Bo", 30), new Emp("Al", 25), new Emp("Cy", 30)));
+    list.sort(Comparator.comparingInt(Emp::age).reversed().thenComparing(Emp::name));
+    list.forEach(e -> IO.print(e.name() + " "));
+}
+```
+What is the result?
+A. `Bo Cy Al`
+B. `Cy Bo Al`
+C. `Al Bo Cy`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is A. Ages are sorted in descending order because of reversed. thenComparing, added after reversed, breaks ties by name in ascending order: Bo before Cy.
+
+Question 7.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    int[] a = {5, 1, 4};
+    Arrays.sort(a);
+    IO.println(Arrays.binarySearch(a, 4) + " " + Arrays.binarySearch(a, 3) + " "
+        + Arrays.mismatch(a, new int[]{1, 4, 6}));
+}
+```
+What is the result?
+A. `2 -1 2`
+B. `1 -2 2`
+C. `1 -1 -1`
+D. `1 -2 -1`
+Check: output
+[THINK]
+The answer is B. After sorting, the array is 1, 4, 5. 4 is at index 1. 3 would be inserted at index 1, so the result is minus 1 minus 1, which is minus 2. mismatch returns the first index where the arrays differ: 2.
+
+Question 8.
+Topic: java-streams
+```
+import java.util.stream.*;
+
+void main() {
+    Stream.of("a", "bb", "ccc", "dd")
+        .peek(s -> IO.print("p" + s + " "))
+        .filter(s -> s.length() == 2)
+        .map(String::toUpperCase)
+        .findFirst()
+        .ifPresent(s -> IO.print(s));
+}
+```
+What is the result?
+A. `pa pbb pccc pdd BB`
+B. `pa pbb pccc pdd BB DD`
+C. `BB`
+D. `pa pbb BB`
+Check: output
+[THINK]
+The answer is D. Elements flow through the pipeline one at a time, and findFirst is short-circuiting: processing stops as soon as bb passes the filter.
+
+Question 9.
+Topic: java-streams
+```
+import java.util.*;
+import java.util.stream.*;
+
+void main() {
+    var words = List.of("apple", "bob", "cat", "avocado", "berry");
+    Map<Character, Long> m = words.stream()
+        .collect(Collectors.groupingBy(w -> w.charAt(0), TreeMap::new, Collectors.counting()));
+    IO.println(m);
+}
+```
+What is the result?
+A. `{a=[apple, avocado], b=[bob, berry], c=[cat]}`
+B. `{a=2, b=2, c=1}`
+C. `{2=[a, b], 1=[c]}`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is B. The three-argument groupingBy takes the classifier, a map factory, here a sorted TreeMap, and a downstream collector. counting turns each group into a Long.
+
+Question 10.
+Topic: java-streams
+```
+import java.util.stream.*;
+
+void main() {
+    var r = Stream.of(3, 8, 5)
+        .collect(Collectors.partitioningBy(n -> n > 10, Collectors.summingInt(n -> n)));
+    IO.println(r);
+}
+```
+What is the result?
+A. `{false=16}`
+B. `{false=16, true=null}`
+C. `{false=16, true=0}`
+D. `{true=0, false=16}`
+Check: output
+[THINK]
+The answer is C. partitioningBy always contains both keys, false and true, even when a partition is empty. The empty partition gets the downstream result for no elements, here a sum of 0.
+
+Question 11.
+Topic: java-streams
+```
+import java.util.*;
+import java.util.stream.*;
+
+void main() {
+    var a = IntStream.rangeClosed(1, 4).sum();
+    var b = Stream.of(1, 2, 3).reduce(10, Integer::sum);
+    var c = IntStream.empty().average();
+    var d = Stream.<Integer>empty().reduce(Integer::sum);
+    IO.println(a + " " + b + " " + c + " " + d);
+}
+```
+What is the result?
+A. `10 16 OptionalDouble.empty Optional.empty`
+B. `10 6 0.0 0`
+C. `6 16 OptionalDouble.empty Optional.empty`
+D. A NoSuchElementException is thrown
+Check: output
+[THINK]
+The answer is A. rangeClosed includes 4, so the sum is 10. reduce with an identity starts from 10. average on a primitive stream returns an OptionalDouble, and reduce without identity returns an Optional; both are empty here.
+
+Question 12.
+Topic: java-streams
+```
+import java.util.stream.*;
+
+void main() {
+    var w = Stream.of(1, 2, 3, 4, 5).gather(Gatherers.windowSliding(2))
+        .map(l -> l.get(0) * l.get(1)).toList();
+    var s = Stream.of(1, 2, 3, 4).gather(Gatherers.scan(() -> 0, (acc, x) -> acc + x)).toList();
+    IO.println(w + " " + s);
+}
+```
+What is the result?
+A. `[2, 12] [10]`
+B. `[2, 12, 5] [1, 3, 6, 10]`
+C. `[2, 6, 12, 20] [10]`
+D. `[2, 6, 12, 20] [1, 3, 6, 10]`
+Check: output
+[THINK]
+The answer is D. windowSliding(2) produces overlapping pairs: 1-2, 2-3, 3-4, 4-5. scan emits every running result, unlike fold, which emits only the final one.
+
+Question 13.
+Topic: java-streams
+```
+import java.util.function.*;
+
+void main() {
+    int base = 10;
+    Function<Integer, Integer> add = x -> x + base;
+    base++;
+    IO.println(add.apply(5));
+}
+```
+What is the result?
+A. `15`
+B. `16`
+C. Compilation fails
+D. An exception is thrown at runtime
+Check: compile-error
+[THINK]
+The answer is C. A lambda can only use local variables that are final or effectively final. base is incremented afterwards, so it isn't effectively final, and the lambda doesn't compile.
+
+Question 14.
+Topic: java-streams
+```
+import java.util.function.*;
+
+public class Main {
+    public static void main(String[] args) {
+        /*?*/;
+    }
+}
+```
+Which two declarations can replace /*?*/ so that the code compiles? Choose two.
+A. `Supplier<String> s = () -> "x"`
+B. `Predicate<String> p = s -> s.length()`
+C. `BiFunction<Integer, Integer, Integer> f = (a, b) -> a * b`
+D. `UnaryOperator<String> u = (String s, t) -> s`
+E. `Consumer<String> c = s -> { return s; }`
+Check: options
+[THINK]
+The answers are A and C. Option B returns an int where a Predicate needs a boolean. Option D mixes typed and untyped parameters, and UnaryOperator takes one parameter anyway. Option E returns a value from a Consumer, whose accept method is void.
+
+Question 15.
+Topic: java-concurrency
+```
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        try (ExecutorService ex = Executors.newVirtualThreadPerTaskExecutor()) {
+            Future<Integer> f = ex.submit(() -> 6 * 7);
+            Future<?> g = ex.submit(() -> { throw new IllegalStateException("bad"); });
+            IO.println(f.get());
+            try {
+                g.get();
+            } catch (ExecutionException e) {
+                IO.println(e.getCause().getMessage());
+            }
+        }
+    }
+}
+```
+What is the result?
+A. `42` followed by an uncaught IllegalStateException
+B. `42 bad`
+C. `42 null`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is B. Future.get returns the Callable's result. When a task throws, get wraps the exception in an ExecutionException, whose cause is the original exception. Closing the executor waits for the tasks.
+
+Question 16.
+Topic: java-concurrency
+```
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t = Thread.ofVirtual().unstarted(() -> IO.print("run "));
+        t.setPriority(Thread.MAX_PRIORITY);
+        t.start();
+        t.join();
+        IO.println(t.isDaemon() + " " + t.getPriority());
+    }
+}
+```
+What is the result?
+A. `run true 5`
+B. `run false 10`
+C. `run true 10`
+D. An IllegalArgumentException is thrown
+Check: output
+[THINK]
+The answer is A. Virtual threads are always daemon threads, and their priority is always NORM_PRIORITY, 5: setPriority is ignored. Only setDaemon(false) throws.
+
+Question 17.
+Topic: java-concurrency
+```
+public class Main {
+    static final ScopedValue<String> USER = ScopedValue.newInstance();
+    static String who() { return USER.isBound() ? USER.get() : "nobody"; }
+    public static void main(String[] args) {
+        ScopedValue.where(USER, "ann").run(() -> {
+            IO.print(who() + " ");
+            ScopedValue.where(USER, "bob").run(() -> IO.print(who() + " "));
+            IO.print(who() + " ");
+        });
+        IO.println(who());
+    }
+}
+```
+What is the result?
+A. `ann bob bob nobody`
+B. `ann bob ann ann`
+C. `ann bob ann nobody`
+D. A NoSuchElementException is thrown
+Check: output
+[THINK]
+The answer is C. A binding lasts only for the run call. The nested where rebinds USER for the inner scope only; afterwards ann is visible again. Outside, USER is unbound, so isBound is false.
+
+Question 18.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    List<String> list = new ArrayList<>(List.of("a", "b", "c"));
+    for (String s : list) {
+        if (s.equals("b")) list.remove(s);
+    }
+    IO.println(list);
+}
+```
+What is the result?
+A. A ConcurrentModificationException is thrown
+B. `[a, b, c]`
+C. Compilation fails
+D. `[a, c]`
+Check: output
+[THINK]
+The answer is D. Removing during a for-each loop usually throws ConcurrentModificationException, but here b is the second-to-last element. After the removal the size is 2 and the iterator's position is 2, so hasNext returns false and the loop ends before the check that throws.
+
+Question 19.
+Topic: java-modules
+```
+// module-info.java of com.shop.core
+module com.shop.core {
+    requires transitive com.shop.model;
+    exports com.shop.core.service;
+}
+
+// module-info.java of com.shop.app
+module com.shop.app {
+    requires com.shop.core;
+    exports com.shop.app.api;
+}
+```
+Which statement is true?
+A. Code in com.shop.app can use the public types exported by com.shop.model
+B. com.shop.app must also require com.shop.model to use its types
+C. Modules that require com.shop.app can also read com.shop.core
+D. com.shop.app re-exports the package com.shop.core.service
+Check: none
+[THINK]
+The answer is A. requires transitive in com.shop.core gives implied readability of com.shop.model to every module that requires com.shop.core. com.shop.app requires com.shop.core without transitive, so its own readers don't get com.shop.core. Exports are never inherited.
+
+Question 20.
+Topic: java-modules
+Which two directives are valid in a module-info.java file? Choose two.
+A. `exports com.acme.util to com.acme.web;`
+B. `requires com.acme.util.*;`
+C. `opens com.acme.model;`
+D. `exports module com.acme.util;`
+E. `provides com.acme.Plugin;`
+Check: none
+[THINK]
+The answers are A and C. A qualified export names a package and the modules allowed to use it, and opens makes a package available for deep reflection. requires takes a module name without wildcards, exports takes a package, and provides needs a with clause naming the implementation.
+
+Question 21.
+Topic: java-modules
+```
+import module java.base;
+import module java.desktop;
+
+void main() {
+    List<String> names = new ArrayList<>();
+    names.add("x");
+    IO.println(names);
+}
+```
+What is the result?
+A. `[x]`
+B. Compilation fails, because List is ambiguous
+C. Compilation fails, because module imports need a module-info.java file
+D. A ClassCastException is thrown
+Check: compile-error
+[THINK]
+The answer is B. Both java.base and java.desktop export a type named List, java.util.List and java.awt.List. Adding a single-type import, import java.util.List, would resolve it. Module imports work in any source file.
+
+Question 22.
+Topic: java-io
+```
+import java.nio.file.*;
+
+void main() {
+    Path p = Path.of("/home/ann/../bob/./docs/file.txt");
+    Path q = p.normalize();
+    IO.println(q.getNameCount() + " " + q.subpath(1, 3) + " " + q.getParent().getFileName());
+}
+```
+What is the result?
+A. `4 bob/docs docs`
+B. `5 home/bob docs`
+C. `4 /home/bob /home/bob/docs`
+D. `7 ann/.. docs`
+Check: output
+[THINK]
+The answer is A. normalize gives /home/bob/docs/file.txt, with four name elements; the root isn't counted. subpath(1, 3) takes elements 1 and 2. The parent is /home/bob/docs, whose file name is docs.
+
+Question 23.
+Topic: java-io
+```
+import java.nio.file.*;
+
+void main() {
+    Path a = Path.of("/data/in");
+    Path b = Path.of("/data/out/log.txt");
+    IO.println(a.relativize(b) + " " + a.resolve("x.txt") + " " + a.resolve(b));
+}
+```
+What is the result?
+A. `out/log.txt /data/in/x.txt /data/in/data/out/log.txt`
+B. `../out/log.txt /data/in/x.txt /data/in/data/out/log.txt`
+C. `../out/log.txt /data/in/x.txt /data/out/log.txt`
+D. An IllegalArgumentException is thrown
+Check: output
+[THINK]
+The answer is C. relativize goes up from in, then down into out. resolve appends a relative path, but when the argument is absolute, it returns the argument unchanged.
+
+Question 24.
+Topic: java-locale
+```
+import java.text.*;
+import java.util.*;
+
+void main() throws ParseException {
+    var us = NumberFormat.getInstance(Locale.US);
+    var de = NumberFormat.getInstance(Locale.GERMANY);
+    Number n = us.parse("1,234.5abc");
+    IO.println(de.format(n) + " " + new DecimalFormat("00.0").format(3.14159));
+}
+```
+What is the result?
+A. A ParseException is thrown
+B. `1,234.5 3.1`
+C. `1.234,5 03.1`
+D. `1234,5 03.14`
+Check: output
+[THINK]
+The answer is C. parse stops at the first character it can't use, so it reads 1234.5. The German format uses a dot for grouping and a comma for decimals. In a DecimalFormat pattern, 0 always prints a digit, so 3.14159 becomes 03.1.
+
+Question 25.
+Topic: java-locale
+```
+import java.text.*;
+import java.util.*;
+
+void main() {
+    var shortF = NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT);
+    var longF = NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.LONG);
+    IO.println(shortF.format(1_550) + " " + longF.format(2_000_000) + " "
+        + NumberFormat.getPercentInstance(Locale.US).format(0.256));
+}
+```
+What is the result?
+A. `1.55K 2M 25.6%`
+B. `2K 2 million 26%`
+C. `1K 2 million 26%`
+D. `2K 2M 0.256%`
+Check: output
+[THINK]
+The answer is B. Compact formats round to whole units by default, so 1,550 becomes 2K; the long style spells out the unit. The percent format multiplies by 100 and rounds to an integer.
+
+That's the end of mock exam one.

@@ -1,0 +1,253 @@
+Java 25 concepts, set two. Collections, streams, concurrency, modules, input and output, and localization.
+
+Question 1.
+Topic: java-collections
+What happens when you call add on a list created with List dot of?
+A. The element is added at the end
+B. It doesn't compile
+C. It throws UnsupportedOperationException
+D. It returns false and leaves the list unchanged
+[THINK]
+The answer is C. Lists from List dot of are unmodifiable. Any add, remove or set throws UnsupportedOperationException at runtime.
+
+Question 2.
+Topic: java-collections
+You call Arrays dot asList on a String array, then call set on the list. What happens?
+A. It throws UnsupportedOperationException
+B. The list changes, and so does the original array
+C. The list changes, but the array keeps its old value
+D. It doesn't compile, because the list is read only
+[THINK]
+The answer is B. Arrays dot asList returns a fixed-size list backed by the array. set works and writes through to the array, while add and remove throw.
+
+Question 3.
+Topic: java-collections
+Which of these is a SequencedCollection, with getFirst and reversed?
+A. HashSet
+B. Every Set implementation
+C. PriorityQueue
+D. LinkedHashSet
+[THINK]
+The answer is D. LinkedHashSet has a defined encounter order, so it's sequenced. HashSet and PriorityQueue don't have a defined iteration order.
+
+Question 4.
+Topic: java-collections
+On a List of Integer holding ten, twenty and thirty, what does calling remove with the int literal one do?
+A. It removes the element at index one, which is twenty
+B. It removes nothing, because there's no element equal to one
+C. It doesn't compile, because the call is ambiguous
+D. It removes the first element, ten
+[THINK]
+The answer is A. remove with an int argument chooses the index version, without boxing. To remove by value, pass an Integer object.
+
+Question 5.
+Topic: java-collections
+A method parameter is a List of question mark extends Number. What can the method do with it?
+A. Add Integers and Doubles to it
+B. Add only Numbers to it
+C. Read elements as Number, but add nothing except null
+D. Neither read nor add elements
+[THINK]
+The answer is C. With an upper bounded wildcard, the real list could be of Integer or of Double, so adding is unsafe. Reading as Number always works. Producer extends, consumer super.
+
+Question 6.
+Topic: java-collections
+What must be true for Arrays dot binarySearch to give a meaningful result?
+A. The array must contain no duplicate values
+B. The array must be sorted in ascending order first
+C. The array must hold objects, not primitives
+D. The array must have been created with Arrays dot asList
+[THINK]
+The answer is B. On an unsorted array the result is undefined. When the value isn't found, the result is minus the insertion point, minus one, so a value that would go at index two gives minus three.
+
+Question 7.
+Topic: java-streams
+A stream pipeline has a filter and a peek that prints, but no terminal operation. What is printed?
+A. Each element that passes the filter
+B. Every element of the source
+C. Only the first element
+D. Nothing, because streams are lazy
+[THINK]
+The answer is D. Intermediate operations don't run until a terminal operation starts the pipeline.
+
+Question 8.
+Topic: java-streams
+What happens if you call count twice on the same stream object?
+A. Both calls return the same result
+B. The second call returns zero
+C. The second call throws IllegalStateException
+D. It doesn't compile
+[THINK]
+The answer is C. A stream can only be consumed once. A second terminal operation throws IllegalStateException at runtime.
+
+Question 9.
+Topic: java-streams
+Collectors dot toMap is used with a key function and a value function, and two elements produce the same key. What happens?
+A. It throws IllegalStateException
+B. The later value replaces the earlier one
+C. The first value is kept, and the second is dropped
+D. Both values are stored in a list
+[THINK]
+The answer is A. Without a merge function, a duplicate key throws IllegalStateException. Add a third argument, a merge function, to combine the values.
+
+Question 10.
+Topic: java-streams
+What does allMatch return on an empty stream?
+A. false
+B. true
+C. An empty Optional
+D. It throws NoSuchElementException
+[THINK]
+The answer is B. allMatch and noneMatch return true on an empty stream, because no element fails. anyMatch returns false.
+
+Question 11.
+Topic: java-streams
+What does the windowFixed gatherer with a size of two produce for the numbers one to five?
+A. Two windows, and the fifth number is dropped
+B. Overlapping windows: one-two, two-three, three-four, four-five
+C. An exception, because five isn't a multiple of two
+D. Three windows: one-two, three-four, and five on its own
+[THINK]
+The answer is D. windowFixed groups elements into lists of the given size, and the last window may be shorter. windowSliding gives overlapping windows.
+
+Question 12.
+Topic: java-streams
+What is the difference between orElse and orElseGet on an Optional?
+A. orElse always evaluates its argument; orElseGet runs its supplier only when empty
+B. orElse throws an exception when the Optional is empty, while orElseGet returns null
+C. There's no difference, they're aliases
+D. orElseGet only works on Optionals of numbers
+[THINK]
+The answer is A. The argument to orElse is evaluated before the call, even when a value is present. orElseGet takes a Supplier and runs it only if needed.
+
+Question 13.
+Topic: java-concurrency
+What happens if you call run instead of start on a Thread object?
+A. A new thread is started, as with start
+B. It throws IllegalThreadStateException, because the thread isn't started yet
+C. The task runs on the current thread, and no new thread is created
+D. It doesn't compile, because run is protected
+[THINK]
+The answer is C. run is an ordinary method call. Only start creates a new thread of execution.
+
+Question 14.
+Topic: java-concurrency
+A shared counter is declared volatile, and several threads increment it with plus plus. Is the result reliable?
+A. Yes, because volatile makes the increment atomic
+B. Yes, as long as there are fewer than ten threads
+C. No, because volatile variables can't be incremented
+D. No, because volatile guarantees visibility, not atomicity
+[THINK]
+The answer is D. An increment is a read, an add and a write, and other threads can interleave. Use AtomicInteger or a lock.
+
+Question 15.
+Topic: java-concurrency
+A task submitted to an ExecutorService throws an exception. What does Future dot get do?
+A. Returns null
+B. Throws ExecutionException, with the original exception as its cause
+C. Rethrows the original exception directly, without wrapping it in anything
+D. Blocks forever
+[THINK]
+The answer is B. get wraps the task's failure in an ExecutionException, a checked exception. getCause returns the original.
+
+Question 16.
+Topic: java-concurrency
+What happens when you call setDaemon false on a virtual thread?
+A. It throws IllegalArgumentException: virtual threads are always daemons
+B. The virtual thread becomes a user thread, and keeps the JVM alive until it ends
+C. Nothing, the call is ignored
+D. It doesn't compile
+[THINK]
+The answer is A. Virtual threads are always daemon threads. Calling setDaemon with false throws IllegalArgumentException. Their priority is also fixed.
+
+Question 17.
+Topic: java-concurrency
+You call get on a ScopedValue outside any where binding. What happens?
+A. It returns null
+B. It returns the value bound most recently by any thread
+C. It throws NoSuchElementException
+D. It blocks until a value is bound
+[THINK]
+The answer is C. An unbound scoped value has no value. get throws NoSuchElementException, isBound returns false, and orElse gives a fallback.
+
+Question 18.
+Topic: java-concurrency
+Why does ExecutorService work well with try-with-resources since Java 19?
+A. Its close method interrupts all tasks immediately
+B. It's AutoCloseable, and close waits for submitted tasks to finish
+C. It closes the threads at once but keeps the task queue for later use
+D. It doesn't; executors must be shut down manually
+[THINK]
+The answer is B. close shuts the executor down and waits until all tasks have completed, which makes the try-with-resources pattern simple and safe.
+
+Question 19.
+Topic: java-modules
+In module-info dot java, what do the requires and exports directives refer to?
+A. Both refer to packages
+B. Both refer to modules
+C. requires names a package, and exports names a module
+D. requires names a module, and exports names a package
+[THINK]
+The answer is D. You depend on modules, but you make packages accessible. A classic trap in options that export a module name.
+
+Question 20.
+Topic: java-modules
+What does requires transitive add to a plain requires?
+A. Modules that read this module can also read the dependency
+B. The dependency becomes optional at runtime
+C. The dependency's packages are opened for reflection
+D. The dependency is loaded before this module
+[THINK]
+The answer is A. With requires transitive, the dependency is implied readability for any module that requires this one. requires static is the optional one.
+
+Question 21.
+Topic: java-modules
+A file imports module java dot base and module java dot desktop, then uses the simple name List. What happens?
+A. It compiles, and List means java dot util dot List, because java dot base is listed first
+B. It doesn't compile, because List is ambiguous between java dot util and java dot awt
+C. It compiles, and List means java dot awt dot List
+D. It compiles, and the first import wins
+[THINK]
+The answer is B. Both modules export a type called List. A single-type import, or a wildcard import of java dot util, resolves the ambiguity, because both shadow module imports.
+
+Question 22.
+Topic: java-io
+What does BufferedReader dot readLine return when the end of the file is reached?
+A. An empty string
+B. Minus one
+C. null
+D. It throws EOFException
+[THINK]
+The answer is C. readLine returns null at the end of the stream, so the classic loop reads while the line isn't null. The basic read method returns minus one.
+
+Question 23.
+Topic: java-io
+What does Files dot copy do when the target file already exists and no options are given?
+A. It overwrites the target
+B. It appends to the target
+C. It silently does nothing
+D. It throws FileAlreadyExistsException
+[THINK]
+The answer is D. Without StandardCopyOption dot REPLACE_EXISTING, copy refuses to overwrite and throws FileAlreadyExistsException.
+
+Question 24.
+Topic: java-io
+A serializable class has a transient int field set to five. After serializing and deserializing the object, what does the field hold?
+A. Zero, the default value, since the field isn't written
+B. Five, because transient only affects equals
+C. Five, because the constructor runs again during deserialization
+D. The field is missing, and reading it throws an exception
+[THINK]
+The answer is A. Transient fields aren't serialized, and the serializable class's constructor and initializers don't run on deserialization, so the field gets its default value.
+
+Question 25.
+Topic: java-locale
+You request a resource bundle for Locale fr CA, and the default locale is en US. After Messages underscore fr underscore CA and Messages underscore fr, which file is tried next?
+A. The base bundle, Messages, with no locale
+B. The English bundle, without a country
+C. The bundle for the default locale, English US
+D. A bundle for the country Canada only
+[THINK]
+The answer is C. The lookup tries the requested locale, then its language, then the default locale with its country, then the default language, and finally the base bundle.
+
+That's the end of set two.

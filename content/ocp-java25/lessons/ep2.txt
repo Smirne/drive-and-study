@@ -1,0 +1,53 @@
+Java 25 Developer Professional. Episode two. Numbers, booleans, strings and text blocks.
+
+This episode covers the building blocks the exam loves to twist: primitive types, numeric promotion, casting, wrapper classes, strings, StringBuilder, and text blocks.
+
+Let's start with the eight primitive types. byte, short, int and long are whole numbers of eight, sixteen, thirty-two and sixty-four bits. float and double are floating point, thirty-two and sixty-four bits. char is a sixteen-bit unsigned value holding a Unicode code unit. And boolean is true or false, nothing else: unlike some languages, Java never converts numbers to booleans. An if statement with an int condition doesn't compile.
+
+Literals have default types. A whole number literal is an int, and a decimal literal is a double. So a long beyond the int range needs an L suffix, and a float literal needs an F suffix; assigning one point five to a float variable without F fails to compile, because it's a double. Underscores are allowed between digits for readability, but not at the start, at the end, or next to the decimal point.
+
+Now numeric promotion, a favorite exam topic. When you apply an arithmetic operator to two values, Java first promotes them. byte, short and char are always promoted to int, even when both operands are bytes. If either operand is a long, the result is long; if either is a float, float; if either is a double, double. The classic trap: two byte variables added together produce an int, so assigning the sum to a byte variable doesn't compile without a cast.
+
+But compound assignment operators, like plus equals, include an implicit cast back to the type of the variable. So "b plus equals one" on a byte compiles, while "b equals b plus one" doesn't. Also note that a constant expression that fits is allowed: assigning the literal ten to a byte is fine, because the compiler knows the value fits.
+
+Casting from a larger type to a smaller one can lose information. Integer overflow wraps around silently: adding one to the maximum int gives the minimum int, with no exception. Dividing an int by zero throws ArithmeticException, but dividing a double by zero gives infinity, or not-a-number for zero divided by zero. Integer division truncates toward zero, and the remainder operator keeps the sign of the left operand: minus seven modulo three is minus one.
+
+Watch increment and decrement operators. Pre-increment changes the value, then uses it; post-increment uses the old value, then changes it. Questions often chain several in one expression. Evaluate strictly left to right, keeping track of the variable after each step.
+
+The ternary operator and the logical operators have their own traps. The double ampersand and double pipe short-circuit: the right side isn't evaluated if the left side decides the result, so side effects on the right may never happen. The single ampersand and pipe on booleans evaluate both sides.
+
+Math methods: Math dot round returns a long when given a double, and rounds half up toward positive infinity. So round of two point five is three, but round of minus two point five is minus two. Math dot floor and ceil return doubles.
+
+Next, wrapper classes: Integer, Long, Double, Boolean, Character and the others. Autoboxing converts a primitive to its wrapper automatically, and unboxing goes the other way. Unboxing a null wrapper throws NullPointerException, a common runtime trap, for example when a map lookup returns null and you assign it to an int.
+
+Comparing wrappers with double equals compares references, not values. Integer caches values from minus one hundred twenty-eight to one hundred twenty-seven when you use valueOf or autoboxing, so two boxed one hundreds may be the same object, while two boxed one thousands usually aren't. Never rely on this: use equals. Also, equals between different wrapper types is false: an Integer with value one is not equal to a Long with value one.
+
+Parsing: Integer dot parseInt returns a primitive int, valueOf returns an Integer. Both throw NumberFormatException for text that isn't a number.
+
+Now strings. A String is immutable. Every method that seems to modify it, like toUpperCase, concat, replace or strip, returns a new String and leaves the original untouched. A classic trap is calling such a method and ignoring the result, then printing the original.
+
+String literals are kept in a pool, so two identical literals refer to the same object, and double equals between them is true. A string built at runtime, for example with new String, or by concatenating a variable, is a different object, and double equals is false, even if the content is the same. A concatenation of compile-time constants, however, is computed by the compiler and pooled. The intern method returns the pooled instance.
+
+Useful methods to know: length, charAt, indexOf, substring with a begin index and an end index that is exclusive, equals and equalsIgnoreCase, startsWith, endsWith, contains, isEmpty, and isBlank, which is true also for whitespace only. strip removes Unicode whitespace from both ends, trim removes only characters up to the space character. repeat, lines, indent, and chars. charAt or substring with an index out of range throws StringIndexOutOfBoundsException.
+
+The plus operator with strings evaluates left to right. One plus two plus the string "x" gives "3x", because the first addition is numeric. The string "x" plus one plus two gives "x12".
+
+StringBuilder is the mutable alternative. append, insert, delete, deleteCharAt, replace, reverse, and setLength modify the same object and return it, so calls can be chained. Two traps: StringBuilder doesn't override equals, so two builders with the same content are not equal; compare their toString results. And substring on a StringBuilder returns a String without changing the builder.
+
+Finally, text blocks. A text block starts with three double quotes followed by a line break, and ends with three double quotes. The content starts on the next line. Incidental indentation, the whitespace shared by all lines including the closing delimiter's line, is removed. If the closing quotes are on their own line, the string ends with a newline; if they're right after the last character, it doesn't. Trailing spaces on each line are stripped, unless you use the escape backslash s, which means a single space. A backslash at the end of a line joins it to the next one, with no newline. And you can include double quotes freely, except three in a row.
+
+Quick check.
+Two byte variables are added and assigned to a byte. Does it compile?
+[THINK]
+No. The sum is promoted to int and needs a cast. With plus equals it would compile.
+What does Math dot round of minus two point five return?
+[THINK]
+Minus two. Rounding goes half up, toward positive infinity.
+What happens when you unbox a null Integer?
+[THINK]
+A NullPointerException at runtime.
+Does a text block end with a newline?
+[THINK]
+Only if the closing three quotes are on their own line.
+
+In the next episode: dates and times.
