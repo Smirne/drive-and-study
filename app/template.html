@@ -1,4 +1,4 @@
-<title>TOGAF Practice Drill</title>
+<title>__P_TITLE__</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,18 +131,18 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 <div class="app" id="app">
   <section class="start" id="startView">
     <div class="strip"><a class="home" href="/">← Drive &amp; Study</a><span id="statsLine"></span></div>
-    <h1>Practice drill &amp; mock exams</h1>
-    <p>Practice questions and mock exams for the TOGAF® Enterprise Architecture Foundation exam. Read and tap in silence, or have them read aloud and answer by voice or with the car's steering-wheel buttons. The app scores you, explains the answer and remembers what you missed.</p>
+    <h1>__P_H1__</h1>
+    <p>__P_INTRO__</p>
     <div class="modes" role="radiogroup" aria-label="Answer with">
       <button class="mode" id="modeTouch" role="radio" aria-checked="false">Touch</button>
       <button class="mode" id="modeVoice" role="radio" aria-checked="true">Voice</button>
       <button class="mode" id="modeButtons" role="radio" aria-checked="false">Car buttons</button>
     </div>
     <p class="modeHint" id="modeHint"></p>
-    <button class="big" id="startAll">Practice: 20 questions with feedback</button>
+    <button class="big" id="startAll">__P_PRACTICE_LABEL__</button>
     <button class="ghost" id="startMissed" disabled>Review missed (0)</button>
-    <h2 class="section-h">Mock exams</h2>
-    <p>Like the real Part 1: 40 questions, 60 minutes, pass mark 24. No feedback until the end, then a score by topic and a review of your mistakes with explanations.</p>
+    <h2 class="section-h">__P_EXAMS_HEADING__</h2>
+    <p>__P_EXAMS_TEXT__</p>
     <div class="exams" id="examList"></div>
     <h2 class="section-h">Your results</h2>
     <div class="hist" id="historyList"></div>
@@ -151,9 +151,9 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
       <button class="ghost" id="copyAll">Copy summary</button>
     </div>
     <p class="copied" id="copiedAll"></p>
-    <a class="ghost linkbtn" href="/lessons">Audio lessons</a>
+    <a class="ghost linkbtn" href="__P_LESSONS_HREF__">Audio lessons</a>
     <dl class="how">
-      <dt>Say</dt><dd>“number two”, or words from the answer (“business scenarios”) · “repeat” · “skip”</dd>
+      <dt>Say</dt><dd>“number two”, or words from the answer (“__P_SAY_EXAMPLE__”) · “repeat” · “skip”</dd>
       <dt>Touch</dt><dd>silent: tap an answer, then <b>Next</b> after the explanation</dd>
       <dt>Buttons</dt><dd><b>next</b> on the option you want, then <b>next</b> to confirm · <b>previous</b> = question again / change</dd>
       <dt>Keys</dt><dd>1–4 · R repeat · S skip · Space pause (touch: next) · ← → previous / next</dd>
@@ -213,14 +213,10 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 const QS = /*__QUESTIONS__*/[];
 const CLIPS = /*__CLIPS__*/{};
 const EXAMS = /*__EXAMS__*/{};
+const PACK = /*__PACK__*/{};
 const IDX = Object.fromEntries(QS.map((q, i) => [q.id, i]));
-const PRACTICE = QS.map((q, i) => i).filter(i => QS[i].id.startsWith("ep"));
-const TOPIC_LABEL = { concepts: "Core concepts", terminology: "Terminology", adm: "ADM: iteration, scope, tailoring",
-  phases: "ADM phases", requirements: "Requirements management", content: "Architecture content",
-  continuum: "Continuum & repository", techniques: "ADM techniques", governance: "Governance & compliance", general: "General",
-  "p2-context": "Part 2 · Context for EA", "p2-stakeholders": "Part 2 · Stakeholder management", "p2-phaseA": "Part 2 · Phase A",
-  "p2-bcd": "Part 2 · Phases B, C, D", "p2-efg": "Part 2 · Phases E, F, G", "p2-h": "Part 2 · Phase H",
-  "p2-req": "Part 2 · Requirements management", "p2-support": "Part 2 · Supporting the ADM" };
+const PRACTICE = QS.map((q, i) => i).filter(i => QS[i].id.startsWith(PACK.practicePrefix));
+const TOPIC_LABEL = Object.assign({ general: "General" }, PACK.topics);
 const GRADED = q => Array.isArray(q.g);
 const maxPts = q => GRADED(q) ? Math.max(...q.g) : 1;
 const ptsOf = (q, given) => GRADED(q) ? (given ? q.g[given - 1] : 0) : (given === q.a ? 1 : 0);
@@ -253,8 +249,8 @@ function setMode(m) {
 
 /* ---------- storage (per-viewer, optional) ---------- */
 const store = {
-  get() { try { return JSON.parse(localStorage.getItem("togaf-drill")) || {}; } catch (e) { return {}; } },
-  set(v) { try { localStorage.setItem("togaf-drill", JSON.stringify(v)); } catch (e) {} }
+  get() { try { return JSON.parse(localStorage.getItem(PACK.statsKey)) || {}; } catch (e) { return {}; } },
+  set(v) { try { localStorage.setItem(PACK.statsKey, JSON.stringify(v)); } catch (e) {} }
 };
 let stats = store.get();   // { [qIndex]: { seen, wrong, box } }  Leitner box 0..3, 0 = needs review
 const missedList = () => QS.map((_, i) => i).filter(i => stats[i] && stats[i].box === 0);
@@ -770,7 +766,7 @@ async function endSession(reason) {
 function maxScoreClip() { let n = 0; while (CLIPS["score" + (n + 1)]) n++; return n; }
 
 /* ---------- attempts: history on this device, export ---------- */
-const HISTORY_KEY = "drill-history";
+const HISTORY_KEY = PACK.historyKey;
 function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch (e) { return []; } }
 function saveHistory(h) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(h.slice(-50))); } catch (e) {} }
 function saveAttempt(reason) {
@@ -814,7 +810,7 @@ function toCSV(attempts) {
   return rows.map(r => r.map(csvCell).join(",")).join("\n") + "\n";
 }
 function summaryText(attempts) {
-  const lines = ["# TOGAF practice results", ""];
+  const lines = ["# " + PACK.summaryTitle, ""];
   attempts.forEach(a => {
     const max = a.maxPoints || a.total, pct = Math.round(a.score / max * 100);
     lines.push(`## ${a.title} · ${a.date.slice(0, 16).replace("T", " ")}`);
@@ -947,7 +943,7 @@ function startRun(list, opts) {
   if (mode === "buttons") { dlog("mode: car buttons"); startKeepAlive(); run(list, opts); return; }
   primeMic().then(() => run(list, opts));
 }
-$("startAll").onclick = () => startRun(PRACTICE, { kind: "practice", title: "Practice drill" });
+$("startAll").onclick = () => startRun(PRACTICE, { kind: "practice", title: PACK.practiceTitle });
 $("startMissed").onclick = () => startRun(missedList(), { kind: "review", title: "Review missed" });
 $("again").onclick = () => startRun(missedList(), { kind: "review", title: "Review missed" });
 function startExam(key) {
@@ -965,10 +961,10 @@ $("reviewWrong").onclick = () => {
   startRun(missed.map(it => IDX[it.id]), { kind: "review", title: "Review: " + src.title,
     reviewOf: { attemptId: src.attemptId, title: src.title, score: src.score, total: src.total, first } });
 };
-$("dlCsv").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.csv`, toCSV([lastAttempt]), "text/csv");
-$("dlJson").onclick = () => lastAttempt && download(`togaf-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.json`, JSON.stringify(lastAttempt, null, 2), "application/json");
+$("dlCsv").onclick = () => lastAttempt && download(`${PACK.filePrefix}-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.csv`, toCSV([lastAttempt]), "text/csv");
+$("dlJson").onclick = () => lastAttempt && download(`${PACK.filePrefix}-${lastAttempt.exam || lastAttempt.kind}-${lastAttempt.attemptId}.json`, JSON.stringify(lastAttempt, null, 2), "application/json");
 $("copySummary").onclick = () => lastAttempt && copyText(summaryText([lastAttempt]), $("copiedOne"));
-$("exportAll").onclick = () => { const h = loadHistory(); if (h.length) download(`togaf-results-all-${new Date().toISOString().slice(0, 10)}.csv`, toCSV(h), "text/csv"); };
+$("exportAll").onclick = () => { const h = loadHistory(); if (h.length) download(`${PACK.filePrefix}-results-all-${new Date().toISOString().slice(0, 10)}.csv`, toCSV(h), "text/csv"); };
 $("copyAll").onclick = () => { const h = loadHistory(); if (h.length) copyText(summaryText(h.slice(-10)), $("copiedAll")); };
 let endArmed = 0;
 $("bEnd").onclick = () => {                       // two taps within 3 s, so a stray tap can't end the exam
@@ -1039,7 +1035,7 @@ if ("mediaSession" in navigator) {
   const h = { play: () => paused && $("bPause").click(), pause: () => !paused && $("bPause").click(),
               previoustrack: btnPrev, nexttrack: btnNext };
   for (const k in h) { try { navigator.mediaSession.setActionHandler(k, h[k]); } catch (e) {} }
-  try { navigator.mediaSession.metadata = new MediaMetadata({ title: "TOGAF Practice Drill", artist: "Practice exam" }); } catch (e) {}
+  try { navigator.mediaSession.metadata = new MediaMetadata({ title: PACK.mediaTitle, artist: "Practice" }); } catch (e) {}
 }
 const MODE_HINT = {
   touch: "Silent and fast: nothing is read aloud. Tap an answer; in practice you see the explanation and tap Next. In a mock exam a tap records the answer and moves on.",

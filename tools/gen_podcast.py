@@ -18,7 +18,7 @@ for block in open(src).read().split("\n\n"):
         if not line: continue
         if line == "[PAUSE]": parts.append(np.zeros(SR*4)); continue
         who, text = line.split(": ", 1)
-        s, _ = k.create(text.replace("TOGAF", "Toe-gaff"), voice=V[who], speed=1.05, lang="en-us")
+        s, _ = k.create(text.replace("TOGAF", "Toe-gaff").replace("EventStorming", "Event Storming"), voice=V[who], speed=1.05, lang="en-us")
         parts += [s, np.zeros(int(SR*0.28))]
     parts.append(np.zeros(int(SR*0.7)))
 sf.write(out, np.concatenate(parts), SR)

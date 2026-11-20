@@ -1,0 +1,46 @@
+EventStorming. Episode ten. Running it remotely.
+
+The book was rewritten during the pandemic, and Brandolini is honest about it: the Big Picture format, built on putting everyone in one room, suffered the most. Smaller formats, process modeling and software design, tolerate remote work much better. If your workshop is online or hybrid, this episode is for you.
+
+Start with what changes. No physical presence: no eye contact and, above all, no body language. No room to book and no travel, which is cheaper and easier to organize. A digital board instead of a paper roll: some things become easier, like changing a color or resizing a sticky, others less rewarding, like stepping back to admire the whole model. And the video tool and everyone's home connection are now part of your setup.
+
+Then the less obvious consequences. Lower commitment: when there's no expensive room, hotel or flight, it's easy to postpone. Easier procrastination: nobody has a plane to catch, so the urgency that used to help finish within the day is gone. No full days: video fatigue is real, so half-day sessions become the norm, especially across time zones. No peer pressure: muting the microphone to take a call is effortless. No connection time: no dinner together, no coffee-machine conversations where important things get said. Politics becomes invisible: silent nods and raised eyebrows disappear. A new digital divide: we dropped complex notations to make modeling accessible, and now we've added a tool that only some people master, with small screens and overheating laptops for others. And spontaneous parallel conversations disappear: thirty people in a room can talk in many groups, thirty people in a call means one speaker at a time.
+
+Is a remote Big Picture still worth it? Yes, in Brandolini's view, for different reasons. Remote organizations need a shared vision even more, because clarity reduces coordination overhead. His company used EventStorming to redesign its business lines quickly during the lockdowns, combining it with tools like the Business Model Canvas and Wardley maps. And online the borders between formats blur: with unlimited digital space, groups move naturally into process modeling grammar.
+
+For finding bounded contexts remotely, most heuristics still apply, except reading body language and physical positions. Notation changes a little: frames to group candidate contexts, larger stickies for pivotal events, and, yes, arrows, from an event to the subsystems that listen to it. In a physical workshop arrows are discouraged, because drawn arrows can't be moved and make people reluctant to reorganize. Online they're easy to move, so they become acceptable. Use them sparingly though, because they clutter quickly.
+
+Here are the remote patterns from the book.
+
+Split the workshop. It won't fit in one day, so accept it and split it into chunks. Some parts don't need everybody, some can run in parallel, and some can even be done alone. Warnings: you need an introductory session to teach the approach, you need some seeded structure, you need someone available to answer questions about the tool and notation, and don't expect it to be faster. People will still want to voice their concerns synchronously. Validation without a conversation is an illusion.
+
+Anticipate structure. Chaotic exploration followed by sorting worked brilliantly in a room. Online, people dump their local story without caring about global order, and sorting on a small screen is painful. Instead, seed a skeleton before people start: a few candidate pivotal events, or frames. Do it beforehand with a small group, or as a time-boxed experiment you're willing to throw away.
+
+Colors as a signature. Without handwriting, let each participant pick a color, so you know who wrote what. Later the colors return to their grammar meaning.
+
+Colors as a progress indicator. If you used colors as signatures, keep orange unassigned. During the walkthrough, each event that's been told and validated by the group turns orange. You can literally see how much has been reviewed and how much is left.
+
+Iterate on copy. Copying a board takes seconds, so make every step an experiment on a fresh copy. Time-box it, five to ten minutes, ask for a thumbs up or down, and if it didn't work, move the failed frame aside with a note on why. This makes modeling mistakes cheap.
+
+Be adjustment friendly. People tolerate five minutes of moving paper stickies, but get annoyed by two seconds of extra clicks. Frames make it easy to move whole sections.
+
+Make the modeling log readable. Decisions happen on the fly. Make them visible, so someone joining later can follow the path, including abandoned branches and the reasons for abandoning them. An idea that didn't work may just have come at the wrong moment.
+
+Make interests explicit. You can't read body language, so ask. Near the end, invite people to put their name or avatar next to the events or issues they care about, with an arrow. It feels a bit odd, but people are usually glad to be asked.
+
+Brandolini also shares a sequence that tends to work: a colored braindump, where people dump their sequences using their signature colors; frame sorting, where individual braindumps go into frames that are sorted, stretched, merged and split, a relative of chapter sorting; highlighting pivotal events with larger stickies and arrows to the frames that care about them; adding people and systems; and finally merging everything into one flow with an explicit walkthrough. A narrator tells the story, a scribe keeps the board aligned with it, and an engaged audience challenges it. The result is a validated narrative. Online, you can then copy it and play further rounds on top of it: problems and opportunities, value, arrow voting.
+
+His overall advice is not to look for a fixed recipe, but to run small, time-boxed experiments and be explicit about them. What works in a tech meetup won't necessarily work with a corporate client.
+
+Quick check.
+Why are arrows acceptable online but discouraged on paper?
+[THINK]
+On paper they're drawn and can't be moved, which discourages reorganizing the model. Online they move easily, though they still clutter.
+What does "anticipate structure" mean?
+[THINK]
+Seed a skeleton, such as candidate pivotal events or frames, before exploration, because online chaotic exploration produces unsortable local braindumps.
+How can colors show progress during a remote walkthrough?
+[THINK]
+Keep orange unassigned, and turn each event orange once it's been told and validated.
+
+The last episode is a recap podcast, ideal the evening before your workshop.

@@ -1,0 +1,50 @@
+EventStorming. Episode four. Big Picture, part two: people, systems, stories and choices.
+
+We left the group with a rough timeline and some hot spots. In this episode we complete the Big Picture: people and systems, the explicit walkthrough, the reverse narrative, money and value, problems and opportunities, and finally choosing the problem worth solving.
+
+First, people and external systems. Events don't happen in a vacuum, so we add the actors and the outside world. Little yellow stickies represent people, and large pink stickies represent external systems. Brandolini deliberately says "people" instead of actors, users, roles or personas, because that word doesn't belong to any specific modeling school, and everyone can join the conversation. Expect anything from a generic "customer" to "new customer" versus "returning customer", or even named individuals. The goal isn't to attach a yellow sticky to every event. It's to trigger conversations wherever behavior depends on who is involved.
+
+For systems, the book's fuzzy definition is memorable: an external system is whatever we can put the blame on. A payment provider, the ticketing platform, the tax authority, another department that wasn't invited, a regulation, even "bad luck" or "the weather". These odd stickies are useful. Modeling bad luck, for example, made one group add events for things that could go wrong, like a speaker missing a flight. Whenever in doubt, put it on the wall: at worst you've wasted one sticky note.
+
+Systems also reveal attitudes. Listen to how developers talk about legacy software: sometimes it's "us", sometimes it's "that thing we maintain and hate". And once a system is visible, sarcastic comments start. Capture them as hot spots. Don't let people summarize too much either: "social networks" hides the real differences between platforms. If more detail enriches the model, add it.
+
+Next, the explicit walkthrough. Ask someone to tell the story connecting the events, from left to right, literally walking along the wall while speaking. Speaking aloud is the trick. Our brain takes shortcuts when we just look, but when we must form complete sentences in front of others, the gaps become obvious: wait, how does the customer even find our website? The story should feel bumpy, forcing more events to be added. That bumpiness means it's working.
+
+Being the narrator is tiring, because everyone can, and should, interrupt and challenge. Change narrator when you reach a pivotal event, like a relay race: "and this is where Mary's team takes over". Meanwhile, the facilitator makes sure the spoken story and the wall stay aligned, adding missing events and systems on the fly.
+
+Some discussions can't be solved in the room. When a conversation isn't converging, mark it with a hot spot, so it won't be forgotten, and move on. But some discussions are long-awaited, and the workshop may be the only chance to have them. Read the body language, or simply ask the group whether to continue. Don't kill a valuable discussion just to follow your schedule.
+
+Then the reverse narrative. Pick an event near the end of the flow, and ask what must have happened for it to be possible. "Is event A all it takes to have event B?" Walk backwards in strict causal order, adding whatever is missing. The book's example is a training company delivering attendance certificates. Working backwards, they needed the trainer's signature, then printing, then participants' names, which weren't always known for group tickets, which revealed the need for events like participant registered and ticket transferred. Brandolini reports that the reverse narrative typically uncovers a big portion of the system, maybe thirty or forty percent, that was hidden under optimistic forward thinking. Good starting points are terminal events and pivotal events.
+
+The walkthrough and the reverse narrative take time. If your time box is tight, you may shorten them to complete the last phases, but they are usually time well spent.
+
+Two optional layers come next. The first is money. Developers in particular tend to forget it: suppliers that must be paid, invoices to send and receive, refunds. If the money people aren't in the room, run a short round focused on the money flow. The pattern is called "money on the table". Do it as a separate round, after the natural exploration, because money tends to displace other perspectives.
+
+The second is value, which the book explores in a chapter called "playing with value". Use small green stickies where value is created, and red where value is destroyed, for any party involved. Money is only one currency. Others are time, reputation, safety, pride, stress, awareness, happiness. A speaker submitting a talk to a conference gains little money, but may gain reputation and lose time and peace of mind waiting for an answer. Looking at value reveals contrasting perspectives, like a new sales lead that sales see as an opportunity while the technical team sees it as unplanned work. Sometimes it reveals that an organization has lost sight of its purpose. Brandolini warns that this step needs the right people and an organization that's ready to deal with what it finds.
+
+Then, problems and opportunities. Now officially open the floor: give everyone a time box of ten to fifteen minutes to add problems, as purple hot spots, and opportunities, on green stickies. Most problems have probably surfaced already, but this round gives a safe way to make an opinion visible without open conflict, which works very well in corporate settings. The green stickies balance the purple flood: there are solutions and problem solvers in the room too.
+
+Finally, pick your problem, usually with arrow voting. Each participant gets two votes, small blue stickies shaped like arrows, and points them at the problems or opportunities they consider most important. Both votes can go to the same target. Voting happens more or less at the same time, not in a queue. The facilitator watches for power plays: for instance, gently asking the most influential person in the room to wait before voting, so they don't sway the others. The result is a visible indication of where to focus the next morning.
+
+Should you always vote? No. Don't vote when the wrong mix of people is in the room, so you'd get one partisan view; when the scope was too narrow, so the real constraint may be elsewhere; when there are confidentiality constraints, such as a pre-sales exploration where the client doesn't want to expose weaknesses; or when it's simply too early, like a startup that only has assumptions to test.
+
+Underneath the voting is a Theory of Constraints idea. In a flow there is usually one main bottleneck. Improving around it brings big benefits; improving elsewhere brings little. Once the group agrees on the problem, don't lose momentum by doing something else.
+
+How do you know it went well? Brandolini's best sign is a feeling: people happily tired, looking at the wall, with a sense of "this mess is us". He also suggests a visual check. Are there hot spots? No conflicts usually means someone was missing, or someone was lying. Are there enough events? For a two-hour session, roughly a hundred to two hundred; fewer suggests you only scratched the surface. Are the external systems visible? Did you explicitly ask "what's missing from this picture?"
+
+And sometimes a workshop that feels like a failure is still useful. In one story, the owner dominated the session and nobody dared to contradict him; the facilitator learned in two hours that the project was doomed, which was valuable information.
+
+Wrap up by taking pictures: a panorama and close-ups. Roll up the paper carefully with the stickies still on it. You'll rarely look at it again, but participants feel safer knowing it exists.
+
+Quick check.
+What is the reverse narrative?
+[THINK]
+Starting from an event near the end and asking what had to happen before it, adding missing events in causal order.
+In arrow voting, how many votes does each person get, and what do they point at?
+[THINK]
+Two votes, pointing at problems or opportunities.
+Give two reasons not to run a vote.
+[THINK]
+Any two of: the wrong mix of people, the wrong scope, confidentiality constraints, or it's too early, as in an early startup.
+
+In the next episode, we focus on you, the facilitator: the patterns and anti-patterns from the book.

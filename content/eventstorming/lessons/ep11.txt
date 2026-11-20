@@ -1,0 +1,89 @@
+S: Welcome to the EventStorming recap. I'm Sara.
+A: And I'm Alex. This is the episode for the evening before your workshop. One pass through everything, with a checklist and a quick quiz at the end.
+S: Let's start with the one-sentence version. What is EventStorming?
+A: A workshop where people who know a business and people who need to understand it build a model together, by placing events on a timeline, on a very long wall.
+S: And the events are orange sticky notes, written with a verb in the past tense. Order placed. Ticket sold.
+A: The book's subtitle says it all: an act of deliberate collective learning. The paper roll isn't the deliverable. The learning is.
+S: Why does it work?
+A: Because nobody knows the whole story. Knowledge is split into silos, agreeing is expensive, and software teams are far from the people who know the business. EventStorming puts everyone in front of the same model at the same time.
+S: Three principles to remember. Fuzzy definitions, so nobody is excluded by notation. Incremental notation, with a visible legend. And an unlimited modeling surface.
+A: Then three formats. Big Picture, for a whole line of business, with a broad crowd, aiming at discovery. Process Modeling, for one process, with a stricter color grammar. And Software Design, or Design-Level, where the development team designs the solution, with aggregates.
+
+S: Preparation. Who do we invite?
+A: People with questions, people with answers, and a facilitator. Or, more simply: people who care about the problem. Across departments and across hierarchy. Including the people who disagree.
+S: And the room?
+A: A long straight wall, eight meters at least, with a paper roll. Space to walk in front of it. Table pushed aside, chairs stacked in a corner, available later. A flip chart for the legend. One marker per person, plus spares. Hundreds of orange stickies. Healthy food, fresh air, a visible clock.
+S: Seats are poisonous, and laptops stay closed.
+
+A: Now the Big Picture, phase by phase.
+S: Kick-off. Short introductions, state the goal, warn that it will feel chaotic and awkward, and don't sell the method. Don't talk, show.
+A: Chaotic exploration. Everyone writes orange events and places them on the timeline. There's an awkward stand-off until an icebreaker places the first sticky. Praise them.
+S: Break up committees. Keep duplicates, because different wordings may reveal different meanings. Be relaxed about past tense, but push back on phase names like "registration", which hide details.
+A: Then quiet chaos: everyone working in parallel, until the group steps back and contemplates. Break time.
+S: Enforce the timeline. Make the flow consistent end to end. Sorting strategies: pivotal events marked with tape, swimlanes, temporal milestones, and chapter sorting when space runs out.
+A: The facilitator marks hot spots, purple stickies, wherever the discussion heats up. Hard on the problem, soft on the people.
+S: People and systems. Small yellow stickies for people, large pink for external systems. And the definition of an external system?
+A: Whatever we can put the blame on. Even "bad luck".
+S: Explicit walkthrough. A narrator tells the story aloud, walking along the wall, and everyone can interrupt. Change narrator at pivotal events.
+A: Reverse narrative. Start from an event near the end and ask what must have happened before it. It often reveals a third of the system that was hidden.
+S: Optional rounds: money on the table, and playing with value, green for value created, red for value destroyed, in many currencies, not just money.
+A: Problems and opportunities: a time box where everyone adds purple problems and green opportunities.
+S: And arrow voting. Two blue arrows each, pointing at the most important problem or opportunity. Watch for power plays.
+A: But don't vote with the wrong people, the wrong scope, confidentiality constraints, or too early.
+S: Did it go well? People happily tired. Hot spots on the wall. Around a hundred to two hundred events for a two-hour session. External systems visible. And you asked: what's missing from this picture?
+
+A: Facilitation patterns, quickly.
+S: Do first, explain later. Guess first. The right to be wrong. Be the worst, if you must break the ice yourself.
+A: Speak out loud. Keep your mouth shut when you see the solution first. Go personal: ask quiet people what they do.
+S: We only talk about visible things. Add more space when the wall fills up. Conquer first, divide later.
+A: And the anti-patterns: ask questions first, the committee, divide and conquer, the karaoke singer, precise notation, the religion war, the spoiler with the specification document, and starting at the far left edge.
+
+S: Bounded contexts. The core idea?
+A: Merge the people, split the software.
+S: The clues: pivotal events and business phases, swimlanes, different people on the wall, where the humans stood, body language, and language. Trust verbs more than nouns.
+A: A talk is submitted, scheduled, hosted, rated, filmed and published. Same noun, six purposes.
+
+S: Process Modeling. The color grammar.
+A: A person looks at a green read model and decides. The decision is a blue command. A pink system handles it and produces orange events. Read models update. And lilac policies react: whenever this happens, we do that.
+S: The rule: a system between command and event, a policy between event and command.
+A: Events come from users, external systems, time, or other events.
+S: Policies are where people lie. Say them out loud, and add the magic words: always, immediately.
+A: You win when all paths reach a stable state, the grammar has no holes, every hot spot is addressed, and stakeholders are reasonably happy.
+S: Strategies: start from the beginning, from the end, or make a little mess first. Recognize the rabbit hole. Turn every unexplored branch into a hot spot. And rush to the goal: a baseline first, then improve.
+
+A: Design-Level. One problem, the dev team and a few experts, and it ends with a robust candidate solution, not when time runs out.
+S: Aggregates: units of consistency. Find responsibilities first, then the information they need, and name them last. They are not read models.
+A: Rewrite events while they're paper. Then code as soon as possible.
+S: And event sourcing?
+A: A separate decision. EventStorming is a workshop. Event sourcing stores events as the source of truth. Commands map to requests, aggregates decide, events are stored and published, policies become handlers or sagas, read models become projections.
+S: Remote: split the workshop, anticipate structure, colors as signatures and as progress, iterate on copy, make the log readable, and ask people what they care about.
+
+A: Now your checklist for tomorrow.
+S: Paper roll, much more than you need. Tape. Orange stickies by the hundred, plus pink, yellow, purple, green, and blue arrows. One good marker per person. The legend ready, with only the orange event on it.
+A: Get to the room early. Table aside, chairs in the corner, paper on the wall.
+S: Have a one-sentence goal ready, and your first instruction: orange, past tense, relevant, on the timeline.
+A: Decide your time boxes, and decide in advance whether you'll vote.
+S: Keep a stack of purple stickies in your pocket for hot spots.
+A: And book the room a bit longer, for pictures and a debrief.
+
+S: Rapid fire quiz. Answer before we do.
+A: What color is a policy?
+[PAUSE]
+S: Lilac.
+A: What's the sorting strategy for when the wall is too packed to move anything?
+[PAUSE]
+S: Chapter sorting.
+A: Which anti-pattern is a group agreeing on wording before writing?
+[PAUSE]
+S: The committee.
+A: How many arrows does each person get in arrow voting?
+[PAUSE]
+S: Two.
+A: What's between an event and a command in the grammar?
+[PAUSE]
+S: A policy.
+A: And finally: merge the people, and…
+[PAUSE]
+S: Split the software.
+A: That's it. Good luck with your workshop.
+S: Enjoy the chaos. It's supposed to feel that way.

@@ -1,0 +1,632 @@
+[
+ {
+  "id": "concepts-1",
+  "topic": "es-basics",
+  "q": "How should a domain event be written on a sticky note in EventStorming?",
+  "o": [
+   "With a verb in the imperative, such as sell ticket.",
+   "With a verb in the past tense, such as ticket sold.",
+   "As a noun naming the business phase, such as ticketing.",
+   "As a question the business must answer, such as is the ticket valid."
+  ],
+  "a": 2,
+  "e": "The answer is two. A domain event is something relevant that happened, written with a verb in the past tense. An imperative, like sell ticket, is the form of a command. A phase name hides the details we want to discover."
+ },
+ {
+  "id": "concepts-2",
+  "topic": "es-basics",
+  "q": "According to the book, what is the most valuable outcome of a Big Picture EventStorming?",
+  "o": [
+   "The paper roll, which becomes the official process documentation.",
+   "A complete list of requirements for the software team.",
+   "The collective learning of the people who took part.",
+   "A signed agreement on the target process between departments."
+  ],
+  "a": 3,
+  "e": "The answer is three. The book presents EventStorming as an act of deliberate collective learning. The model is an excuse to have the right conversations, and the paper roll is a means, not the deliverable."
+ },
+ {
+  "id": "concepts-3",
+  "topic": "es-basics",
+  "q": "Which three workshop formats does the book describe?",
+  "o": [
+   "Big Picture, Process Modeling and Software Design.",
+   "Kick-off, Retrospective and Release Planning sessions.",
+   "Discovery, Delivery and Operations.",
+   "Strategic, Segment and Capability."
+  ],
+  "a": 1,
+  "e": "The answer is one. Big Picture explores a whole line of business, Process Modeling designs one process, and Software Design, also called Design-Level, designs the software for a specific problem."
+ },
+ {
+  "id": "concepts-4",
+  "topic": "es-basics",
+  "q": "Why does Brandolini deliberately avoid precise definitions of the building blocks in the early phases?",
+  "o": [
+   "Because the method is still too new to have stable, agreed definitions for each color.",
+   "Because precise definitions are only needed when writing code.",
+   "Because each facilitator is expected to invent their own notation.",
+   "Because precise notation excludes people and forces premature agreement."
+  ],
+  "a": 4,
+  "e": "The answer is four. Fuzzy definitions keep the conversation open to everyone, whatever their background, and let different interpretations become visible instead of being settled too early. Precision is added gradually."
+ },
+ {
+  "id": "concepts-5",
+  "topic": "es-basics",
+  "q": "What is the relationship between EventStorming and event sourcing?",
+  "o": [
+   "They are different names for the same technique.",
+   "EventStorming is a workshop; event sourcing is a persistence pattern.",
+   "Event sourcing is the remote version of an EventStorming workshop.",
+   "EventStorming can only be used when the software will be event sourced."
+  ],
+  "a": 2,
+  "e": "The answer is two. EventStorming is a collaborative modeling workshop. Event sourcing stores the history of events as the source of truth in software. A design-level session maps naturally onto an event-driven design, but the two are independent choices."
+ },
+ {
+  "id": "concepts-6",
+  "topic": "es-prep",
+  "q": "Which three kinds of participant does the book list for a Big Picture workshop?",
+  "o": [
+   "Sponsors, users and developers.",
+   "Business owners, enterprise architects and a scribe who writes for the group.",
+   "Managers, analysts and testers.",
+   "People with questions, people with answers, and a facilitator."
+  ],
+  "a": 4,
+  "e": "The answer is four. The book then admits the split is artificial, since everyone learns, and suggests a simpler criterion: invite people who care about the problem."
+ },
+ {
+  "id": "concepts-7",
+  "topic": "es-prep",
+  "q": "How should the room be prepared before a Big Picture workshop starts?",
+  "o": [
+   "Chairs around a central table, so everyone can see each other.",
+   "A projector and a shared document, so the scribe can type the model.",
+   "A long paper roll on a straight wall, with the table aside and chairs stacked away.",
+   "Several small tables, each with a group working on its own department's part of the flow."
+  ],
+  "a": 3,
+  "e": "The answer is three. The book wants an unlimited modeling surface on a long wall, space to move in front of it, and no seats at the start, because seats invite passive listening and laptops."
+ },
+ {
+  "id": "concepts-8",
+  "topic": "es-prep",
+  "q": "What is the purpose of the pattern called one person, one marker?",
+  "o": [
+   "To avoid committees around a single scribe and keep the work parallel.",
+   "To track who wrote each sticky note.",
+   "To make sure each department uses a different color, so their events can be told apart.",
+   "To limit the number of stickies each person can add."
+  ],
+  "a": 1,
+  "e": "The answer is one. If only a few people can write, the others gather around them and dictate, and the workshop slows down to one conversation at a time. Everyone needs a working marker."
+ },
+ {
+  "id": "concepts-9",
+  "topic": "es-prep",
+  "q": "For a Big Picture workshop, what is usually the dominant constraint on its duration?",
+  "o": [
+   "The amount of paper and sticky notes available.",
+   "The time needed to model every flow completely.",
+   "The availability of the key people.",
+   "The number of hot spots that need to be solved."
+  ],
+  "a": 3,
+  "e": "The answer is three. Key people are busy, so the workshop must maximize learning in the time available, knowing it won't cover everything."
+ },
+ {
+  "id": "concepts-10",
+  "topic": "es-bigpicture",
+  "q": "At the start of chaotic exploration, nobody dares to place the first sticky. What does the book suggest?",
+  "o": [
+   "The facilitator explains the method in detail until everyone is ready.",
+   "Wait for an icebreaker to place a first event, and praise them for it.",
+   "Ask the most senior person to write the first ten events.",
+   "Split the group into teams and assign each team one part of the timeline to fill in."
+  ],
+  "a": 2,
+  "e": "The answer is two. An icebreaker shows that it's easy and nobody gets hurt. If no participant moves, the facilitator may place an example and then step away from the wall."
+ },
+ {
+  "id": "concepts-11",
+  "topic": "es-bigpicture",
+  "q": "During chaotic exploration, two stickies describe what seems to be the same event with different wording. What should you do?",
+  "o": [
+   "Keep both for now, because the difference may reveal different meanings.",
+   "Ask the domain expert to choose the correct wording.",
+   "Merge them immediately to keep the timeline clean.",
+   "Remove both, and ask the group to discuss and write a single agreed version."
+  ],
+  "a": 1,
+  "e": "The answer is one. Different wordings often point to different perspectives or meanings, and later hint at different bounded contexts. Resolving them too early hides exactly what we want to discover."
+ },
+ {
+  "id": "concepts-12",
+  "topic": "es-bigpicture",
+  "q": "Which sorting strategy does the book describe as the emergency move when the wall is too packed to rearrange?",
+  "o": [
+   "Pivotal events.",
+   "Swimlanes.",
+   "Temporal milestones.",
+   "Chapter sorting."
+  ],
+  "a": 4,
+  "e": "The answer is four. With chapter sorting, the group extracts fifteen to twenty-five chapters of the business story, sorts them on a separate surface, then reorganizes the main flow around them."
+ },
+ {
+  "id": "concepts-13",
+  "topic": "es-bigpicture",
+  "q": "What are pivotal events?",
+  "o": [
+   "Events that only the facilitator is allowed to write.",
+   "The first and the last event of the timeline.",
+   "Events that happen on a fixed schedule, such as end of month or end of quarter.",
+   "A few key events that mark transitions between business phases."
+  ],
+  "a": 4,
+  "e": "The answer is four. Pivotal events, like order placed or payment received, often interest many departments. Marking them with tape splits the flow into phases and speeds up sorting."
+ },
+ {
+  "id": "concepts-14",
+  "topic": "es-bigpicture",
+  "q": "What is the book's fuzzy definition of an external system?",
+  "o": [
+   "Any software not developed by the organization.",
+   "Any system with an integration interface.",
+   "Whatever we can put the blame on.",
+   "Any department not invited to the workshop."
+  ],
+  "a": 3,
+  "e": "The answer is three. The deliberately loose definition lets people add anything from payment providers to regulations, other departments, or even bad luck, which can reveal risks."
+ },
+ {
+  "id": "concepts-15",
+  "topic": "es-bigpicture",
+  "q": "What is the reverse narrative?",
+  "o": [
+   "Starting from an event near the end and asking what had to happen before it.",
+   "Reading the timeline from right to left to check that every sticky is spelled consistently.",
+   "Letting the most junior participant tell the story.",
+   "Removing events one by one until the flow breaks."
+  ],
+  "a": 1,
+  "e": "The answer is one. Working backwards in causal order exposes missing steps and information. The book reports it often reveals a large part of the system hidden by optimistic forward thinking."
+ },
+ {
+  "id": "concepts-16",
+  "topic": "es-bigpicture",
+  "q": "In arrow voting at the end of a Big Picture, what does each participant do?",
+  "o": [
+   "Rank all hot spots from most to least important.",
+   "Place two arrows on the problems or opportunities they find most important.",
+   "Vote by raising hands for each proposal that the facilitator reads out to the room.",
+   "Draw arrows between related events to show which ones depend on each other."
+  ],
+  "a": 2,
+  "e": "The answer is two. Each person gets two votes, small blue arrows, pointing at purple problems or green opportunities, and everyone votes more or less at the same time."
+ },
+ {
+  "id": "concepts-17",
+  "topic": "es-bigpicture",
+  "q": "Which situation is a reason not to run a vote at the end of a Big Picture?",
+  "o": [
+   "The group found more than twenty hot spots.",
+   "The workshop ran more than two hours.",
+   "Some events were written in the present tense instead of the past tense.",
+   "A single partisan perspective dominated the people in the room."
+  ],
+  "a": 4,
+  "e": "The answer is four. The book lists the wrong mix of people, the wrong scope, confidentiality constraints, and being too early, as in a startup with only assumptions, as reasons not to vote."
+ },
+ {
+  "id": "concepts-18",
+  "topic": "es-bigpicture",
+  "q": "When playing with value, how does the book suggest marking value created and value destroyed?",
+  "o": [
+   "Green for value created, red for value destroyed, in any currency.",
+   "Dollar signs on the events where money is received.",
+   "Blue arrows from the customer to each paid step.",
+   "Purple stickies for every cost and orange stickies for every source of revenue."
+  ],
+  "a": 1,
+  "e": "The answer is one. Value comes in many currencies, such as time, reputation, safety or stress, and contrasting perspectives on value often reveal hidden conflicts."
+ },
+ {
+  "id": "concepts-19",
+  "topic": "es-facilitation",
+  "q": "What does the pattern do first, explain later mean?",
+  "o": [
+   "Let the experts work first, and explain the result to the newcomers.",
+   "Write the whole model first, then explain it to the participants.",
+   "Let people try with minimal instructions, and explain when real questions arise.",
+   "Run the workshop first, and send a detailed explanation of the method afterwards by email."
+  ],
+  "a": 3,
+  "e": "The answer is three. Theory without experience doesn't stick. Give the minimum needed to start, and explain once people have a partial model and real questions."
+ },
+ {
+  "id": "concepts-20",
+  "topic": "es-facilitation",
+  "q": "Two architects are arguing about a solution that exists only in their heads. Which rule does the book suggest?",
+  "o": [
+   "Let the most senior architect decide, to save time.",
+   "We only talk about visible things: model both alternatives, then choose.",
+   "Postpone the discussion until after the workshop.",
+   "Ask the whole group to vote immediately between the two positions, to keep the workshop moving."
+  ],
+  "a": 2,
+  "e": "The answer is two. This is the religion war anti-pattern. Make both alternatives visible, adding space if needed, and only choose between visible options."
+ },
+ {
+  "id": "concepts-21",
+  "topic": "es-facilitation",
+  "q": "What is the guess first pattern?",
+  "o": [
+   "The facilitator guesses the main problem before the workshop, to prepare a focused agenda.",
+   "Newcomers guess how the system works and write it down, so wrong guesses get corrected.",
+   "Participants guess the number of events before starting.",
+   "The group guesses which hot spot will win the vote."
+  ],
+  "a": 2,
+  "e": "The answer is two. A lecture hides misunderstandings and skips the obvious. Visible guesses trigger corrections, and create curiosity for the expert's explanation."
+ },
+ {
+  "id": "concepts-22",
+  "topic": "es-facilitation",
+  "q": "Why does the book recommend speaking out loud when telling the story or reading a policy?",
+  "o": [
+   "Because it makes the workshop more entertaining and keeps the audience's energy high.",
+   "Because the facilitator needs to record the session.",
+   "Because complete sentences said in front of others expose gaps in our reasoning.",
+   "Because remote participants can't see the wall."
+  ],
+  "a": 3,
+  "e": "The answer is three. Our brain takes shortcuts and pretends to understand. Speaking aloud activates the part of us that doesn't want to sound stupid, so we correct ourselves, or someone else does."
+ },
+ {
+  "id": "concepts-23",
+  "topic": "es-bc",
+  "q": "According to the book, which clue is the least reliable when looking for bounded contexts?",
+  "o": [
+   "Shared nouns that everyone agrees on, like a talk has a title.",
+   "Pivotal events separating business phases.",
+   "Where the experts spent most of their time standing during the workshop.",
+   "Swimlanes for independent processes."
+  ],
+  "a": 1,
+  "e": "The answer is one. Nouns fool us, because people agree on static data while meaning different things. Verbs, such as submitted, scheduled or rated, reveal different purposes and so different models."
+ },
+ {
+  "id": "concepts-24",
+  "topic": "es-bc",
+  "q": "Which sentence does Brandolini use to sum up the idea of discovering bounded contexts with EventStorming?",
+  "o": [
+   "Divide and conquer.",
+   "Design first, code later.",
+   "One model to rule them all.",
+   "Merge the people, split the software."
+  ],
+  "a": 4,
+  "e": "The answer is four. Bring everyone together to learn, and then build separate models where the purposes differ. He adds that for years we did the opposite."
+ },
+ {
+  "id": "concepts-25",
+  "topic": "es-process",
+  "q": "In the process modeling color grammar, what must sit between an orange event and a blue command?",
+  "o": [
+   "A pink system.",
+   "A lilac policy.",
+   "A green read model.",
+   "A yellow person."
+  ],
+  "a": 2,
+  "e": "The answer is two. A policy captures the reactive logic: whenever this happens, then we do that. Between a command and an event there must be a system."
+ },
+ {
+  "id": "concepts-26",
+  "topic": "es-process",
+  "q": "Which of these is not one of the four sources of domain events in the book?",
+  "o": [
+   "A user interaction.",
+   "The passing of time.",
+   "A reaction to another event.",
+   "A read model being displayed."
+  ],
+  "a": 4,
+  "e": "The answer is four. Events come from user interactions, external systems, time, or as a reaction to other events. A read model is information used to make a decision; it doesn't produce events by itself."
+ },
+ {
+  "id": "concepts-27",
+  "topic": "es-process",
+  "q": "Which two magic words does the book use to uncover the real behavior behind a policy?",
+  "o": [
+   "Never and sometimes.",
+   "Who and why.",
+   "Always and immediately.",
+   "Before and after."
+  ],
+  "a": 3,
+  "e": "The answer is three. Repeating a policy with always or immediately quickly triggers objections and exceptions, revealing the real rules, or competing policies."
+ },
+ {
+  "id": "concepts-28",
+  "topic": "es-process",
+  "q": "Which is one of the four winning conditions of the process modeling game?",
+  "o": [
+   "All stakeholders involved are reasonably happy.",
+   "Every event has exactly one command before it.",
+   "The process fits on six meters of paper.",
+   "The domain expert has approved every sticky note."
+  ],
+  "a": 1,
+  "e": "The answer is one. The four conditions are: all paths reach a stable state, the color grammar has no holes, every hot spot is addressed, and stakeholders are reasonably happy."
+ },
+ {
+  "id": "concepts-29",
+  "topic": "es-design",
+  "q": "What does the book recommend when looking for aggregates in a design-level session?",
+  "o": [
+   "Start from the data shown on the screens, then group it into aggregates.",
+   "Name the aggregates first, using the main nouns of the business, then add their data.",
+   "Find responsibilities and the information they need, and name the aggregate last.",
+   "Create one aggregate for each bounded context."
+  ],
+  "a": 3,
+  "e": "The answer is three. Starting from data drags in everything the screen needs, which belongs to read models. Responsibilities first, information second, name last."
+ },
+ {
+  "id": "concepts-30",
+  "topic": "es-remote",
+  "q": "In remote Big Picture workshops, why does the book suggest anticipating structure, for example seeding candidate pivotal events or frames?",
+  "o": [
+   "Because digital tools can't handle more than a hundred stickies.",
+   "Because online, people dump only their local story, and sorting a messy board on a small screen is painful.",
+   "Because remote participants are less expert than in-person ones.",
+   "Because the facilitator must approve every single event before participants are allowed to add it to the board."
+  ],
+  "a": 2,
+  "e": "The answer is two. In a room, chaos followed by sorting works well. Online, the result is clusters of local stories that are very hard to sort, so a seeded skeleton works better."
+ },
+ {
+  "id": "scenarios-1",
+  "topic": "es-prep",
+  "sc": "You will facilitate a Big Picture workshop for a mid-size utility. The meeting room has a huge table in the middle, eighteen chairs, a screen, and a short whiteboard. Participants arrive in forty minutes, and several of them are senior managers who expect a normal meeting.",
+  "q": "How do you use the forty minutes?",
+  "o": [
+   "Move the table aside, stack the chairs in a corner, tape a long paper roll to the longest wall, and set out the legend, markers and stickies.",
+   "Leave the furniture as it is, so the managers feel comfortable, but tape the paper roll on the wall behind the screen and ask people to come to the wall when they want to add events.",
+   "Prepare a short slide deck explaining the method, the colors and the phases, so that the senior managers understand the approach before anyone writes a sticky note.",
+   "Ask the organizer to move the workshop to another day with a better room, since the current room makes a Big Picture impossible and a rushed start would damage the method's reputation."
+  ],
+  "a": 1,
+  "g": [
+   5,
+   3,
+   0,
+   1
+  ],
+  "e": "The best answer is one, for five points. The book's advice is to hack the space before people arrive: a long wall, space to move, no table in the middle, seats available but out of the way, and a visible legend. The unusual setup itself creates curiosity. Option two scores three: the paper is there, but seated people around a big table become passive and few will stand up. Option four scores one: a better room helps, but postponing loses the key people's availability, and the room can be fixed in forty minutes. Option three scores zero: a long explanation upfront goes against do first, explain later, and keeps everyone sitting."
+ },
+ {
+  "id": "scenarios-2",
+  "topic": "es-bigpicture",
+  "sc": "Ten minutes into chaotic exploration, a group of four has gathered in front of the wall. They're discussing the exact wording of a single event, and one of them holds the only marker the group is using. The rest of the room is writing quietly on their own.",
+  "q": "What should you do?",
+  "o": [
+   "Leave them alone, because agreeing on the wording now will save time during the sorting phase later.",
+   "Join the group and help them reach an agreement quickly, so they can move on to the next events.",
+   "Give everyone in the group a marker and ask each person to write their own version.",
+   "Announce to the whole room that from now on each event must be agreed by at least two people before it goes on the wall."
+  ],
+  "a": 3,
+  "g": [
+   1,
+   3,
+   5,
+   0
+  ],
+  "e": "The best answer is three, for five points. This is the committee anti-pattern, made worse by a single marker. Breaking it up restores parallel work, and different wordings stay visible, which is valuable. Option two scores three: it speeds them up, but still serializes their work and hides alternatives. Option one scores one: the committee will drag on and its alternatives will be lost. Option four scores zero: it turns the whole room into committees."
+ },
+ {
+  "id": "scenarios-3",
+  "topic": "es-bigpicture",
+  "sc": "Several participants have written stickies like Onboarding, Billing and Customer Care, and placed them along the timeline. Others are writing proper past-tense events. One developer asks you, loudly, whether those phase stickies are wrong.",
+  "q": "How do you handle it?",
+  "o": [
+   "Without calling them wrong, ask the authors what happens inside Onboarding, and turn the answers into past-tense events.",
+   "Say yes, they're wrong, and ask the authors to remove them so the model follows the notation from the start.",
+   "Keep the phase stickies as they are and use them as swimlane titles, since they already give the model a useful, readable structure.",
+   "Tell the developer that notation doesn't matter at this stage, and move on without touching the phase stickies."
+  ],
+  "a": 1,
+  "g": [
+   5,
+   1,
+   0,
+   3
+  ],
+  "e": "The best answer is one, for five points. Phase names hide the details we want to discover, so they need to be unpacked into events, but without making people feel examined. Option four scores three: being relaxed about grammar is right early on, but phases are the one case worth pushing on. Option two scores one: the push is right, but the word wrong and the public correction damage confidence. Option three scores zero: it freezes the official version of the process before we discover the real one."
+ },
+ {
+  "id": "scenarios-4",
+  "topic": "es-bigpicture",
+  "sc": "During timeline enforcement, the sales manager and the head of operations disagree loudly about when a contract becomes binding. The discussion has gone on for ten minutes, the rest of the room is watching, and it isn't converging. Some participants look bored, while others seem very interested.",
+  "q": "What should you do?",
+  "o": [
+   "Ask the most senior person present to decide, so the workshop can continue.",
+   "Let the discussion continue as long as needed, since conflicts are exactly what the workshop is for.",
+   "Stop the discussion and remind everyone that the agenda doesn't allow for long debates.",
+   "Mark it with a hot spot, then ask the room whether to continue now or move on."
+  ],
+  "a": 4,
+  "g": [
+   0,
+   1,
+   3,
+   5
+  ],
+  "e": "The best answer is four, for five points. Non-converging discussions get a hot spot and the flow continues, but some discussions are long-awaited, so reading the room or simply asking is the right call. Option three scores three: moving on is often right, but without a hot spot the issue may be lost, and the agenda is not a reason in itself. Option two scores one: it ignores everyone else's time and the signals of boredom. Option one scores zero: an authority decision hides the conflict instead of making it visible."
+ },
+ {
+  "id": "scenarios-5",
+  "topic": "es-facilitation",
+  "sc": "The founder of a company knows the business best and keeps answering every question. The developers have stopped writing stickies and are just asking him questions one after another. The model on the wall has barely grown in twenty minutes.",
+  "q": "What do you do?",
+  "o": [
+   "Ask everyone to write events as they imagine them, guessing where needed, and let the founder correct the wall.",
+   "Thank the founder and ask him to dictate the main events while you write them, since he clearly holds the knowledge.",
+   "Ask the founder to leave the room for half an hour so that the others feel free to contribute.",
+   "Let it go on, since the developers are learning a lot from the founder's answers."
+  ],
+  "a": 1,
+  "g": [
+   5,
+   1,
+   0,
+   3
+  ],
+  "e": "The best answer is one, for five points. This is the ask questions first anti-pattern. Parallel writing and guess first turn the expert's knowledge into corrections on visible guesses, which is faster and makes misunderstandings visible. Option four scores three: learning is happening, but at the speed of one conversation, and it skips the exploration of the whole. Option two scores one: it keeps the founder as the only source and makes you the scribe. Option three scores zero: it removes the person with the most answers."
+ },
+ {
+  "id": "scenarios-6",
+  "topic": "es-bigpicture",
+  "sc": "You have just finished the explicit walkthrough. The flow looks reasonable, everybody seems satisfied, and there are forty minutes left. You have only six hot spots on the wall, and the money side of the business has barely been discussed.",
+  "q": "What is your best next move?",
+  "o": [
+   "Close the workshop early, since everyone agrees on the flow and there are few problems.",
+   "Run a reverse narrative from a few terminal events, then a short round on the money flow, and keep the last fifteen minutes for problems, opportunities and arrow voting.",
+   "Go straight to arrow voting on the six hot spots, since they represent the main problems.",
+   "Start designing solutions for the six hot spots with the people in the room."
+  ],
+  "a": 2,
+  "g": [
+   0,
+   5,
+   3,
+   1
+  ],
+  "e": "The best answer is two, for five points. Few hot spots and little money discussion are signs you haven't dug deep enough. The reverse narrative typically uncovers missing parts, the money round addresses a common blind spot, and the final rounds let everyone contribute before choosing. Option three scores three: it ends with a focus, but on a shallow picture. Option four scores one: it jumps to solutions before the picture is complete. Option one scores zero: \"no conflicts\" usually means something or someone is missing."
+ },
+ {
+  "id": "scenarios-7",
+  "topic": "es-bigpicture",
+  "sc": "It's arrow voting time. The CEO is standing in the middle of the wall, holding her two arrows, and several managers are watching her closely before they decide where to place theirs.",
+  "q": "What should you do?",
+  "o": [
+   "Let the CEO vote first, so the group knows the strategic priority and can align with it before voting.",
+   "Cancel the vote, since the presence of the CEO makes any vote unreliable.",
+   "Collect votes anonymously on paper, count them after the workshop, and send the results by email.",
+   "Have everyone vote at the same time, and gently ask the CEO to wait a moment before placing hers."
+  ],
+  "a": 4,
+  "g": [
+   0,
+   1,
+   3,
+   5
+  ],
+  "e": "The best answer is four, for five points. Voting should be simultaneous, and the facilitator should prevent power plays, for example by asking the most influential person to wait. Option three scores three: anonymity removes pressure, but you lose the visible result and the energy in the room. Option two scores one: sometimes not voting is right, but here the issue can be managed. Option one scores zero: it turns the vote into a confirmation of the boss's view."
+ },
+ {
+  "id": "scenarios-8",
+  "topic": "es-process",
+  "sc": "In a process modeling session for a bed and breakfast, the team writes the policy: whenever a customer asks by email to hold a room, we hold it. The owner nods. You suspect it's not the full story.",
+  "q": "What's your best move?",
+  "o": [
+   "Accept it, since the owner is the domain expert and has confirmed it.",
+   "Read it aloud with the words always and immediately, capture objections as hot spots, and split the policy if different rules appear.",
+   "Replace the policy with a generic hold room policy and move on, since naming isn't important.",
+   "Ask the owner to write down the official room hold policy after the workshop, and use that document as the reference for the whole process."
+  ],
+  "a": 2,
+  "g": [
+   1,
+   5,
+   0,
+   3
+  ],
+  "e": "The best answer is two, for five points. Policies are where people lie, not on purpose: there are rules, interpretations and reality. Speaking aloud and the magic words always and immediately reveal exceptions, such as only trusted regulars getting a hold. Option four scores three: it recognizes the policy needs more work, but loses the chance to explore it with everyone present. Option one scores one: expert confirmation isn't enough when the policy hasn't been challenged. Option three scores zero: it hides the most controversial part of the process."
+ },
+ {
+  "id": "scenarios-9",
+  "topic": "es-process",
+  "sc": "Your process modeling team started from the beginning. After several steps, there are seven alternative branches open, people say \"yes, but if\u2026\" all the time, and two participants have stepped back from the wall. No stickies have been added for ten minutes.",
+  "q": "What should you do?",
+  "o": [
+   "Ask the team to model all seven branches in parallel, so nothing is missed.",
+   "Pick the branch the most senior person cares about and delete the others.",
+   "End the session here, and schedule a separate follow-up meeting for each of the seven branches with the people who raised them.",
+   "Take a break, then turn each unexplored branch into a hot spot and rush to the goal on one baseline path."
+  ],
+  "a": 4,
+  "g": [
+   1,
+   0,
+   3,
+   5
+  ],
+  "e": "The best answer is four, for five points. These are the classic rabbit hole symptoms. Hot spots keep every branch visible while limiting work in progress to one, and rushing to the goal builds a baseline you can then improve. A break helps everyone come back fresh. Option three scores three: it acknowledges the problem, but loses the momentum and the shared context. Option one scores one: it's trying to solve several problems at once, which is the cause of the problem. Option two scores zero: it hides branches and lets hierarchy decide."
+ },
+ {
+  "id": "scenarios-10",
+  "topic": "es-design",
+  "sc": "In a design-level session for an online shop, a developer proposes a Shopping Cart aggregate holding the customer profile, full item descriptions and pictures, prices, stock levels and shipping options, because the cart page shows all of that.",
+  "q": "How do you respond?",
+  "o": [
+   "Accept it, since everything shown on the page needs to be consistent.",
+   "Ask what the cart is responsible for and which rules must always hold, keep only the data those rules need, and treat the page's data as a read model.",
+   "Split it into one aggregate per entity: customer, item, price, stock and shipping.",
+   "Postpone the aggregate discussion and start writing the code right away, so that the right structure can emerge from the implementation and its unit tests."
+  ],
+  "a": 2,
+  "g": [
+   0,
+   5,
+   1,
+   3
+  ],
+  "e": "The best answer is two, for five points. Aggregates are units of consistent behavior, found through responsibilities and invariants. What the user needs to see belongs to a read model. Option four scores three: coding early is encouraged, but without the responsibility discussion, the bloated design will likely be coded. Option three scores one: splitting by nouns is still data-driven. Option one scores zero: it merges the screen's data into the aggregate, the exact trap the book warns about."
+ },
+ {
+  "id": "scenarios-11",
+  "topic": "es-remote",
+  "sc": "You must run a Big Picture remotely for twenty-five people across two time zones. The sponsor asks for a single full-day video session starting with a free-for-all braindump on an empty board.",
+  "q": "What do you propose?",
+  "o": [
+   "Accept the full day, but add a ten-minute break every hour, and keep the board empty at the start, so that the exploration stays truly chaotic, as it would in a room.",
+   "Run the full day, but with cameras off and microphones muted, to reduce fatigue and keep the conversation orderly.",
+   "Replace the workshop with an online survey where each department lists its events, then merge them yourself.",
+   "Split it into shorter sessions, seed candidate pivotal events or frames beforehand, use colors as signatures, and validate with a narrated walkthrough."
+  ],
+  "a": 4,
+  "g": [
+   3,
+   1,
+   0,
+   5
+  ],
+  "e": "The best answer is four, for five points. The book's remote patterns: split the workshop, anticipate structure because online chaos produces unsortable local braindumps, use colors as signatures, and validate through an explicit walkthrough, since validation without conversation is an illusion. Option one scores three: breaks help, but a full day and an empty board work against you online. Option two scores one: it reduces fatigue but removes most remaining signals. Option three scores zero: it drops the collaborative learning entirely."
+ },
+ {
+  "id": "scenarios-12",
+  "topic": "es-prep",
+  "sc": "A client wants you to run a Big Picture to discover the scope of a new software project. Their analyst has already written a sixty-page specification and says the workshop is a waste of time: the developers should just read his document.",
+  "q": "How do you respond?",
+  "o": [
+   "Agree, cancel the workshop, and ask the developers to study the specification carefully.",
+   "Run the workshop without the analyst, since he's likely to dominate the discussion.",
+   "Invite the analyst as a key participant, explain that the developers' understanding is what ends up in the code, and use the workshop to build it, letting the analyst correct visible guesses on the wall.",
+   "Run the workshop by walking through the specification chapter by chapter on the wall, with the analyst presenting."
+  ],
+  "a": 3,
+  "g": [
+   1,
+   0,
+   5,
+   3
+  ],
+  "e": "The best answer is three, for five points. This is the spoiler anti-pattern. The book's argument is that developers' understanding, not the document, ends up in production, and a document is a poor way to build it. The analyst's knowledge is precious as a corrector of visible guesses. Option four scores three: the wall is used, but it becomes a lecture that follows the official version. Option one scores one: the specification may be good, but it skips the learning. Option two scores zero: it excludes the person with the most answers."
+ }
+]

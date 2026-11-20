@@ -1,0 +1,46 @@
+EventStorming. Episode one. What it is, and why it works.
+
+Welcome. This audio course is a study companion for Alberto Brandolini's book, Introducing EventStorming. It is meant for someone who is about to facilitate a workshop, so it focuses on what you will actually do in the room, and why each move works. Everything here is a summary in my own words. When an idea is Brandolini's, I will say so, and the book remains the reference.
+
+Let's start with a simple description. EventStorming is a workshop format where a group of people builds a model of a business by writing events on orange sticky notes and placing them along a timeline, on a very long sheet of paper. An event is something relevant that happened in the business, written with a verb in the past tense. Ticket sold. Order placed. Payment received. Invoice sent. That's the whole starting notation. Everything else is added later, step by step.
+
+Why would a serious organization spend a day with sticky notes? Brandolini's answer starts from the problem, not from the tool. In any organization of a reasonable size, knowledge is split into silos. Each department knows its own part of the story very well, and knows the other parts only vaguely. Nobody knows the whole story. The people with the deepest knowledge are often the busiest, and the cost of getting them to agree on anything grows with the size of the company. So decisions pile up, rules that made sense years ago stay in place, and problems that cross departments are nobody's problem.
+
+Software teams suffer from this even more. Brandolini's line, borrowed in spirit from Dan North, is that software development is a learning process, and working code is a side effect. The bottleneck is not typing code. It is understanding the problem. And yet most organizations put developers far from the people who know the business, with documents and proxies in between. EventStorming is a way to put the people who have questions and the people who have answers in the same place, looking at the same model, at the same time.
+
+The book's subtitle says it well: an act of deliberate collective learning. The paper roll is not the deliverable. The learning is. The model on the wall is an excuse to have the right conversations with the right people, and a tool to make those conversations better.
+
+Why events, and not processes, data, or screens? There are several reasons. Events are easy: anyone can write a short sentence in the past tense, so nobody needs to learn a notation before joining in. Events are precise enough: "order placed" is much less ambiguous than "order management". Events are meaningful by definition: if nobody in the room cares about a sticky note, it probably isn't relevant. Events have no built-in scope limit: they can come from users, from external systems, from the passing of time, or as a consequence of other events, so you see the whole system, not just the screens. And events are state transitions, which means that later, when you design software, you can attach logic to them.
+
+Here is a principle you will hear again and again in this course: fuzziness by design. Brandolini deliberately avoids precise definitions in the early phases. He calls the yellow stickies "people", not actors, users or personas, and external systems are "whatever we can blame". This is not laziness. Precise notations exclude people who don't know them, and they force early agreement where we actually want disagreements to become visible. Precision is welcome, but it is injected gradually, when the conversation needs it.
+
+A second principle is incremental notation. You don't explain all the colors at the start. You begin with orange events only. When the group is comfortable, you add people and systems. Then hot spots, then value, and so on. A visible legend on a flip chart shows the current notation, so nobody has to remember it.
+
+A third principle is the unlimited modeling surface. Most meetings are constrained by the size of a whiteboard. When the problem doesn't fit, people stop drawing it and start talking about it, and the conversation goes in circles. EventStorming puts a paper roll of many meters on a long wall, so the size of the problem decides the size of the model, and not the other way round.
+
+Now, the different formats. EventStorming is not one workshop, but a family. The book describes three main recipes, which differ in scope, in who is in the room, and in what you are trying to achieve.
+
+The first is Big Picture EventStorming. Its scope is a whole line of business, end to end. The people in the room are a broad mix: business experts from different departments, managers, and the people who will design the solution, often fifteen to twenty or more. The goal is discovery: build a shared understanding of the whole flow, make the problems visible, and choose the most important problem to work on. The notation stays fuzzy.
+
+The second is Process Modeling. Its scope is a single process, such as handling a refund or onboarding a customer. The group is smaller, and it uses a stricter grammar of colors, which we will cover in episode seven, to design a process that actually works for every stakeholder.
+
+The third is Software Design, often called Design-Level EventStorming. Here the development team and a few domain experts go one level deeper, and design the software for a specific problem, introducing concepts from Domain-Driven Design, such as aggregates. Brandolini sometimes groups the second and third formats together, because they share the same grammar.
+
+A typical path is: a Big Picture to understand the business and pick the problem worth solving, then Process Modeling or Design-Level sessions around that problem, then code as soon as possible.
+
+One clarification, because the names are similar. EventStorming is a workshop technique. Event sourcing is a way of storing data in software, where you save the sequence of events instead of the current state. They are related, because both put events at the center, and a Design-Level EventStorming maps very naturally onto an event-sourced or event-driven design. But you can run an EventStorming without ever building event-sourced software, and many Big Picture workshops involve no software at all. Episode nine is dedicated to the bridge between the two.
+
+Let's close with what the book calls the people you need. For a Big Picture, Brandolini describes three ingredients: people with questions, people with answers, and a facilitator. He then admits the split is artificial, because in a good workshop everyone learns. The real criterion is simpler: invite people who care about the problem.
+
+A quick check before the next episode. I'll ask, pause, then answer.
+What color is a domain event, and what grammatical form should it use?
+[THINK]
+Orange, with a verb in the past tense, such as ticket purchased.
+What is the main outcome of a Big Picture EventStorming: the paper roll, or something else?
+[THINK]
+The collective learning. The paper roll is a means, not the deliverable.
+Name the three main formats.
+[THINK]
+Big Picture, Process Modeling, and Software Design, also called Design-Level.
+
+In the next episode, we prepare the workshop: who to invite, how to set up the room, and what to bring.

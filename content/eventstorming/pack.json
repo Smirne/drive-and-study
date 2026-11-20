@@ -1,0 +1,111 @@
+{
+ "name": "EventStorming",
+ "base": "eventstorming",
+ "drill": {
+  "title": "EventStorming Drill",
+  "h1": "EventStorming drill",
+  "intro": "Questions on the ideas in Alberto Brandolini's <i>Introducing EventStorming</i>, to prepare for facilitating a workshop. Read and tap in silence, or have them read aloud and answer by voice or with the car's steering-wheel buttons. The app explains each answer and remembers what you missed.",
+  "practicePrefix": "concepts",
+  "practiceLabel": "Concepts: 30 questions with feedback",
+  "practiceTitle": "Concepts",
+  "examsHeading": "Facilitation scenarios & readiness check",
+  "examsText": "Twelve workshop situations where every answer earns 5, 3, 1 or 0 points, with the reasons after each one. Then a 20-question readiness check with no feedback until the end.",
+  "sayExample": "chapter sorting",
+  "summaryTitle": "EventStorming practice results",
+  "filePrefix": "eventstorming",
+  "statsKey": "es-drill",
+  "historyKey": "es-history",
+  "mediaTitle": "EventStorming Drill",
+  "topics": {
+   "es-basics": "What it is, and why",
+   "es-prep": "Preparing the workshop",
+   "es-bigpicture": "Running a Big Picture",
+   "es-facilitation": "Facilitation patterns",
+   "es-bc": "Bounded contexts",
+   "es-process": "Process Modeling",
+   "es-design": "Design-Level",
+   "es-remote": "Remote workshops"
+  }
+ },
+ "lessons": {
+  "title": "EventStorming Audio",
+  "eyebrow": "Study companion · Introducing EventStorming",
+  "h1": "EventStorming, by ear",
+  "sub": "11 episodes · 10 lessons and a recap podcast · short quizzes with a pause so you can answer aloud",
+  "drillLink": "EventStorming drill",
+  "drillSub": "30 concept questions, 12 facilitation scenarios and a readiness check",
+  "artist": "EventStorming",
+  "posKey": "es-pos",
+  "audioDir": "audio/lessons/eventstorming",
+  "episodes": [
+   {
+    "t": "What it is, and why it works",
+    "s": "Silos, learning as the bottleneck, events, fuzziness, the three formats",
+    "d": 513
+   },
+   {
+    "t": "Before the workshop",
+    "s": "Who to invite, hacking the room, materials, colors, agenda",
+    "d": 475
+   },
+   {
+    "t": "Big Picture: from chaos to a timeline",
+    "s": "Kick-off, chaotic exploration, icebreaker, sorting strategies, hot spots",
+    "d": 580
+   },
+   {
+    "t": "Big Picture: people, stories, choices",
+    "s": "People and systems, walkthrough, reverse narrative, value, arrow voting",
+    "d": 583
+   },
+   {
+    "t": "The facilitator's toolbox",
+    "s": "Patterns and anti-patterns: committee, religion war, guess first, speak out loud…",
+    "d": 612
+   },
+   {
+    "t": "From Big Picture to bounded contexts",
+    "s": "Six heuristics for boundaries; merge the people, split the software",
+    "d": 499
+   },
+   {
+    "t": "Process Modeling: the color grammar",
+    "s": "The picture that explains everything, policies, read models, magic words",
+    "d": 660
+   },
+   {
+    "t": "Playing the game, then design",
+    "s": "Opening moves, rabbit holes, rush to the goal, aggregates, code early",
+    "d": 600
+   },
+   {
+    "t": "The bridge to software",
+    "s": "DDD, CQRS and event sourcing, and how the colors map to code",
+    "d": 453
+   },
+   {
+    "t": "Running it remotely",
+    "s": "What changes online, and the remote patterns from the book",
+    "d": 485
+   },
+   {
+    "t": "Recap podcast",
+    "s": "Two hosts, the whole course, a checklist for the day, rapid-fire quiz",
+    "d": 528
+   }
+  ]
+ },
+ "say": {
+  "intro": "EventStorming drill. After each question, say number one, two, three, or four, or words from the answer. Say repeat to hear the question again.",
+  "intro_buttons": "EventStorming drill, with car buttons. I will read each option. Press next when you hear the one you want. Press previous to hear the question again.",
+  "exam_intro": "EventStorming readiness check. Twenty questions, twenty minutes, and no feedback until the end. Answer each question by saying number one to four, or words from the answer.",
+  "exam_intro_buttons": "EventStorming readiness check. Twenty questions, twenty minutes, and no feedback until the end. I will read each option. Press next on the one you want, then next again to confirm.",
+  "exam_pass": "Well done. The target is fourteen out of twenty.",
+  "exam_fail": "That is below the target of fourteen out of twenty. Review the missed questions.",
+  "p2_practice": "EventStorming facilitation scenarios. Each answer earns five, three, one or zero points, and you hear why after each scenario. Answer by saying number one to four.",
+  "p2_practice_buttons": "EventStorming facilitation scenarios. Each answer earns five, three, one or zero points. Press next on the option you want, then next again to confirm."
+ },
+ "pronounce": {
+  "EventStorming": "Event Storming"
+ }
+}

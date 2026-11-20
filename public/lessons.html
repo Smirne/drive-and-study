@@ -20,7 +20,7 @@
   --line: #2a3532; --accent: #4cc3a6; --accent-soft: #1d3330; --on-accent: #08130f; color-scheme: dark }
 
 body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body); }
-.wrap { max-width: 640px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; gap: 20px; }
+.wrap { max-width: 640px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 header { display: grid; gap: 4px; }
 .eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 h1 { font: 600 clamp(26px, 7vw, 34px)/1.1 var(--display); margin: 0; text-wrap: balance; }
@@ -43,6 +43,12 @@ button svg { width: 20px; height: 20px; fill: currentColor; }
 .play { background: var(--accent); color: var(--on-accent); border-color: var(--accent); width: 60px; height: 60px; }
 .play svg { width: 26px; height: 26px; }
 .speed { font: 500 13px var(--mono); }
+@media (max-width: 420px) {   /* five transport buttons + speed must fit a phone's width */
+  .controls { gap: 6px; } .controls .mid { gap: 4px; } .controls > span[aria-hidden] { display: none; }
+}
+@media (max-width: 359px) {
+  .controls button { min-width: 38px; height: 38px; padding: 0 8px; } .controls .play { width: 52px; height: 52px; }
+}
 
 ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
 li button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 40px 1fr auto;
@@ -105,21 +111,8 @@ li.done .n::after { content: " ✓"; font: 500 12px var(--mono); }
 </div>
 
 <script>
-const EPS = [
-  { t: "The exam and the big picture", s: "Exam format, enterprise, the standard's structure, domains, landscape levels", d: 455 },
-  { t: "The core vocabulary", s: "Stakeholders, views vs viewpoints, ABB vs SBB, deliverables, artifacts", d: 527 },
-  { t: "The ADM as a whole", s: "Phases, iteration cycles, scoping, tailoring, versioning", d: 434 },
-  { t: "Preliminary to Phase D", s: "Phase objectives, the shared B–C–D steps, key deliverables", d: 503 },
-  { t: "Phases E to H and Requirements", s: "Roadmap, migration, governance, change classes, requirements", d: 492 },
-  { t: "Content, Continuum, Repository", s: "Content framework, building blocks, Enterprise Continuum, repository classes", d: 507 },
-  { t: "The ADM techniques", s: "Principles, stakeholders, gap analysis, scenarios, readiness, risk", d: 555 },
-  { t: "Governance and final quiz", s: "Governance traits, Architecture Board, conformance levels, 15-question quiz", d: 551 },
-  { t: "Practice exam, part 1", s: "10 exam-style questions with options, answer pause and explanation", d: 566 },
-  { t: "Practice exam, part 2", s: "10 more exam-style questions; aim for 14 of 20 across both parts", d: 563 },
-  { t: "Recap podcast", s: "Two hosts run through the whole syllabus, with a rapid-fire quiz at the end", d: 560 },
-  { t: "Commonly confused pairs", s: "Transition vs Segment, Reference vs Standards Library, artifacts, E vs F, compliant vs conformant…", d: 388 },
-  { t: "One full cycle, told as a story", s: "A utility through Preliminary to Phase H: who sends what, which phase, repository tour, quizzes along the way", d: 1992 }
-];
+const L = {"title": "TOGAF Foundation Audio", "artist": "TOGAF Foundation", "posKey": "togaf-pos", "audioSrc": "audio/lessons", "episodes": [{"t": "The exam and the big picture", "s": "Exam format, enterprise, the standard's structure, domains, landscape levels", "d": 455}, {"t": "The core vocabulary", "s": "Stakeholders, views vs viewpoints, ABB vs SBB, deliverables, artifacts", "d": 527}, {"t": "The ADM as a whole", "s": "Phases, iteration cycles, scoping, tailoring, versioning", "d": 434}, {"t": "Preliminary to Phase D", "s": "Phase objectives, the shared B–C–D steps, key deliverables", "d": 503}, {"t": "Phases E to H and Requirements", "s": "Roadmap, migration, governance, change classes, requirements", "d": 492}, {"t": "Content, Continuum, Repository", "s": "Content framework, building blocks, Enterprise Continuum, repository classes", "d": 507}, {"t": "The ADM techniques", "s": "Principles, stakeholders, gap analysis, scenarios, readiness, risk", "d": 555}, {"t": "Governance and final quiz", "s": "Governance traits, Architecture Board, conformance levels, 15-question quiz", "d": 551}, {"t": "Practice exam, part 1", "s": "10 exam-style questions with options, answer pause and explanation", "d": 566}, {"t": "Practice exam, part 2", "s": "10 more exam-style questions; aim for 14 of 20 across both parts", "d": 563}, {"t": "Recap podcast", "s": "Two hosts run through the whole syllabus, with a rapid-fire quiz at the end", "d": 560}, {"t": "Commonly confused pairs", "s": "Transition vs Segment, Reference vs Standards Library, artifacts, E vs F, compliant vs conformant…", "d": 388}, {"t": "One full cycle, told as a story", "s": "A utility through Preliminary to Phase H: who sends what, which phase, repository tour, quizzes along the way", "d": 1992}]};
+const EPS = L.episodes;
 const $ = id => document.getElementById(id);
 const a = $("audio"), list = $("list"), seek = $("seek");
 const SPEEDS = [1, 1.25, 1.5, 0.9];
@@ -145,16 +138,16 @@ function render() {
 }
 function load(i, t) {
   idx = i;
-  a.src = `/audio/lessons/ep${i+1}.mp3`;
+  a.src = `${L.audioSrc}/ep${i+1}.mp3`;
   a.playbackRate = SPEEDS[speedI];
   if (t) a.addEventListener("loadedmetadata", () => { a.currentTime = t; }, { once: true });
   render(); media();
   save();
 }
-function save() { store.set("togaf-pos", { idx, t: a.currentTime || 0, done: [...done], speedI }); }
+function save() { store.set(L.posKey, { idx, t: a.currentTime || 0, done: [...done], speedI }); }
 function media() {
   if (!("mediaSession" in navigator)) return;
-  navigator.mediaSession.metadata = new MediaMetadata({ title: `${idx+1}. ${EPS[idx].t}`, artist: "TOGAF Foundation", album: "TOGAF Foundation Audio" });
+  navigator.mediaSession.metadata = new MediaMetadata({ title: `${idx+1}. ${EPS[idx].t}`, artist: L.artist, album: L.title });
   const h = { play: () => a.play(), pause: () => a.pause(), previoustrack: prev, nexttrack: next,
     seekbackward: () => a.currentTime -= 15, seekforward: () => a.currentTime += 15 };
   for (const k in h) { try { navigator.mediaSession.setActionHandler(k, h[k]); } catch(e){} }
@@ -180,7 +173,7 @@ $("back").onclick = () => a.currentTime = Math.max(0, a.currentTime - 15);
 $("fwd").onclick = () => a.currentTime = Math.min(a.duration || 0, a.currentTime + 15);
 $("speed").onclick = () => { speedI = (speedI+1) % SPEEDS.length; a.playbackRate = SPEEDS[speedI]; $("speed").textContent = SPEEDS[speedI] + "×"; save(); };
 
-const saved = store.get("togaf-pos");
+const saved = store.get(L.posKey);
 if (saved && Number.isInteger(saved.idx) && saved.idx < EPS.length) {
   done = new Set(saved.done || []); speedI = saved.speedI || 0; $("speed").textContent = SPEEDS[speedI] + "×";
   load(saved.idx, saved.t || 0);

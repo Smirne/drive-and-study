@@ -19,12 +19,15 @@ srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(CleanU
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 base = f'http://127.0.0.1:{srv.server_port}'
 
-# every lesson listed in the player has an audio file
-src = Path('public/lessons.html').read_text()
-n = len(re.findall(r'\{ t: "', src))
-files = sorted(Path('public/audio/lessons').glob('ep*.mp3'))
-assert n == len(files), (n, len(files))
-print(f'lessons listed: {n}, audio files: {len(files)}')
+# every lesson listed in each pack's player has exactly one audio file
+import json
+for pj in sorted(Path('content').glob('*/pack.json')):
+    lc = json.loads(pj.read_text()).get('lessons')
+    if not lc: continue
+    n = len(lc['episodes'])
+    files = sorted(Path('public', lc['audioDir']).glob('ep*.mp3'))
+    assert n == len(files), (pj.parent.name, n, len(files))
+    print(f'{pj.parent.name}: lessons listed: {n}, audio files: {len(files)}')
 
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={'width': 390, 'height': 844})
@@ -39,6 +42,21 @@ with sync_playwright() as p:
     pg.click('a[href="/lessons"]'); pg.wait_for_selector('#list li'); print('back to lessons ok')
     pg.click('a.home'); pg.wait_for_selector('a.card'); print('back home ok')
     sw = pg.evaluate('document.documentElement.scrollWidth'); print('home scrollWidth at 390px:', sw)
+    # EventStorming pack: pages live under /eventstorming/, assets via relative paths
+    pg.click('a[href="/eventstorming/lessons"]'); pg.wait_for_selector('#list li')
+    print('es lessons:', pg.title(), '| items:', pg.locator('#list li').count())
+    assert pg.locator('#list li').count() == 11
+    assert pg.evaluate('document.documentElement.scrollWidth') == 390, 'lessons page scrolls sideways on a phone'
+    pg.click('#ep-2'); pg.wait_for_timeout(500)
+    src_es = pg.evaluate('document.getElementById("audio").src')
+    print('es ep3 src:', src_es.replace(base, ''))
+    assert src_es == base + '/audio/lessons/eventstorming/ep3.mp3'
+    pg.click('a.drill'); pg.wait_for_selector('#startAll'); print('es drill:', pg.title())
+    assert 'EventStorming' in pg.title() and 'Concepts' in pg.text_content('#startAll')
+    clip = pg.evaluate('CLIPS.intro'); print('es clip path:', clip)
+    assert pg.request.get(pg.url.rsplit('/', 1)[0] + '/' + clip).ok
+    pg.click('a[href="/eventstorming/lessons"]'); pg.wait_for_selector('#list li'); print('es back to lessons ok')
+    pg.click('a.home'); pg.wait_for_selector('a.card')
     # button test page: capture media-session handlers, press "next" three times -> "Answer 3"
     bp = b.new_page(viewport={'width': 390, 'height': 844}); berr = []
     bp.on('pageerror', lambda e: berr.append(str(e)))

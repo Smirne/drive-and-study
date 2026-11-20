@@ -1,0 +1,47 @@
+{
+ "scenarios": {
+  "title": "Facilitation scenarios: 12 situations",
+  "practice": true,
+  "questions": [
+   "scenarios-1",
+   "scenarios-2",
+   "scenarios-3",
+   "scenarios-4",
+   "scenarios-5",
+   "scenarios-6",
+   "scenarios-7",
+   "scenarios-8",
+   "scenarios-9",
+   "scenarios-10",
+   "scenarios-11",
+   "scenarios-12"
+  ]
+ },
+ "check": {
+  "title": "Readiness check",
+  "minutes": 20,
+  "pass": 14,
+  "questions": [
+   "concepts-2",
+   "concepts-3",
+   "concepts-4",
+   "concepts-7",
+   "concepts-9",
+   "concepts-11",
+   "concepts-12",
+   "concepts-13",
+   "concepts-15",
+   "concepts-17",
+   "concepts-19",
+   "concepts-20",
+   "concepts-22",
+   "concepts-23",
+   "concepts-25",
+   "concepts-26",
+   "concepts-27",
+   "concepts-29",
+   "concepts-30",
+   "concepts-24"
+  ]
+ }
+}

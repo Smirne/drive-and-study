@@ -34,8 +34,9 @@ tmp = Path(tempfile.mkdtemp())
 k = Kokoro(str(models / 'kokoro-v1.0.onnx'), str(models / 'voices-v1.0.bin'))
 SR = 24000
 VOICE = 'am_michael'
-# Pronunciation fixes applied to all spoken text
-SUBS = {'TOGAF': 'Toe-gaff'}
+# Pronunciation fixes applied to all spoken text (extended by the pack's "pronounce")
+cfg = json.loads((pack / 'pack.json').read_text())
+SUBS = dict(cfg.get('pronounce', {}))
 
 
 def say(t):
@@ -74,13 +75,14 @@ def word(n):
 
 qs = json.loads((pack / 'questions.json').read_text())
 exams = json.loads((pack / 'exams.json').read_text()) if (pack / 'exams.json').exists() else {}
-longest = max([len(qs) if not exams else 20] + [len(e['questions']) for e in exams.values() if not e.get('practice')])
+practice = sum(q['id'].startswith(cfg['drill']['practicePrefix']) for q in qs)
+longest = max([20, practice] + [len(e['questions']) for e in exams.values()])   # same rule as tools/build.py
 
-# ---- shared prompts ----
+# ---- shared prompts (pack.json "say" overrides the pack-specific ones: intros, pass/fail) ----
 G = {
-    'intro': 'TOGAF Foundation practice drill. After each question, say number one, two, three, or four, '
+    'intro': 'Practice drill. After each question, say number one, two, three, or four, '
              'or words from the answer. Say repeat to hear the question again.',
-    'intro_buttons': 'TOGAF Foundation practice drill, with car buttons. I will read each option. '
+    'intro_buttons': 'Practice drill, with car buttons. I will read each option. '
                      'Press next when you hear the one you want. Press previous to hear the question again.',
     'review': 'Reviewing the questions you missed.',
     'correct': 'Correct.',
@@ -88,29 +90,25 @@ G = {
     'reprompt': 'Say number one, two, three, or four. Or say repeat.',
     'rescan': 'Here are the options again.',
     'end': 'End of session.',
-    # exam simulation
-    'exam_intro': 'TOGAF Foundation mock exam. Forty questions, sixty minutes, and no feedback until the end. '
-                  'Answer each question by saying number one to four, or words from the answer.',
-    'exam_intro_buttons': 'TOGAF Foundation mock exam. Forty questions, sixty minutes, and no feedback until the end. '
-                          'I will read each option. Press next on the one you want, then next again to confirm.',
+    'exam_intro': 'Mock exam. No feedback until the end. Answer each question by saying number one to four, or words from the answer.',
+    'exam_intro_buttons': 'Mock exam. No feedback until the end. I will read each option. Press next on the one you want, then next again to confirm.',
     'recorded': 'Answer recorded.',
     'timeup': 'Time is up. The exam is over.',
-    'exam_pass': 'That is a pass. The pass mark is twenty-four out of forty.',
-    'exam_fail': 'That is below the pass mark of twenty-four out of forty.',
-    # Part 2 style (graded scenario questions)
-    'p2_intro': 'TOGAF Part 2 mock exam. Eight scenarios, ninety minutes, and no feedback until the end. '
-                'Each answer earns five, three, one or zero points. Answer by saying number one to four.',
-    'p2_intro_buttons': 'TOGAF Part 2 mock exam. Eight scenarios, ninety minutes, and no feedback until the end. '
-                        'Each answer earns five, three, one or zero points. Press next on the option you want, then next again to confirm.',
-    'p2_practice': 'TOGAF Part 2 scenario practice. Each answer earns five, three, one or zero points, '
+    'exam_pass': 'That is a pass.',
+    'exam_fail': 'That is below the pass mark.',
+    'p2_intro': 'Scenario exam. No feedback until the end. Each answer earns five, three, one or zero points. Answer by saying number one to four.',
+    'p2_intro_buttons': 'Scenario exam. No feedback until the end. Each answer earns five, three, one or zero points. '
+                        'Press next on the option you want, then next again to confirm.',
+    'p2_practice': 'Scenario practice. Each answer earns five, three, one or zero points, '
                    'and you hear why after each scenario. Answer by saying number one to four.',
-    'p2_practice_buttons': 'TOGAF Part 2 scenario practice. Each answer earns five, three, one or zero points. '
+    'p2_practice_buttons': 'Scenario practice. Each answer earns five, three, one or zero points. '
                            'Press next on the option you want, then next again to confirm.',
     'worth5': 'Best answer. Five points.',
     'worth3': 'Second best. Three points.',
     'worth1': 'Third best. One point.',
     'worth0': 'Distractor. Zero points.',
 }
+G.update(cfg.get('say', {}))
 for n, t in G.items():
     write(n, lambda t=t: [say(t)])
 for j in range(1, 5):

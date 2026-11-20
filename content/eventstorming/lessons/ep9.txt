@@ -1,0 +1,50 @@
+EventStorming. Episode nine. The bridge to software: Domain-Driven Design, CQRS and event sourcing.
+
+This episode goes a little beyond the book. Introducing EventStorming talks mostly about the workshop, and only mentions CQRS and event sourcing in passing. But if you're preparing a workshop for a technical audience, people will ask how the sticky notes relate to event-driven code. So here is the map, in my own words. Treat it as general software design knowledge, not as Brandolini's text.
+
+First, the roots. The term domain event comes from software architecture. Martin Fowler described the pattern in the mid two-thousands, and Eric Evans and Greg Young made it popular in the Domain-Driven Design community, especially when Greg Young pushed event sourcing and CQRS. The rule of writing a verb in the past tense is Greg Young's, and Brandolini calls it the sentence with the highest value per character of his career. EventStorming took that software concept and made it accessible to everyone in the room.
+
+Now, three ideas that are often confused.
+
+Event-driven architecture means components communicate by publishing events and reacting to them. "Order placed" is published, and billing, shipping and loyalty react independently.
+
+CQRS, command query responsibility segregation, means you separate the part of the system that changes state, handling commands, from the part that answers questions, serving queries. Each can use a model optimized for its job.
+
+Event sourcing means you store the history of events as the source of truth, instead of storing only the current state. The current state of something is rebuilt by replaying its events. You get a full audit trail, the ability to rebuild new views from the past, and the ability to answer "how did we get here?" The cost: events become a long-lived contract, schema changes need care, and the design is more demanding than plain storage.
+
+These three often appear together, but they are independent choices. You can be event-driven without event sourcing, and you can use CQRS without either.
+
+Here's how the colors of a design-level model map to code, if you choose an event-driven, event-sourced style.
+
+Blue commands become command messages or API requests: place order, cancel reservation. They express intent and can be rejected.
+
+Pale yellow aggregates become the components that decide. An aggregate receives a command, checks its invariants against its current state, and either rejects the command or emits one or more events. In an event-sourced system, the aggregate's state is rebuilt from its own past events before deciding.
+
+Orange events become the facts stored in the event store and published to others. Once in production, they're hard to rename, which is why Brandolini insists on rewriting them while they're still paper.
+
+Lilac policies become event handlers, process managers or sagas: code that listens for events and issues new commands, often across aggregates or across bounded contexts. Remember that a policy may also stay human for a long time. Brandolini notes that in a startup it's often wise to keep a policy manual until the volume justifies automating it.
+
+Green read models become projections: views built by listening to events, shaped for one screen or one decision. That's the query side of CQRS. Because they're derived, you can rebuild them or add new ones later.
+
+Pink external systems become integrations, usually protected by an anti-corruption layer, so their model doesn't leak into yours.
+
+And the boundaries you found in the Big Picture become bounded contexts, possibly separate services, communicating through published events that belong to a shared language between contexts.
+
+Notice how well this lines up with the book's warnings. Aggregates are not read models: don't put on the aggregate everything the screen needs. In CQRS terms, that's exactly the separation between the write side and the read side. And the book's chapter on global state reminds us that business transactions are never atomic. Buying a hot dog from a street van is a sequence of partially inconsistent states: you've ordered, you have a drink you haven't paid for, you're waiting, you're getting impatient. Real business processes are eventually consistent by nature, and modeling them as events and policies is often more honest than forcing one big database transaction.
+
+When does event sourcing pay off? It fits domains where history matters in itself: finance, energy metering, logistics, booking and anything with audit or regulatory needs, or where you expect to need new views of past data. It's often overkill for simple data entry. A Design-Level EventStorming helps you decide: if the model is mostly a chain of meaningful state transitions with policies in between, events are natural. If most of the wall looks like create, read, update, delete, then a simpler approach is fine. Brandolini notes in his startup story that only a few places still looked like CRUD, and most of the business was described as events flowing through the system.
+
+Two practical cautions for your workshop. First, don't let the software vocabulary take over a Big Picture. If you start talking about aggregates and event stores in front of business experts, you lose them, which is exactly the precise-notation anti-pattern. Save it for the design session, or for after the workshop. Second, don't promise that EventStorming leads to event sourcing. The workshop is valuable on its own: shared understanding, the right problem, the right boundaries. The implementation style is a separate decision.
+
+Quick check.
+What is the difference between EventStorming and event sourcing?
+[THINK]
+EventStorming is a collaborative workshop technique. Event sourcing is a persistence pattern that stores events as the source of truth.
+In an event-driven implementation, what do lilac policies usually become?
+[THINK]
+Event handlers, process managers or sagas, or a human procedure if not automated.
+And what do green read models become?
+[THINK]
+Projections, the query side in CQRS.
+
+In the next episode: running EventStorming remotely.

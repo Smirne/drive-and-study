@@ -1,0 +1,52 @@
+EventStorming. Episode eight. Playing the game: strategies, and the step to Design-Level.
+
+Knowing the rules is only the first step in any game. This episode covers the strategies Brandolini describes for process modeling sessions, and then the step into Design-Level EventStorming, where software design begins.
+
+Start by framing the session. Show the expected shape on the legend: a trigger on the left, events and read models as outcomes on the right. About six meters of surface is a reasonable start for one process, but processes can surprise you in length, with more steps, and in depth, with more branches. Leave empty space before the trigger too, because unexpected preconditions tend to appear. Too much space can scare people, too little makes them take shortcuts: start reasonable, and be ready to add more instantly.
+
+There are three opening moves.
+
+Start from the beginning. Place the trigger, a command or an external event, and follow the color grammar step by step until you reach the outcomes. Pros: it matches natural storytelling, the way experts describe their work, so it's easy for beginners. And it challenges your expected outcomes, because the process you discover is often bigger than the one you had in mind. Cons: it maximizes branching. After a few steps, an inexperienced team gets flooded by "what if" alternatives.
+
+Start from the end. List the desired outcomes and sort them by priority. For buying a train ticket: the customer has a valid ticket, a seat is reserved, the money is collected, a legal receipt is sent, maybe a calendar entry is added. Pick the most important, and work backwards with the color grammar. Ticket received needs a system, say email. Someone asks "what about messaging apps?" Don't discuss: write a hot spot and move on. Before email you need a command, send ticket by email; before that a policy, whenever a ticket is issued; and the policy needs the customer's email address in its read model, which must be collected somewhere. Pros: very lean, it finds the shortest path to value. Cons: mentally demanding, it assumes you know the outcomes, and since few people are comfortable reasoning backwards, the facilitator may end up leading too much.
+
+Make a little mess. Run a short, strictly time-boxed brainstorm of orange events only, spaced out enough to fill in the other colors, then apply the grammar from either end. Pros: it quickly exposes contradictions between different expectations, and you get a skeleton in minutes. Cons: the skeleton is probably wrong, and if the team just came from a Big Picture they may get carried away and explore everything again. Clarify the scope.
+
+There's no clear winner. Brandolini often starts from the beginning, then switches to reverse narrative to get out of a rabbit hole.
+
+Which brings us to mid-game strategies. You will get swamped at some point; complex problems are why you're doing this. Learn to recognize the rabbit hole. Symptoms: people step back and stop looking at the wall; the topic being discussed isn't visible anywhere on the model; sentences start with "yes, but if…", which means you're solving several scenarios at once. When stickies stop being added, it's a good time for a break and a different strategy.
+
+Keep everything visible. The agreement is: we don't talk about invisible things. Anything discussed must be on the surface, as a hot spot if nothing else fits. It's the facilitator's main responsibility, and it's hard if you're also absorbed in solving the puzzle. Invisible issues make worried people imagine the worst case, the classic "what if every customer does something stupid?"
+
+Manage branches with hot spots. The illusion that a process is linear disappears quickly; it becomes a tree. It's very hard to solve two problems at the same time, so every branch you're not exploring now becomes a hot spot, and the work in progress stays at one issue.
+
+Rush to the goal. Brandolini's favorite: follow the color grammar and build a baseline path to the desired outcome as fast as you can, speaking aloud, without discussing or polishing wording. Once you reach the end state, flood the model with hot spots for everything you don't like, and improve from there. You don't need a good solution first. You need a solution, then you make it good. This idea later became a conference format called Blink Modelling.
+
+Team dynamics matter too. If personalities clash, or one person dominates, split the team and attack the problem from two angles on separate surfaces. Since both sides use the same grammar, it's easy to see where the models agree and where they differ, and choose with both visible. It's never fair to choose between the visible model we built together and an invisible one in someone's head.
+
+Now, Design-Level EventStorming. It differs from the Big Picture in scope, people and outcome. Scope: one specific problem, usually the one selected in the Big Picture. People: the development team and the relevant domain experts, a smaller group. Outcome: the Big Picture was about learning, and could end when time ran out. A design session isn't over until there's a robust candidate solution.
+
+What do you do with the Big Picture artifact? It gives you a good dictionary of domain events, it shows where the problem is, usually as a hot spot, and it shows how well you understand the surrounding contexts. You can start a fresh surface, which gives you space, or work on the existing model, which suits small groups and longer workshops while the memory of the Big Picture is fresh.
+
+Here, aggregates appear, on large pale yellow stickies. In Domain-Driven Design, an aggregate is a unit of transactional consistency: a cluster of objects whose state changes together, protecting invariants, rules that must always be true. In a shopping cart, the subtotal must always equal the sum of quantity times price for each item. How the code achieves that is up to the developers; the aggregate is a behavioral contract.
+
+Brandolini's advice for finding aggregates: don't start from data. Teams easily agree that "a shopping cart has items, quantities and prices, and a customer", but that drags in everything the screen needs, like item descriptions, which belong to a read model, not to the aggregate. Start from behavior instead. Look for responsibilities: what is this yellow sticky responsible for, which commands does it accept or reject, which events does it produce? Then look for the information needed to fulfill that responsibility. Only then ask: what would I call a thing with this information and purpose? That's the pattern "postpone aggregate naming", because a name chosen too early drags in assumptions. Seen this way, aggregates look like little state machines.
+
+Expect a moment of confusion: when you group commands and events around aggregates, you break the timeline. That's fine. Timeline and responsibility are two orthogonal views; the first was great for exploration, the second is better for robust design.
+
+A few more design tips from the book. Make alternatives visible and choose later. Rewrite events again and again: sticky notes are cheap, but once a domain event is in production with many listeners, renaming it is expensive. Hide unnecessary complexity: a sophisticated model inside can still offer a simple experience outside. Developers love symmetry, so if there's "reserve seat" they'll look for "cancel reservation"; that hunt finds real events, but symmetry isn't always your friend.
+
+Finally, move to code quickly. A sticky-note model doesn't compile. The roll isn't the deliverable; prototype the domain model as soon as you have a reasonable idea, because running code finds flaws that conversation can't. One technique the book mentions for the step in between is event-driven CRC cards: people play the roles of users, aggregates, processes and projections; commands, events and screens are cards; and players can only tell, never ask. This quickly shows the communication an event-based design needs.
+
+Quick check.
+What are the three opening moves for a process modeling session?
+[THINK]
+Start from the beginning, start from the end, or make a little mess first.
+Give two symptoms that you're in a rabbit hole.
+[THINK]
+Any two of: people detach from the wall; the topic isn't visible on the model; sentences start with "yes, but if".
+Why should you postpone naming aggregates?
+[THINK]
+Because names drag in data assumptions. Find responsibilities and needed information first, then the name becomes obvious.
+
+In the next episode, we connect EventStorming to Domain-Driven Design, CQRS and event sourcing.

@@ -1,6 +1,11 @@
 // Unit test for app/matcher.js against the real question bank.  Run: node tests/test_matcher.js
 const M = require("../app/matcher.js");
 const qs = require("../content/togaf-foundation/questions.json");
+// every pack's bank is checked in the "content" section below
+const fs = require("fs"), path = require("path");
+const contentDir = path.join(__dirname, "..", "content");
+const banks = fs.readdirSync(contentDir).filter(d => fs.existsSync(path.join(contentDir, d, "questions.json")))
+  .map(d => [d, require(path.join(contentDir, d, "questions.json"))]);
 let fail = 0;
 function eq(label, got, want) {
   const ok = JSON.stringify(got) === JSON.stringify(want);
@@ -38,7 +43,7 @@ if (bf) {
 const STOP = new Set("a an the of and or to in on is it its for with by as at be are this that which what from into all any each".split(" "));
 let right = 0, wrong = 0, none = 0;
 const wrongs = [], nones = [];
-qs.forEach((q, qi) => q.o.forEach((opt, j) => {
+for (const [pack, bank] of banks) bank.forEach((q, qi) => q.o.forEach((opt, j) => {
   const ws = opt.replace(/[.,]/g, "").split(/\s+/);
   const content = ws.filter(w => !STOP.has(w.toLowerCase()));
   // distinctive: content words not present in any other option
@@ -52,13 +57,13 @@ qs.forEach((q, qi) => q.o.forEach((opt, j) => {
   for (const [kind, text] of Object.entries(sayings)) {
     const got = v(text, q.o);
     if (got === j + 1) right++;
-    else if (got === null) { none++; nones.push(`Q${qi + 1}.${j + 1} ${kind}: "${text}"`); }
-    else { wrong++; wrongs.push(`Q${qi + 1}.${j + 1} ${kind}: "${text}" -> ${got}`); }
+    else if (got === null) { none++; nones.push(`${pack} Q${qi + 1}.${j + 1} ${kind}: "${text}"`); }
+    else { wrong++; wrongs.push(`${pack} Q${qi + 1}.${j + 1} ${kind}: "${text}" -> ${got}`); }
   }
 }));
 const total = right + wrong + none;
 console.log(`content: ${right}/${total} right, ${none} not understood (asks again), ${wrong} WRONG`);
-if (nones.length) console.log("not understood (sample):\n  " + nones.filter(x => !x.startsWith("Q6.")).join("\n  "));
+if (nones.length) console.log("not understood (sample):\n  " + nones.filter(x => !x.includes(" Q6.")).join("\n  "));
 if (wrongs.length) console.log("wrong:\n  " + wrongs.join("\n  "));
 
 // recognition errors on longer words

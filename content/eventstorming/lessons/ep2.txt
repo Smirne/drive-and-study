@@ -1,0 +1,42 @@
+EventStorming. Episode two. Before the workshop: people, room and materials.
+
+Brandolini quotes Sun Tzu: every battle is won before it's fought. For a Big Picture EventStorming this is almost literally true. A large part of the result is decided by who is in the room and by how the room looks when they walk in. In this episode we prepare both.
+
+Let's start with invitations. You want the people who know the business and the people who need to understand it, from every part of the flow you want to explore. That means crossing department boundaries, and often crossing levels of hierarchy too. Business experts, operations, sales, finance, customer service, product, user experience, and the developers and architects who will work on the solution. The book's rule of thumb is to invite people who care about the problem.
+
+Don't avoid people who disagree. Overlapping, conflicting areas of expertise are exactly where the most interesting discoveries are. If two people describe the same step in two different ways, you want both of them at the wall. Making conflicts visible is one of the workshop's main outcomes.
+
+Invitations will never be perfect. The more people you invite, the harder it is to find a date. The longer you wait, the longer the status quo continues. People are naturally skeptical about a strange new meeting, and only appreciate it afterwards. Brandolini adds a sharp remark: if getting the key people of different silos into one room is extremely hard, that difficulty itself tells you how much your organization's structure is getting in the way of learning.
+
+A note for consultants and suppliers. When a software company explores a project with a client, the client may expect a specification document and resist a workshop. The book suggests that sometimes it is better not to sell the method at all. Just bring a paper roll and sticky notes and say "this is how we like to look at things". Show, don't pitch.
+
+How many people? A typical corporate Big Picture involves around fifteen to twenty people, sometimes more. Startups bring fewer, but they still use about the same amount of wall.
+
+How long? The dominant constraint for a Big Picture is the availability of key people, not the completeness of the model. The book treats a couple of hours as a realistic time box for many corporate settings, while a startup kick-off can take a day or more. Either way, plan to maximize what you learn in the time you have, knowing you won't finish everything. Also remember that a stand-up session gets tiring: plan breaks.
+
+Now the room. This is where many workshops are lost before they start. The typical meeting room is designed for a different kind of meeting: a big table in the middle, chairs around it, a screen at one end. People walk in, sit down, open their laptops, and wait for someone else to run the show. Brandolini calls the seats poisonous and lists the big table at the center of the room as an anti-pattern. Your job is to hack the space before people arrive.
+
+Here is the checklist. First, a long straight wall for the paper roll. The book suggests at least eight meters, and more is better. Bring far more paper than you think you need, because you will want to add space later. Second, free space in front of the wall, so people can walk, step back, see the whole thing and then go close to the details. Third, move the table aside, and stack the chairs in a corner. They will be useful after a couple of hours, when people deserve a break, but at the start they invite passive listening. Be soft on real needs, though: some people have very good reasons to need a seat. Fourth, a flip chart or a separate surface for the visible legend. Fifth, plenty of sticky notes and markers. Sixth, healthy food and drinks: fruit and water, not a heavy lunch. Seventh, a visible timer or clock, because some phases will be time boxed.
+
+The lack of tables has a nice side effect: there is nowhere to put a laptop. People who keep their laptop open stay half in the meeting and half in their email, and an open specification document on a laptop sends a message: "no need to discuss, I've already done the thinking". Gently discourage both.
+
+Markers deserve their own pattern in the book: one person, one marker. If only a few people can write, the others form small groups that dictate to a scribe, and the workshop slows down to the speed of one conversation. So bring a working marker for everyone, plus spares, and throw away the nearly dry ones before you start. Prefer markers that are readable from a distance.
+
+The colors matter less than consistency, but most practitioners follow the book's palette. Orange squares for domain events, which you will need in hundreds. Pink or magenta larger rectangles for external systems. Small yellow rectangles for people. Purple or magenta for hot spots. Green for value and opportunities, and some red if you play with value destroyed. Blue arrows for voting. For later formats, blue for commands, lilac for policies, green for read models, and large pale yellow for aggregates. A removable colored tape is handy to mark pivotal events and to label areas.
+
+Think about the agenda too. Busy people are more willing to join an open-ended activity if they can see that somebody is using their time wisely. A visible agenda with the main phases and goals helps. But remember that a Big Picture is a discovery workshop: if something more interesting than the plan appears, the plan can change. When that happens, say so explicitly, and maybe ask the group.
+
+Two last preparation tips. Keep the room longer than the workshop. You need time to take pictures, to cool down, and to compare notes with a colleague about what you saw, including body language that never ends up on the wall. And, if possible, keep the paper roll on the wall for a few days. People will have afterthoughts the next morning, the people who were not invited can come and look, and the quieter participants, who don't speak up in a crowded room, often bring their best insights in a calmer moment. The book even has a pattern for the day after: reserve some slack time right after the workshop to start working on the problem you discovered, while the energy is high.
+
+Quick check.
+Why does the book call the seats poisonous?
+[THINK]
+Because sitting invites passive listening and laptops, makes interaction depend on where you sit, and once people sit down it is hard to get them up again.
+What does the pattern "one person, one marker" protect against?
+[THINK]
+Committees around a single scribe, which reduce the workshop to one conversation at a time and hide alternative ideas.
+For a Big Picture, what is usually the real constraint on duration?
+[THINK]
+The availability of the key people, not the completeness of the model.
+
+In the next episode, the workshop starts: kick-off, chaotic exploration, and making sense of the timeline.

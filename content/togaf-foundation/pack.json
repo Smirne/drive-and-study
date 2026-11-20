@@ -1,0 +1,133 @@
+{
+ "name": "TOGAF Foundation",
+ "base": "",
+ "drill": {
+  "title": "TOGAF Practice Drill",
+  "h1": "Practice drill &amp; mock exams",
+  "intro": "Practice questions and mock exams for the TOGAF® Enterprise Architecture Foundation exam. Read and tap in silence, or have them read aloud and answer by voice or with the car's steering-wheel buttons. The app scores you, explains the answer and remembers what you missed.",
+  "practicePrefix": "ep",
+  "practiceLabel": "Practice: 20 questions with feedback",
+  "practiceTitle": "Practice drill",
+  "examsHeading": "Mock exams",
+  "examsText": "Like the real Part 1: 40 questions, 60 minutes, pass mark 24. No feedback until the end, then a score by topic and a review of your mistakes with explanations.",
+  "sayExample": "business scenarios",
+  "summaryTitle": "TOGAF practice results",
+  "filePrefix": "togaf",
+  "statsKey": "togaf-drill",
+  "historyKey": "drill-history",
+  "mediaTitle": "TOGAF Practice Drill",
+  "topics": {
+   "concepts": "Core concepts",
+   "terminology": "Terminology",
+   "adm": "ADM: iteration, scope, tailoring",
+   "phases": "ADM phases",
+   "requirements": "Requirements management",
+   "content": "Architecture content",
+   "continuum": "Continuum & repository",
+   "techniques": "ADM techniques",
+   "governance": "Governance & compliance",
+   "general": "General",
+   "p2-context": "Part 2 · Context for EA",
+   "p2-stakeholders": "Part 2 · Stakeholder management",
+   "p2-phaseA": "Part 2 · Phase A",
+   "p2-bcd": "Part 2 · Phases B, C, D",
+   "p2-efg": "Part 2 · Phases E, F, G",
+   "p2-h": "Part 2 · Phase H",
+   "p2-req": "Part 2 · Requirements management",
+   "p2-support": "Part 2 · Supporting the ADM"
+  }
+ },
+ "lessons": {
+  "title": "TOGAF Foundation Audio",
+  "eyebrow": "TOGAF® Standard, 10th Edition · Part 1",
+  "h1": "Foundation exam, by ear",
+  "sub": "12 episodes · 8 lessons, 2 practice exams, a recap podcast and confusable pairs · pauses after each question so you can answer aloud",
+  "drillLink": "Practice drill",
+  "drillSub": "Answer the 20 practice questions by voice or with the car buttons",
+  "artist": "TOGAF Foundation",
+  "posKey": "togaf-pos",
+  "audioDir": "audio/lessons",
+  "episodes": [
+   {
+    "t": "The exam and the big picture",
+    "s": "Exam format, enterprise, the standard's structure, domains, landscape levels",
+    "d": 455
+   },
+   {
+    "t": "The core vocabulary",
+    "s": "Stakeholders, views vs viewpoints, ABB vs SBB, deliverables, artifacts",
+    "d": 527
+   },
+   {
+    "t": "The ADM as a whole",
+    "s": "Phases, iteration cycles, scoping, tailoring, versioning",
+    "d": 434
+   },
+   {
+    "t": "Preliminary to Phase D",
+    "s": "Phase objectives, the shared B–C–D steps, key deliverables",
+    "d": 503
+   },
+   {
+    "t": "Phases E to H and Requirements",
+    "s": "Roadmap, migration, governance, change classes, requirements",
+    "d": 492
+   },
+   {
+    "t": "Content, Continuum, Repository",
+    "s": "Content framework, building blocks, Enterprise Continuum, repository classes",
+    "d": 507
+   },
+   {
+    "t": "The ADM techniques",
+    "s": "Principles, stakeholders, gap analysis, scenarios, readiness, risk",
+    "d": 555
+   },
+   {
+    "t": "Governance and final quiz",
+    "s": "Governance traits, Architecture Board, conformance levels, 15-question quiz",
+    "d": 551
+   },
+   {
+    "t": "Practice exam, part 1",
+    "s": "10 exam-style questions with options, answer pause and explanation",
+    "d": 566
+   },
+   {
+    "t": "Practice exam, part 2",
+    "s": "10 more exam-style questions; aim for 14 of 20 across both parts",
+    "d": 563
+   },
+   {
+    "t": "Recap podcast",
+    "s": "Two hosts run through the whole syllabus, with a rapid-fire quiz at the end",
+    "d": 560
+   },
+   {
+    "t": "Commonly confused pairs",
+    "s": "Transition vs Segment, Reference vs Standards Library, artifacts, E vs F, compliant vs conformant…",
+    "d": 388
+   },
+   {
+    "t": "One full cycle, told as a story",
+    "s": "A utility through Preliminary to Phase H: who sends what, which phase, repository tour, quizzes along the way",
+    "d": 1992
+   }
+  ]
+ },
+ "say": {
+  "intro": "TOGAF Foundation practice drill. After each question, say number one, two, three, or four, or words from the answer. Say repeat to hear the question again.",
+  "intro_buttons": "TOGAF Foundation practice drill, with car buttons. I will read each option. Press next when you hear the one you want. Press previous to hear the question again.",
+  "exam_intro": "TOGAF Foundation mock exam. Forty questions, sixty minutes, and no feedback until the end. Answer each question by saying number one to four, or words from the answer.",
+  "exam_intro_buttons": "TOGAF Foundation mock exam. Forty questions, sixty minutes, and no feedback until the end. I will read each option. Press next on the one you want, then next again to confirm.",
+  "exam_pass": "That is a pass. The pass mark is twenty-four out of forty.",
+  "exam_fail": "That is below the pass mark of twenty-four out of forty.",
+  "p2_intro": "TOGAF Part 2 mock exam. Eight scenarios, ninety minutes, and no feedback until the end. Each answer earns five, three, one or zero points. Answer by saying number one to four.",
+  "p2_intro_buttons": "TOGAF Part 2 mock exam. Eight scenarios, ninety minutes, and no feedback until the end. Each answer earns five, three, one or zero points. Press next on the option you want, then next again to confirm.",
+  "p2_practice": "TOGAF Part 2 scenario practice. Each answer earns five, three, one or zero points, and you hear why after each scenario. Answer by saying number one to four.",
+  "p2_practice_buttons": "TOGAF Part 2 scenario practice. Each answer earns five, three, one or zero points. Press next on the option you want, then next again to confirm."
+ },
+ "pronounce": {
+  "TOGAF": "Toe-gaff"
+ }
+}
