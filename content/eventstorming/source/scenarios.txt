@@ -1,0 +1,145 @@
+EventStorming facilitation scenarios. Original situations a facilitator may face, graded five, three, one or zero points, based on the approach described in Introducing EventStorming.
+
+Question 1.
+Topic: es-prep
+Scenario: You will facilitate a Big Picture workshop for a mid-size utility. The meeting room has a huge table in the middle, eighteen chairs, a screen, and a short whiteboard. Participants arrive in forty minutes, and several of them are senior managers who expect a normal meeting.
+How do you use the forty minutes?
+A. Move the table aside, stack the chairs in a corner, tape a long paper roll to the longest wall, and set out the legend, markers and stickies.
+B. Leave the furniture as it is, so the managers feel comfortable, but tape the paper roll on the wall behind the screen and ask people to come to the wall when they want to add events.
+C. Prepare a short slide deck explaining the method, the colors and the phases, so that the senior managers understand the approach before anyone writes a sticky note.
+D. Ask the organizer to move the workshop to another day with a better room, since the current room makes a Big Picture impossible and a rushed start would damage the method's reputation.
+Grades: A=5 B=3 C=0 D=1
+[THINK]
+The best answer is A, for five points. The book's advice is to hack the space before people arrive: a long wall, space to move, no table in the middle, seats available but out of the way, and a visible legend. The unusual setup itself creates curiosity. Option B scores three: the paper is there, but seated people around a big table become passive and few will stand up. Option D scores one: a better room helps, but postponing loses the key people's availability, and the room can be fixed in forty minutes. Option C scores zero: a long explanation upfront goes against do first, explain later, and keeps everyone sitting.
+
+Question 2.
+Topic: es-bigpicture
+Scenario: Ten minutes into chaotic exploration, a group of four has gathered in front of the wall. They're discussing the exact wording of a single event, and one of them holds the only marker the group is using. The rest of the room is writing quietly on their own.
+What should you do?
+A. Leave them alone, because agreeing on the wording now will save time during the sorting phase later.
+B. Join the group and help them reach an agreement quickly, so they can move on to the next events.
+C. Give everyone in the group a marker and ask each person to write their own version.
+D. Announce to the whole room that from now on each event must be agreed by at least two people before it goes on the wall.
+Grades: A=1 B=3 C=5 D=0
+[THINK]
+The best answer is C, for five points. This is the committee anti-pattern, made worse by a single marker. Breaking it up restores parallel work, and different wordings stay visible, which is valuable. Option B scores three: it speeds them up, but still serializes their work and hides alternatives. Option A scores one: the committee will drag on and its alternatives will be lost. Option D scores zero: it turns the whole room into committees.
+
+Question 3.
+Topic: es-bigpicture
+Scenario: Several participants have written stickies like Onboarding, Billing and Customer Care, and placed them along the timeline. Others are writing proper past-tense events. One developer asks you, loudly, whether those phase stickies are wrong.
+How do you handle it?
+A. Without calling them wrong, ask the authors what happens inside Onboarding, and turn the answers into past-tense events.
+B. Say yes, they're wrong, and ask the authors to remove them so the model follows the notation from the start.
+C. Keep the phase stickies as they are and use them as swimlane titles, since they already give the model a useful, readable structure.
+D. Tell the developer that notation doesn't matter at this stage, and move on without touching the phase stickies.
+Grades: A=5 B=1 C=0 D=3
+[THINK]
+The best answer is A, for five points. Phase names hide the details we want to discover, so they need to be unpacked into events, but without making people feel examined. Option D scores three: being relaxed about grammar is right early on, but phases are the one case worth pushing on. Option B scores one: the push is right, but the word wrong and the public correction damage confidence. Option C scores zero: it freezes the official version of the process before we discover the real one.
+
+Question 4.
+Topic: es-bigpicture
+Scenario: During timeline enforcement, the sales manager and the head of operations disagree loudly about when a contract becomes binding. The discussion has gone on for ten minutes, the rest of the room is watching, and it isn't converging. Some participants look bored, while others seem very interested.
+What should you do?
+A. Ask the most senior person present to decide, so the workshop can continue.
+B. Let the discussion continue as long as needed, since conflicts are exactly what the workshop is for.
+C. Stop the discussion and remind everyone that the agenda doesn't allow for long debates.
+D. Mark it with a hot spot, then ask the room whether to continue now or move on.
+Grades: A=0 B=1 C=3 D=5
+[THINK]
+The best answer is D, for five points. Non-converging discussions get a hot spot and the flow continues, but some discussions are long-awaited, so reading the room or simply asking is the right call. Option C scores three: moving on is often right, but without a hot spot the issue may be lost, and the agenda is not a reason in itself. Option B scores one: it ignores everyone else's time and the signals of boredom. Option A scores zero: an authority decision hides the conflict instead of making it visible.
+
+Question 5.
+Topic: es-facilitation
+Scenario: The founder of a company knows the business best and keeps answering every question. The developers have stopped writing stickies and are just asking him questions one after another. The model on the wall has barely grown in twenty minutes.
+What do you do?
+A. Ask everyone to write events as they imagine them, guessing where needed, and let the founder correct the wall.
+B. Thank the founder and ask him to dictate the main events while you write them, since he clearly holds the knowledge.
+C. Ask the founder to leave the room for half an hour so that the others feel free to contribute.
+D. Let it go on, since the developers are learning a lot from the founder's answers.
+Grades: A=5 B=1 C=0 D=3
+[THINK]
+The best answer is A, for five points. This is the ask questions first anti-pattern. Parallel writing and guess first turn the expert's knowledge into corrections on visible guesses, which is faster and makes misunderstandings visible. Option D scores three: learning is happening, but at the speed of one conversation, and it skips the exploration of the whole. Option B scores one: it keeps the founder as the only source and makes you the scribe. Option C scores zero: it removes the person with the most answers.
+
+Question 6.
+Topic: es-bigpicture
+Scenario: You have just finished the explicit walkthrough. The flow looks reasonable, everybody seems satisfied, and there are forty minutes left. You have only six hot spots on the wall, and the money side of the business has barely been discussed.
+What is your best next move?
+A. Close the workshop early, since everyone agrees on the flow and there are few problems.
+B. Run a reverse narrative from a few terminal events, then a short round on the money flow, and keep the last fifteen minutes for problems, opportunities and arrow voting.
+C. Go straight to arrow voting on the six hot spots, since they represent the main problems.
+D. Start designing solutions for the six hot spots with the people in the room.
+Grades: A=0 B=5 C=3 D=1
+[THINK]
+The best answer is B, for five points. Few hot spots and little money discussion are signs you haven't dug deep enough. The reverse narrative typically uncovers missing parts, the money round addresses a common blind spot, and the final rounds let everyone contribute before choosing. Option C scores three: it ends with a focus, but on a shallow picture. Option D scores one: it jumps to solutions before the picture is complete. Option A scores zero: "no conflicts" usually means something or someone is missing.
+
+Question 7.
+Topic: es-bigpicture
+Scenario: It's arrow voting time. The CEO is standing in the middle of the wall, holding her two arrows, and several managers are watching her closely before they decide where to place theirs.
+What should you do?
+A. Let the CEO vote first, so the group knows the strategic priority and can align with it before voting.
+B. Cancel the vote, since the presence of the CEO makes any vote unreliable.
+C. Collect votes anonymously on paper, count them after the workshop, and send the results by email.
+D. Have everyone vote at the same time, and gently ask the CEO to wait a moment before placing hers.
+Grades: A=0 B=1 C=3 D=5
+[THINK]
+The best answer is D, for five points. Voting should be simultaneous, and the facilitator should prevent power plays, for example by asking the most influential person to wait. Option C scores three: anonymity removes pressure, but you lose the visible result and the energy in the room. Option B scores one: sometimes not voting is right, but here the issue can be managed. Option A scores zero: it turns the vote into a confirmation of the boss's view.
+
+Question 8.
+Topic: es-process
+Scenario: In a process modeling session for a bed and breakfast, the team writes the policy: whenever a customer asks by email to hold a room, we hold it. The owner nods. You suspect it's not the full story.
+What's your best move?
+A. Accept it, since the owner is the domain expert and has confirmed it.
+B. Read it aloud with the words always and immediately, capture objections as hot spots, and split the policy if different rules appear.
+C. Replace the policy with a generic hold room policy and move on, since naming isn't important.
+D. Ask the owner to write down the official room hold policy after the workshop, and use that document as the reference for the whole process.
+Grades: A=1 B=5 C=0 D=3
+[THINK]
+The best answer is B, for five points. Policies are where people lie, not on purpose: there are rules, interpretations and reality. Speaking aloud and the magic words always and immediately reveal exceptions, such as only trusted regulars getting a hold. Option D scores three: it recognizes the policy needs more work, but loses the chance to explore it with everyone present. Option A scores one: expert confirmation isn't enough when the policy hasn't been challenged. Option C scores zero: it hides the most controversial part of the process.
+
+Question 9.
+Topic: es-process
+Scenario: Your process modeling team started from the beginning. After several steps, there are seven alternative branches open, people say "yes, but if…" all the time, and two participants have stepped back from the wall. No stickies have been added for ten minutes.
+What should you do?
+A. Ask the team to model all seven branches in parallel, so nothing is missed.
+B. Pick the branch the most senior person cares about and delete the others.
+C. End the session here, and schedule a separate follow-up meeting for each of the seven branches with the people who raised them.
+D. Take a break, then turn each unexplored branch into a hot spot and rush to the goal on one baseline path.
+Grades: A=1 B=0 C=3 D=5
+[THINK]
+The best answer is D, for five points. These are the classic rabbit hole symptoms. Hot spots keep every branch visible while limiting work in progress to one, and rushing to the goal builds a baseline you can then improve. A break helps everyone come back fresh. Option C scores three: it acknowledges the problem, but loses the momentum and the shared context. Option A scores one: it's trying to solve several problems at once, which is the cause of the problem. Option B scores zero: it hides branches and lets hierarchy decide.
+
+Question 10.
+Topic: es-design
+Scenario: In a design-level session for an online shop, a developer proposes a Shopping Cart aggregate holding the customer profile, full item descriptions and pictures, prices, stock levels and shipping options, because the cart page shows all of that.
+How do you respond?
+A. Accept it, since everything shown on the page needs to be consistent.
+B. Ask what the cart is responsible for and which rules must always hold, keep only the data those rules need, and treat the page's data as a read model.
+C. Split it into one aggregate per entity: customer, item, price, stock and shipping.
+D. Postpone the aggregate discussion and start writing the code right away, so that the right structure can emerge from the implementation and its unit tests.
+Grades: A=0 B=5 C=1 D=3
+[THINK]
+The best answer is B, for five points. Aggregates are units of consistent behavior, found through responsibilities and invariants. What the user needs to see belongs to a read model. Option D scores three: coding early is encouraged, but without the responsibility discussion, the bloated design will likely be coded. Option C scores one: splitting by nouns is still data-driven. Option A scores zero: it merges the screen's data into the aggregate, the exact trap the book warns about.
+
+Question 11.
+Topic: es-remote
+Scenario: You must run a Big Picture remotely for twenty-five people across two time zones. The sponsor asks for a single full-day video session starting with a free-for-all braindump on an empty board.
+What do you propose?
+A. Accept the full day, but add a ten-minute break every hour, and keep the board empty at the start, so that the exploration stays truly chaotic, as it would in a room.
+B. Run the full day, but with cameras off and microphones muted, to reduce fatigue and keep the conversation orderly.
+C. Replace the workshop with an online survey where each department lists its events, then merge them yourself.
+D. Split it into shorter sessions, seed candidate pivotal events or frames beforehand, use colors as signatures, and validate with a narrated walkthrough.
+Grades: A=3 B=1 C=0 D=5
+[THINK]
+The best answer is D, for five points. The book's remote patterns: split the workshop, anticipate structure because online chaos produces unsortable local braindumps, use colors as signatures, and validate through an explicit walkthrough, since validation without conversation is an illusion. Option A scores three: breaks help, but a full day and an empty board work against you online. Option B scores one: it reduces fatigue but removes most remaining signals. Option C scores zero: it drops the collaborative learning entirely.
+
+Question 12.
+Topic: es-prep
+Scenario: A client wants you to run a Big Picture to discover the scope of a new software project. Their analyst has already written a sixty-page specification and says the workshop is a waste of time: the developers should just read his document.
+How do you respond?
+A. Agree, cancel the workshop, and ask the developers to study the specification carefully.
+B. Run the workshop without the analyst, since he's likely to dominate the discussion.
+C. Invite the analyst as a key participant, explain that the developers' understanding is what ends up in the code, and use the workshop to build it, letting the analyst correct visible guesses on the wall.
+D. Run the workshop by walking through the specification chapter by chapter on the wall, with the analyst presenting.
+Grades: A=1 B=0 C=5 D=3
+[THINK]
+The best answer is C, for five points. This is the spoiler anti-pattern. The book's argument is that developers' understanding, not the document, ends up in production, and a document is a poor way to build it. The analyst's knowledge is precious as a corrector of visible guesses. Option D scores three: the wall is used, but it becomes a lecture that follows the official version. Option A scores one: the specification may be good, but it skips the learning. Option B scores zero: it excludes the person with the most answers.

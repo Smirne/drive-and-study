@@ -1,0 +1,44 @@
+EventStorming. Episode six. From the Big Picture to bounded contexts.
+
+This episode is for the architects and developers in the room. Brandolini considers getting the boundaries right the single design decision with the biggest impact over the life of a software system. In Domain-Driven Design, those boundaries are called bounded contexts: areas where one model, with one consistent language, is used for one specific purpose. The book has a chapter showing how a Big Picture EventStorming reveals candidate boundaries, almost as a by-product.
+
+First, why boundaries matter so much. Imagine a concept that everyone needs, like the Order in an online shop. Sales, payments, warehouse, shipping, customer care and accounting all depend on "the Order". So the order table, or the order service, becomes critical for everyone. Security gets complicated, because different roles need slightly different views of the same data. Every change needs coordination, more meetings, more trade-offs. Changing it becomes risky, so people stop changing it. Developers start calling it legacy. The business stops asking for changes in that area and builds workarounds. Brandolini's diagnosis: we didn't get the context boundaries right. We shared a concept that shouldn't have been shared.
+
+Ideally, a bounded context holds a model shaped for one specific purpose, the right tool for one job. When a different purpose appears, it deserves its own model, and then we design how the two models talk to each other. The difficulty is that "purpose" is too vague to draw lines with, and business stakeholders can't tell you where the boundaries are. Bounded contexts are mostly a software concern. So the architect's job is more like a detective investigating a crime scene than ticking boxes in an interview.
+
+Here's the good news. After a Big Picture workshop, most of the clues are already on the wall, and in your memory of the day. Once the participants have left, the book calls it homework time, and offers several heuristics.
+
+Heuristic one: look at the business phases, and follow the money. Pivotal events separate phases where different problems are solved with different tools and mental models. In the conference example, everything before "conference website launched" is investment and preparation; after "ticket sold", you are holding attendees' money; around "conference started", they finally get value back. Designing a conference and running a conference need different models. Interestingly, the pivotal events are often the ones with conflicting wordings, exactly where contexts overlap. Brandolini's advice: you don't have to agree on the language. There's more to learn by keeping disagreements visible. And remember that when two models interact, there are actually three languages: the two internal ones, and the one used to communicate between them. Pivotal events often become part of that shared, published language.
+
+Heuristic two: look at the swimlanes. Swimlanes that emerged to show an independent process, possibly on its own timeline, are a good hint of a separate model. Not every swimlane is a bounded context, though. Sometimes it's just an "if" somewhere in the code.
+
+Heuristic three: look at the people on the paper roll. Different personas can mean different flows. Superstar keynote speakers are invited, while regular speakers go through the call for papers. Upstream, the flows are independent and may need different models. Downstream, on the schedule, you want the same data regardless of how the speaker got there. And during lunch, every speaker is just another mouth to feed.
+
+Heuristic four: look at the humans in the room. Where did people spend their time during the workshop? Experts gather around the parts they know or care about. Different people mean different needs, which mean different models. This information never gets written down, but you remember it, thanks to spatial memory.
+
+Heuristic five: look at body language. Shaking heads and rolling eyes reveal conflicting perspectives that haven't been voiced, often between levels of hierarchy. Domain-Driven Design doesn't force one model to satisfy everyone: you may need one model for the operator's problem and another for the boss's problem, and then a good way for them to interact.
+
+A related pattern appears around pivotal events: a competence clash. On one side of the event, people know every step needed to make it happen, often like a checklist. On the other side, people only care about the outcome: "I don't care whether you used this tool to publish the website, I just need to know if the link works". That shift from "how" to "what" is a natural boundary.
+
+Heuristic six: listen to the actual language, carefully. This is the trickiest, because spoken language fools us. Take the word "talk" in a conference. A talk is submitted, accepted or rejected in the call for papers. A talk is scheduled in a slot and a track. A talk is assigned to a host who introduces the speaker. A talk is rated by attendees. A talk is filmed, and then published online. Is it really the same talk? Nouns fool us, because people agree on static data, like "a talk has a title", which is easy to agree on without meaning the same thing. Verbs are much more revealing: selection, scheduling, staffing, rating, recording. Each verb points to a different purpose, and a different model, even if they share a name and some data.
+
+That's also why the reverse is dangerous: designing around big shared nouns, the customer, the order, the product, the talk, tends to produce the bloated central model we described at the start.
+
+Brandolini contrasts this with traditional requirements gathering. In a workshop you get far more information, much of it informal: who stood where, who reacted to what, what made people laugh or sigh. That information never fits a standard document, but it shapes good models anyway, because you were there. It simply feels wrong to merge two things that were meters apart on the wall.
+
+He sums up the whole idea in a single sentence: merge the people, split the software. Bring everyone together to learn, and then build separate models where the purposes differ. He adds that we spent years doing the opposite: splitting people into silos and merging everything into one big shared model.
+
+A practical caution for remote workshops. Online tools make it tempting to give each role its own frame, and then call each frame a bounded context. It isn't that simple. Frames and roles are just a starting point; the real test is language consistency and precision of purpose.
+
+Quick check.
+Why are nouns misleading when looking for bounded contexts?
+[THINK]
+People easily agree on static data, like "a talk has a title", while meaning different things. Verbs reveal different purposes, and so different models.
+When two bounded contexts communicate, how many models or languages are involved?
+[THINK]
+Three: the internal model of each context, plus the communication model between them.
+Summarize the chapter's core idea in four words.
+[THINK]
+Merge the people, split the software.
+
+In the next episode, we move to Process Modeling and its color grammar.

@@ -1,0 +1,69 @@
+EventStorming. Episode seven. Process Modeling: the color grammar.
+
+After a Big Picture, you usually know which problem is worth solving. Process Modeling zooms in on one process and designs it properly, with a smaller group and a stricter notation. Brandolini frames it as a cooperative game: the players aren't competing with each other, they're all playing against the problem. The rules are simple, but finding a winning strategy is not.
+
+Let's start with how you win. The book lists four conditions.
+One. Every process path is completed, reaching a stable state where no immediate action is required.
+Two. The color grammar is respected, with no holes or gaps.
+Three. Every hot spot has been addressed.
+Four. All stakeholders involved are reasonably happy.
+
+Let's unpack them. A process is never one straight line. Every step can branch: the email address is already registered, the payment method differs, the inquiry is about a purchase from ten minutes or ten years ago. Some branches merge back, others end in different outcomes. A process normally starts from a trigger, which is either a command from a user or an event from outside, and finishes with events and read models. Why both? Because the final events put the system in a stable state, but the humans involved also need to see the outcome somewhere to believe the process is complete. Brandolini calls these "system happy" and "user happy".
+
+"Reasonably happy" is deliberately modest. Not every process has a happy ending: refunds and cancellations matter too. The aim is to maximize value for all parties given the starting conditions. And when you can't improve the value delivered or reduce friction any further, you're done.
+
+Now the grammar, summarized in what the book calls "the picture that explains everything". Here it is in words, with a pizza example.
+
+A person, on a little yellow sticky, makes a decision. To decide, they use information from the world, like "I'm hungry and I have money", and a read model, a green sticky, such as the menu with pizzas, ingredients and prices.
+
+The decision becomes concrete as a command, a blue sticky, written in the present tense: place order. A command is an intention. It can still fail or be rejected.
+
+The command is handled by a system, a pink sticky, which produces one or more events, orange, in the past tense: order placed.
+
+The consequences of the event must become visible to others, which means updating read models: the pizza maker's order list, the customer's order summary.
+
+And the organization reacts to events through policies, lilac stickies: whenever an order is placed, add the pizzas to the kitchen backlog. The policy triggers new commands, and the cycle continues.
+
+The linear version of the rule is easy to remember. Between a blue command and an orange event, there must be a pink system. Between an orange event and a blue command, there must be a lilac policy. Simple enough for beginners, but applying it everywhere is harder than it sounds.
+
+Now each building block in more detail.
+
+Events. In Process Modeling the past-tense phrasing becomes mandatory, and events must be real state transitions. Expect to rewrite them several times as precision grows. Events come from four sources: a user interaction, an external system, the passing of time, or a reaction to another event. A single interaction may produce several events, for example alternative outcomes; a common layout puts the happy path on top and the less frequent alternatives below. Different wordings for the same moment may reveal different perspectives, maybe different bounded contexts, so don't force agreement too early.
+
+Time deserves attention. Some events happen simply because it's time: end of day, end of quarter, a payment due thirty days after the invoice, a ten-minute reservation timeout. Brandolini draws a clock for short durations and a calendar for days and months. Making these triggers explicit often reveals hidden complexity. "End of quarter" doesn't really start the review at midnight: there's a buffer, departments close their books, someone eventually declares the quarter closed. And time-triggered events are also how you model things that don't happen. You can't observe "forgot to send birthday greetings". You can observe "end of day" happening before any "greetings received".
+
+Commands, also called actions, intentions or decisions. Blue, present tense. Different people see them differently: a user decision, or a request the system must fulfill. The book accepts the fuzziness.
+
+People. Little yellow stickies, from generic "user" to specific personas. Start generic and specialize when it matters: same action for different reasons, like buying a train ticket for work or for a holiday; different branches, like new versus returning customer; different information needed. Don't forget internal users: look at their real behavior, not just their role names.
+
+Systems. Pink. Resist the temptation of one generic "system": specific systems have specific strengths and pain points. But to keep the model readable, you can pick one representative and use hot spots as placeholders for the others. Conversational systems, like phone, email or chat, are tricky to model as a sequence of events. Mark the system as conversational, and focus on the outcome: what ends this conversation? A deal reached, a question answered, or clearly going nowhere. Downstream actors usually don't care how the conversation went, only about the result.
+
+Policies. These are the heart of the conversation. A policy is the reactive logic between an event and a command, and it reads as: whenever this happens, then we do that. Brandolini is strict about the rule that there must always be a lilac between an orange and a blue, because there is always a business decision there, even when it seems obvious. A policy may be automated or handled by a person; in that case, put the person on it. Policies are usually the first thing to change when the business changes. A shop owner who answers every call personally, then within the hour, then "call back later"... nobody announced a policy change, it just happened.
+
+Brandolini's memorable phrase is that policies are where people lie. Not on purpose: there are official rules, interpretations of the rules, and what really happens. So the lilac sticky is a placeholder for a mandatory, often controversial, conversation.
+
+Two tricks help discover the real policy. First, speak it out loud. In a bed-and-breakfast example, the draft policy is: whenever a customer emails asking to hold a room, we just do it. Saying it aloud, it sounds absurd, and someone objects. You capture the objections as hot spots, and refine: whenever we receive a room hold request, if the customer gave name and phone number and the dates are available, we do it. Second, the magic words: always, and immediately. Repeat the sentence with "always" or "immediately", and enjoy the show. Suddenly exceptions appear: actually, only trusted regular customers can hold a room; others get a polite no. Now there are two policies, so model two. You can add a reminder command for the temporary hold, and peak days in the read model.
+
+Don't waste time naming a policy. Infer what it does from the surrounding stickies, say it out loud, and agree on the behavior. The name usually becomes obvious afterwards. Asking an expert "what do you call this policy?" often creates friction: people do things without naming them.
+
+Read models. Green. The information someone needs to take a decision. Writing it down exposes assumptions: does the traveler know the nearest station? Is the train really the only way from A to B? The real destination isn't a station anyway. Brandolini explores read models starting from the decision, not from a sequence of data fetching. "First I get the stations, then the times" is just one possible solution leaking into the problem; a voice request like "the first train from Milan to Bologna" could gather the same data in one step. When the visual presentation matters, add sketches or screenshots.
+
+Value. Small green and red stickies for value created and destroyed, as in the Big Picture.
+
+Hot spots. Still purple, and now also a tool to manage branching: every branch you're not exploring right now becomes a hot spot, so it's visible and won't be forgotten.
+
+Quick check.
+Complete the rule: between a command and an event there must be a…, and between an event and a command there must be a…
+[THINK]
+A system between command and event. A policy between event and command.
+What are the four sources of domain events?
+[THINK]
+User interaction, external systems, time, and reactions to other events.
+Which two magic words help uncover the real policy?
+[THINK]
+Always and immediately.
+What are the four winning conditions of the process modeling game?
+[THINK]
+All paths complete to a stable state; the color grammar is respected; every hot spot is addressed; all stakeholders are reasonably happy.
+
+In the next episode: strategies to play the process modeling game, and the step into software design.

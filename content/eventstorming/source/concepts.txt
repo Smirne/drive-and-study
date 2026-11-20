@@ -1,0 +1,301 @@
+EventStorming concepts. Original practice questions based on the ideas in Alberto Brandolini's book Introducing EventStorming.
+
+Question 1.
+Topic: es-basics
+How should a domain event be written on a sticky note in EventStorming?
+A. With a verb in the past tense, such as ticket sold.
+B. With a verb in the imperative, such as sell ticket.
+C. As a noun naming the business phase, such as ticketing.
+D. As a question the business must answer, such as is the ticket valid.
+[THINK]
+The answer is A. A domain event is something relevant that happened, written with a verb in the past tense. An imperative, like sell ticket, is the form of a command. A phase name hides the details we want to discover.
+
+Question 2.
+Topic: es-basics
+According to the book, what is the most valuable outcome of a Big Picture EventStorming?
+A. The paper roll, which becomes the official process documentation.
+B. The collective learning of the people who took part.
+C. A complete list of requirements for the software team.
+D. A signed agreement on the target process between departments.
+[THINK]
+The answer is B. The book presents EventStorming as an act of deliberate collective learning. The model is an excuse to have the right conversations, and the paper roll is a means, not the deliverable.
+
+Question 3.
+Topic: es-basics
+Which three workshop formats does the book describe?
+A. Kick-off, Retrospective and Release Planning sessions.
+B. Big Picture, Process Modeling and Software Design.
+C. Discovery, Delivery and Operations.
+D. Strategic, Segment and Capability.
+[THINK]
+The answer is B. Big Picture explores a whole line of business, Process Modeling designs one process, and Software Design, also called Design-Level, designs the software for a specific problem.
+
+Question 4.
+Topic: es-basics
+Why does Brandolini deliberately avoid precise definitions of the building blocks in the early phases?
+A. Because the method is still too new to have stable, agreed definitions for each color.
+B. Because precise definitions are only needed when writing code.
+C. Because precise notation excludes people and forces premature agreement.
+D. Because each facilitator is expected to invent their own notation.
+[THINK]
+The answer is C. Fuzzy definitions keep the conversation open to everyone, whatever their background, and let different interpretations become visible instead of being settled too early. Precision is added gradually.
+
+Question 5.
+Topic: es-basics
+What is the relationship between EventStorming and event sourcing?
+A. They are different names for the same technique.
+B. EventStorming is a workshop; event sourcing is a persistence pattern.
+C. Event sourcing is the remote version of an EventStorming workshop.
+D. EventStorming can only be used when the software will be event sourced.
+[THINK]
+The answer is B. EventStorming is a collaborative modeling workshop. Event sourcing stores the history of events as the source of truth in software. A design-level session maps naturally onto an event-driven design, but the two are independent choices.
+
+Question 6.
+Topic: es-prep
+Which three kinds of participant does the book list for a Big Picture workshop?
+A. Sponsors, users and developers.
+B. People with questions, people with answers, and a facilitator.
+C. Managers, analysts and testers.
+D. Business owners, enterprise architects and a scribe who writes for the group.
+[THINK]
+The answer is B. The book then admits the split is artificial, since everyone learns, and suggests a simpler criterion: invite people who care about the problem.
+
+Question 7.
+Topic: es-prep
+How should the room be prepared before a Big Picture workshop starts?
+A. Chairs around a central table, so everyone can see each other.
+B. A projector and a shared document, so the scribe can type the model.
+C. A long paper roll on a straight wall, with the table aside and chairs stacked away.
+D. Several small tables, each with a group working on its own department's part of the flow.
+[THINK]
+The answer is C. The book wants an unlimited modeling surface on a long wall, space to move in front of it, and no seats at the start, because seats invite passive listening and laptops.
+
+Question 8.
+Topic: es-prep
+What is the purpose of the pattern called one person, one marker?
+A. To make sure each department uses a different color, so their events can be told apart.
+B. To track who wrote each sticky note.
+C. To avoid committees around a single scribe and keep the work parallel.
+D. To limit the number of stickies each person can add.
+[THINK]
+The answer is C. If only a few people can write, the others gather around them and dictate, and the workshop slows down to one conversation at a time. Everyone needs a working marker.
+
+Question 9.
+Topic: es-prep
+For a Big Picture workshop, what is usually the dominant constraint on its duration?
+A. The amount of paper and sticky notes available.
+B. The availability of the key people.
+C. The time needed to model every flow completely.
+D. The number of hot spots that need to be solved.
+[THINK]
+The answer is B. Key people are busy, so the workshop must maximize learning in the time available, knowing it won't cover everything.
+
+Question 10.
+Topic: es-bigpicture
+At the start of chaotic exploration, nobody dares to place the first sticky. What does the book suggest?
+A. The facilitator explains the method in detail until everyone is ready.
+B. Wait for an icebreaker to place a first event, and praise them for it.
+C. Ask the most senior person to write the first ten events.
+D. Split the group into teams and assign each team one part of the timeline to fill in.
+[THINK]
+The answer is B. An icebreaker shows that it's easy and nobody gets hurt. If no participant moves, the facilitator may place an example and then step away from the wall.
+
+Question 11.
+Topic: es-bigpicture
+During chaotic exploration, two stickies describe what seems to be the same event with different wording. What should you do?
+A. Merge them immediately to keep the timeline clean.
+B. Ask the domain expert to choose the correct wording.
+C. Keep both for now, because the difference may reveal different meanings.
+D. Remove both, and ask the group to discuss and write a single agreed version.
+[THINK]
+The answer is C. Different wordings often point to different perspectives or meanings, and later hint at different bounded contexts. Resolving them too early hides exactly what we want to discover.
+
+Question 12.
+Topic: es-bigpicture
+Which sorting strategy does the book describe as the emergency move when the wall is too packed to rearrange?
+A. Pivotal events.
+B. Swimlanes.
+C. Temporal milestones.
+D. Chapter sorting.
+[THINK]
+The answer is D. With chapter sorting, the group extracts fifteen to twenty-five chapters of the business story, sorts them on a separate surface, then reorganizes the main flow around them.
+
+Question 13.
+Topic: es-bigpicture
+What are pivotal events?
+A. Events that only the facilitator is allowed to write.
+B. A few key events that mark transitions between business phases.
+C. Events that happen on a fixed schedule, such as end of month or end of quarter.
+D. The first and the last event of the timeline.
+[THINK]
+The answer is B. Pivotal events, like order placed or payment received, often interest many departments. Marking them with tape splits the flow into phases and speeds up sorting.
+
+Question 14.
+Topic: es-bigpicture
+What is the book's fuzzy definition of an external system?
+A. Any software not developed by the organization.
+B. Any system with an integration interface.
+C. Whatever we can put the blame on.
+D. Any department not invited to the workshop.
+[THINK]
+The answer is C. The deliberately loose definition lets people add anything from payment providers to regulations, other departments, or even bad luck, which can reveal risks.
+
+Question 15.
+Topic: es-bigpicture
+What is the reverse narrative?
+A. Reading the timeline from right to left to check that every sticky is spelled consistently.
+B. Starting from an event near the end and asking what had to happen before it.
+C. Letting the most junior participant tell the story.
+D. Removing events one by one until the flow breaks.
+[THINK]
+The answer is B. Working backwards in causal order exposes missing steps and information. The book reports it often reveals a large part of the system hidden by optimistic forward thinking.
+
+Question 16.
+Topic: es-bigpicture
+In arrow voting at the end of a Big Picture, what does each participant do?
+A. Rank all hot spots from most to least important.
+B. Place two arrows on the problems or opportunities they find most important.
+C. Vote by raising hands for each proposal that the facilitator reads out to the room.
+D. Draw arrows between related events to show which ones depend on each other.
+[THINK]
+The answer is B. Each person gets two votes, small blue arrows, pointing at purple problems or green opportunities, and everyone votes more or less at the same time.
+
+Question 17.
+Topic: es-bigpicture
+Which situation is a reason not to run a vote at the end of a Big Picture?
+A. The group found more than twenty hot spots.
+B. The workshop ran more than two hours.
+C. A single partisan perspective dominated the people in the room.
+D. Some events were written in the present tense instead of the past tense.
+[THINK]
+The answer is C. The book lists the wrong mix of people, the wrong scope, confidentiality constraints, and being too early, as in a startup with only assumptions, as reasons not to vote.
+
+Question 18.
+Topic: es-bigpicture
+When playing with value, how does the book suggest marking value created and value destroyed?
+A. Green for value created, red for value destroyed, in any currency.
+B. Dollar signs on the events where money is received.
+C. Blue arrows from the customer to each paid step.
+D. Purple stickies for every cost and orange stickies for every source of revenue.
+[THINK]
+The answer is A. Value comes in many currencies, such as time, reputation, safety or stress, and contrasting perspectives on value often reveal hidden conflicts.
+
+Question 19.
+Topic: es-facilitation
+What does the pattern do first, explain later mean?
+A. Let people try with minimal instructions, and explain when real questions arise.
+B. Write the whole model first, then explain it to the participants.
+C. Let the experts work first, and explain the result to the newcomers.
+D. Run the workshop first, and send a detailed explanation of the method afterwards by email.
+[THINK]
+The answer is A. Theory without experience doesn't stick. Give the minimum needed to start, and explain once people have a partial model and real questions.
+
+Question 20.
+Topic: es-facilitation
+Two architects are arguing about a solution that exists only in their heads. Which rule does the book suggest?
+A. Let the most senior architect decide, to save time.
+B. Postpone the discussion until after the workshop.
+C. We only talk about visible things: model both alternatives, then choose.
+D. Ask the whole group to vote immediately between the two positions, to keep the workshop moving.
+[THINK]
+The answer is C. This is the religion war anti-pattern. Make both alternatives visible, adding space if needed, and only choose between visible options.
+
+Question 21.
+Topic: es-facilitation
+What is the guess first pattern?
+A. The facilitator guesses the main problem before the workshop, to prepare a focused agenda.
+B. Newcomers guess how the system works and write it down, so wrong guesses get corrected.
+C. Participants guess the number of events before starting.
+D. The group guesses which hot spot will win the vote.
+[THINK]
+The answer is B. A lecture hides misunderstandings and skips the obvious. Visible guesses trigger corrections, and create curiosity for the expert's explanation.
+
+Question 22.
+Topic: es-facilitation
+Why does the book recommend speaking out loud when telling the story or reading a policy?
+A. Because it makes the workshop more entertaining and keeps the audience's energy high.
+B. Because complete sentences said in front of others expose gaps in our reasoning.
+C. Because the facilitator needs to record the session.
+D. Because remote participants can't see the wall.
+[THINK]
+The answer is B. Our brain takes shortcuts and pretends to understand. Speaking aloud activates the part of us that doesn't want to sound stupid, so we correct ourselves, or someone else does.
+
+Question 23.
+Topic: es-bc
+According to the book, which clue is the least reliable when looking for bounded contexts?
+A. Where the experts spent most of their time standing during the workshop.
+B. Pivotal events separating business phases.
+C. Shared nouns that everyone agrees on, like a talk has a title.
+D. Swimlanes for independent processes.
+[THINK]
+The answer is C. Nouns fool us, because people agree on static data while meaning different things. Verbs, such as submitted, scheduled or rated, reveal different purposes and so different models.
+
+Question 24.
+Topic: es-bc
+Which sentence does Brandolini use to sum up the idea of discovering bounded contexts with EventStorming?
+A. Divide and conquer.
+B. Merge the people, split the software.
+C. One model to rule them all.
+D. Design first, code later.
+[THINK]
+The answer is B. Bring everyone together to learn, and then build separate models where the purposes differ. He adds that for years we did the opposite.
+
+Question 25.
+Topic: es-process
+In the process modeling color grammar, what must sit between an orange event and a blue command?
+A. A pink system.
+B. A green read model.
+C. A lilac policy.
+D. A yellow person.
+[THINK]
+The answer is C. A policy captures the reactive logic: whenever this happens, then we do that. Between a command and an event there must be a system.
+
+Question 26.
+Topic: es-process
+Which of these is not one of the four sources of domain events in the book?
+A. A user interaction.
+B. The passing of time.
+C. A reaction to another event.
+D. A read model being displayed.
+[THINK]
+The answer is D. Events come from user interactions, external systems, time, or as a reaction to other events. A read model is information used to make a decision; it doesn't produce events by itself.
+
+Question 27.
+Topic: es-process
+Which two magic words does the book use to uncover the real behavior behind a policy?
+A. Never and sometimes.
+B. Always and immediately.
+C. Who and why.
+D. Before and after.
+[THINK]
+The answer is B. Repeating a policy with always or immediately quickly triggers objections and exceptions, revealing the real rules, or competing policies.
+
+Question 28.
+Topic: es-process
+Which is one of the four winning conditions of the process modeling game?
+A. Every event has exactly one command before it.
+B. All stakeholders involved are reasonably happy.
+C. The process fits on six meters of paper.
+D. The domain expert has approved every sticky note.
+[THINK]
+The answer is B. The four conditions are: all paths reach a stable state, the color grammar has no holes, every hot spot is addressed, and stakeholders are reasonably happy.
+
+Question 29.
+Topic: es-design
+What does the book recommend when looking for aggregates in a design-level session?
+A. Start from the data shown on the screens, then group it into aggregates.
+B. Name the aggregates first, using the main nouns of the business, then add their data.
+C. Find responsibilities and the information they need, and name the aggregate last.
+D. Create one aggregate for each bounded context.
+[THINK]
+The answer is C. Starting from data drags in everything the screen needs, which belongs to read models. Responsibilities first, information second, name last.
+
+Question 30.
+Topic: es-remote
+In remote Big Picture workshops, why does the book suggest anticipating structure, for example seeding candidate pivotal events or frames?
+A. Because digital tools can't handle more than a hundred stickies.
+B. Because online, people dump only their local story, and sorting a messy board on a small screen is painful.
+C. Because remote participants are less expert than in-person ones.
+D. Because the facilitator must approve every single event before participants are allowed to add it to the board.
+[THINK]
+The answer is B. In a room, chaos followed by sorting works well. Online, the result is clusters of local stories that are very hard to sort, so a seeded skeleton works better.

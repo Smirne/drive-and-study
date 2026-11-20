@@ -11,7 +11,7 @@ from kokoro_onnx import Kokoro
 d, src, out = sys.argv[1], sys.argv[2], sys.argv[3]
 k = Kokoro(d+"/kokoro-v1.0.onnx", d+"/voices-v1.0.bin")
 txt = open(src).read()
-txt = txt.replace("TOGAF", "Toe-gaff").replace("I S and", "I.S. and")
+txt = txt.replace("TOGAF", "Toe-gaff").replace("I S and", "I.S. and").replace("EventStorming", "Event Storming")
 sr = 24000
 parts = []
 for i, p in enumerate([p.strip() for p in txt.split("\n\n") if p.strip()]):

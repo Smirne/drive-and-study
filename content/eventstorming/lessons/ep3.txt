@@ -1,0 +1,54 @@
+EventStorming. Episode three. Big Picture, part one: from chaos to a timeline.
+
+The room is ready, the people are in. This episode follows the first half of a Big Picture workshop as Brandolini describes it: the kick-off, chaotic exploration, and enforcing the timeline, with hot spots appearing along the way.
+
+The kick-off should be short. Do a quick round of introductions, so everyone can say who they are and what they expect. Keep it fast, because a slow round of twenty people is expensive, but don't skip it: a bad start can backfire later. If people don't know each other at all, a proper ice-breaking game may be needed.
+
+State the goal in one or two sentences. Something like: we are going to explore the business as a whole, by placing the relevant events along a timeline, and we'll mark risks, ideas and opportunities on the way. Then warn people about what may make them uncomfortable. It will be chaotic. It will be mostly standing up. Some moments will feel awkward. All of that is expected, and nobody can do anything wrong.
+
+What you don't do at this point is sell the method. Brandolini insists on this. People are there for their business goals, not for EventStorming. Every explanation triggers another question, and every question steals time from the real work. His advice: don't talk, show. You'll get the questions about the method at the coffee machine later. Some facilitators, like Paul Rayner, run a short warm-up instead: the group models a well-known story, such as Cinderella, so they learn the mechanics without the pressure of their own domain.
+
+Now the first real phase: chaotic exploration. The instruction fits in three points. Use an orange sticky note. Write a verb in the past tense, like item added to cart or ticket purchased. And it must be relevant for the domain experts. Put an orange sticky on the legend labeled "domain event", or simply "event" if the technical term scares anyone. Then ask everyone to write the events they know and place them on the wall, roughly in time order, from left to right.
+
+Expect an awkward stand-off in the first minutes. People look at the empty paper, then at each other, then at you. Your job is to support, not to lead. What breaks the deadlock is an icebreaker: the first person who places a sticky note somewhere in the middle of the wall. That gesture tells everybody that it's easy and that nobody gets hurt. When it happens, praise the icebreaker. If nobody moves, you may place a first example yourself, and then step away from the wall: now it's up to them. There's even a pattern called "be the worst": place something obviously imperfect, so the bar is low and someone will happily correct it. Use it with care.
+
+Once the ice is broken, the workshop ignites. Dan North compared it to starting an old chainsaw: a few failed pulls, then suddenly full power. The room turns into a massively parallel activity.
+
+Watch for a few behaviors. Some people form little committees, trying to agree on the wording of each sticky before writing it. Break those circles politely. Agreement is expensive, it limits the group to one topic at a time, it hides alternative wordings, and it pushes people back to the usual way of seeing the problem. Some people work alone and dump their whole expertise in one long strip. That's fine for now. And some don't know what to write: reassure them that guessing is completely legitimate.
+
+Don't be strict about grammar yet. Many people will write "place order" instead of "order placed". That's a minor issue now. Confidence and engagement matter more than precision in this phase, and you can rephrase later. Brandolini also avoids the word "wrong" with participants who are already out of their comfort zone. There is one exception you should push back on: phase names. A sticky saying "Registration" or "Onboarding" hides exactly the details you want to discover. In the book's startup story, he simply rotates such a sticky by forty-five degrees, as a silent signal that it isn't an event yet. On colors, instead, be strict: keep other colors out of reach, so everyone uses orange.
+
+After the first noisy minutes, people settle into what Brandolini calls quiet chaos: everyone writes and places their own events, with few conversations. The model grows quickly, big and messy, with dozens or hundreds of stickies, duplicates, and parts in the wrong order. The typical result is locally ordered clusters inside a disordered whole. That's exactly what we want.
+
+A key point here: don't merge duplicates too early. Different wordings for what looks like the same event often hint at different meanings, or at different perspectives on the same moment. Schedule ready, schedule completed, schedule published: they may not be the same thing at all. Those differences will be precious later, when we look for boundaries in the software.
+
+Eventually the crowd stops adding stickies and steps back to contemplate the wall. Praise the result, take questions, and call a break. The next phase needs energy.
+
+Phase two: enforcing the timeline. Now we ask the group to make the flow consistent from beginning to end. This is when it gets heated, because each person's local sequence, "this is how it works in my silo", has to be merged with someone else's view. Inconsistencies become visible, and once they are visible, people talk about them. Many key conversations just happen here.
+
+Sorting a big mess by brute force is hard. First, make sure there is enough empty space; if the wall is too packed, add another strip of paper. Then choose a sorting strategy. The book describes several.
+
+Pivotal events. Pick the few most significant events in the flow, often those that many departments care about. For an online shop: article added to catalog, order placed, payment received, order shipped, order delivered. Mark them with colored tape as boundaries between phases. Four or five are usually enough, and they don't need to be perfect: they're just there to speed up sorting. Brandolini compares it to moving from bubble sort to quicksort.
+
+Swimlanes. Horizontal lanes for different departments or parallel processes. They improve readability, but they consume a lot of vertical space, so they work better after a temporal structure exists.
+
+Temporal milestones. When there are many parallel processes, like organizing a conference, put time markers along the top: one year before, six months before, one month before, the day itself. People can then place their events roughly where they belong.
+
+Chapter sorting. The emergency move when space is short: extract fifteen to twenty-five chapters of the business story on larger stickies, sort them on a separate surface, then reorganize the main flow around them. Why not start with chapters? Because before the chaotic exploration you couldn't trust them: the official version of the process is rarely the real one.
+
+In practice you will combine strategies. The structure has to emerge from the group's work, step by step, so that everyone owns it.
+
+While everyone is busy sorting, you as facilitator watch for places where the discussion gets hot, and mark them with a purple or magenta sticky: a hot spot. A hot spot captures a problem, a disagreement, a question, a risk, or a lack of knowledge. Brandolini prefers to keep hot spots in the facilitator's hands during this phase, because an early open call for problems produces a flood of low-quality complaints. Everyone gets their turn later. Hot spots also make the workshop safer: the problem is now on the wall, so the group can be hard on the problem and soft on the people.
+
+Quick check.
+What usually ends the awkward stand-off at the start of chaotic exploration?
+[THINK]
+An icebreaker placing the first sticky note, ideally a participant. The facilitator should praise them.
+Should you merge two stickies with different wordings for what seems the same event?
+[THINK]
+Not yet. Different wordings may reveal different meanings or perspectives, which later hint at different bounded contexts.
+Name three strategies to enforce the timeline.
+[THINK]
+Any three of: pivotal events, swimlanes, temporal milestones, chapter sorting.
+
+In the next episode: people and systems, walking through the story forwards and backwards, value, and choosing the problem to solve.

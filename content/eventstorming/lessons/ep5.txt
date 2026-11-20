@@ -1,0 +1,82 @@
+EventStorming. Episode five. The facilitator's toolbox: patterns and anti-patterns.
+
+The book ends with a catalog of patterns and anti-patterns. Some chapters are unfinished, but the core ideas are clear, and they are exactly what you need when you are the one standing next to the wall. In this episode we go through the most useful ones, grouped by the moment you'll need them.
+
+First, the facilitator's role. Brandolini describes the facilitator as responsible for the participants' experience: watch for anything that blocks the flow of the workshop, and remove it as smoothly as possible. You prepare the room and the material, you give people the feeling that everything is under control, and then you mostly support rather than lead. A facilitator without a personal stake in the topic is a big advantage, because you'll be lifting the carpet on problems that have been hidden for years.
+
+Patterns for getting started.
+
+Do first, explain later. People ask for detailed instructions before trying something new, but theory without experience doesn't stick. You can't explain swimming to someone who has never been underwater. Give the minimum needed to start, and answer questions as they come. The same words that slip away before the experience will stick after it.
+
+The icebreaker. Somebody needs to make the first move on the empty paper. Ideally a participant, and you praise them. If not, you, and then you step back.
+
+Be the worst. If you have to start, place something imperfect, so others can easily improve it. It shows that being wrong is fine.
+
+The right to be wrong. Exploration means being wrong is a normal state. Being visibly wrong is even better, because the person who knows the real story will correct it.
+
+Guess first. Instead of letting the newcomers listen quietly to an expert's lecture, ask them to guess how the system works and write it down. Experts naturally skip what seems obvious to them, and misunderstandings stay invisible in a lecture. When a guess is wrong, someone corrects it, and now the expert's explanation lands in a mind that is curious about it.
+
+Patterns about notation.
+
+Incremental notation. Start with the smallest possible notation and add elements when discovery slows down. A good question to ask the group is: what would you like to see on the model next?
+
+Visible legend. Keep the current notation on a flip chart, using the real sticky notes with their names, not symbols. When notation grows on the fly, a legend keeps cognitive load low.
+
+Fuzzy definitions. Don't define precisely what an actor or a system is. Precision too early excludes people and dissonant voices, and choosing a specific notation favors one group over another. If someone insists "we need to define what an actor is", say yes, later. And if the pressure comes from two clashing interpretations, make both visible: maybe you've just found two different kinds of actor.
+
+Capture definitions. When everybody uses a term or acronym that seems obvious to them and isn't obvious to you, ask for its meaning and write it on a sticky of its own, below the flow. Often you're not the only one who didn't know.
+
+Patterns about space and materials.
+
+Unlimited modeling surface, and add more space. When the wall fills up, everything starts to feel harder, because people are solving two problems: modeling and finding room. Adding another strip of paper breaks the stalemate. Keep extra space available on demand rather than using everything from the start.
+
+Conquer first, divide later. A small surface quietly turns "model this problem to find a solution" into "model this problem within this space". Explore the whole first, and split it afterwards.
+
+One person, one marker; and poisonous seats, which we covered in episode two.
+
+Patterns for the middle of the workshop.
+
+Hot spots. Use purple stickies to capture uncertainty, disagreement, risk, or endless arguments between two people, and keep going. The model will never be finished; hot spots are the shared notes about what we still don't know.
+
+Speaking out loud. Our brain is lazy and pretends to understand. Forcing complete sentences, loud enough for others to hear, activates the part of the brain that doesn't want to sound stupid in public. You'll correct yourself, or someone else will.
+
+Keep your mouth shut. Sometimes you'll see the solution before the group. Resist. Let someone else find it, so the group owns it. If nobody does, try: "this might be a stupid question, but I was wondering…"
+
+Go personal. If only a few people are engaged, ask the others "what do you do?" and have them add themselves to the wall as named people. People who don't feel engaged by "the system" usually like to talk about their own work.
+
+Patterns for after the workshop: leave stuff around, so people can return to the model; and the slack day after, which reserves time to start working on the problem immediately, and gives introverts a calmer moment to contribute.
+
+Now the anti-patterns. Brandolini notes that most of them look like common sense, which is exactly why they're dangerous.
+
+Ask questions first. A group naturally organizes itself around one domain expert answering questions. One person asks, one answers, everyone else waits. Throughput is one topic at a time, and much time goes into stating the obvious. Steer the group into parallel writing first. Questions aren't forbidden, just postponed: they will arise naturally in front of a sticky that doesn't match the expert's experience.
+
+The committee. Small groups trying to agree on wording before writing. Break them up: agreement is expensive, it serializes the work, it hides alternatives, and it leads to confirmation bias. Explaining this in advance rarely helps; let people try, then change the rules.
+
+Divide and conquer. Splitting is good for writing software, but not for exploring. "Let's focus only on this part" excludes information before you know whether it matters.
+
+The karaoke singer. Someone who loves the sound of their own voice, or needs to show the team can't work without them. Point out that consensus isn't needed, that diverging voices are valuable, and make sure everyone can contribute independently.
+
+Precise notation. Forcing a specialist notation is like announcing an important discussion in a language half the room doesn't speak. Keep the notation simple; you can formalize later, and working code is itself a precise model.
+
+The religion war. Two people who already have a solution in mind start arguing in the abstract. The rule is: we only talk about visible things. Make both alternatives visible, adding space if needed, and only choose between visible options. Often the difference turns out smaller than the argument, or you combine the best of both.
+
+The spoiler. "Why explore together? I already wrote the specification, just read it." The book's answer is that it's the developers' understanding, not the expert's knowledge, that ends up in production code, and a document is a poor way to build understanding.
+
+Start from the beginning. Placing the first event at the far left edge wastes space, and signals that nothing happens before it. Start from the middle instead.
+
+The godfather, or the alpha. A meeting where only one or two people are entitled to speak. Brandolini admits it's the one situation where he was ready to send everybody home. Handle the most influential person carefully: for example, ask them to vote last, or address the hierarchy issue directly.
+
+Finally, managing conflict in general. A Big Picture is not for sweeping problems under the carpet; the book calls it more of a look-under-the-carpet party. Your aim is to make conflicts visible and safe, through hot spots and through the model, so they can be discussed as problems in the flow instead of fights between people.
+
+Quick check.
+A group of three is debating the exact wording of one sticky before writing it. Which anti-pattern is this, and what do you do?
+[THINK]
+The committee. Break it up politely: everyone writes their own version, and differences stay visible.
+Two architects argue about a solution that exists only in their heads. What's the rule?
+[THINK]
+We only talk about visible things. Make both alternatives visible, then choose.
+What is "guess first"?
+[THINK]
+Newcomers guess and write how the system works; wrong guesses get corrected, creating curiosity for the expert's explanation.
+
+In the next episode, we'll see how the Big Picture helps software architects find bounded contexts.
