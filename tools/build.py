@@ -45,7 +45,8 @@ def fill(text, values):
 def longest_session(qs, exams, cfg):
     """Longest numbered session: sizes the qnum<n> and score<n> clips."""
     practice = sum(q['id'].startswith(cfg['drill']['practicePrefix']) for q in qs)
-    return max([20, practice] + [len(e['questions']) for e in exams.values()])
+    silent = {q['id'] for q in qs if q.get('na')}                # all-silent exams run in touch mode: no numbered clips
+    return max([20, practice] + [len(e['questions']) for e in exams.values() if not silent.issuperset(e['questions'])])
 
 
 def build(pack):
@@ -71,7 +72,7 @@ def build(pack):
            + [f'points{i}' for i in range(41)] if any('g' in q for q in qs) else []) \
         + [f'qnum{n}' for n in range(1, longest + 1)] \
         + [f'confirm{j}' for j in range(1, 5)] + [f'score{i}' for i in range(longest + 1)] \
-        + [n for i, q in enumerate(qs) for n in (f'q{i}', f'e{i}', f's{i}', *[f'o{i}_{j}' for j in range(1, len(q['o']) + 1)])]
+        + [n for i, q in enumerate(qs) if not q.get('na') for n in (f'q{i}', f'e{i}', f's{i}', *[f'o{i}_{j}' for j in range(1, len(q['o']) + 1)])]
     missing = [n for n in needed if n not in clips]
     if missing and '--allow-missing' in sys.argv:
         print(f'WARNING [{pack.name}]: {len(missing)} clips missing (allowed for testing)')

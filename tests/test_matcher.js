@@ -5,7 +5,7 @@ const qs = require("../content/togaf-foundation/questions.json");
 const fs = require("fs"), path = require("path");
 const contentDir = path.join(__dirname, "..", "content");
 const banks = fs.readdirSync(contentDir).filter(d => fs.existsSync(path.join(contentDir, d, "questions.json")))
-  .map(d => [d, require(path.join(contentDir, d, "questions.json"))]);
+  .map(d => [d, require(path.join(contentDir, d, "questions.json")).filter(q => !q.na)]);   // silent questions are never spoken
 let fail = 0;
 function eq(label, got, want) {
   const ok = JSON.stringify(got) === JSON.stringify(want);

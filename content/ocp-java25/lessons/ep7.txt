@@ -1,0 +1,45 @@
+Java 25 Developer Professional. Episode seven. Exceptions.
+
+Exception questions mix compile-time rules with runtime behavior, so they reward careful reading. This episode covers the hierarchy, the catch rules, finally, try-with-resources and suppressed exceptions.
+
+The hierarchy. Everything thrown extends Throwable. Below it are Error, for serious problems the application shouldn't try to handle, like OutOfMemoryError or StackOverflowError, and Exception. RuntimeException is a subclass of Exception. Exceptions that are RuntimeException, Error, or their subclasses are unchecked. All the other exceptions are checked.
+
+The rule for checked exceptions is "handle or declare". If a statement can throw a checked exception, the method must either catch it or declare it with throws. Unchecked exceptions have no such requirement. Classic checked exceptions are IOException and its subclasses, like FileNotFoundException, and Exception itself. Classic unchecked ones are NullPointerException, ArithmeticException, ArrayIndexOutOfBoundsException, ClassCastException, IllegalArgumentException, NumberFormatException, which extends IllegalArgumentException, IllegalStateException, and UnsupportedOperationException.
+
+Another compile-time rule: a catch block for a checked exception that the try block can't possibly throw doesn't compile. This doesn't apply to Exception and Throwable, which are always allowed in a catch, because they also cover unchecked exceptions.
+
+Catch order matters. Catch blocks are tested in order, and a catch for a subclass placed after a catch for its superclass is unreachable, which is a compile error. So FileNotFoundException must come before IOException.
+
+Multi-catch lets one block handle several types, separated by a vertical bar. The types can't be related by inheritance: catching FileNotFoundException and IOException together doesn't compile, because one already covers the other. And the catch parameter in a multi-catch is effectively final; assigning to it doesn't compile.
+
+finally always runs, whether the try completes normally, an exception is caught, or an exception escapes, with one exception: if the program exits, for example with System dot exit, finally doesn't run. A favorite exam trick: if both the try block and the finally block contain a return, the finally's return wins, and an exception thrown in try is lost. Also, if finally throws, that exception replaces whatever was in flight. And if try returns a primitive value and finally modifies the variable, the returned value isn't affected, because it was already evaluated.
+
+Try-with-resources. Resources declared in parentheses after try must implement AutoCloseable. They're closed automatically at the end of the try block, in reverse order of declaration, before any catch or finally block runs. So the expected order of prints is: try body, resources closed last to first, then catch, then finally.
+
+Since Java 9 you can also list an existing variable in the resource header, but only if it's final or effectively final. Resources declared in the header are implicitly final. They're in scope only inside the try block, not in catch or finally.
+
+The close method of AutoCloseable is declared to throw Exception. If your resource's close method keeps that declaration, the try-with-resources statement must handle or declare Exception. Closeable, from java dot io, narrows it to IOException. A class can declare a close method that throws nothing, and then no handling is needed.
+
+Suppressed exceptions. If the try block throws an exception, and then a resource's close method also throws, the close exception doesn't replace the original. Instead it's attached to it as suppressed, and you can retrieve it with getSuppressed. The primary exception is the one from the try block. If only close throws, that becomes the primary exception. This differs from finally, where a new exception replaces the old one.
+
+Exceptions and overriding, as covered in episode five: an overriding method can't declare new or broader checked exceptions. It may declare fewer, narrower, or unchecked ones.
+
+Custom exceptions: extend Exception for a checked one, or RuntimeException for an unchecked one. Common constructors take a message, a cause, or both. Printing an exception with toString shows the class name and the message; getMessage returns just the message.
+
+Some runtime traps worth memorizing. Integer division by zero throws ArithmeticException; floating point division doesn't. Accessing a negative index or an index equal to the length of an array throws ArrayIndexOutOfBoundsException. Casting to the wrong type throws ClassCastException. Calling a method on a null reference throws NullPointerException; since Java 14 the message describes exactly what was null. A method that calls itself without a stopping condition ends with a StackOverflowError, which is an Error, so a catch for Exception doesn't catch it. And adding to an immutable collection, such as one from List dot of, throws UnsupportedOperationException.
+
+Quick check.
+Does a multi-catch of FileNotFoundException and IOException compile?
+[THINK]
+No. The types are related by inheritance.
+Two resources, A then B, are declared in a try-with-resources. In which order are they closed?
+[THINK]
+B first, then A, and both before the catch and finally blocks run.
+The try block throws, and the resource's close method also throws. Which exception reaches the caller?
+[THINK]
+The one from the try block. The close exception is attached as suppressed.
+Both try and finally contain a return statement. Which value is returned?
+[THINK]
+The one from finally.
+
+In the next episode: arrays, collections and generics.

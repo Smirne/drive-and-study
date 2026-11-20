@@ -1,0 +1,144 @@
+S: Welcome to the Java 25 recap. I'm Sara.
+A: And I'm Alex. This is the episode for the days before the exam. We go through the traps that come up most often, topic by topic, and then a rapid-fire round where you answer before we do.
+S: First, the mindset. The exam has fifty questions in two hours, and the passing score is sixty-eight percent, so thirty-four correct answers.
+A: Two and a half minutes per question. Most of them show code and ask what happens. And the answer that catches people is "does not compile".
+S: So before you trace the output, scan for compile errors. Missing semicolons are rare. What you look for is rule violations. An unreachable statement. A final variable reassigned. A checked exception not handled. A dominated case label.
+A: And read the options first. If one option is "compilation fails" and another is "an exception is thrown at runtime", the question is probably about exactly that difference.
+
+S: Let's start with numbers and strings. What does Math dot round of minus two point five return?
+A: Minus two. round adds a half and takes the floor. Positive two point five gives three.
+S: Byte b equals ten, b plus equals five. Compiles?
+A: Yes. Compound assignment includes an implicit cast. But b equals b plus five doesn't, because b plus five is an int.
+S: Integer a equals one hundred twenty-seven, Integer b equals one hundred twenty-seven. Is a double equals b true?
+A: True, because of the cache from minus one hundred twenty-eight to one hundred twenty-seven. With one hundred twenty-eight, it's false.
+S: And strings. s dot concat of something, without assigning the result?
+A: Nothing changes. Strings are immutable. Same for Path dot normalize, LocalDate dot plusDays, and BigDecimal dot add. Ignored return values are a classic.
+
+S: Dates. Period dot ofYears one, dot ofDays two.
+A: P two D. Static methods called in a chain. Only the last one counts.
+S: LocalDate dot plusHours?
+A: Doesn't compile, there's no such method. LocalDate dot plus, with a Duration, compiles, but throws UnsupportedTemporalTypeException at runtime.
+S: Formatter pattern, capital M versus small m.
+A: Capital M is month, small m is minute. Capital H is the twenty-four hour clock, small h the twelve hour clock, which needs an a for AM or PM.
+
+S: Switch and patterns. A switch expression on an int, without default.
+A: Doesn't compile. A switch expression must be exhaustive. A switch statement on an int without default is fine.
+S: Over a sealed interface with records, all covered?
+A: Exhaustive, no default needed.
+S: Case CharSequence before case String?
+A: Doesn't compile, String is dominated. Same for an unguarded case String before a guarded one.
+S: A pattern switch receives null and has no case null.
+A: NullPointerException.
+S: Inside an arrow block in a switch expression, how do you produce the value?
+A: yield. Not return.
+
+S: Classes. The parent has only a constructor that takes a String. The child has no constructor.
+A: Doesn't compile. The implicit constructor calls super with no arguments.
+S: Initialization order, in one breath.
+A: Parent static, child static, then for each object: parent initializers and constructor, child initializers and constructor.
+S: Java 25 lets you put statements before super. What can't you do there?
+A: Read fields, call instance methods, use this, or return. You can validate arguments, and assign fields that have no initializer.
+S: Overloads for long and Integer, called with an int.
+A: long. Widening beats boxing. Boxing beats varargs.
+S: Parent reference, child object, both have a field called name.
+A: The field comes from the reference type. The method from the object. Fields and static methods are hidden, not overridden.
+S: Two interfaces with the same default method.
+A: The class must override it, or it doesn't compile. Inside, InterfaceName dot super dot method calls a specific one.
+
+S: Records and friends. Can a compact constructor assign this dot x?
+A: No. You assign the parameter, x equals something. The field is assigned at the end.
+S: A record with an extra instance field?
+A: Doesn't compile. Static fields are fine.
+S: A class extends a sealed class but isn't final, sealed or non-sealed.
+A: Doesn't compile.
+S: A compact source file has main with String array, and main with no parameters.
+A: The one with the String array runs.
+
+S: Exceptions. Multi-catch of FileNotFoundException and IOException.
+A: Doesn't compile. Related types.
+S: Try-with-resources with resources A and B, and a catch and finally.
+A: Body, close B, close A, then catch, then finally.
+S: Body throws, and close throws.
+A: The body's exception wins, close's is suppressed. With finally, it's the opposite: an exception in finally replaces the original.
+S: A return in try and a return in finally.
+A: finally wins.
+
+S: Collections. List dot of, then add.
+A: UnsupportedOperationException. And List dot of with a null element throws NullPointerException immediately.
+S: Arrays dot asList, then set.
+A: Works, and changes the array. add throws.
+S: remove on a List of Integer, with the int one.
+A: Removes the element at index one, not the value one.
+S: getFirst on a HashSet.
+A: Doesn't compile. HashSet isn't a SequencedCollection. LinkedHashSet is.
+S: Adding Integer to a List of question mark extends Number.
+A: Doesn't compile. Producer extends, consumer super.
+
+S: Streams. A pipeline with peek, no terminal operation.
+A: Prints nothing. Lazy.
+S: Calling count twice on the same stream.
+A: IllegalStateException.
+S: toMap with a duplicate key.
+A: IllegalStateException, unless there's a merge function.
+S: average on an IntStream.
+A: OptionalDouble, always. sum returns an int.
+S: Gatherers dot windowFixed three, on one to seven.
+A: One two three, four five six, and seven.
+
+S: Concurrency. thread dot run.
+A: Runs on the current thread. Use start.
+S: Future dot get, and the task threw.
+A: ExecutionException, with the original as the cause.
+S: Virtual thread, setDaemon false.
+A: IllegalArgumentException. Virtual threads are always daemon.
+S: ScopedValue get, outside any where.
+A: NoSuchElementException. And there's no set method.
+
+S: Modules. requires versus exports.
+A: You require modules, you export packages.
+S: Import module java dot base and java dot desktop, then use List.
+A: Ambiguous, doesn't compile. Add import java dot util dot List, or java dot util dot star.
+S: Which directive lets a framework reflect on private fields at runtime?
+A: opens.
+S: Can a named module require the unnamed module?
+A: No. Automatic modules, yes.
+
+S: Files. Files dot copy when the target exists.
+A: FileAlreadyExistsException, unless REPLACE_EXISTING.
+S: Files dot delete on a non-empty directory.
+A: DirectoryNotEmptyException.
+S: Deserialization: transient field, and the serializable class's constructor.
+A: Transient gets its default value. The constructor doesn't run. The first non-serializable parent's no-argument constructor does.
+
+S: Now the rapid-fire round. We'll ask, you answer during the pause, then we give the answer.
+A: Ready? First one. What does windowSliding two produce for one, two, three?
+[PAUSE]
+S: One two, and two three.
+A: Next. Can a switch on a long use constant case labels?
+[PAUSE]
+S: No. long, float, double and boolean aren't allowed with plain constants.
+A: Next. Is a local record allowed to read a local variable of the enclosing method?
+[PAUSE]
+S: No. Local records are implicitly static.
+A: Next. What's printed by a parallel stream's forEach over one, two, three?
+[PAUSE]
+S: The order isn't guaranteed. Use forEachOrdered.
+A: Next. Does the binarySearch of a missing value that would go at index zero return zero?
+[PAUSE]
+S: No, minus one. Minus the insertion point, minus one.
+A: Next. In a lambda, can a parameter have the same name as a local variable in scope?
+[PAUSE]
+S: No, it doesn't compile.
+A: Next. Is Optional dot of null allowed?
+[PAUSE]
+S: No, NullPointerException. Use ofNullable.
+A: Next. Which runs first: a static initializer of the child, or the instance initializer of the parent?
+[PAUSE]
+S: The child's static initializer. All static initialization happens before any instance creation.
+A: Last one. With the java command, what does minus d mean?
+[PAUSE]
+S: describe-module. With javac, minus d is the output directory.
+
+A: That's the recap. Practice with the mock exams in the app, and for every question you miss, write down the rule, not the answer.
+S: And on the day: compile errors first, read the options, and don't spend more than three minutes on one question. Mark it and come back.
+A: Good luck.

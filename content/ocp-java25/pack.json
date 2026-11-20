@@ -1,0 +1,121 @@
+{
+ "name": "OCP Java SE 25",
+ "base": "java",
+ "drill": {
+  "title": "Java 25 Drill",
+  "h1": "Java SE 25 drill &amp; mock exams",
+  "intro": "Concept questions and full mock exams for Oracle Certified Professional: Java SE 25 Developer (1Z0-831). The concept sets have no code, so you can do them by voice or with the car's buttons. The mock exams are code-based like the real one: read and tap, with several “choose two” questions.",
+  "practicePrefix": "concepts",
+  "practiceLabel": "Concepts: all 50 questions with feedback",
+  "practiceTitle": "Concepts",
+  "examsHeading": "Concept sets & mock exams",
+  "examsText": "Two sets of 25 spoken-friendly concept questions with feedback. Then two mock exams like the real one: 50 code questions, 120 minutes, pass mark 34 (68%). Every code question was compiled and run with JDK 25. Mock exams are touch only.",
+  "sayExample": "widening beats autoboxing",
+  "summaryTitle": "Java SE 25 (1Z0-831) practice results",
+  "filePrefix": "java25",
+  "statsKey": "java-drill",
+  "historyKey": "java-history",
+  "mediaTitle": "Java 25 Drill",
+  "topics": {
+   "java-basics": "Primitives, operators, strings",
+   "java-time": "Date and time API",
+   "java-flow": "Control flow, switch, patterns",
+   "java-oop": "Classes, inheritance, interfaces",
+   "java-types": "Records, sealed, enums, nested",
+   "java-exceptions": "Exceptions",
+   "java-collections": "Arrays, collections, generics",
+   "java-streams": "Lambdas and streams",
+   "java-concurrency": "Concurrency",
+   "java-modules": "Packages and modules",
+   "java-io": "I/O and serialization",
+   "java-locale": "Localization"
+  }
+ },
+ "lessons": {
+  "title": "Java 25 Audio",
+  "eyebrow": "Oracle Certified Professional · Java SE 25 Developer · 1Z0-831",
+  "h1": "Java 25, by ear",
+  "sub": "13 episodes · 12 lessons and a recap podcast · every rule, no code to read · quizzes with a pause so you can answer aloud",
+  "drillLink": "Java 25 drill",
+  "drillSub": "50 concept questions by voice or car buttons, and two 50-question mock exams",
+  "artist": "Java SE 25",
+  "posKey": "java-pos",
+  "audioDir": "audio/lessons/java",
+  "episodes": [
+   {
+    "t": "The exam and the Java 25 landscape",
+    "s": "Format, pass mark, what changed from 17 to 25, the four Java 25 finals, how to study",
+    "d": 572
+   },
+   {
+    "t": "Numbers, operators and strings",
+    "s": "Promotion, overflow, compound assignment, wrappers and caching, String and StringBuilder, text blocks",
+    "d": 524
+   },
+   {
+    "t": "Dates and times",
+    "s": "java.time classes, Period vs Duration, daylight saving gaps, formatter patterns",
+    "d": 445
+   },
+   {
+    "t": "Control flow, switch and patterns",
+    "s": "Switch expressions, yield, exhaustiveness, instanceof and switch patterns, guards, record patterns, unnamed _",
+    "d": 440
+   },
+   {
+    "t": "Classes, constructors and interfaces",
+    "s": "Initialization order, flexible constructor bodies, overloading, overriding, hiding, default methods",
+    "d": 531
+   },
+   {
+    "t": "Records, sealed types, enums, nested classes",
+    "s": "Compact constructors, permits, enum bodies, inner classes, compact source files and instance main",
+    "d": 507
+   },
+   {
+    "t": "Exceptions",
+    "s": "Checked vs unchecked, catch rules, multi-catch, finally, try-with-resources, suppressed exceptions",
+    "d": 437
+   },
+   {
+    "t": "Arrays, collections and generics",
+    "s": "Arrays helpers, List/Set/Map/Deque, unmodifiable collections, sequenced collections, wildcards",
+    "d": 510
+   },
+   {
+    "t": "Lambdas and streams",
+    "s": "Functional interfaces, method references, laziness, collectors, Optional, gatherers, parallel",
+    "d": 533
+   },
+   {
+    "t": "Concurrency",
+    "s": "Executors, futures, locks, atomics, concurrent collections, virtual threads, scoped values",
+    "d": 471
+   },
+   {
+    "t": "Packages, modules and deployment",
+    "s": "Imports and module imports, module-info directives, services, javac/java/jar/jdeps/jlink",
+    "d": 515
+   },
+   {
+    "t": "I/O, files and localization",
+    "s": "Readers and streams, Path and Files, serialization, Locale, number formats, resource bundles",
+    "d": 581
+   },
+   {
+    "t": "Recap podcast",
+    "s": "Two hosts, the most common traps topic by topic, and a rapid-fire round",
+    "d": 600
+   }
+  ]
+ },
+ "say": {
+  "intro": "Java 25 concept drill. After each question, say number one, two, three, or four, or words from the answer. Say repeat to hear the question again.",
+  "intro_buttons": "Java 25 concept drill, with car buttons. I will read each option. Press next when you hear the one you want. Press previous to hear the question again.",
+  "exam_intro": "Java 25 mock exam. No feedback until the end. Answer each question by saying number one to four, or words from the answer.",
+  "exam_intro_buttons": "Java 25 mock exam. No feedback until the end. I will read each option. Press next on the one you want, then next again to confirm.",
+  "exam_pass": "That is a pass. The pass mark is sixty-eight percent.",
+  "exam_fail": "That is below the pass mark of sixty-eight percent. Review the missed questions."
+ },
+ "pronounce": {}
+}

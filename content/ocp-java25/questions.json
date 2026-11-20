@@ -1,0 +1,2184 @@
+[
+ {
+  "id": "concepts1-1",
+  "topic": "java-basics",
+  "q": "What does Math dot round return for minus two point five?",
+  "o": [
+   "Minus three, because it always rounds halves away from zero",
+   "Minus two, because it adds one half and takes the floor",
+   "Minus two point five, unchanged, as a double",
+   "It throws an ArithmeticException for negative halves"
+  ],
+  "a": 2,
+  "e": "The answer is two. Math dot round adds one half and takes the floor, so minus two point five becomes minus two, while positive two point five becomes three."
+ },
+ {
+  "id": "concepts1-2",
+  "topic": "java-basics",
+  "q": "A byte variable b holds ten. Which statement compiles without a cast?",
+  "o": [
+   "A plain assignment of b plus five",
+   "Multiplying b by one and assigning it back",
+   "The compound form, b plus equals five",
+   "Unary plus, b equals plus b"
+  ],
+  "a": 3,
+  "e": "The answer is three. Compound assignment includes an implicit cast back to the variable's type. The other forms produce an int, which can't be assigned to a byte without a cast."
+ },
+ {
+  "id": "concepts1-3",
+  "topic": "java-basics",
+  "q": "Two Integer variables are both assigned the literal one hundred twenty-seven by autoboxing. What does comparing them with double equals give?",
+  "o": [
+   "True, because small Integer values are cached",
+   "A compile error, because double equals isn't allowed on wrappers",
+   "A NullPointerException, because unboxing happens first",
+   "Always false, because they are different objects"
+  ],
+  "a": 1,
+  "e": "The answer is one. Integer dot valueOf caches small values, so both variables point to the same object. With one hundred twenty-eight, the comparison would normally be false."
+ },
+ {
+  "id": "concepts1-4",
+  "topic": "java-basics",
+  "q": "A String variable s holds \"java\". The code calls s dot toUpperCase without assigning the result, then prints s. What is printed?",
+  "o": [
+   "Java, with only the first letter capitalized",
+   "JAVA, in upper case",
+   "Nothing, because the call fails to compile",
+   "java, in lower case"
+  ],
+  "a": 4,
+  "e": "The answer is four. Strings are immutable. toUpperCase returns a new String, and since the result isn't assigned, s is unchanged."
+ },
+ {
+  "id": "concepts1-5",
+  "topic": "java-basics",
+  "q": "Which statement about text blocks is correct?",
+  "o": [
+   "They keep every leading space exactly as typed in the source",
+   "Incidental indentation is removed, based on the least indented line, including the closing delimiter",
+   "They can start on the same line as the opening three quotes, like a normal string literal",
+   "They always end with a line break, whatever you do"
+  ],
+  "a": 2,
+  "e": "The answer is two. The opening delimiter must be followed by a line break, and the common incidental indentation is stripped. Placing the closing delimiter on the last content line avoids the final line break."
+ },
+ {
+  "id": "concepts1-6",
+  "topic": "java-time",
+  "q": "What does Period dot ofYears one, followed by dot ofDays two, produce?",
+  "o": [
+   "A period with both the years and the days",
+   "A compile error, because the methods can't be chained",
+   "A period where the years are converted into days",
+   "A period with only the days from ofDays"
+  ],
+  "a": 4,
+  "e": "The answer is four. ofDays is a static method. Calling it on the result of ofYears ignores that result, so only the last call counts: P two D."
+ },
+ {
+  "id": "concepts1-7",
+  "topic": "java-time",
+  "q": "What happens when you call plusHours on a LocalDate?",
+  "o": [
+   "It compiles, and throws UnsupportedTemporalTypeException at runtime",
+   "It compiles, and adds the hours as a fraction of a day",
+   "It doesn't compile, because LocalDate has no plusHours method",
+   "It compiles, and returns the same date unchanged"
+  ],
+  "a": 3,
+  "e": "The answer is three. LocalDate has no time part, so it has no plusHours method. Using plus with a time-based unit or Duration compiles, but throws UnsupportedTemporalTypeException at runtime."
+ },
+ {
+  "id": "concepts1-8",
+  "topic": "java-time",
+  "q": "In a DateTimeFormatter pattern, what does a lowercase m mean?",
+  "o": [
+   "Minute of the hour",
+   "Month of the year",
+   "Millisecond of the second",
+   "The morning or afternoon marker"
+  ],
+  "a": 1,
+  "e": "The answer is one. Uppercase M is the month, lowercase m is the minute. Uppercase H is the hour on a twenty-four hour clock, lowercase h on a twelve hour clock."
+ },
+ {
+  "id": "concepts1-9",
+  "topic": "java-time",
+  "q": "Clocks in a time zone jump forward one hour at two in the morning. You create a ZonedDateTime for half past two that day. What do you get?",
+  "o": [
+   "A DateTimeException, because the local time doesn't exist",
+   "An hour earlier, because the time is moved back",
+   "An hour later, with the summer offset",
+   "The same local time, with the winter offset"
+  ],
+  "a": 3,
+  "e": "The answer is three. During a gap, the local time is moved forward by the length of the gap, so half past two becomes half past three with the summer offset."
+ },
+ {
+  "id": "concepts1-10",
+  "topic": "java-flow",
+  "q": "A switch expression on an int value has cases for one and two, and no default. What happens?",
+  "o": [
+   "It compiles, and yields zero for other values",
+   "It doesn't compile, because a switch expression must be exhaustive",
+   "It compiles, and throws an exception at runtime for any other values",
+   "It compiles only if the value is final"
+  ],
+  "a": 2,
+  "e": "The answer is two. A switch expression must produce a value for every input. For an int, that requires a default. A switch statement on an int doesn't have that requirement."
+ },
+ {
+  "id": "concepts1-11",
+  "topic": "java-flow",
+  "q": "In a switch expression, an arrow branch has a block body. How does the block produce its value?",
+  "o": [
+   "With the yield keyword",
+   "With the return keyword",
+   "With the break keyword followed by the value",
+   "With the last expression in the block, without a keyword"
+  ],
+  "a": 1,
+  "e": "The answer is one. Inside a block in a switch expression, yield gives the value. return would try to return from the enclosing method, which isn't allowed there."
+ },
+ {
+  "id": "concepts1-12",
+  "topic": "java-flow",
+  "q": "A pattern switch has case CharSequence c first, and case String s second. What happens?",
+  "o": [
+   "It compiles, and strings always go to the String case",
+   "It compiles, but the String case is never reached, with a warning only",
+   "It throws a ClassCastException when a String arrives",
+   "It doesn't compile, because the String case is dominated"
+  ],
+  "a": 4,
+  "e": "The answer is four. Every String is a CharSequence, so the first case already matches everything the second would. A dominated case label is a compile error. Put the more specific case first."
+ },
+ {
+  "id": "concepts1-13",
+  "topic": "java-flow",
+  "q": "A pattern switch receives a null selector and has no case null. What happens?",
+  "o": [
+   "It doesn't compile, because a case null is mandatory",
+   "It runs the default branch",
+   "It skips the switch entirely",
+   "It throws a NullPointerException"
+  ],
+  "a": 4,
+  "e": "The answer is four. A switch without a case null throws NullPointerException on a null selector, even with a default. Add case null, or case null comma default, to handle it."
+ },
+ {
+  "id": "concepts1-14",
+  "topic": "java-flow",
+  "q": "Where can the pattern variable s be used after the test \"if not obj instanceof String s, return\"?",
+  "o": [
+   "Nowhere, because the test is negated",
+   "Only inside the if block",
+   "After the if statement, for the rest of the block",
+   "Only in an else branch attached to that if statement"
+  ],
+  "a": 3,
+  "e": "The answer is three. If the if statement returns when the test fails, the compiler knows that the test succeeded afterwards, so s is in scope after the if."
+ },
+ {
+  "id": "concepts1-15",
+  "topic": "java-oop",
+  "q": "A parent class only has a constructor that takes a String. Its child class declares no constructor at all. What happens?",
+  "o": [
+   "It doesn't compile: the default constructor calls super with no arguments",
+   "The child inherits the String constructor automatically",
+   "The code compiles, and the String parameter is null",
+   "The code compiles, but fails at runtime as soon as a child object is created"
+  ],
+  "a": 1,
+  "e": "The answer is one. Constructors aren't inherited. The compiler-generated default constructor calls super with no arguments, which doesn't exist in the parent."
+ },
+ {
+  "id": "concepts1-16",
+  "topic": "java-oop",
+  "q": "Java 25 allows statements before the call to super in a constructor. What can these statements do?",
+  "o": [
+   "Call instance methods of the object being built",
+   "Validate arguments, and assign fields that have no initializer",
+   "Return early from the constructor",
+   "Read instance fields of the object to compute the arguments for super"
+  ],
+  "a": 2,
+  "e": "The answer is two. In the constructor prologue, you can't use this, read fields, call instance methods or return. You can compute and validate arguments, call static methods, and assign uninitialized fields."
+ },
+ {
+  "id": "concepts1-17",
+  "topic": "java-oop",
+  "q": "A class has an overload taking a long and another taking an Integer. You call it with an int. Which one runs?",
+  "o": [
+   "The one declared first in the class",
+   "The Integer version, because boxing gives an exact type",
+   "Neither, because the call is ambiguous",
+   "The long version, because widening beats autoboxing"
+  ],
+  "a": 4,
+  "e": "The answer is four. Overload resolution prefers an exact match, then widening, then boxing, then varargs. Widening an int to a long comes before boxing."
+ },
+ {
+  "id": "concepts1-18",
+  "topic": "java-oop",
+  "q": "A parent reference points to a child object. Both classes declare a field called name and an instance method called describe. Which are used?",
+  "o": [
+   "The parent's field and the child's method",
+   "The parent's field and the parent's method",
+   "The child's field and the child's method",
+   "The child's field and the parent's method"
+  ],
+  "a": 1,
+  "e": "The answer is one. Fields are hidden, not overridden, so the reference type decides. Instance methods are overridden, so the runtime type of the object decides."
+ },
+ {
+  "id": "concepts1-19",
+  "topic": "java-oop",
+  "q": "A class implements two interfaces that both declare a default method with the same signature. What must happen?",
+  "o": [
+   "The first interface listed wins automatically",
+   "The method from the interface declared more recently is used",
+   "The class must override the method, or it doesn't compile",
+   "The call throws an exception at runtime"
+  ],
+  "a": 3,
+  "e": "The answer is three. The compiler can't choose, so the class must override the method. Inside, it can call one of them with the interface name, dot super, dot the method."
+ },
+ {
+  "id": "concepts1-20",
+  "topic": "java-types",
+  "q": "In a record's compact canonical constructor, what can you assign?",
+  "o": [
+   "The fields directly, using this dot the field name, like in a class",
+   "The constructor parameters, which are then copied into the fields",
+   "Only static fields of the record",
+   "Nothing at all, because records are immutable"
+  ],
+  "a": 2,
+  "e": "The answer is two. A compact constructor works on the parameters. The fields are final and assigned automatically at the end, so assigning this dot x doesn't compile."
+ },
+ {
+  "id": "concepts1-21",
+  "topic": "java-types",
+  "q": "A class directly extends a sealed class and is listed in its permits clause. Which modifier must it have?",
+  "o": [
+   "abstract, so it can't be instantiated",
+   "One of final, sealed or non-sealed",
+   "None, because the permits clause is enough",
+   "static, because permitted classes must be nested"
+  ],
+  "a": 2,
+  "e": "The answer is two. Each permitted subclass must say how the hierarchy continues: final stops it, sealed restricts it again, non-sealed reopens it. Records and enums are implicitly final."
+ },
+ {
+  "id": "concepts1-22",
+  "topic": "java-types",
+  "q": "A compact source file declares a main method with a String array parameter and another main with no parameters. Which one does the launcher run?",
+  "o": [
+   "The one with no parameters, because it's simpler",
+   "Neither, because the file doesn't compile",
+   "The one with the String array parameter",
+   "The one declared first in the file"
+  ],
+  "a": 3,
+  "e": "The answer is three. The launcher looks for a main with a String array first, and only uses the no-parameter one when that doesn't exist."
+ },
+ {
+  "id": "concepts1-23",
+  "topic": "java-exceptions",
+  "q": "Does a multi-catch of FileNotFoundException and IOException compile?",
+  "o": [
+   "No, because the two types are related by inheritance",
+   "Yes, but only with a separate finally block",
+   "Only if IOException is listed first in the multi-catch",
+   "Yes, and FileNotFoundException is handled first"
+  ],
+  "a": 1,
+  "e": "The answer is one. Types in a multi-catch can't be subclasses of each other, because one would already cover the other."
+ },
+ {
+  "id": "concepts1-24",
+  "topic": "java-exceptions",
+  "q": "In a try-with-resources statement, the try block throws an exception, and then the resource's close method also throws. What reaches the caller?",
+  "o": [
+   "The exception from close, which replaces the first one",
+   "Only an Error, because two exceptions can't be in flight at once",
+   "Both exceptions, chained as cause and effect",
+   "The one from the try block, with the close exception suppressed"
+  ],
+  "a": 4,
+  "e": "The answer is four. In try-with-resources, the primary exception is the one from the try block. Exceptions thrown while closing are added to it as suppressed."
+ },
+ {
+  "id": "concepts1-25",
+  "topic": "java-exceptions",
+  "q": "Both the try block and the finally block contain a return statement. Which value does the method return?",
+  "o": [
+   "The value from try",
+   "The value from finally",
+   "The method doesn't compile",
+   "It depends on whether an exception was thrown"
+  ],
+  "a": 2,
+  "e": "The answer is two. finally runs after the try's return value is computed, and its own return replaces it. Any exception from the try block would also be discarded."
+ },
+ {
+  "id": "concepts2-1",
+  "topic": "java-collections",
+  "q": "What happens when you call add on a list created with List dot of?",
+  "o": [
+   "The element is added at the end",
+   "It doesn't compile",
+   "It returns false and leaves the list unchanged",
+   "It throws UnsupportedOperationException"
+  ],
+  "a": 4,
+  "e": "The answer is four. Lists from List dot of are unmodifiable. Any add, remove or set throws UnsupportedOperationException at runtime."
+ },
+ {
+  "id": "concepts2-2",
+  "topic": "java-collections",
+  "q": "You call Arrays dot asList on a String array, then call set on the list. What happens?",
+  "o": [
+   "It throws UnsupportedOperationException",
+   "The list changes, but the array keeps its old value",
+   "The list changes, and so does the original array",
+   "It doesn't compile, because the list is read only"
+  ],
+  "a": 3,
+  "e": "The answer is three. Arrays dot asList returns a fixed-size list backed by the array. set works and writes through to the array, while add and remove throw."
+ },
+ {
+  "id": "concepts2-3",
+  "topic": "java-collections",
+  "q": "Which of these is a SequencedCollection, with getFirst and reversed?",
+  "o": [
+   "LinkedHashSet",
+   "Every Set implementation",
+   "PriorityQueue",
+   "HashSet"
+  ],
+  "a": 1,
+  "e": "The answer is one. LinkedHashSet has a defined encounter order, so it's sequenced. HashSet and PriorityQueue don't have a defined iteration order."
+ },
+ {
+  "id": "concepts2-4",
+  "topic": "java-collections",
+  "q": "On a List of Integer holding ten, twenty and thirty, what does calling remove with the int literal one do?",
+  "o": [
+   "It doesn't compile, because the call is ambiguous",
+   "It removes nothing, because there's no element equal to one",
+   "It removes the element at index one, which is twenty",
+   "It removes the first element, ten"
+  ],
+  "a": 3,
+  "e": "The answer is three. remove with an int argument chooses the index version, without boxing. To remove by value, pass an Integer object."
+ },
+ {
+  "id": "concepts2-5",
+  "topic": "java-collections",
+  "q": "A method parameter is a List of question mark extends Number. What can the method do with it?",
+  "o": [
+   "Add Integers and Doubles to it",
+   "Read elements as Number, but add nothing except null",
+   "Add only Numbers to it",
+   "Neither read nor add elements"
+  ],
+  "a": 2,
+  "e": "The answer is two. With an upper bounded wildcard, the real list could be of Integer or of Double, so adding is unsafe. Reading as Number always works. Producer extends, consumer super."
+ },
+ {
+  "id": "concepts2-6",
+  "topic": "java-collections",
+  "q": "What must be true for Arrays dot binarySearch to give a meaningful result?",
+  "o": [
+   "The array must be sorted in ascending order first",
+   "The array must contain no duplicate values",
+   "The array must hold objects, not primitives",
+   "The array must have been created with Arrays dot asList"
+  ],
+  "a": 1,
+  "e": "The answer is one. On an unsorted array the result is undefined. When the value isn't found, the result is minus the insertion point, minus one, so a value that would go at index two gives minus three."
+ },
+ {
+  "id": "concepts2-7",
+  "topic": "java-streams",
+  "q": "A stream pipeline has a filter and a peek that prints, but no terminal operation. What is printed?",
+  "o": [
+   "Each element that passes the filter",
+   "Every element of the source",
+   "Only the first element",
+   "Nothing, because streams are lazy"
+  ],
+  "a": 4,
+  "e": "The answer is four. Intermediate operations don't run until a terminal operation starts the pipeline."
+ },
+ {
+  "id": "concepts2-8",
+  "topic": "java-streams",
+  "q": "What happens if you call count twice on the same stream object?",
+  "o": [
+   "Both calls return the same result",
+   "The second call returns zero",
+   "It doesn't compile",
+   "The second call throws IllegalStateException"
+  ],
+  "a": 4,
+  "e": "The answer is four. A stream can only be consumed once. A second terminal operation throws IllegalStateException at runtime."
+ },
+ {
+  "id": "concepts2-9",
+  "topic": "java-streams",
+  "q": "Collectors dot toMap is used with a key function and a value function, and two elements produce the same key. What happens?",
+  "o": [
+   "The first value is kept, and the second is dropped",
+   "The later value replaces the earlier one",
+   "It throws IllegalStateException",
+   "Both values are stored in a list"
+  ],
+  "a": 3,
+  "e": "The answer is three. Without a merge function, a duplicate key throws IllegalStateException. Add a third argument, a merge function, to combine the values."
+ },
+ {
+  "id": "concepts2-10",
+  "topic": "java-streams",
+  "q": "What does allMatch return on an empty stream?",
+  "o": [
+   "true",
+   "false",
+   "An empty Optional",
+   "It throws NoSuchElementException"
+  ],
+  "a": 1,
+  "e": "The answer is one. allMatch and noneMatch return true on an empty stream, because no element fails. anyMatch returns false."
+ },
+ {
+  "id": "concepts2-11",
+  "topic": "java-streams",
+  "q": "What does the windowFixed gatherer with a size of two produce for the numbers one to five?",
+  "o": [
+   "Two windows, and the fifth number is dropped",
+   "Three windows: one-two, three-four, and five on its own",
+   "An exception, because five isn't a multiple of two",
+   "Overlapping windows: one-two, two-three, three-four, four-five"
+  ],
+  "a": 2,
+  "e": "The answer is two. windowFixed groups elements into lists of the given size, and the last window may be shorter. windowSliding gives overlapping windows."
+ },
+ {
+  "id": "concepts2-12",
+  "topic": "java-streams",
+  "q": "What is the difference between orElse and orElseGet on an Optional?",
+  "o": [
+   "orElseGet only works on Optionals of numbers",
+   "orElse throws an exception when the Optional is empty, while orElseGet returns null",
+   "There's no difference, they're aliases",
+   "orElse always evaluates its argument; orElseGet runs its supplier only when empty"
+  ],
+  "a": 4,
+  "e": "The answer is four. The argument to orElse is evaluated before the call, even when a value is present. orElseGet takes a Supplier and runs it only if needed."
+ },
+ {
+  "id": "concepts2-13",
+  "topic": "java-concurrency",
+  "q": "What happens if you call run instead of start on a Thread object?",
+  "o": [
+   "The task runs on the current thread, and no new thread is created",
+   "It throws IllegalThreadStateException, because the thread isn't started yet",
+   "A new thread is started, as with start",
+   "It doesn't compile, because run is protected"
+  ],
+  "a": 1,
+  "e": "The answer is one. run is an ordinary method call. Only start creates a new thread of execution."
+ },
+ {
+  "id": "concepts2-14",
+  "topic": "java-concurrency",
+  "q": "A shared counter is declared volatile, and several threads increment it with plus plus. Is the result reliable?",
+  "o": [
+   "Yes, because volatile makes the increment atomic",
+   "Yes, as long as there are fewer than ten threads",
+   "No, because volatile guarantees visibility, not atomicity",
+   "No, because volatile variables can't be incremented"
+  ],
+  "a": 3,
+  "e": "The answer is three. An increment is a read, an add and a write, and other threads can interleave. Use AtomicInteger or a lock."
+ },
+ {
+  "id": "concepts2-15",
+  "topic": "java-concurrency",
+  "q": "A task submitted to an ExecutorService throws an exception. What does Future dot get do?",
+  "o": [
+   "Returns null",
+   "Throws ExecutionException, with the original exception as its cause",
+   "Rethrows the original exception directly, without wrapping it in anything",
+   "Blocks forever"
+  ],
+  "a": 2,
+  "e": "The answer is two. get wraps the task's failure in an ExecutionException, a checked exception. getCause returns the original."
+ },
+ {
+  "id": "concepts2-16",
+  "topic": "java-concurrency",
+  "q": "What happens when you call setDaemon false on a virtual thread?",
+  "o": [
+   "The virtual thread becomes a user thread, and keeps the JVM alive until it ends",
+   "It throws IllegalArgumentException: virtual threads are always daemons",
+   "Nothing, the call is ignored",
+   "It doesn't compile"
+  ],
+  "a": 2,
+  "e": "The answer is two. Virtual threads are always daemon threads. Calling setDaemon with false throws IllegalArgumentException. Their priority is also fixed."
+ },
+ {
+  "id": "concepts2-17",
+  "topic": "java-concurrency",
+  "q": "You call get on a ScopedValue outside any where binding. What happens?",
+  "o": [
+   "It returns null",
+   "It returns the value bound most recently by any thread",
+   "It throws NoSuchElementException",
+   "It blocks until a value is bound"
+  ],
+  "a": 3,
+  "e": "The answer is three. An unbound scoped value has no value. get throws NoSuchElementException, isBound returns false, and orElse gives a fallback."
+ },
+ {
+  "id": "concepts2-18",
+  "topic": "java-concurrency",
+  "q": "Why does ExecutorService work well with try-with-resources since Java 19?",
+  "o": [
+   "It's AutoCloseable, and close waits for submitted tasks to finish",
+   "Its close method interrupts all tasks immediately",
+   "It closes the threads at once but keeps the task queue for later use",
+   "It doesn't; executors must be shut down manually"
+  ],
+  "a": 1,
+  "e": "The answer is one. close shuts the executor down and waits until all tasks have completed, which makes the try-with-resources pattern simple and safe."
+ },
+ {
+  "id": "concepts2-19",
+  "topic": "java-modules",
+  "q": "In module-info dot java, what do the requires and exports directives refer to?",
+  "o": [
+   "Both refer to packages",
+   "Both refer to modules",
+   "requires names a package, and exports names a module",
+   "requires names a module, and exports names a package"
+  ],
+  "a": 4,
+  "e": "The answer is four. You depend on modules, but you make packages accessible. A classic trap in options that export a module name."
+ },
+ {
+  "id": "concepts2-20",
+  "topic": "java-modules",
+  "q": "What does requires transitive add to a plain requires?",
+  "o": [
+   "The dependency becomes optional at runtime",
+   "Modules that read this module can also read the dependency",
+   "The dependency's packages are opened for reflection",
+   "The dependency is loaded before this module"
+  ],
+  "a": 2,
+  "e": "The answer is two. With requires transitive, the dependency is implied readability for any module that requires this one. requires static is the optional one."
+ },
+ {
+  "id": "concepts2-21",
+  "topic": "java-modules",
+  "q": "A file imports module java dot base and module java dot desktop, then uses the simple name List. What happens?",
+  "o": [
+   "It compiles, and List means java dot util dot List, because java dot base is listed first",
+   "It compiles, and the first import wins",
+   "It compiles, and List means java dot awt dot List",
+   "It doesn't compile, because List is ambiguous between java dot util and java dot awt"
+  ],
+  "a": 4,
+  "e": "The answer is four. Both modules export a type called List. A single-type import, or a wildcard import of java dot util, resolves the ambiguity, because both shadow module imports."
+ },
+ {
+  "id": "concepts2-22",
+  "topic": "java-io",
+  "q": "What does BufferedReader dot readLine return when the end of the file is reached?",
+  "o": [
+   "An empty string",
+   "Minus one",
+   "null",
+   "It throws EOFException"
+  ],
+  "a": 3,
+  "e": "The answer is three. readLine returns null at the end of the stream, so the classic loop reads while the line isn't null. The basic read method returns minus one."
+ },
+ {
+  "id": "concepts2-23",
+  "topic": "java-io",
+  "q": "What does Files dot copy do when the target file already exists and no options are given?",
+  "o": [
+   "It throws FileAlreadyExistsException",
+   "It appends to the target",
+   "It silently does nothing",
+   "It overwrites the target"
+  ],
+  "a": 1,
+  "e": "The answer is one. Without StandardCopyOption dot REPLACE_EXISTING, copy refuses to overwrite and throws FileAlreadyExistsException."
+ },
+ {
+  "id": "concepts2-24",
+  "topic": "java-io",
+  "q": "A serializable class has a transient int field set to five. After serializing and deserializing the object, what does the field hold?",
+  "o": [
+   "Five, because the constructor runs again during deserialization",
+   "Five, because transient only affects equals",
+   "Zero, the default value, since the field isn't written",
+   "The field is missing, and reading it throws an exception"
+  ],
+  "a": 3,
+  "e": "The answer is three. Transient fields aren't serialized, and the serializable class's constructor and initializers don't run on deserialization, so the field gets its default value."
+ },
+ {
+  "id": "concepts2-25",
+  "topic": "java-locale",
+  "q": "You request a resource bundle for Locale fr CA, and the default locale is en US. After Messages underscore fr underscore CA and Messages underscore fr, which file is tried next?",
+  "o": [
+   "The base bundle, Messages, with no locale",
+   "The bundle for the default locale, English US",
+   "The English bundle, without a country",
+   "A bundle for the country Canada only"
+  ],
+  "a": 2,
+  "e": "The answer is two. The lookup tries the requested locale, then its language, then the default locale with its country, then the default language, and finally the base bundle."
+ },
+ {
+  "id": "mock1a-1",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`c 100`",
+   "`99 100`",
+   "`c d`",
+   "Compilation fails"
+  ],
+  "a": 1,
+  "e": "The answer is 1. Compound assignment casts back to char, so c becomes 'c'. In c plus one, the char is promoted to int: 99 plus 1 is 100. In the println, c is concatenated to a String, so it prints as a character.",
+  "na": true,
+  "c": "void main() {\n    char c = 'a';\n    c += 2;\n    int i = c + 1;\n    IO.println(c + \" \" + i);\n}"
+ },
+ {
+  "id": "mock1a-2",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`[7,7,3]`",
+   "`[11,7,3]`",
+   "`[11,7,1]`",
+   "`[11,9,3]`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. Strings are immutable and the result of s.trim() is ignored, so s still has 11 characters. t is \"Java 25\", 7 characters. indexOf('a', 2) starts searching at index 2 and finds the 'a' at index 3.",
+  "na": true,
+  "c": "void main() {\n    String s = \"  Java 25  \";\n    String t = s.strip();\n    s.trim();\n    IO.println(\"[\" + s.length() + \",\" + t.length() + \",\" + t.indexOf('a', 2) + \"]\");\n}"
+ },
+ {
+  "id": "mock1a-3",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`fe-ba`",
+   "`ab-cf`",
+   "`fc-ba`",
+   "`fdc-ba`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. StringBuilder is mutable and its methods return the same object. After insert: \"ab-cdef\". delete(4, 6) removes the characters at index 4 and 5, d and e, giving \"ab-cf\". reverse gives \"fc-ba\".",
+  "na": true,
+  "c": "void main() {\n    var sb = new StringBuilder(\"abcdef\");\n    sb.insert(2, \"-\").delete(4, 6).reverse();\n    IO.println(sb);\n}"
+ },
+ {
+  "id": "mock1a-4",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`2147483648 2147483648 7.0`",
+   "`-2147483648 -2147483648 6.0`",
+   "`2147483648 2147483648 6.0`",
+   "`-2147483648 2147483648 6.0`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. a + 1 is computed as an int and overflows before being widened to long. a + 1L is computed as a long. 7 / 2 is integer division, giving 3, then 3 * 2.0 is 6.0.",
+  "na": true,
+  "c": "void main() {\n    int a = Integer.MAX_VALUE;\n    long b = a + 1;\n    long c = a + 1L;\n    IO.println(b + \" \" + c + \" \" + 7 / 2 * 2.0);\n}"
+ },
+ {
+  "id": "mock1a-5",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`false true false true`",
+   "`true true true true`",
+   "`false true true true`",
+   "`false true false false`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. 128 is outside the Integer cache, so x and y are different objects. equals compares values: true. z.equals(128) boxes 128 to an Integer, and a Long is never equal to an Integer: false. x == 128 unboxes x and compares ints: true.",
+  "na": true,
+  "c": "void main() {\n    Integer x = 128, y = 128;\n    Long z = 128L;\n    IO.println((x == y) + \" \" + x.equals(y) + \" \" + z.equals(128) + \" \" + (x == 128));\n}"
+ },
+ {
+  "id": "mock1a-6",
+  "topic": "java-time",
+  "q": "What is the result?",
+  "o": [
+   "`2024-02-29 2024-03-01`",
+   "`2024-01-31 2024-03-01`",
+   "`2024-01-31 2024-03-02`",
+   "A DateTimeException is thrown"
+  ],
+  "a": 2,
+  "e": "The answer is 2. LocalDate is immutable, so d doesn't change. Adding one month to January 31 gives the last valid day of February, which is the 29th in 2024, and one more day gives March 1.",
+  "na": true,
+  "c": "import java.time.*;\n\nvoid main() {\n    LocalDate d = LocalDate.of(2024, 1, 31);\n    d.plusMonths(1);\n    LocalDate e = d.plusMonths(1).plusDays(1);\n    IO.println(d + \" \" + e);\n}"
+ },
+ {
+  "id": "mock1a-7",
+  "topic": "java-time",
+  "q": "What is the result?",
+  "o": [
+   "`PT5H30M P0D`",
+   "`P5H30M P1D`",
+   "`PT5H30M P1D`",
+   "`PT330M P1D`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. A Duration prints with PT followed by hours and minutes. The end is at 3:30 the next morning, so the dates are one day apart: P1D.",
+  "na": true,
+  "c": "import java.time.*;\n\nvoid main() {\n    var start = LocalDateTime.of(2025, 3, 1, 22, 0);\n    var end = start.plusHours(5).plusMinutes(30);\n    Duration d = Duration.between(start, end);\n    Period p = Period.between(start.toLocalDate(), end.toLocalDate());\n    IO.println(d + \" \" + p);\n}"
+ },
+ {
+  "id": "mock1a-8",
+  "topic": "java-time",
+  "q": "What is the result?",
+  "o": [
+   "`14:05 PM`",
+   "`2:05 PM`",
+   "`02:05 pm`",
+   "`02:05 PM`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. Lowercase hh is the hour on a twelve-hour clock, padded to two digits. a is the AM or PM marker, upper case in the US locale.",
+  "na": true,
+  "c": "import java.time.*;\nimport java.time.format.*;\nimport java.util.Locale;\n\nvoid main() {\n    var t = LocalTime.of(14, 5);\n    var f = DateTimeFormatter.ofPattern(\"hh:mm a\", Locale.US);\n    IO.println(t.format(f));\n}"
+ },
+ {
+  "id": "mock1a-9",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`twothree`",
+   "`two`",
+   "`twothreeother`",
+   "Compilation fails"
+  ],
+  "a": 1,
+  "e": "The answer is 1. With the colon style, execution falls through from the matching case until a break. It starts at case 2, falls into case 3, and stops at the break.",
+  "na": true,
+  "c": "void main() {\n    int x = 2;\n    String r = \"\";\n    switch (x) {\n        case 1: r += \"one\";\n        case 2: r += \"two\";\n        case 3: r += \"three\"; break;\n        default: r += \"other\";\n    }\n    IO.println(r);\n}"
+ },
+ {
+  "id": "mock1a-10",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`6`",
+   "`3`",
+   "Compilation fails",
+   "A MatchException is thrown"
+  ],
+  "a": 3,
+  "e": "The answer is 3. A switch expression must be exhaustive. A switch on a String can't list every possible value, so it needs a default branch.",
+  "na": true,
+  "c": "void main() {\n    String day = \"SAT\";\n    int n = switch (day) {\n        case \"SAT\", \"SUN\" -> {\n            int k = day.length();\n            yield k * 2;\n        }\n        case \"MON\" -> 1;\n    };\n    IO.println(n);\n}"
+ },
+ {
+  "id": "mock1a-11",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`circle, square 2.0`",
+   "`big circle, square 2.0`",
+   "`big circle, square 2`",
+   "Compilation fails, because the switch has no default"
+  ],
+  "a": 2,
+  "e": "The answer is 2. The guarded case is checked first and matches the circle of radius 12. The switch covers every permitted subtype of the sealed interface, so no default is needed. The component is a double, so it prints as 2.0.",
+  "na": true,
+  "c": "sealed interface Shape permits Circle, Square {}\nrecord Circle(double r) implements Shape {}\nrecord Square(double side) implements Shape {}\n\nString describe(Shape s) {\n    return switch (s) {\n        case Circle c when c.r() > 10 -> \"big circle\";\n        case Circle c -> \"circle\";\n        case Square(double side) -> \"square \" + side;\n    };\n}\n\nvoid main() {\n    IO.println(describe(new Circle(12)) + \", \" + describe(new Square(2)));\n}"
+ },
+ {
+  "id": "mock1a-12",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`A hello`",
+   "Nothing is printed",
+   "A ClassCastException is thrown",
+   "Compilation fails"
+  ],
+  "a": 4,
+  "e": "The answer is 4. s can be used on the right side of the or, because that part only runs when the instanceof succeeded. But the if body can be entered when the instanceof failed, so s isn't in scope there.",
+  "na": true,
+  "c": "void main() {\n    Object o = \"hello\";\n    if (!(o instanceof String s) || s.length() > 3) {\n        IO.println(\"A \" + s);\n    }\n}"
+ },
+ {
+  "id": "mock1a-13",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`2`",
+   "`4`",
+   "`3`",
+   "`5`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. When j equals i, the outer loop moves on, so the inner loop only counts values of j below i. That's none for i = 0, one for i = 1 and two for i = 2. The sum never exceeds 3, so the break never runs.",
+  "na": true,
+  "c": "void main() {\n    int count = 0;\n    outer:\n    for (int i = 0; i < 3; i++) {\n        for (int j = 0; j < 3; j++) {\n            if (j == i) continue outer;\n            if (i + j > 3) break outer;\n            count++;\n        }\n    }\n    IO.println(count);\n}"
+ },
+ {
+  "id": "mock1a-14",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`ABCDEFBCEF`",
+   "`ADBCEFBCEF`",
+   "`ADBCEFADBCEF`",
+   "`DABCEFBCEF`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. Static initializers run once, parent first: A then D. For each object, the parent's instance initializer and constructor run before the child's: B C E F, twice.",
+  "na": true,
+  "c": "public class Main {\n    public static void main(String[] args) {\n        new Child();\n        new Child();\n    }\n}\nclass Parent {\n    static { IO.print(\"A\"); }\n    { IO.print(\"B\"); }\n    Parent() { IO.print(\"C\"); }\n}\nclass Child extends Parent {\n    static { IO.print(\"D\"); }\n    { IO.print(\"E\"); }\n    Child() { IO.print(\"F\"); }\n}"
+ },
+ {
+  "id": "mock1a-15",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`Base 0 Sub 0`",
+   "`Base -3 Sub -6`",
+   "Compilation fails, because super must be the first statement",
+   "Compilation fails, because size is assigned before super"
+  ],
+  "a": 1,
+  "e": "The answer is 1. Since Java 25, statements may appear before super in the constructor prologue. They can adjust parameters and assign fields that have no initializer, like the final field size. They can't read fields or call instance methods.",
+  "na": true,
+  "c": "public class Main {\n    static class Base {\n        Base(int v) { IO.println(\"Base \" + v); }\n    }\n    static class Sub extends Base {\n        private final int size;\n        Sub(int raw) {\n            if (raw < 0) raw = 0;\n            size = raw * 2;\n            super(raw);\n            IO.println(\"Sub \" + size);\n        }\n    }\n    public static void main(String[] args) { new Sub(-3); }\n}"
+ },
+ {
+  "id": "mock1a-16",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`Object Integer varargs Object`",
+   "`long Integer varargs Object`",
+   "`varargs Integer varargs long`",
+   "`long Integer varargs long`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. A byte and a char both widen to long, which is preferred to boxing. An Integer argument matches the Integer overload exactly. With no arguments, only the varargs method applies.",
+  "na": true,
+  "c": "public class Main {\n    static void m(long x) { IO.print(\"long \"); }\n    static void m(Integer x) { IO.print(\"Integer \"); }\n    static void m(int... x) { IO.print(\"varargs \"); }\n    static void m(Object x) { IO.print(\"Object \"); }\n    public static void main(String[] args) {\n        byte b = 1;\n        m(b);\n        m(Integer.valueOf(2));\n        m();\n        m('c');\n    }\n}"
+ },
+ {
+  "id": "mock1a-17",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`animal dog A`",
+   "`dog dog D`",
+   "`animal dog D`",
+   "`animal animal A`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. Fields and static methods are hidden, not overridden, so the reference type Animal decides. The instance method get is overridden, so the runtime object, a Dog, decides.",
+  "na": true,
+  "c": "public class Main {\n    static class Animal {\n        String name = \"animal\";\n        String get() { return name; }\n        static String kind() { return \"A\"; }\n    }\n    static class Dog extends Animal {\n        String name = \"dog\";\n        String get() { return name; }\n        static String kind() { return \"D\"; }\n    }\n    public static void main(String[] args) {\n        Animal a = new Dog();\n        IO.println(a.name + \" \" + a.get() + \" \" + a.kind());\n    }\n}"
+ },
+ {
+  "id": "mock1a-18",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`walk+swim`",
+   "`walk`",
+   "Compilation fails",
+   "An exception is thrown at runtime"
+  ],
+  "a": 3,
+  "e": "The answer is 3. Overriding the conflicting defaults is the right idea, and the X.super.move() calls are valid. But interface methods are public, and the override has package access, which is weaker. With public added, it would print walk+swim.",
+  "na": true,
+  "c": "interface Walker { default String move() { return \"walk\"; } }\ninterface Swimmer { default String move() { return \"swim\"; } }\nclass Duck implements Walker, Swimmer {\n    String move() { return Walker.super.move() + \"+\" + Swimmer.super.move(); }\n}\n\nvoid main() {\n    IO.println(new Duck().move());\n}"
+ },
+ {
+  "id": "mock1a-19",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`hello main`",
+   "`null main`",
+   "Compilation fails",
+   "An exception is thrown at runtime"
+  ],
+  "a": 3,
+  "e": "The answer is 3. Static interface methods aren't inherited by implementing classes. They must be called with the interface name: Greeter.hello().",
+  "na": true,
+  "c": "public class Main implements Greeter {\n    public String name() { return \"main\"; }\n    public static void main(String[] args) {\n        var m = new Main();\n        IO.println(m.hello() + \" \" + m.name());\n    }\n}\ninterface Greeter {\n    static String hello() { return \"hello\"; }\n    String name();\n}"
+ },
+ {
+  "id": "mock1a-20",
+  "topic": "java-types",
+  "q": "What is the result?",
+  "o": [
+   "`Range[lo=9, hi=4] -5`",
+   "`Range[lo=4, hi=9] 5`",
+   "`Range(lo=4, hi=9) 5`",
+   "Compilation fails"
+  ],
+  "a": 2,
+  "e": "The answer is 2. In a compact constructor you can reassign the parameters, and the fields are assigned from them at the end. The generated toString uses square brackets.",
+  "na": true,
+  "c": "record Range(int lo, int hi) {\n    Range {\n        if (lo > hi) { int t = lo; lo = hi; hi = t; }\n    }\n    int size() { return hi - lo; }\n}\n\nvoid main() {\n    var r = new Range(9, 4);\n    IO.println(r + \" \" + r.size());\n}"
+ },
+ {
+  "id": "mock1a-21",
+  "topic": "java-types",
+  "q": "What is the result?",
+  "o": [
+   "`2 5 HIGH`",
+   "`1 5 MEDIUM`",
+   "`1 5 HIGH`",
+   "Compilation fails, because the enum constructor isn't private"
+  ],
+  "a": 3,
+  "e": "The answer is 3. ordinal is zero-based, so MEDIUM is 1. values returns the constants in declaration order. An enum constructor is implicitly private, so no modifier is needed.",
+  "na": true,
+  "c": "enum Level {\n    LOW(1), MEDIUM(5), HIGH(10);\n    private final int weight;\n    Level(int w) { weight = w; }\n    int weight() { return weight; }\n}\n\nvoid main() {\n    Level l = Level.valueOf(\"MEDIUM\");\n    IO.println(l.ordinal() + \" \" + l.weight() + \" \" + Level.values()[2]);\n}"
+ },
+ {
+  "id": "mock1a-22",
+  "topic": "java-types",
+  "q": "What is the result?",
+  "o": [
+   "`35`",
+   "`45`",
+   "`60`",
+   "Compilation fails"
+  ],
+  "a": 1,
+  "e": "The answer is 1. The parameter x is 5, this.x is the inner field 20, and Main.this.x is the outer field 10. An inner class instance is created through an outer instance with m.new Inner().",
+  "na": true,
+  "c": "public class Main {\n    private int x = 10;\n    class Inner {\n        int x = 20;\n        int sum(int x) { return x + this.x + Main.this.x; }\n    }\n    public static void main(String[] args) {\n        Main m = new Main();\n        Main.Inner in = m.new Inner();\n        IO.println(in.sum(5));\n    }\n}"
+ },
+ {
+  "id": "mock1a-23",
+  "topic": "java-exceptions",
+  "q": "What is the result?",
+  "o": [
+   "`body catch closeB closeA finally`",
+   "`body closeA closeB catch finally`",
+   "`body catch finally closeB closeA`",
+   "`body closeB closeA catch finally`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. Resources are closed in reverse order of declaration, as soon as the try block ends, before catch and finally run.",
+  "na": true,
+  "c": "public class Main {\n    record Res(String n) implements AutoCloseable {\n        public void close() { IO.print(\"close\" + n + \" \"); }\n    }\n    public static void main(String[] args) {\n        try (var a = new Res(\"A\"); var b = new Res(\"B\")) {\n            IO.print(\"body \");\n            throw new IllegalStateException();\n        } catch (IllegalStateException e) {\n            IO.print(\"catch \");\n        } finally {\n            IO.print(\"finally\");\n        }\n    }\n}"
+ },
+ {
+  "id": "mock1a-24",
+  "topic": "java-exceptions",
+  "q": "What is the result?",
+  "o": [
+   "`2 3`",
+   "`1 3`",
+   "A RuntimeException with the message boom is thrown",
+   "Compilation fails"
+  ],
+  "a": 2,
+  "e": "The answer is 2. In f, the return value is evaluated before finally runs, so changing x afterwards doesn't affect it. In g, the return in finally discards the exception.",
+  "na": true,
+  "c": "public class Main {\n    static int f() {\n        int x = 1;\n        try {\n            return x;\n        } finally {\n            x = 2;\n        }\n    }\n    static int g() {\n        try {\n            throw new RuntimeException(\"boom\");\n        } finally {\n            return 3;\n        }\n    }\n    public static void main(String[] args) {\n        IO.println(f() + \" \" + g());\n    }\n}"
+ },
+ {
+  "id": "mock1a-25",
+  "topic": "java-exceptions",
+  "q": "Which two clauses can replace /*?*/ so that the code compiles? Choose two.",
+  "o": [
+   "`catch (IOException | RuntimeException e)`",
+   "`catch (FileNotFoundException | IOException e)`",
+   "`catch (java.sql.SQLException e)`",
+   "`catch (Exception e)`",
+   "`catch (RuntimeException e)`"
+  ],
+  "a": [
+   1,
+   4
+  ],
+  "e": "The answers are 1 and 4. Option 1 is a valid multi-catch of two unrelated types, and IOException covers FileNotFoundException. Option 4 catches everything. Option 2 combines related types. Option 3 catches a checked exception the try block can't throw, and leaves FileNotFoundException unhandled. Option 5 doesn't handle the checked exception.",
+  "na": true,
+  "c": "import java.io.*;\n\npublic class Main {\n    static void read() throws FileNotFoundException { throw new FileNotFoundException(); }\n    public static void main(String[] args) {\n        try {\n            read();\n        } /*?*/ {\n            IO.println(\"handled\");\n        }\n    }\n}"
+ },
+ {
+  "id": "mock1b-1",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`[q, y, z] [q, y, z]`",
+   "`[q, w, z] [q, w, z]`",
+   "`[q, w, z] [q, y, z]`",
+   "An UnsupportedOperationException is thrown"
+  ],
+  "a": 3,
+  "e": "The answer is 3. Arrays.asList returns a list backed by the array: set works, and changes to the array show through the list. List.copyOf makes an independent unmodifiable copy, taken before arr[1] changed.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    String[] arr = {\"x\", \"y\", \"z\"};\n    List<String> a = Arrays.asList(arr);\n    a.set(0, \"q\");\n    List<String> b = List.copyOf(a);\n    arr[1] = \"w\";\n    IO.println(a + \" \" + b);\n}"
+ },
+ {
+  "id": "mock1b-2",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`[10, 30]`",
+   "`[20, 30]`",
+   "`[10, 20, 30]`",
+   "`[30, 1]`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. remove(1) with an int removes the element at index 1, which is 20. remove(Integer.valueOf(1)) removes by value, the element 1.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    List<Integer> list = new ArrayList<>(List.of(10, 20, 30, 1));\n    list.remove(1);\n    list.remove(Integer.valueOf(1));\n    IO.println(list);\n}"
+ },
+ {
+  "id": "mock1b-3",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`[c, b, a, c, b] b`",
+   "`[c, a, b] b`",
+   "`[b, a, c] c`",
+   "An UnsupportedOperationException is thrown"
+  ],
+  "a": 2,
+  "e": "The answer is 2. LinkedHashSet is a SequencedCollection. addFirst and addLast move an element that's already present to the requested end. reversed returns a reversed view, whose first element is the last of the set.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    var set = new LinkedHashSet<>(List.of(\"b\", \"a\", \"c\"));\n    set.addFirst(\"c\");\n    set.addLast(\"b\");\n    IO.println(set + \" \" + set.reversed().getFirst());\n}"
+ },
+ {
+  "id": "mock1b-4",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`{and=null, cat=1, hat=1, the=2}`",
+   "`{the=2, cat=1, hat=1}`",
+   "`{cat=9, hat=1, the=2}`",
+   "`{cat=1, hat=1, the=2}`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. merge counts the words. When the remapping function of computeIfPresent returns null, the entry is removed. putIfAbsent does nothing because cat is already mapped. A TreeMap keeps its keys sorted.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    Map<String, Integer> m = new TreeMap<>();\n    for (String w : \"the cat and the hat\".split(\" \"))\n        m.merge(w, 1, Integer::sum);\n    m.computeIfPresent(\"and\", (k, v) -> null);\n    m.putIfAbsent(\"cat\", 9);\n    IO.println(m);\n}"
+ },
+ {
+  "id": "mock1b-5",
+  "topic": "java-collections",
+  "q": "Which two statements can replace /*?*/ so that the code compiles? Choose two.",
+  "o": [
+   "`nums.add(1)`",
+   "`sink.add(1)`",
+   "`Number n = nums.isEmpty() ? null : nums.get(0)`",
+   "`Integer i = sink.get(0)`",
+   "`List<Number> l = new ArrayList<Integer>()`"
+  ],
+  "a": [
+   2,
+   3
+  ],
+  "e": "The answers are 2 and 3. With extends you can read elements as Number but not add, so option 1 fails. With super you can add Integers, but reading gives Object, so option 4 fails. Option 5 fails because generics are invariant.",
+  "na": true,
+  "c": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        List<? extends Number> nums = new ArrayList<Integer>();\n        List<? super Integer> sink = new ArrayList<Number>();\n        /*?*/;\n    }\n}"
+ },
+ {
+  "id": "mock1b-6",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`Bo Cy Al`",
+   "`Cy Bo Al`",
+   "`Al Bo Cy`",
+   "Compilation fails"
+  ],
+  "a": 1,
+  "e": "The answer is 1. Ages are sorted in descending order because of reversed. thenComparing, added after reversed, breaks ties by name in ascending order: Bo before Cy.",
+  "na": true,
+  "c": "import java.util.*;\n\nrecord Emp(String name, int age) {}\n\nvoid main() {\n    var list = new ArrayList<>(List.of(new Emp(\"Bo\", 30), new Emp(\"Al\", 25), new Emp(\"Cy\", 30)));\n    list.sort(Comparator.comparingInt(Emp::age).reversed().thenComparing(Emp::name));\n    list.forEach(e -> IO.print(e.name() + \" \"));\n}"
+ },
+ {
+  "id": "mock1b-7",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`2 -1 2`",
+   "`1 -2 2`",
+   "`1 -1 -1`",
+   "`1 -2 -1`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. After sorting, the array is 1, 4, 5. 4 is at index 1. 3 would be inserted at index 1, so the result is minus 1 minus 1, which is minus 2. mismatch returns the first index where the arrays differ: 2.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    int[] a = {5, 1, 4};\n    Arrays.sort(a);\n    IO.println(Arrays.binarySearch(a, 4) + \" \" + Arrays.binarySearch(a, 3) + \" \"\n        + Arrays.mismatch(a, new int[]{1, 4, 6}));\n}"
+ },
+ {
+  "id": "mock1b-8",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`pa pbb pccc pdd BB`",
+   "`pa pbb pccc pdd BB DD`",
+   "`BB`",
+   "`pa pbb BB`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. Elements flow through the pipeline one at a time, and findFirst is short-circuiting: processing stops as soon as bb passes the filter.",
+  "na": true,
+  "c": "import java.util.stream.*;\n\nvoid main() {\n    Stream.of(\"a\", \"bb\", \"ccc\", \"dd\")\n        .peek(s -> IO.print(\"p\" + s + \" \"))\n        .filter(s -> s.length() == 2)\n        .map(String::toUpperCase)\n        .findFirst()\n        .ifPresent(s -> IO.print(s));\n}"
+ },
+ {
+  "id": "mock1b-9",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`{a=[apple, avocado], b=[bob, berry], c=[cat]}`",
+   "`{a=2, b=2, c=1}`",
+   "`{2=[a, b], 1=[c]}`",
+   "Compilation fails"
+  ],
+  "a": 2,
+  "e": "The answer is 2. The three-argument groupingBy takes the classifier, a map factory, here a sorted TreeMap, and a downstream collector. counting turns each group into a Long.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.stream.*;\n\nvoid main() {\n    var words = List.of(\"apple\", \"bob\", \"cat\", \"avocado\", \"berry\");\n    Map<Character, Long> m = words.stream()\n        .collect(Collectors.groupingBy(w -> w.charAt(0), TreeMap::new, Collectors.counting()));\n    IO.println(m);\n}"
+ },
+ {
+  "id": "mock1b-10",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`{false=16}`",
+   "`{false=16, true=null}`",
+   "`{false=16, true=0}`",
+   "`{true=0, false=16}`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. partitioningBy always contains both keys, false and true, even when a partition is empty. The empty partition gets the downstream result for no elements, here a sum of 0.",
+  "na": true,
+  "c": "import java.util.stream.*;\n\nvoid main() {\n    var r = Stream.of(3, 8, 5)\n        .collect(Collectors.partitioningBy(n -> n > 10, Collectors.summingInt(n -> n)));\n    IO.println(r);\n}"
+ },
+ {
+  "id": "mock1b-11",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`10 16 OptionalDouble.empty Optional.empty`",
+   "`10 6 0.0 0`",
+   "`6 16 OptionalDouble.empty Optional.empty`",
+   "A NoSuchElementException is thrown"
+  ],
+  "a": 1,
+  "e": "The answer is 1. rangeClosed includes 4, so the sum is 10. reduce with an identity starts from 10. average on a primitive stream returns an OptionalDouble, and reduce without identity returns an Optional; both are empty here.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.stream.*;\n\nvoid main() {\n    var a = IntStream.rangeClosed(1, 4).sum();\n    var b = Stream.of(1, 2, 3).reduce(10, Integer::sum);\n    var c = IntStream.empty().average();\n    var d = Stream.<Integer>empty().reduce(Integer::sum);\n    IO.println(a + \" \" + b + \" \" + c + \" \" + d);\n}"
+ },
+ {
+  "id": "mock1b-12",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`[2, 12] [10]`",
+   "`[2, 12, 5] [1, 3, 6, 10]`",
+   "`[2, 6, 12, 20] [10]`",
+   "`[2, 6, 12, 20] [1, 3, 6, 10]`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. windowSliding(2) produces overlapping pairs: 1-2, 2-3, 3-4, 4-5. scan emits every running result, unlike fold, which emits only the final one.",
+  "na": true,
+  "c": "import java.util.stream.*;\n\nvoid main() {\n    var w = Stream.of(1, 2, 3, 4, 5).gather(Gatherers.windowSliding(2))\n        .map(l -> l.get(0) * l.get(1)).toList();\n    var s = Stream.of(1, 2, 3, 4).gather(Gatherers.scan(() -> 0, (acc, x) -> acc + x)).toList();\n    IO.println(w + \" \" + s);\n}"
+ },
+ {
+  "id": "mock1b-13",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`15`",
+   "`16`",
+   "Compilation fails",
+   "An exception is thrown at runtime"
+  ],
+  "a": 3,
+  "e": "The answer is 3. A lambda can only use local variables that are final or effectively final. base is incremented afterwards, so it isn't effectively final, and the lambda doesn't compile.",
+  "na": true,
+  "c": "import java.util.function.*;\n\nvoid main() {\n    int base = 10;\n    Function<Integer, Integer> add = x -> x + base;\n    base++;\n    IO.println(add.apply(5));\n}"
+ },
+ {
+  "id": "mock1b-14",
+  "topic": "java-streams",
+  "q": "Which two declarations can replace /*?*/ so that the code compiles? Choose two.",
+  "o": [
+   "`Supplier<String> s = () -> \"x\"`",
+   "`Predicate<String> p = s -> s.length()`",
+   "`BiFunction<Integer, Integer, Integer> f = (a, b) -> a * b`",
+   "`UnaryOperator<String> u = (String s, t) -> s`",
+   "`Consumer<String> c = s -> { return s; }`"
+  ],
+  "a": [
+   1,
+   3
+  ],
+  "e": "The answers are 1 and 3. Option 2 returns an int where a Predicate needs a boolean. Option 4 mixes typed and untyped parameters, and UnaryOperator takes one parameter anyway. Option 5 returns a value from a Consumer, whose accept method is void.",
+  "na": true,
+  "c": "import java.util.function.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        /*?*/;\n    }\n}"
+ },
+ {
+  "id": "mock1b-15",
+  "topic": "java-concurrency",
+  "q": "What is the result?",
+  "o": [
+   "`42` followed by an uncaught IllegalStateException",
+   "`42 bad`",
+   "`42 null`",
+   "Compilation fails"
+  ],
+  "a": 2,
+  "e": "The answer is 2. Future.get returns the Callable's result. When a task throws, get wraps the exception in an ExecutionException, whose cause is the original exception. Closing the executor waits for the tasks.",
+  "na": true,
+  "c": "import java.util.concurrent.*;\n\npublic class Main {\n    public static void main(String[] args) throws Exception {\n        try (ExecutorService ex = Executors.newVirtualThreadPerTaskExecutor()) {\n            Future<Integer> f = ex.submit(() -> 6 * 7);\n            Future<?> g = ex.submit(() -> { throw new IllegalStateException(\"bad\"); });\n            IO.println(f.get());\n            try {\n                g.get();\n            } catch (ExecutionException e) {\n                IO.println(e.getCause().getMessage());\n            }\n        }\n    }\n}"
+ },
+ {
+  "id": "mock1b-16",
+  "topic": "java-concurrency",
+  "q": "What is the result?",
+  "o": [
+   "`run true 5`",
+   "`run false 10`",
+   "`run true 10`",
+   "An IllegalArgumentException is thrown"
+  ],
+  "a": 1,
+  "e": "The answer is 1. Virtual threads are always daemon threads, and their priority is always NORM_PRIORITY, 5: setPriority is ignored. Only setDaemon(false) throws.",
+  "na": true,
+  "c": "public class Main {\n    public static void main(String[] args) throws InterruptedException {\n        Thread t = Thread.ofVirtual().unstarted(() -> IO.print(\"run \"));\n        t.setPriority(Thread.MAX_PRIORITY);\n        t.start();\n        t.join();\n        IO.println(t.isDaemon() + \" \" + t.getPriority());\n    }\n}"
+ },
+ {
+  "id": "mock1b-17",
+  "topic": "java-concurrency",
+  "q": "What is the result?",
+  "o": [
+   "`ann bob bob nobody`",
+   "`ann bob ann ann`",
+   "`ann bob ann nobody`",
+   "A NoSuchElementException is thrown"
+  ],
+  "a": 3,
+  "e": "The answer is 3. A binding lasts only for the run call. The nested where rebinds USER for the inner scope only; afterwards ann is visible again. Outside, USER is unbound, so isBound is false.",
+  "na": true,
+  "c": "public class Main {\n    static final ScopedValue<String> USER = ScopedValue.newInstance();\n    static String who() { return USER.isBound() ? USER.get() : \"nobody\"; }\n    public static void main(String[] args) {\n        ScopedValue.where(USER, \"ann\").run(() -> {\n            IO.print(who() + \" \");\n            ScopedValue.where(USER, \"bob\").run(() -> IO.print(who() + \" \"));\n            IO.print(who() + \" \");\n        });\n        IO.println(who());\n    }\n}"
+ },
+ {
+  "id": "mock1b-18",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "A ConcurrentModificationException is thrown",
+   "`[a, b, c]`",
+   "Compilation fails",
+   "`[a, c]`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. Removing during a for-each loop usually throws ConcurrentModificationException, but here b is the second-to-last element. After the removal the size is 2 and the iterator's position is 2, so hasNext returns false and the loop ends before the check that throws.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    List<String> list = new ArrayList<>(List.of(\"a\", \"b\", \"c\"));\n    for (String s : list) {\n        if (s.equals(\"b\")) list.remove(s);\n    }\n    IO.println(list);\n}"
+ },
+ {
+  "id": "mock1b-19",
+  "topic": "java-modules",
+  "q": "Which statement is true?",
+  "o": [
+   "Code in com.shop.app can use the public types exported by com.shop.model",
+   "com.shop.app must also require com.shop.model to use its types",
+   "Modules that require com.shop.app can also read com.shop.core",
+   "com.shop.app re-exports the package com.shop.core.service"
+  ],
+  "a": 1,
+  "e": "The answer is 1. requires transitive in com.shop.core gives implied readability of com.shop.model to every module that requires com.shop.core. com.shop.app requires com.shop.core without transitive, so its own readers don't get com.shop.core. Exports are never inherited.",
+  "na": true,
+  "c": "// module-info.java of com.shop.core\nmodule com.shop.core {\n    requires transitive com.shop.model;\n    exports com.shop.core.service;\n}\n\n// module-info.java of com.shop.app\nmodule com.shop.app {\n    requires com.shop.core;\n    exports com.shop.app.api;\n}"
+ },
+ {
+  "id": "mock1b-20",
+  "topic": "java-modules",
+  "q": "Which two directives are valid in a module-info.java file? Choose two.",
+  "o": [
+   "`exports com.acme.util to com.acme.web;`",
+   "`requires com.acme.util.*;`",
+   "`opens com.acme.model;`",
+   "`exports module com.acme.util;`",
+   "`provides com.acme.Plugin;`"
+  ],
+  "a": [
+   1,
+   3
+  ],
+  "e": "The answers are 1 and 3. A qualified export names a package and the modules allowed to use it, and opens makes a package available for deep reflection. requires takes a module name without wildcards, exports takes a package, and provides needs a with clause naming the implementation.",
+  "na": true
+ },
+ {
+  "id": "mock1b-21",
+  "topic": "java-modules",
+  "q": "What is the result?",
+  "o": [
+   "`[x]`",
+   "Compilation fails, because List is ambiguous",
+   "Compilation fails, because module imports need a module-info.java file",
+   "A ClassCastException is thrown"
+  ],
+  "a": 2,
+  "e": "The answer is 2. Both java.base and java.desktop export a type named List, java.util.List and java.awt.List. Adding a single-type import, import java.util.List, would resolve it. Module imports work in any source file.",
+  "na": true,
+  "c": "import module java.base;\nimport module java.desktop;\n\nvoid main() {\n    List<String> names = new ArrayList<>();\n    names.add(\"x\");\n    IO.println(names);\n}"
+ },
+ {
+  "id": "mock1b-22",
+  "topic": "java-io",
+  "q": "What is the result?",
+  "o": [
+   "`4 bob/docs docs`",
+   "`5 home/bob docs`",
+   "`4 /home/bob /home/bob/docs`",
+   "`7 ann/.. docs`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. normalize gives /home/bob/docs/file.txt, with four name elements; the root isn't counted. subpath(1, 3) takes elements 1 and 2. The parent is /home/bob/docs, whose file name is docs.",
+  "na": true,
+  "c": "import java.nio.file.*;\n\nvoid main() {\n    Path p = Path.of(\"/home/ann/../bob/./docs/file.txt\");\n    Path q = p.normalize();\n    IO.println(q.getNameCount() + \" \" + q.subpath(1, 3) + \" \" + q.getParent().getFileName());\n}"
+ },
+ {
+  "id": "mock1b-23",
+  "topic": "java-io",
+  "q": "What is the result?",
+  "o": [
+   "`out/log.txt /data/in/x.txt /data/in/data/out/log.txt`",
+   "`../out/log.txt /data/in/x.txt /data/in/data/out/log.txt`",
+   "`../out/log.txt /data/in/x.txt /data/out/log.txt`",
+   "An IllegalArgumentException is thrown"
+  ],
+  "a": 3,
+  "e": "The answer is 3. relativize goes up from in, then down into out. resolve appends a relative path, but when the argument is absolute, it returns the argument unchanged.",
+  "na": true,
+  "c": "import java.nio.file.*;\n\nvoid main() {\n    Path a = Path.of(\"/data/in\");\n    Path b = Path.of(\"/data/out/log.txt\");\n    IO.println(a.relativize(b) + \" \" + a.resolve(\"x.txt\") + \" \" + a.resolve(b));\n}"
+ },
+ {
+  "id": "mock1b-24",
+  "topic": "java-locale",
+  "q": "What is the result?",
+  "o": [
+   "A ParseException is thrown",
+   "`1,234.5 3.1`",
+   "`1.234,5 03.1`",
+   "`1234,5 03.14`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. parse stops at the first character it can't use, so it reads 1234.5. The German format uses a dot for grouping and a comma for decimals. In a DecimalFormat pattern, 0 always prints a digit, so 3.14159 becomes 03.1.",
+  "na": true,
+  "c": "import java.text.*;\nimport java.util.*;\n\nvoid main() throws ParseException {\n    var us = NumberFormat.getInstance(Locale.US);\n    var de = NumberFormat.getInstance(Locale.GERMANY);\n    Number n = us.parse(\"1,234.5abc\");\n    IO.println(de.format(n) + \" \" + new DecimalFormat(\"00.0\").format(3.14159));\n}"
+ },
+ {
+  "id": "mock1b-25",
+  "topic": "java-locale",
+  "q": "What is the result?",
+  "o": [
+   "`1.55K 2M 25.6%`",
+   "`2K 2 million 26%`",
+   "`1K 2 million 26%`",
+   "`2K 2M 0.256%`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. Compact formats round to whole units by default, so 1,550 becomes 2K; the long style spells out the unit. The percent format multiplies by 100 and rounds to an integer.",
+  "na": true,
+  "c": "import java.text.*;\nimport java.util.*;\n\nvoid main() {\n    var shortF = NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT);\n    var longF = NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.LONG);\n    IO.println(shortF.format(1_550) + \" \" + longF.format(2_000_000) + \" \"\n        + NumberFormat.getPercentInstance(Locale.US).format(0.256));\n}"
+ },
+ {
+  "id": "mock2a-1",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`5 11 2`",
+   "`5 12 2`",
+   "`6 12 0`",
+   "`5 12 0`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. i++ yields 5 and makes i 6; ++i makes i 7 and yields 7, so j is 12. Then i-- yields 7 and makes i 6; --i makes i 5 and yields 5, so k is 2, and i ends at 5.",
+  "na": true,
+  "c": "void main() {\n    int i = 5;\n    int j = i++ + ++i;\n    int k = i-- - --i;\n    IO.println(i + \" \" + j + \" \" + k);\n}"
+ },
+ {
+  "id": "mock2a-2",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`2 1 false true`",
+   "`2 2 false true`",
+   "`2 0 false true`",
+   "`1 1 false false`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. && short-circuits: the left side is false, so b++ doesn't run. The single | always evaluates both sides: a++ yields 1, which is greater than 0, and b++ runs once.",
+  "na": true,
+  "c": "void main() {\n    int a = 0, b = 0;\n    boolean r = (a++ > 0) && (b++ > 0);\n    boolean s = (a++ > 0) | (b++ > 0);\n    IO.println(a + \" \" + b + \" \" + r + \" \" + s);\n}"
+ },
+ {
+  "id": "mock2a-3",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`true true true`",
+   "`false false true`",
+   "`true false true`",
+   "`true false false`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. \"h\" + \"i\" is a compile-time constant, so it's the same pooled literal as a. c + \"i\" involves a variable, so it's built at runtime as a new object. intern returns the pooled instance.",
+  "na": true,
+  "c": "void main() {\n    String a = \"hi\";\n    String b = \"h\" + \"i\";\n    String c = \"h\";\n    String d = c + \"i\";\n    IO.println((a == b) + \" \" + (a == d) + \" \" + (a == d.intern()));\n}"
+ },
+ {
+  "id": "mock2a-4",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`3 17`",
+   "`2 17`",
+   "`2 15`",
+   "`3 15`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. A backslash at the end of a line joins it with the next, giving \"one two\". The incidental indentation of 8 spaces is removed, leaving 2 spaces before three. The closing delimiter on the last line means no final line break: 7 plus 1 plus 7 characters.",
+  "na": true,
+  "c": "void main() {\n    String t = \"\"\"\n        one \\\n        two\n          three\"\"\";\n    IO.println(t.lines().count() + \" \" + t.length());\n}"
+ },
+ {
+  "id": "mock2a-5",
+  "topic": "java-basics",
+  "q": "What is the result?",
+  "o": [
+   "`10 10 true 32`",
+   "`9 10 true 32.5`",
+   "`9 9 false 32`",
+   "`9 10 false 32`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. A cast to int truncates, while Math.round rounds. 1.1f widened to double isn't exactly equal to the double 1.1. 'A' is 65, and 65 / 2 is integer division: 32.",
+  "na": true,
+  "c": "void main() {\n    double d = 9.99;\n    int i = (int) d;\n    long r = Math.round(d);\n    float f = 1.1f;\n    IO.println(i + \" \" + r + \" \" + (f == 1.1) + \" \" + (int) 'A' / 2);\n}"
+ },
+ {
+  "id": "mock2a-6",
+  "topic": "java-time",
+  "q": "On March 29, 2026, clocks in Rome jump from 02:00 to 03:00. What is the result?",
+  "o": [
+   "`03:00 24`",
+   "`04:00 23`",
+   "`03:00 23`",
+   "`04:00 24`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. plusHours works on the time line: two real hours after 01:00 is 04:00 local time, because an hour is skipped. plusDays keeps the local time, 01:00 the next day, which is only 23 hours later.",
+  "na": true,
+  "c": "import java.time.*;\n\nvoid main() {\n    ZoneId rome = ZoneId.of(\"Europe/Rome\");\n    var a = ZonedDateTime.of(2026, 3, 29, 1, 0, 0, 0, rome);\n    var b = a.plusHours(2);\n    var c = a.plusDays(1);\n    IO.println(b.toLocalTime() + \" \" + Duration.between(a, c).toHours());\n}"
+ },
+ {
+  "id": "mock2a-7",
+  "topic": "java-time",
+  "q": "What is the result?",
+  "o": [
+   "`2025-03-01`",
+   "`2025-03-02`",
+   "A DateTimeParseException is thrown",
+   "Compilation fails"
+  ],
+  "a": 3,
+  "e": "The answer is 3. 2025 isn't a leap year, so February 29 is invalid, and parse throws a DateTimeParseException. Factory methods like LocalDate.of would throw a DateTimeException.",
+  "na": true,
+  "c": "import java.time.*;\n\nvoid main() {\n    var d = LocalDate.parse(\"2025-02-29\");\n    IO.println(d.plusDays(1));\n}"
+ },
+ {
+  "id": "mock2a-8",
+  "topic": "java-time",
+  "q": "What is the result?",
+  "o": [
+   "`P1Y14M40D P2Y2M40D 2027-04-10`",
+   "`P1Y14M40D P2Y3M10D 2027-04-10`",
+   "`P2Y2M40D P2Y2M40D 2027-04-10`",
+   "A DateTimeException is thrown, because 14 isn't a valid month"
+  ],
+  "a": 1,
+  "e": "The answer is 1. A Period stores its values as given. normalized only converts months into years; days are never converted, because months have different lengths. Adding the period adds years and months first, giving March 1, 2027, then 40 days.",
+  "na": true,
+  "c": "import java.time.*;\n\nvoid main() {\n    var p = Period.of(1, 14, 40);\n    IO.println(p + \" \" + p.normalized() + \" \" + LocalDate.of(2025, 1, 1).plus(p));\n}"
+ },
+ {
+  "id": "mock2a-9",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`medium`",
+   "Compilation fails, because case labels can't use qualified enum names",
+   "Compilation fails, because the switch has no default",
+   "A MatchException is thrown"
+  ],
+  "a": 1,
+  "e": "The answer is 1. Since Java 21, qualified enum constant names are allowed in case labels. A switch expression over an enum is exhaustive when every constant is covered, so no default is needed.",
+  "na": true,
+  "c": "enum Size { S, M, L }\n\nvoid main() {\n    Size s = Size.M;\n    String r = switch (s) {\n        case S -> \"small\";\n        case Size.M -> \"medium\";\n        case L -> \"large\";\n    };\n    IO.println(r);\n}"
+ },
+ {
+  "id": "mock2a-10",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`3`",
+   "`4`",
+   "`5`",
+   "Compilation fails"
+  ],
+  "a": 3,
+  "e": "The answer is 3. Nested record patterns deconstruct both points. x binds the first point's x, 1, and y binds the second point's y, 4. The underscores are unnamed patterns that match anything.",
+  "na": true,
+  "c": "record Point(int x, int y) {}\nrecord Line(Point from, Point to) {}\n\nvoid main() {\n    Object o = new Line(new Point(1, 2), new Point(3, 4));\n    if (o instanceof Line(Point(var x, _), Point(_, int y)) && x < y) {\n        IO.println(x + y);\n    }\n}"
+ },
+ {
+  "id": "mock2a-11",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`int other string 2 other`",
+   "`positive other string 2 other`",
+   "A NullPointerException is thrown",
+   "Compilation fails"
+  ],
+  "a": 1,
+  "e": "The answer is 1. -1 fails the guard and matches the unguarded Integer case. case null, default handles both null and the Double. Writing case null, default before the Integer cases wouldn't compile, because it would dominate them.",
+  "na": true,
+  "c": "String test(Object o) {\n    return switch (o) {\n        case Integer i when i > 0 -> \"positive\";\n        case Integer i -> \"int\";\n        case String s -> \"string \" + s.length();\n        case null, default -> \"other\";\n    };\n}\n\nvoid main() {\n    IO.println(test(-1) + \" \" + test(null) + \" \" + test(\"ab\") + \" \" + test(2.0));\n}"
+ },
+ {
+  "id": "mock2a-12",
+  "topic": "java-flow",
+  "q": "What is the result?",
+  "o": [
+   "`3` and the program keeps running",
+   "`3 end`",
+   "`2` and the program keeps running",
+   "Compilation fails"
+  ],
+  "a": 4,
+  "e": "The answer is 4. The while loop has a break, so the code after it is reachable. But for (;;) without a break never completes, so the last println is unreachable, which is a compile error.",
+  "na": true,
+  "c": "void main() {\n    int x = 0;\n    while (true) {\n        x++;\n        if (x > 2) break;\n    }\n    IO.println(x);\n    for (;;) { }\n    IO.println(\"end\");\n}"
+ },
+ {
+  "id": "mock2a-13",
+  "topic": "java-oop",
+  "q": "Which line fails to compile?",
+  "o": [
+   "Line 1",
+   "Line 2",
+   "Line 3",
+   "Line 4"
+  ],
+  "a": 3,
+  "e": "The answer is 3. In a different package, a subclass can access a protected member only through a reference of its own type or a subtype. p is a Parent reference, so p.value doesn't compile.",
+  "na": true,
+  "c": "// a/Parent.java\npackage a;\npublic class Parent {\n    protected int value = 1;\n}\n\n// b/Child.java\npackage b;\nimport a.Parent;\npublic class Child extends Parent {\n    void test(Parent p, Child c) {\n        int v1 = value;        // line 1\n        int v2 = c.value;      // line 2\n        int v3 = p.value;      // line 3\n        int v4 = this.value;   // line 4\n    }\n}"
+ },
+ {
+  "id": "mock2a-14",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`square square`",
+   "`null square`",
+   "`null null`",
+   "A NullPointerException is thrown"
+  ],
+  "a": 2,
+  "e": "The answer is 2. The parent constructor runs before the child's field initializers. The overridden name method is called from Shape's constructor while label is still null. Concatenating null prints \"null\", without an exception.",
+  "na": true,
+  "c": "public class Main {\n    static abstract class Shape {\n        Shape() { IO.print(name() + \" \"); }\n        abstract String name();\n    }\n    static class Square extends Shape {\n        private String label = \"square\";\n        String name() { return label; }\n    }\n    public static void main(String[] args) {\n        IO.println(new Square().name());\n    }\n}"
+ },
+ {
+  "id": "mock2a-15",
+  "topic": "java-oop",
+  "q": "Which two methods can replace /*?*/ so that the code compiles? Choose two.",
+  "o": [
+   "`public Integer get() { return 2; }`",
+   "`Number get() throws IOException { return 2; }`",
+   "`protected Object get() throws IOException { return 2; }`",
+   "`protected Number get() throws FileNotFoundException { return 2; }`",
+   "`protected Number get() throws Exception { return 2; }`"
+  ],
+  "a": [
+   1,
+   4
+  ],
+  "e": "The answers are 1 and 4. An override may widen access, return a subtype, and throw fewer or narrower checked exceptions. Option 2 reduces access to package level, option 3 returns a supertype, and option 5 throws a broader checked exception.",
+  "na": true,
+  "c": "import java.io.*;\n\npublic class Main {\n    static class Parent {\n        protected Number get() throws IOException { return 1; }\n    }\n    static class Child extends Parent {\n        /*?*/\n    }\n    public static void main(String[] args) { new Child(); }\n}"
+ },
+ {
+  "id": "mock2a-16",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`1 true`",
+   "`2 false`",
+   "`1 false`",
+   "`2 true`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. equals(Key) overloads equals instead of overriding equals(Object). HashSet calls equals(Object), inherited from Object, which compares references, so both keys are added. The direct call picks the overload with the more specific type and returns true.",
+  "na": true,
+  "c": "import java.util.*;\n\npublic class Main {\n    static class Key {\n        final int id;\n        Key(int id) { this.id = id; }\n        public boolean equals(Key k) { return k != null && k.id == id; }\n        public int hashCode() { return id; }\n    }\n    public static void main(String[] args) {\n        Set<Key> set = new HashSet<>();\n        set.add(new Key(1));\n        set.add(new Key(1));\n        IO.println(set.size() + \" \" + new Key(1).equals(new Key(1)));\n    }\n}"
+ },
+ {
+  "id": "mock2a-17",
+  "topic": "java-oop",
+  "q": "What is the result?",
+  "o": [
+   "`done`",
+   "Compilation fails",
+   "A ClassCastException is thrown",
+   "`done`, and c is null"
+  ],
+  "a": 3,
+  "e": "The answer is 3. The cast compiles, because an Object reference might point to a Cat. At runtime the object is a Dog, so the cast throws ClassCastException.",
+  "na": true,
+  "c": "public class Main {\n    static class Animal { }\n    static class Dog extends Animal { }\n    static class Cat extends Animal { }\n    public static void main(String[] args) {\n        Animal a = new Dog();\n        Object o = a;\n        Cat c = (Cat) o;\n        IO.println(\"done\");\n    }\n}"
+ },
+ {
+  "id": "mock2a-18",
+  "topic": "java-types",
+  "q": "What is the result?",
+  "o": [
+   "`true [EUR] 2 Money[cents=100, cur=EUR]`",
+   "`false [EUR] 2 Money[cents=100, cur=eur]`",
+   "`true [EUR] 2 Money[cents=100, cur=[EUR]]`",
+   "Compilation fails, because a record can't declare a static field"
+  ],
+  "a": 1,
+  "e": "The answer is 1. The compact constructor normalizes the parameter before the field is assigned, so both records hold EUR and are equal. Records may have static fields. The generated toString and equals use the fields, not the overridden accessor.",
+  "na": true,
+  "c": "record Money(int cents, String cur) {\n    static int created = 0;\n    Money {\n        created++;\n        cur = cur.toUpperCase();\n    }\n    public String cur() { return \"[\" + cur + \"]\"; }\n}\n\nvoid main() {\n    var a = new Money(100, \"eur\");\n    var b = new Money(100, \"EUR\");\n    IO.println(a.equals(b) + \" \" + a.cur() + \" \" + Money.created + \" \" + a);\n}"
+ },
+ {
+  "id": "mock2a-19",
+  "topic": "java-types",
+  "q": "Which two declarations can replace /*?*/ so that the code compiles? Choose two.",
+  "o": [
+   "`record Car(String plate) implements Vehicle {}`",
+   "`static class Car implements Vehicle {}`",
+   "`static non-sealed class Car implements Vehicle {}`",
+   "`static sealed class Car implements Vehicle {}`",
+   "`static final class Car {}`"
+  ],
+  "a": [
+   1,
+   3
+  ],
+  "e": "The answers are 1 and 3. A record is implicitly final, and non-sealed reopens the hierarchy. Option 2 lacks final, sealed or non-sealed. Option 4 is sealed but has no permitted subclasses. Option 5 is permitted but doesn't implement Vehicle.",
+  "na": true,
+  "c": "public class Main {\n    sealed interface Vehicle permits Car, Truck {}\n    /*?*/\n    static final class Truck implements Vehicle {}\n    public static void main(String[] args) {}\n}"
+ },
+ {
+  "id": "mock2a-20",
+  "topic": "java-types",
+  "q": "What is the result?",
+  "o": [
+   "`12 1 true`",
+   "`12 1 false`",
+   "`6 2 false`",
+   "Compilation fails, because an enum can't declare an abstract method"
+  ],
+  "a": 2,
+  "e": "The answer is 2. ADD gives 1 + 3 = 4, then MUL gives 4 * 3 = 12. MUL is the second constant, ordinal 1. A constant with a body is an instance of an anonymous subclass of the enum, so its class isn't Op itself.",
+  "na": true,
+  "c": "enum Op {\n    ADD { int apply(int a, int b) { return a + b; } },\n    MUL { int apply(int a, int b) { return a * b; } };\n    abstract int apply(int a, int b);\n}\n\nvoid main() {\n    int r = 1;\n    for (Op op : Op.values()) r = op.apply(r, 3);\n    IO.println(r + \" \" + Op.valueOf(\"MUL\").ordinal() + \" \" + Op.MUL.getClass().equals(Op.class));\n}"
+ },
+ {
+  "id": "mock2a-21",
+  "topic": "java-types",
+  "q": "What is the result?",
+  "o": [
+   "`n3 n3 n3`",
+   "`n2 n2 n2`",
+   "Compilation fails, because i isn't effectively final",
+   "`n0 n1 n2`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. Each iteration declares a new variable j, which is effectively final, and each lambda captures its own copy. The lambdas don't use i, which would not compile.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.function.*;\n\nvoid main() {\n    String prefix = \"n\";\n    var list = new ArrayList<Supplier<String>>();\n    for (int i = 0; i < 3; i++) {\n        int j = i;\n        list.add(() -> prefix + j);\n    }\n    for (var s : list) IO.print(s.get() + \" \");\n}"
+ },
+ {
+  "id": "mock2a-22",
+  "topic": "java-types",
+  "q": "The file is run with java Hello.java and no arguments. What is the result?",
+  "o": [
+   "`hi 0`",
+   "`hi`",
+   "Compilation fails, because main is declared twice",
+   "Compilation fails, because main must be static"
+  ],
+  "a": 1,
+  "e": "The answer is 1. In a compact source file, fields and instance main methods are allowed. When both a main with a String array and a main with no parameters exist, the launcher chooses the one with the String array.",
+  "na": true,
+  "c": "String greeting = \"hi\";\n\nvoid main(String[] args) {\n    IO.println(greeting + \" \" + args.length);\n}\n\nvoid main() {\n    IO.println(greeting);\n}"
+ },
+ {
+  "id": "mock2a-23",
+  "topic": "java-exceptions",
+  "q": "What is the result?",
+  "o": [
+   "`close 1 body`",
+   "`body 0` followed by an ArrayIndexOutOfBoundsException",
+   "`body 1 close`",
+   "`close 0` followed by an ArrayIndexOutOfBoundsException"
+  ],
+  "a": 3,
+  "e": "The answer is 3. The exception from the try block is the primary one. The exception thrown by close is attached to it as suppressed.",
+  "na": true,
+  "c": "public class Main {\n    static class R implements AutoCloseable {\n        public void close() throws Exception { throw new Exception(\"close\"); }\n    }\n    public static void main(String[] args) {\n        try (R r = new R()) {\n            throw new IllegalStateException(\"body\");\n        } catch (Exception e) {\n            IO.println(e.getMessage() + \" \" + e.getSuppressed().length + \" \" + e.getSuppressed()[0].getMessage());\n        }\n    }\n}"
+ },
+ {
+  "id": "mock2a-24",
+  "topic": "java-exceptions",
+  "q": "What is the result?",
+  "o": [
+   "`run`",
+   "`run caught`",
+   "Compilation fails",
+   "An AppException is thrown"
+  ],
+  "a": 3,
+  "e": "The answer is 3. AppException is a checked exception, and nothing in the try block can throw it. Catching a checked exception that can't be thrown is a compile error. Catching Exception or a RuntimeException would compile.",
+  "na": true,
+  "c": "public class Main {\n    static class AppException extends Exception {\n        AppException(String m) { super(m); }\n    }\n    static void run() { IO.print(\"run \"); }\n    public static void main(String[] args) {\n        try {\n            run();\n        } catch (AppException e) {\n            IO.print(\"caught \");\n        }\n    }\n}"
+ },
+ {
+  "id": "mock2a-25",
+  "topic": "java-exceptions",
+  "q": "What is the result?",
+  "o": [
+   "`1345`",
+   "`135`",
+   "`1235`",
+   "`13`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. The RuntimeException doesn't match the IllegalArgumentException catch. finally runs, then the exception leaves the method, skipping the line that adds 4, and main catches it.",
+  "na": true,
+  "c": "public class Main {\n    static String log = \"\";\n    static void a() {\n        try {\n            log += \"1\";\n            throw new RuntimeException();\n        } catch (IllegalArgumentException e) {\n            log += \"2\";\n        } finally {\n            log += \"3\";\n        }\n        log += \"4\";\n    }\n    public static void main(String[] args) {\n        try { a(); } catch (RuntimeException e) { log += \"5\"; }\n        IO.println(log);\n    }\n}"
+ },
+ {
+  "id": "mock2b-1",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`3 4 1 [1, 2]`",
+   "`1 4 2 [2]`",
+   "`3 2 1 [1, 4]`",
+   "`4 1 3 [3, 2]`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. push and offerFirst add at the front, offer and addLast at the end, giving 3, 1, 2, 4. pop removes from the front, pollLast from the end, and peek reads the front without removing it.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    Deque<Integer> d = new ArrayDeque<>();\n    d.push(1); d.offer(2); d.offerFirst(3); d.addLast(4);\n    IO.println(d.pop() + \" \" + d.pollLast() + \" \" + d.peek() + \" \" + d);\n}"
+ },
+ {
+  "id": "mock2b-2",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`10 5 [5, 10, 15] 20`",
+   "`15 10 [5, 10] 5`",
+   "`15 5 [5, 10] 20`",
+   "`15 5 [5, 10, 15] 20`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. ceiling returns the smallest element greater than or equal to 12, which is 15. lower returns the greatest element strictly less than 10. headSet excludes its bound by default. The descending set starts with the largest element.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    TreeSet<Integer> t = new TreeSet<>(List.of(10, 5, 20, 15));\n    IO.println(t.ceiling(12) + \" \" + t.lower(10) + \" \" + t.headSet(15) + \" \" + t.descendingSet().first());\n}"
+ },
+ {
+  "id": "mock2b-3",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`3`",
+   "`1`",
+   "An IllegalArgumentException is thrown",
+   "An UnsupportedOperationException is thrown"
+  ],
+  "a": 3,
+  "e": "The answer is 3. Map.of rejects duplicate keys with an IllegalArgumentException when the map is created. Set.of behaves the same way with duplicate elements.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    Map<String, Integer> m = Map.of(\"a\", 1, \"b\", 2, \"a\", 3);\n    IO.println(m.get(\"a\"));\n}"
+ },
+ {
+  "id": "mock2b-4",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`{x=1, y=2} x [y, x]`",
+   "`{z=30, x=1} z [x, z]`",
+   "`{z=30, x=1, y=2} z [y, x, z]`",
+   "An UnsupportedOperationException is thrown"
+  ],
+  "a": 2,
+  "e": "The answer is 2. LinkedHashMap is a SequencedMap. putFirst moves the existing key z to the front with its new value. pollLastEntry removes y, the last entry. sequencedKeySet().reversed() is a reversed view of the keys.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    var m = new LinkedHashMap<String, Integer>();\n    m.put(\"x\", 1); m.put(\"y\", 2); m.put(\"z\", 3);\n    m.putFirst(\"z\", 30);\n    m.pollLastEntry();\n    IO.println(m + \" \" + m.firstEntry().getKey() + \" \" + m.sequencedKeySet().reversed());\n}"
+ },
+ {
+  "id": "mock2b-5",
+  "topic": "java-collections",
+  "q": "What is the result?",
+  "o": [
+   "`Apple 11`",
+   "`pear 7`",
+   "`pear 11`",
+   "Compilation fails"
+  ],
+  "a": 3,
+  "e": "The answer is 3. String natural order compares character codes, and lower case letters come after upper case, so pear is the greatest. Integers compare numerically.",
+  "na": true,
+  "c": "import java.util.*;\n\npublic class Main {\n    static <T extends Comparable<T>> T max(List<T> list) {\n        T best = list.get(0);\n        for (T t : list) if (t.compareTo(best) > 0) best = t;\n        return best;\n    }\n    public static void main(String[] args) {\n        IO.println(max(List.of(\"pear\", \"Apple\", \"fig\")) + \" \" + max(List.of(3, 11, 7)));\n    }\n}"
+ },
+ {
+  "id": "mock2b-6",
+  "topic": "java-collections",
+  "q": "Which two members can replace /*?*/ so that the code compiles? Choose two.",
+  "o": [
+   "`static T create() { return null; }`",
+   "`@SuppressWarnings(\"unchecked\") T[] arr = (T[]) new Object[10];`",
+   "`T obj = new T();`",
+   "`boolean check(Object o) { return o instanceof List<String>; }`",
+   "`<U extends Number> double twice(U u) { return u.doubleValue() * 2; }`"
+  ],
+  "a": [
+   2,
+   5
+  ],
+  "e": "The answers are 2 and 5. A cast to T[] compiles, with an unchecked warning. A generic method can declare its own bounded type parameter. A static member can't use the class's type parameter, new T() isn't possible because of erasure, and instanceof with List<String> isn't safe at runtime, so it doesn't compile.",
+  "na": true,
+  "c": "import java.util.*;\n\npublic class Main<T> {\n    /*?*/\n    public static void main(String[] args) {}\n}"
+ },
+ {
+  "id": "mock2b-7",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`<3-1-2-3>`",
+   "`<1-2-3>`",
+   "`3-2-1`",
+   "`<3-2-1>`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. flatMap merges the lists into one stream, the empty list adds nothing, distinct drops the second 3, and the reverse order sorts descending. joining takes a delimiter, a prefix and a suffix.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.stream.*;\n\nvoid main() {\n    var r = Stream.of(List.of(3, 1), List.of(2, 3), List.<Integer>of())\n        .flatMap(List::stream)\n        .distinct()\n        .sorted(Comparator.reverseOrder())\n        .map(String::valueOf)\n        .collect(Collectors.joining(\"-\", \"<\", \">\"));\n    IO.println(r);\n}"
+ },
+ {
+  "id": "mock2b-8",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`1 3 14`",
+   "`3 3 14`",
+   "`3 3 6`",
+   "Compilation fails"
+  ],
+  "a": 1,
+  "e": "The answer is 1. Stream.of with an int array creates a stream with a single element, the array itself, because int[] isn't an array of objects. Arrays.stream and IntStream.of produce the three numbers.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.stream.*;\n\nvoid main() {\n    int[] nums = {1, 2, 3};\n    long a = Stream.of(nums).count();\n    long b = Arrays.stream(nums).count();\n    int c = IntStream.of(nums).map(x -> x * x).sum();\n    IO.println(a + \" \" + b + \" \" + c);\n}"
+ },
+ {
+  "id": "mock2b-9",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "An IllegalStateException is thrown, because of duplicate keys",
+   "`{3=fig, 4=kiwi|plum|pear, 5=apple}`",
+   "`{3=fig, 4=pear, 5=apple}`",
+   "`{3=fig, 4=kiwi, 5=apple}`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. With a merge function, duplicate keys are combined instead of throwing. The fourth argument chooses the map implementation, here a TreeMap sorted by key.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.stream.*;\n\nvoid main() {\n    Map<Integer, String> m = Stream.of(\"kiwi\", \"fig\", \"plum\", \"pear\", \"apple\")\n        .collect(Collectors.toMap(String::length, s -> s, (x, y) -> x + \"|\" + y, TreeMap::new));\n    IO.println(m);\n}"
+ },
+ {
+  "id": "mock2b-10",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`[1, 2, 4, 8] [1, 2]`",
+   "`[1, 2, 4, 8, 16, 32] [1, 6, 2]`",
+   "`[1, 2, 4, 8] [1, 6, 2]`",
+   "`[1, 2, 4] [6]`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. takeWhile stops at the first element that fails, 16. dropWhile drops 5, then keeps everything from 1 on, including 6, even though 6 matches the condition.",
+  "na": true,
+  "c": "import java.util.stream.*;\n\nvoid main() {\n    var a = Stream.iterate(1, n -> n * 2).limit(6).takeWhile(n -> n < 10).toList();\n    var b = Stream.of(5, 1, 6, 2).dropWhile(n -> n > 2).toList();\n    IO.println(a + \" \" + b);\n}"
+ },
+ {
+  "id": "mock2b-11",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`long alt none`",
+   "`short alt none`",
+   "`short alt null`",
+   "A NoSuchElementException is thrown"
+  ],
+  "a": 2,
+  "e": "The answer is 2. java has 4 characters, so the filter empties the Optional and orElse gives short. or supplies another Optional when empty. map on an empty Optional stays empty, so orElseGet runs its supplier.",
+  "na": true,
+  "c": "import java.util.*;\n\nvoid main() {\n    Optional<String> o = Optional.of(\"java\");\n    String a = o.map(String::length).filter(n -> n > 4).map(n -> \"long\").orElse(\"short\");\n    String b = Optional.<String>empty().or(() -> Optional.of(\"alt\")).get();\n    String c = Optional.ofNullable((String) null).map(String::trim).orElseGet(() -> \"none\");\n    IO.println(a + \" \" + b + \" \" + c);\n}"
+ },
+ {
+  "id": "mock2b-12",
+  "topic": "java-streams",
+  "q": "Which two expressions can replace /*?*/ so that the code compiles and prints e? Choose two.",
+  "o": [
+   "`String::charAt`",
+   "`(s, i) -> s.charAt(i)`",
+   "`s -> s.charAt(1)`",
+   "`Character::valueOf`",
+   "`String::valueOf`"
+  ],
+  "a": [
+   1,
+   2
+  ],
+  "e": "The answers are 1 and 2. String::charAt is a reference to an instance method of an arbitrary object: the first argument becomes the receiver and the second is passed to charAt. Option 3 has one parameter instead of two. Neither valueOf method takes a String and an Integer and returns a Character.",
+  "na": true,
+  "c": "import java.util.function.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        BiFunction<String, Integer, Character> f = /*?*/;\n        IO.println(f.apply(\"hello\", 1));\n    }\n}"
+ },
+ {
+  "id": "mock2b-13",
+  "topic": "java-streams",
+  "q": "What is the result?",
+  "o": [
+   "`1020304050 8`",
+   "The digits of the first number can appear in any order, followed by 8",
+   "`1020304050` followed by 8 or 9",
+   "`5040302010 9`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. forEachOrdered respects the encounter order even in a parallel stream. findFirst on an ordered stream returns the first element in encounter order, even in parallel; findAny could return 8 or 9.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.stream.*;\n\nvoid main() {\n    var sb = new StringBuilder();\n    IntStream.rangeClosed(1, 5).parallel().map(i -> i * 10).forEachOrdered(sb::append);\n    var first = List.of(7, 8, 9).parallelStream().filter(n -> n > 7).sorted().findFirst().get();\n    IO.println(sb + \" \" + first);\n}"
+ },
+ {
+  "id": "mock2b-14",
+  "topic": "java-concurrency",
+  "q": "What is the result?",
+  "o": [
+   "`abc true`",
+   "The letters in an unpredictable order, followed by false",
+   "`abc false`",
+   "Compilation fails"
+  ],
+  "a": 3,
+  "e": "The answer is 3. invokeAll waits for all tasks and returns their Futures in the same order as the tasks, whatever order they ran in. The executor is still open inside the try block; close shuts it down at the end.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.util.concurrent.*;\n\npublic class Main {\n    public static void main(String[] args) throws Exception {\n        List<Callable<String>> tasks = List.of(() -> \"a\", () -> \"b\", () -> \"c\");\n        try (var ex = Executors.newFixedThreadPool(2)) {\n            var sb = new StringBuilder();\n            for (Future<String> f : ex.invokeAll(tasks)) sb.append(f.get());\n            IO.println(sb + \" \" + ex.isShutdown());\n        }\n    }\n}"
+ },
+ {
+  "id": "mock2b-15",
+  "topic": "java-concurrency",
+  "q": "What is the result?",
+  "o": [
+   "`1000 1001 1001`",
+   "A number up to 1000, unpredictable, then that number twice",
+   "`1000 1000 1000`",
+   "`1000 1000 1001`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. incrementAndGet is atomic, and closing the executor waits for every task, so the count is exactly 1000. getAndIncrement returns the old value, 1000, and then the value is 1001.",
+  "na": true,
+  "c": "import java.util.concurrent.*;\nimport java.util.concurrent.atomic.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        var atomic = new AtomicInteger();\n        try (var ex = Executors.newVirtualThreadPerTaskExecutor()) {\n            for (int i = 0; i < 1000; i++) {\n                ex.submit(() -> { atomic.incrementAndGet(); });\n            }\n        }\n        IO.println(atomic.get() + \" \" + atomic.getAndIncrement() + \" \" + atomic.get());\n    }\n}"
+ },
+ {
+  "id": "mock2b-16",
+  "topic": "java-concurrency",
+  "q": "What is the result?",
+  "o": [
+   "`locked end`",
+   "`locked` followed by an IllegalMonitorStateException",
+   "`end`",
+   "The program waits forever"
+  ],
+  "a": 2,
+  "e": "The answer is 2. tryLock succeeds and the finally block releases the lock. The second unlock is called by a thread that no longer holds the lock, which throws IllegalMonitorStateException.",
+  "na": true,
+  "c": "import java.util.concurrent.locks.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Lock lock = new ReentrantLock();\n        if (lock.tryLock()) {\n            try { IO.print(\"locked \"); } finally { lock.unlock(); }\n        }\n        lock.unlock();\n        IO.println(\"end\");\n    }\n}"
+ },
+ {
+  "id": "mock2b-17",
+  "topic": "java-concurrency",
+  "q": "What is the result?",
+  "o": [
+   "`worker worker`",
+   "`main main`",
+   "`main worker`",
+   "An IllegalThreadStateException is thrown"
+  ],
+  "a": 3,
+  "e": "The answer is 3. run executes the Runnable on the calling thread, main. start then runs it on the new thread, worker. Calling run first doesn't count as starting the thread.",
+  "na": true,
+  "c": "public class Main {\n    public static void main(String[] args) throws Exception {\n        Thread t = new Thread(() -> IO.print(Thread.currentThread().getName() + \" \"));\n        t.setName(\"worker\");\n        t.run();\n        t.start();\n        t.join();\n        IO.println();\n    }\n}"
+ },
+ {
+  "id": "mock2b-18",
+  "topic": "java-modules",
+  "q": "A module uses ServiceLoader.load(Plugin.class) to find implementations of the service interface com.acme.spi.Plugin. Which directive must its module-info.java declare?",
+  "o": [
+   "`uses com.acme.spi.Plugin;`",
+   "`provides com.acme.spi.Plugin;`",
+   "`requires java.util.ServiceLoader;`",
+   "`exports com.acme.spi to java.base;`",
+   "`opens com.acme.spi;`"
+  ],
+  "a": 1,
+  "e": "The answer is 1. The consumer declares uses with the service interface. Providers declare provides, the interface, with, and the implementation class. ServiceLoader is in java.base, which every module reads.",
+  "na": true
+ },
+ {
+  "id": "mock2b-19",
+  "topic": "java-modules",
+  "q": "The modular application com.acme.app is compiled into the mods directory, and its main class is com.acme.app.Main. Which command runs it?",
+  "o": [
+   "`java -cp mods -m com.acme.app.Main`",
+   "`java -p mods -m com.acme.app/com.acme.app.Main`",
+   "`java --module-path mods com.acme.app/com.acme.app.Main`",
+   "`java -p mods -m com.acme.app.Main/com.acme.app`",
+   "`java -d mods com.acme.app`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. -p, or --module-path, sets the module path, and -m, or --module, takes the module name, a slash, and the main class. For java, -d means --describe-module.",
+  "na": true
+ },
+ {
+  "id": "mock2b-20",
+  "topic": "java-io",
+  "q": "The program runs in an empty directory. What is the result?",
+  "o": [
+   "`not empty 2 2`",
+   "`not empty 3 3`",
+   "`1 2`",
+   "A NoSuchFileException is thrown"
+  ],
+  "a": 1,
+  "e": "The answer is 1. createDirectories creates work and work/sub. delete refuses a directory that isn't empty. list returns only the direct children, a.txt and sub. The text ends with a line break, so there are two lines, not three.",
+  "na": true,
+  "c": "import java.nio.file.*;\nimport java.io.IOException;\n\nvoid main() throws IOException {\n    Path dir = Path.of(\"work\");\n    Files.createDirectories(dir.resolve(\"sub\"));\n    Path f = Files.writeString(dir.resolve(\"a.txt\"), \"x\\ny\\n\");\n    Files.copy(f, dir.resolve(\"sub/a.txt\"));\n    try {\n        Files.delete(dir.resolve(\"sub\"));\n    } catch (DirectoryNotEmptyException e) {\n        IO.print(\"not empty \");\n    }\n    try (var s = Files.list(dir)) {\n        IO.println(s.count() + \" \" + Files.readAllLines(f).size());\n    }\n}"
+ },
+ {
+  "id": "mock2b-21",
+  "topic": "java-io",
+  "q": "What is the result?",
+  "o": [
+   "`7 8 9 5`",
+   "`2 6 4 10`",
+   "`7 8 0 10`",
+   "`2 8 0 10`"
+  ],
+  "a": 4,
+  "e": "The answer is 4. Base isn't serializable, so its no-argument constructor runs during deserialization and sets b to 2. x is restored from the stream, y is transient and gets 0, and the Item constructor doesn't run. Static fields aren't serialized at all.",
+  "na": true,
+  "c": "import java.io.*;\n\npublic class Main {\n    static class Base { int b = 1; Base() { b = 2; } }\n    static class Item extends Base implements Serializable {\n        int x = 3; transient int y = 4; static int z = 5;\n        Item() { x = 6; }\n    }\n    public static void main(String[] args) throws Exception {\n        var item = new Item();\n        item.b = 7; item.x = 8; item.y = 9;\n        var bytes = new ByteArrayOutputStream();\n        try (var out = new ObjectOutputStream(bytes)) { out.writeObject(item); }\n        Item.z = 10;\n        try (var in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()))) {\n            Item copy = (Item) in.readObject();\n            IO.println(copy.b + \" \" + copy.x + \" \" + copy.y + \" \" + Item.z);\n        }\n    }\n}"
+ },
+ {
+  "id": "mock2b-22",
+  "topic": "java-io",
+  "q": "What is the result?",
+  "o": [
+   "`2`",
+   "`12`",
+   "`3`",
+   "`22`"
+  ],
+  "a": 2,
+  "e": "The answer is 2. readLine returns \"a\", then an empty string for the empty line, then \"b\", and null at the end of the input. The empty line adds 10.",
+  "na": true,
+  "c": "import java.io.*;\n\nvoid main() throws IOException {\n    var r = new BufferedReader(new StringReader(\"a\\n\\nb\"));\n    int n = 0;\n    String line;\n    while ((line = r.readLine()) != null) n += line.isEmpty() ? 10 : 1;\n    IO.println(n);\n}"
+ },
+ {
+  "id": "mock2b-23",
+  "topic": "java-locale",
+  "q": "What is the result?",
+  "o": [
+   "`Bonjour Bye`",
+   "`Bonjour Ciao`",
+   "`Hello Bye`",
+   "`Bonjour null`",
+   "A MissingResourceException is thrown"
+  ],
+  "a": 1,
+  "e": "The answer is 1. There's no Msgs_fr_FR, so Msgs_fr is chosen. A key missing from it is looked up in its parents, Msgs_fr and then the base Msgs, never in the default locale's bundle, so bye comes from Msgs.properties.",
+  "na": true,
+  "c": "# Msgs.properties\ngreet=Hello\nbye=Bye\n\n# Msgs_en.properties\ngreet=Hi\nbye=Ciao\n\n# Msgs_fr.properties\ngreet=Bonjour\n\n// Main.java\nLocale.setDefault(Locale.US);\nvar b = ResourceBundle.getBundle(\"Msgs\", Locale.FRANCE);\nIO.println(b.getString(\"greet\") + \" \" + b.getString(\"bye\"));"
+ },
+ {
+  "id": "mock2b-24",
+  "topic": "java-locale",
+  "q": "What is the result?",
+  "o": [
+   "`IT_ch IT $1,234.567`",
+   "`it_CH it $1,234.57`",
+   "`it_CH it $1234.57`",
+   "An IllformedLocaleException is thrown"
+  ],
+  "a": 2,
+  "e": "The answer is 2. Locale.Builder normalizes the case: language in lower case, region in upper case. The US currency format adds the dollar sign, grouping, and rounds to two decimals.",
+  "na": true,
+  "c": "import java.util.*;\nimport java.text.*;\n\nvoid main() {\n    Locale l = new Locale.Builder().setLanguage(\"IT\").setRegion(\"ch\").build();\n    var cf = NumberFormat.getCurrencyInstance(Locale.US);\n    IO.println(l + \" \" + l.getLanguage() + \" \" + cf.format(1234.567));\n}"
+ },
+ {
+  "id": "mock2b-25",
+  "topic": "java-locale",
+  "q": "What is the result?",
+  "o": [
+   "`3 has Ann item(s), 3! 3.1|ab|255`",
+   "`Ann has 3 item(s), Ann! 3.14|  ab|ff`",
+   "`Ann has 3 item(s), Ann! 003.1|ab  |ff`",
+   "`Ann has 3 item(s), Ann! 003.1|ab  |FF`"
+  ],
+  "a": 3,
+  "e": "The answer is 3. MessageFormat placeholders are numbered by argument position from zero, and can repeat. %05.1f pads with zeros to a width of 5 with one decimal, %-4s left-aligns in 4 characters, and lower case %x prints hexadecimal in lower case.",
+  "na": true,
+  "c": "import java.text.*;\n\nvoid main() {\n    String s = MessageFormat.format(\"{1} has {0} item(s), {1}!\", 3, \"Ann\");\n    IO.println(s + \" \" + String.format(\"%05.1f|%-4s|%x\", 3.14159, \"ab\", 255));\n}"
+ }
+]

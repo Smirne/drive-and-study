@@ -1,0 +1,49 @@
+Java 25 Developer Professional. Episode nine. Lambdas, functional interfaces, and streams.
+
+Streams are one of the largest topics on the exam, and the questions are usually about what a pipeline prints, or whether it prints anything at all. This episode covers lambdas, the built-in functional interfaces, method references, stream operations, collectors, Optional, and the stream gatherers added in Java 24.
+
+A functional interface has exactly one abstract method. Default and static methods don't count, and neither do abstract methods that match a public method of Object, like equals or toString. The FunctionalInterface annotation asks the compiler to check this.
+
+A lambda provides the implementation of that single method. Parameter types can be omitted, declared, or written with var, but you can't mix styles in the same lambda. With one parameter and no type, the parentheses are optional. A body with braces needs a return statement if it returns a value, and semicolons; a body without braces is a single expression.
+
+Lambdas can use local variables of the enclosing method only if they're final or effectively final. And a lambda parameter can't have the same name as a local variable already in scope; that doesn't compile.
+
+The built-in functional interfaces, in java dot util dot function, and their methods. Supplier, get, takes nothing and returns a value. Consumer, accept, takes a value and returns nothing. BiConsumer takes two. Predicate, test, returns a boolean. Function, apply, takes one value and returns another. BiFunction takes two. UnaryOperator is a Function whose input and output have the same type, and BinaryOperator is a BiFunction with all three of the same type. There are primitive versions, like IntPredicate, IntFunction, ToIntFunction, and IntUnaryOperator, which avoid boxing. And remember Runnable, with run, and Callable, with call, which can throw a checked exception.
+
+Composition methods are a common detail: Predicate has and, or, negate; Function has andThen and compose. f dot andThen g applies f first; f dot compose g applies g first.
+
+Method references come in four kinds: a static method, like Integer colon colon parseInt; an instance method on a particular object, like System dot out colon colon println; an instance method on an arbitrary object of a type, like String colon colon length, where the first parameter becomes the object; and a constructor, like ArrayList colon colon new.
+
+Now streams. A stream pipeline has a source, zero or more intermediate operations, and one terminal operation. Streams are lazy: intermediate operations don't run until a terminal operation starts. So a pipeline with a peek or a map that prints, but no terminal operation, prints nothing. Elements flow one at a time through the whole pipeline, so prints from different stages interleave. Short-circuiting operations, such as findFirst, anyMatch, or limit, may stop processing early. And a stream can be used only once: calling a second terminal operation throws IllegalStateException.
+
+Sources: Stream dot of, collection dot stream, Arrays dot stream, Stream dot generate and Stream dot iterate, which are infinite unless limited. The three-argument iterate has a condition, like a for loop. A trap: Stream dot of with an int array gives a stream with one element, the array itself. Use Arrays dot stream or IntStream dot of for the numbers.
+
+Intermediate operations: filter, map, flatMap, distinct, sorted, peek, limit, skip, takeWhile and dropWhile. takeWhile stops at the first element that fails the condition; dropWhile skips elements until the first failure, then keeps everything after it. sorted without a comparator needs Comparable elements; otherwise a ClassCastException is thrown when the terminal operation runs.
+
+Terminal operations: forEach, collect, reduce, count, min, max, findFirst, findAny, anyMatch, allMatch, noneMatch, and toList. On an empty stream, allMatch and noneMatch return true and anyMatch returns false. count returns a long. min and max return an Optional. reduce with an identity value returns a value of the element type; reduce without identity returns an Optional.
+
+Primitive streams: IntStream, LongStream, DoubleStream. sum returns the primitive type, average always returns an OptionalDouble, and max and min return an OptionalInt for an IntStream. Use mapToInt to go from objects to ints, and boxed to go back. range excludes the end, rangeClosed includes it.
+
+Optional. Optional dot of with null throws NullPointerException; use ofNullable instead. get on an empty Optional throws NoSuchElementException, as does orElseThrow without arguments. orElse always evaluates its argument; orElseGet takes a Supplier and only calls it when empty. map on an empty Optional returns an empty Optional.
+
+Collectors. toList, toSet, joining, with an optional delimiter, prefix and suffix. counting returns a Long. averagingInt returns a Double. toMap needs a key function and a value function; if two elements produce the same key, it throws IllegalStateException, unless you provide a merge function as a third argument. groupingBy returns a Map whose values are Lists by default, and accepts a downstream collector, like counting. partitioningBy always returns a map with both keys, true and false, even when one of the lists is empty. Stream dot toList returns an unmodifiable list, while Collectors dot toList makes no such promise.
+
+Stream gatherers, final since Java 24, add custom intermediate operations through the gather method. The built-in ones are in the Gatherers class. windowFixed groups elements into lists of a fixed size, and the last one may be shorter: windowFixed two on one to five gives one-two, three-four, and five. windowSliding gives overlapping windows: windowSliding three on one to five gives one-two-three, two-three-four, three-four-five. fold combines all elements into a single result, like reduce, but emitted as a one-element stream. scan emits each running result: scan with a sum on one, two, three gives one, three, six. And mapConcurrent applies a function concurrently using virtual threads, with a maximum level of concurrency, while preserving the order.
+
+Parallel streams split the work across threads. Results of forEach come in an unpredictable order; use forEachOrdered to keep the encounter order. findAny may return any element. reduce needs an associative operation and a true identity, or results differ between runs. Stateful lambdas, like adding to a shared ArrayList, produce wrong results in parallel.
+
+Quick check.
+A pipeline has filter and peek, which prints, but no terminal operation. What is printed?
+[THINK]
+Nothing. Streams are lazy.
+What does allMatch return on an empty stream?
+[THINK]
+true.
+What happens with toMap when two elements produce the same key and there's no merge function?
+[THINK]
+It throws IllegalStateException.
+What does windowFixed two produce for the numbers one to five?
+[THINK]
+Three lists: one and two, three and four, and five on its own.
+
+In the next episode: concurrency, virtual threads, and scoped values.

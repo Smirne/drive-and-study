@@ -1,0 +1,45 @@
+Java 25 Developer Professional. Episode one. The exam, and what's new in Java 25.
+
+Welcome. This audio course prepares you for Oracle's Java SE 25 Developer Professional certification, exam number one Z zero, eight three one. It's designed for listening, so instead of reading code aloud, each episode focuses on the rules, the reasoning behind them, and the traps the exam likes to set. Pair it with the touch drills and the mock exams in the app, where the code is on screen.
+
+First, the format. The exam has fifty questions, you have one hundred and twenty minutes, and the passing score is sixty-eight percent, which means thirty-four correct answers. That's about two minutes and twenty seconds per question. Most questions show a short program and ask what happens when you compile and run it. Many offer answers such as "compilation fails" or "an exception is thrown at runtime", and some ask you to choose two or three answers. In those, you only get the point if you select exactly the right set. So read the instruction line carefully: "choose two" means two.
+
+How should you approach a code question? A method that works well: check compilation first, then runtime. Before tracing values, scan for the things that stop code from compiling: a missing return, an unreachable statement, a checked exception that isn't handled, a final variable assigned twice, a type mismatch, a pattern that's dominated by an earlier one, a switch that isn't exhaustive. Many questions are really about one of these, dressed up as an output question. Only when you're confident it compiles should you trace the values line by line. And keep a mental note of runtime traps: a class cast that fails, a null being unboxed, an immutable list being modified, an index out of bounds.
+
+Now, what's new. The Java 25 exam covers the language and API as of Java 25, which is a long-term support release. Many features arrived in the releases between 17 and 25, and the exam expects you to know them as normal, everyday Java. Let me walk through the timeline, because knowing where each feature comes from helps you remember it.
+
+Records arrived in Java 16: compact, immutable data carriers. Sealed classes and interfaces became final in Java 17: a type can list the subtypes allowed to extend it. Java 21, the previous long-term release, brought a big wave: pattern matching for switch, record patterns, virtual threads, and sequenced collections, which give lists, deques, linked hash sets and sorted sets a common way to reach their first and last elements and to get a reversed view.
+
+Java 22 made unnamed variables and patterns final: the single underscore, used where you need a variable or a pattern component but don't care about its value. Java 24 made stream gatherers final: a new intermediate operation, called gather, that lets you write custom intermediate steps, with ready-made ones such as fixed windows and sliding windows.
+
+And Java 25 itself finalized four features you should know well.
+
+First, flexible constructor bodies. Before Java 25, the call to super or this had to be the very first statement of a constructor. Now you can write statements before it, for example to validate arguments. That early part is called the prologue, and it has rules: you can't use "this" to read fields or call instance methods, because the object isn't initialized yet, and you can't use return. But you can assign fields of the class being constructed, as long as they don't have an initializer.
+
+Second, module import declarations. You can write "import module", followed by a module name, such as java dot base. That imports every public type from every package the module exports, plus the packages exported by the modules it requires transitively. It's convenient, but it can create ambiguity. For example, java dot base has a List interface in java dot util, and java dot desktop has a List class in java dot awt. If you import both modules and use the simple name List, compilation fails as ambiguous. A single-type import, such as import java dot util dot List, resolves it, and so does a normal package import with a star, because those take precedence over module imports.
+
+Third, compact source files and instance main methods. You can now write a file that contains just a method called main, with no class declaration around it. The compiler wraps it in an implicitly declared class. Such a file automatically imports the whole java dot base module, so List, Map and the stream classes are available without imports. There's also a new class called IO, in java dot lang, with simple methods such as println, print and readln. And main no longer needs to be static, public, or take a String array. If a class has both a main with a String array parameter and one without parameters, the launcher picks the one with the array.
+
+Fourth, scoped values. A ScopedValue is a way to share an immutable value with the code you call, and with the code it calls, without passing it as a parameter. You bind it for the duration of a call, using ScopedValue dot where, followed by run or call. Inside, get returns the value. Outside, it's unbound, and get throws an exception. Think of it as a safer, bounded replacement for many uses of ThreadLocal, designed to work well with virtual threads.
+
+There's also something to know about what is not on the exam. Java 25 contains preview and incubator features, such as structured concurrency, primitive types in patterns, and the vector API. Preview features must be enabled with a flag, and they're not part of the stable language, so expect exam questions to stick to final features.
+
+Let's talk about the topic areas. Oracle's exam topics for Java 25 follow the same structure as the Java 21 exam. Handling date, time, text, numeric and boolean values. Controlling program flow. Object-oriented programming, including records, sealed types, enums, and interfaces. Exceptions. Arrays and collections. Streams and lambdas. Packaging and deploying code, including modules. Concurrency, including virtual threads. Input and output, including the newer file API. And localization. This course follows roughly that order.
+
+A few study tips to finish. Write code. The fastest way to settle a doubt is to type five lines and run them, and since Java 11 you can run a single source file directly with the java command, without compiling first. With compact source files, a test can be a file containing only void main. Second, keep a list of your own traps. Everyone has a few rules that never stick; repetition on those pays off more than rereading what you already know. Third, practice under time pressure. Fifty questions in two hours is comfortable if you don't get stuck; flag a question that takes more than three minutes and come back to it.
+
+Quick check. I'll ask, pause, then answer.
+How many questions does the exam have, and what's the pass mark?
+[THINK]
+Fifty questions in one hundred and twenty minutes, with a pass mark of sixty-eight percent, so thirty-four correct answers.
+In a constructor, what can't you do before the call to super?
+[THINK]
+You can't use "this" to read fields or call instance methods, and you can't return. You can validate arguments and assign fields that have no initializer.
+What does a compact source file import automatically?
+[THINK]
+The whole java dot base module.
+If you import module java dot base and module java dot desktop, and use List, what happens?
+[THINK]
+Compilation fails because List is ambiguous, unless you add a single-type import or a package import that resolves it.
+
+In the next episode: primitive values, numbers, strings and text blocks.

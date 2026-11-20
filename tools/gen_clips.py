@@ -76,7 +76,8 @@ def word(n):
 qs = json.loads((pack / 'questions.json').read_text())
 exams = json.loads((pack / 'exams.json').read_text()) if (pack / 'exams.json').exists() else {}
 practice = sum(q['id'].startswith(cfg['drill']['practicePrefix']) for q in qs)
-longest = max([20, practice] + [len(e['questions']) for e in exams.values()])   # same rule as tools/build.py
+silent = {q['id'] for q in qs if q.get('na')}                                    # same rule as tools/build.py
+longest = max([20, practice] + [len(e['questions']) for e in exams.values() if not silent.issuperset(e['questions'])])
 
 # ---- shared prompts (pack.json "say" overrides the pack-specific ones: intros, pass/fail) ----
 G = {
@@ -122,6 +123,7 @@ for n in range(1, longest + 1):
 
 # ---- per question (no question number inside: the app plays qnum<n> for the position in the session) ----
 for i, q in enumerate(qs):
+    if q.get('na'): continue                                  # silent question: shown only, never read aloud
     def voice_q(q=q):
         p = ([say(q['sc']), sil(0.6)] if q.get('sc') else []) + [say(q['q']), sil(0.5)]
         for j, o in enumerate(q['o']):

@@ -1,0 +1,599 @@
+Mock exam one, part one.
+
+Question 1.
+Topic: java-basics
+```
+void main() {
+    char c = 'a';
+    c += 2;
+    int i = c + 1;
+    IO.println(c + " " + i);
+}
+```
+What is the result?
+A. `c 100`
+B. `99 100`
+C. `c d`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is A. Compound assignment casts back to char, so c becomes 'c'. In c plus one, the char is promoted to int: 99 plus 1 is 100. In the println, c is concatenated to a String, so it prints as a character.
+
+Question 2.
+Topic: java-basics
+```
+void main() {
+    String s = "  Java 25  ";
+    String t = s.strip();
+    s.trim();
+    IO.println("[" + s.length() + "," + t.length() + "," + t.indexOf('a', 2) + "]");
+}
+```
+What is the result?
+A. `[7,7,3]`
+B. `[11,7,3]`
+C. `[11,7,1]`
+D. `[11,9,3]`
+Check: output
+[THINK]
+The answer is B. Strings are immutable and the result of s.trim() is ignored, so s still has 11 characters. t is "Java 25", 7 characters. indexOf('a', 2) starts searching at index 2 and finds the 'a' at index 3.
+
+Question 3.
+Topic: java-basics
+```
+void main() {
+    var sb = new StringBuilder("abcdef");
+    sb.insert(2, "-").delete(4, 6).reverse();
+    IO.println(sb);
+}
+```
+What is the result?
+A. `fe-ba`
+B. `ab-cf`
+C. `fc-ba`
+D. `fdc-ba`
+Check: output
+[THINK]
+The answer is C. StringBuilder is mutable and its methods return the same object. After insert: "ab-cdef". delete(4, 6) removes the characters at index 4 and 5, d and e, giving "ab-cf". reverse gives "fc-ba".
+
+Question 4.
+Topic: java-basics
+```
+void main() {
+    int a = Integer.MAX_VALUE;
+    long b = a + 1;
+    long c = a + 1L;
+    IO.println(b + " " + c + " " + 7 / 2 * 2.0);
+}
+```
+What is the result?
+A. `2147483648 2147483648 7.0`
+B. `-2147483648 -2147483648 6.0`
+C. `2147483648 2147483648 6.0`
+D. `-2147483648 2147483648 6.0`
+Check: output
+[THINK]
+The answer is D. a + 1 is computed as an int and overflows before being widened to long. a + 1L is computed as a long. 7 / 2 is integer division, giving 3, then 3 * 2.0 is 6.0.
+
+Question 5.
+Topic: java-basics
+```
+void main() {
+    Integer x = 128, y = 128;
+    Long z = 128L;
+    IO.println((x == y) + " " + x.equals(y) + " " + z.equals(128) + " " + (x == 128));
+}
+```
+What is the result?
+A. `false true false true`
+B. `true true true true`
+C. `false true true true`
+D. `false true false false`
+Check: output
+[THINK]
+The answer is A. 128 is outside the Integer cache, so x and y are different objects. equals compares values: true. z.equals(128) boxes 128 to an Integer, and a Long is never equal to an Integer: false. x == 128 unboxes x and compares ints: true.
+
+Question 6.
+Topic: java-time
+```
+import java.time.*;
+
+void main() {
+    LocalDate d = LocalDate.of(2024, 1, 31);
+    d.plusMonths(1);
+    LocalDate e = d.plusMonths(1).plusDays(1);
+    IO.println(d + " " + e);
+}
+```
+What is the result?
+A. `2024-02-29 2024-03-01`
+B. `2024-01-31 2024-03-01`
+C. `2024-01-31 2024-03-02`
+D. A DateTimeException is thrown
+Check: output
+[THINK]
+The answer is B. LocalDate is immutable, so d doesn't change. Adding one month to January 31 gives the last valid day of February, which is the 29th in 2024, and one more day gives March 1.
+
+Question 7.
+Topic: java-time
+```
+import java.time.*;
+
+void main() {
+    var start = LocalDateTime.of(2025, 3, 1, 22, 0);
+    var end = start.plusHours(5).plusMinutes(30);
+    Duration d = Duration.between(start, end);
+    Period p = Period.between(start.toLocalDate(), end.toLocalDate());
+    IO.println(d + " " + p);
+}
+```
+What is the result?
+A. `PT5H30M P0D`
+B. `P5H30M P1D`
+C. `PT5H30M P1D`
+D. `PT330M P1D`
+Check: output
+[THINK]
+The answer is C. A Duration prints with PT followed by hours and minutes. The end is at 3:30 the next morning, so the dates are one day apart: P1D.
+
+Question 8.
+Topic: java-time
+```
+import java.time.*;
+import java.time.format.*;
+import java.util.Locale;
+
+void main() {
+    var t = LocalTime.of(14, 5);
+    var f = DateTimeFormatter.ofPattern("hh:mm a", Locale.US);
+    IO.println(t.format(f));
+}
+```
+What is the result?
+A. `14:05 PM`
+B. `2:05 PM`
+C. `02:05 pm`
+D. `02:05 PM`
+Check: output
+[THINK]
+The answer is D. Lowercase hh is the hour on a twelve-hour clock, padded to two digits. a is the AM or PM marker, upper case in the US locale.
+
+Question 9.
+Topic: java-flow
+```
+void main() {
+    int x = 2;
+    String r = "";
+    switch (x) {
+        case 1: r += "one";
+        case 2: r += "two";
+        case 3: r += "three"; break;
+        default: r += "other";
+    }
+    IO.println(r);
+}
+```
+What is the result?
+A. `twothree`
+B. `two`
+C. `twothreeother`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is A. With the colon style, execution falls through from the matching case until a break. It starts at case 2, falls into case 3, and stops at the break.
+
+Question 10.
+Topic: java-flow
+```
+void main() {
+    String day = "SAT";
+    int n = switch (day) {
+        case "SAT", "SUN" -> {
+            int k = day.length();
+            yield k * 2;
+        }
+        case "MON" -> 1;
+    };
+    IO.println(n);
+}
+```
+What is the result?
+A. `6`
+B. `3`
+C. Compilation fails
+D. A MatchException is thrown
+Check: compile-error
+[THINK]
+The answer is C. A switch expression must be exhaustive. A switch on a String can't list every possible value, so it needs a default branch.
+
+Question 11.
+Topic: java-flow
+```
+sealed interface Shape permits Circle, Square {}
+record Circle(double r) implements Shape {}
+record Square(double side) implements Shape {}
+
+String describe(Shape s) {
+    return switch (s) {
+        case Circle c when c.r() > 10 -> "big circle";
+        case Circle c -> "circle";
+        case Square(double side) -> "square " + side;
+    };
+}
+
+void main() {
+    IO.println(describe(new Circle(12)) + ", " + describe(new Square(2)));
+}
+```
+What is the result?
+A. `circle, square 2.0`
+B. `big circle, square 2.0`
+C. `big circle, square 2`
+D. Compilation fails, because the switch has no default
+Check: output
+[THINK]
+The answer is B. The guarded case is checked first and matches the circle of radius 12. The switch covers every permitted subtype of the sealed interface, so no default is needed. The component is a double, so it prints as 2.0.
+
+Question 12.
+Topic: java-flow
+```
+void main() {
+    Object o = "hello";
+    if (!(o instanceof String s) || s.length() > 3) {
+        IO.println("A " + s);
+    }
+}
+```
+What is the result?
+A. `A hello`
+B. Nothing is printed
+C. A ClassCastException is thrown
+D. Compilation fails
+Check: compile-error
+[THINK]
+The answer is D. s can be used on the right side of the or, because that part only runs when the instanceof succeeded. But the if body can be entered when the instanceof failed, so s isn't in scope there.
+
+Question 13.
+Topic: java-flow
+```
+void main() {
+    int count = 0;
+    outer:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (j == i) continue outer;
+            if (i + j > 3) break outer;
+            count++;
+        }
+    }
+    IO.println(count);
+}
+```
+What is the result?
+A. `2`
+B. `4`
+C. `3`
+D. `5`
+Check: output
+[THINK]
+The answer is C. When j equals i, the outer loop moves on, so the inner loop only counts values of j below i. That's none for i = 0, one for i = 1 and two for i = 2. The sum never exceeds 3, so the break never runs.
+
+Question 14.
+Topic: java-oop
+```
+public class Main {
+    public static void main(String[] args) {
+        new Child();
+        new Child();
+    }
+}
+class Parent {
+    static { IO.print("A"); }
+    { IO.print("B"); }
+    Parent() { IO.print("C"); }
+}
+class Child extends Parent {
+    static { IO.print("D"); }
+    { IO.print("E"); }
+    Child() { IO.print("F"); }
+}
+```
+What is the result?
+A. `ABCDEFBCEF`
+B. `ADBCEFBCEF`
+C. `ADBCEFADBCEF`
+D. `DABCEFBCEF`
+Check: output
+[THINK]
+The answer is B. Static initializers run once, parent first: A then D. For each object, the parent's instance initializer and constructor run before the child's: B C E F, twice.
+
+Question 15.
+Topic: java-oop
+```
+public class Main {
+    static class Base {
+        Base(int v) { IO.println("Base " + v); }
+    }
+    static class Sub extends Base {
+        private final int size;
+        Sub(int raw) {
+            if (raw < 0) raw = 0;
+            size = raw * 2;
+            super(raw);
+            IO.println("Sub " + size);
+        }
+    }
+    public static void main(String[] args) { new Sub(-3); }
+}
+```
+What is the result?
+A. `Base 0 Sub 0`
+B. `Base -3 Sub -6`
+C. Compilation fails, because super must be the first statement
+D. Compilation fails, because size is assigned before super
+Check: output
+[THINK]
+The answer is A. Since Java 25, statements may appear before super in the constructor prologue. They can adjust parameters and assign fields that have no initializer, like the final field size. They can't read fields or call instance methods.
+
+Question 16.
+Topic: java-oop
+```
+public class Main {
+    static void m(long x) { IO.print("long "); }
+    static void m(Integer x) { IO.print("Integer "); }
+    static void m(int... x) { IO.print("varargs "); }
+    static void m(Object x) { IO.print("Object "); }
+    public static void main(String[] args) {
+        byte b = 1;
+        m(b);
+        m(Integer.valueOf(2));
+        m();
+        m('c');
+    }
+}
+```
+What is the result?
+A. `Object Integer varargs Object`
+B. `long Integer varargs Object`
+C. `varargs Integer varargs long`
+D. `long Integer varargs long`
+Check: output
+[THINK]
+The answer is D. A byte and a char both widen to long, which is preferred to boxing. An Integer argument matches the Integer overload exactly. With no arguments, only the varargs method applies.
+
+Question 17.
+Topic: java-oop
+```
+public class Main {
+    static class Animal {
+        String name = "animal";
+        String get() { return name; }
+        static String kind() { return "A"; }
+    }
+    static class Dog extends Animal {
+        String name = "dog";
+        String get() { return name; }
+        static String kind() { return "D"; }
+    }
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        IO.println(a.name + " " + a.get() + " " + a.kind());
+    }
+}
+```
+What is the result?
+A. `animal dog A`
+B. `dog dog D`
+C. `animal dog D`
+D. `animal animal A`
+Check: output
+[THINK]
+The answer is A. Fields and static methods are hidden, not overridden, so the reference type Animal decides. The instance method get is overridden, so the runtime object, a Dog, decides.
+
+Question 18.
+Topic: java-oop
+```
+interface Walker { default String move() { return "walk"; } }
+interface Swimmer { default String move() { return "swim"; } }
+class Duck implements Walker, Swimmer {
+    String move() { return Walker.super.move() + "+" + Swimmer.super.move(); }
+}
+
+void main() {
+    IO.println(new Duck().move());
+}
+```
+What is the result?
+A. `walk+swim`
+B. `walk`
+C. Compilation fails
+D. An exception is thrown at runtime
+Check: compile-error
+[THINK]
+The answer is C. Overriding the conflicting defaults is the right idea, and the X.super.move() calls are valid. But interface methods are public, and the override has package access, which is weaker. With public added, it would print walk+swim.
+
+Question 19.
+Topic: java-oop
+```
+public class Main implements Greeter {
+    public String name() { return "main"; }
+    public static void main(String[] args) {
+        var m = new Main();
+        IO.println(m.hello() + " " + m.name());
+    }
+}
+interface Greeter {
+    static String hello() { return "hello"; }
+    String name();
+}
+```
+What is the result?
+A. `hello main`
+B. `null main`
+C. Compilation fails
+D. An exception is thrown at runtime
+Check: compile-error
+[THINK]
+The answer is C. Static interface methods aren't inherited by implementing classes. They must be called with the interface name: Greeter.hello().
+
+Question 20.
+Topic: java-types
+```
+record Range(int lo, int hi) {
+    Range {
+        if (lo > hi) { int t = lo; lo = hi; hi = t; }
+    }
+    int size() { return hi - lo; }
+}
+
+void main() {
+    var r = new Range(9, 4);
+    IO.println(r + " " + r.size());
+}
+```
+What is the result?
+A. `Range[lo=9, hi=4] -5`
+B. `Range[lo=4, hi=9] 5`
+C. `Range(lo=4, hi=9) 5`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is B. In a compact constructor you can reassign the parameters, and the fields are assigned from them at the end. The generated toString uses square brackets.
+
+Question 21.
+Topic: java-types
+```
+enum Level {
+    LOW(1), MEDIUM(5), HIGH(10);
+    private final int weight;
+    Level(int w) { weight = w; }
+    int weight() { return weight; }
+}
+
+void main() {
+    Level l = Level.valueOf("MEDIUM");
+    IO.println(l.ordinal() + " " + l.weight() + " " + Level.values()[2]);
+}
+```
+What is the result?
+A. `2 5 HIGH`
+B. `1 5 MEDIUM`
+C. `1 5 HIGH`
+D. Compilation fails, because the enum constructor isn't private
+Check: output
+[THINK]
+The answer is C. ordinal is zero-based, so MEDIUM is 1. values returns the constants in declaration order. An enum constructor is implicitly private, so no modifier is needed.
+
+Question 22.
+Topic: java-types
+```
+public class Main {
+    private int x = 10;
+    class Inner {
+        int x = 20;
+        int sum(int x) { return x + this.x + Main.this.x; }
+    }
+    public static void main(String[] args) {
+        Main m = new Main();
+        Main.Inner in = m.new Inner();
+        IO.println(in.sum(5));
+    }
+}
+```
+What is the result?
+A. `35`
+B. `45`
+C. `60`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is A. The parameter x is 5, this.x is the inner field 20, and Main.this.x is the outer field 10. An inner class instance is created through an outer instance with m.new Inner().
+
+Question 23.
+Topic: java-exceptions
+```
+public class Main {
+    record Res(String n) implements AutoCloseable {
+        public void close() { IO.print("close" + n + " "); }
+    }
+    public static void main(String[] args) {
+        try (var a = new Res("A"); var b = new Res("B")) {
+            IO.print("body ");
+            throw new IllegalStateException();
+        } catch (IllegalStateException e) {
+            IO.print("catch ");
+        } finally {
+            IO.print("finally");
+        }
+    }
+}
+```
+What is the result?
+A. `body catch closeB closeA finally`
+B. `body closeA closeB catch finally`
+C. `body catch finally closeB closeA`
+D. `body closeB closeA catch finally`
+Check: output
+[THINK]
+The answer is D. Resources are closed in reverse order of declaration, as soon as the try block ends, before catch and finally run.
+
+Question 24.
+Topic: java-exceptions
+```
+public class Main {
+    static int f() {
+        int x = 1;
+        try {
+            return x;
+        } finally {
+            x = 2;
+        }
+    }
+    static int g() {
+        try {
+            throw new RuntimeException("boom");
+        } finally {
+            return 3;
+        }
+    }
+    public static void main(String[] args) {
+        IO.println(f() + " " + g());
+    }
+}
+```
+What is the result?
+A. `2 3`
+B. `1 3`
+C. A RuntimeException with the message boom is thrown
+D. Compilation fails
+Check: output
+[THINK]
+The answer is B. In f, the return value is evaluated before finally runs, so changing x afterwards doesn't affect it. In g, the return in finally discards the exception.
+
+Question 25.
+Topic: java-exceptions
+```
+import java.io.*;
+
+public class Main {
+    static void read() throws FileNotFoundException { throw new FileNotFoundException(); }
+    public static void main(String[] args) {
+        try {
+            read();
+        } /*?*/ {
+            IO.println("handled");
+        }
+    }
+}
+```
+Which two clauses can replace /*?*/ so that the code compiles? Choose two.
+A. `catch (IOException | RuntimeException e)`
+B. `catch (FileNotFoundException | IOException e)`
+C. `catch (java.sql.SQLException e)`
+D. `catch (Exception e)`
+E. `catch (RuntimeException e)`
+Check: options
+[THINK]
+The answers are A and D. Option A is a valid multi-catch of two unrelated types, and IOException covers FileNotFoundException. Option D catches everything. Option B combines related types. Option C catches a checked exception the try block can't throw, and leaves FileNotFoundException unhandled. Option E doesn't handle the checked exception.
+
+That's the end of part one.
