@@ -41,57 +41,57 @@
    {
     "t": "What it is, and why it works",
     "s": "Silos, learning as the bottleneck, events, fuzziness, the three formats",
-    "d": 488
+    "d": 513
    },
    {
     "t": "Before the workshop",
     "s": "Who to invite, hacking the room, materials, colors, agenda",
-    "d": 478
+    "d": 475
    },
    {
     "t": "Big Picture: from chaos to a timeline",
     "s": "Kick-off, chaotic exploration, icebreaker, sorting strategies, hot spots",
-    "d": 553
+    "d": 580
    },
    {
     "t": "Big Picture: people, stories, choices",
     "s": "People and systems, walkthrough, reverse narrative, value, arrow voting",
-    "d": 551
+    "d": 583
    },
    {
     "t": "The facilitator's toolbox",
     "s": "Patterns and anti-patterns: committee, religion war, guess first, speak out loud…",
-    "d": 558
+    "d": 612
    },
    {
     "t": "From Big Picture to bounded contexts",
     "s": "Six heuristics for boundaries; merge the people, split the software",
-    "d": 464
+    "d": 499
    },
    {
     "t": "Process Modeling: the color grammar",
     "s": "The picture that explains everything, policies, read models, magic words",
-    "d": 594
+    "d": 660
    },
    {
     "t": "Playing the game, then design",
     "s": "Opening moves, rabbit holes, rush to the goal, aggregates, code early",
-    "d": 562
+    "d": 600
    },
    {
     "t": "The bridge to software",
     "s": "DDD, CQRS and event sourcing, and how the colors map to code",
-    "d": 386
+    "d": 453
    },
    {
     "t": "Running it remotely",
     "s": "What changes online, and the remote patterns from the book",
-    "d": 428
+    "d": 485
    },
    {
     "t": "Recap podcast",
     "s": "Two hosts, the whole course, a checklist for the day, rapid-fire quiz",
-    "d": 533
+    "d": 528
    }
   ]
  },

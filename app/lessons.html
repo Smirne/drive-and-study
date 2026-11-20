@@ -20,7 +20,7 @@
   --line: #2a3532; --accent: #4cc3a6; --accent-soft: #1d3330; --on-accent: #08130f; color-scheme: dark }
 
 body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body); }
-.wrap { max-width: 640px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; gap: 20px; }
+.wrap { max-width: 640px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 header { display: grid; gap: 4px; }
 .eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 h1 { font: 600 clamp(26px, 7vw, 34px)/1.1 var(--display); margin: 0; text-wrap: balance; }
@@ -43,6 +43,12 @@ button svg { width: 20px; height: 20px; fill: currentColor; }
 .play { background: var(--accent); color: var(--on-accent); border-color: var(--accent); width: 60px; height: 60px; }
 .play svg { width: 26px; height: 26px; }
 .speed { font: 500 13px var(--mono); }
+@media (max-width: 420px) {   /* five transport buttons + speed must fit a phone's width */
+  .controls { gap: 6px; } .controls .mid { gap: 4px; } .controls > span[aria-hidden] { display: none; }
+}
+@media (max-width: 359px) {
+  .controls button { min-width: 38px; height: 38px; padding: 0 8px; } .controls .play { width: 52px; height: 52px; }
+}
 
 ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
 li button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 40px 1fr auto;
