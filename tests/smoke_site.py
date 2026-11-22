@@ -45,7 +45,7 @@ with sync_playwright() as p:
     # EventStorming pack: pages live under /eventstorming/, assets via relative paths
     pg.click('a[href="/eventstorming/lessons"]'); pg.wait_for_selector('#list li')
     print('es lessons:', pg.title(), '| items:', pg.locator('#list li').count())
-    assert pg.locator('#list li').count() == 11
+    assert pg.locator('#list li').count() == 14
     assert pg.evaluate('document.documentElement.scrollWidth') == 390, 'lessons page scrolls sideways on a phone'
     pg.click('#ep-2'); pg.wait_for_timeout(500)
     src_es = pg.evaluate('document.getElementById("audio").src')

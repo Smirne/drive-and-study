@@ -1,0 +1,105 @@
+S: Welcome back to the Greenline workshop. This is part two of the example session. I'm Sara.
+A: I'm Alex. Quick reminder of where we are. Fifteen people, a fourteen-meter wall, about two hundred and thirty orange events, in locally ordered clusters inside a global mess. Duplicates everywhere. And a coffee break that's just ending.
+S: Elena, the facilitator, is about to ask the group to turn the mess into one consistent timeline. In the book, this is where the heated conversations happen.
+
+A: Ten fifteen. People are back at the wall, cups in hand.
+F: Now we're going to make the timeline real. The whole wall should read from left to right as one story. Duplicates get merged, events move to where they really happen. But first, a question to all of you. If you had to pick four or five moments that change everything in Greenline's story, the big ones, what would they be?
+P: A community being created. That's when we can start.
+L: Incentive received. That's the money.
+M: Member added to community. Until then, they're nobody.
+T: Meter data received. Without data, nothing works.
+N: Payout sent. That's the one members care about.
+F: Good. Find those notes on the wall. I'm going to put a strip of colored tape under each one.
+S: Elena takes a roll of blue tape and, together with the group, moves the five notes into a rough order, spreading them out across the wall. "Community created" near the left. "Member added to community". "Monthly meter data received". "Incentive received". "Payout sent to members" near the right end. A strip of tape goes under each.
+F: Now everything else goes into the section where it belongs, between two of these. Don't aim for perfect, aim for the right section.
+
+A: Freeze. That was the pivotal events strategy.
+S: Instead of trying to sort two hundred and thirty notes at once, which is like sorting with brute force, you pick a few key events and use them as boundaries. Then people only have to answer an easier question: is my note before or after this one? The book compares it to moving from bubble sort to quick sort.
+A: Two details. Elena asked the group to choose the pivotal events, she didn't choose them herself. And she didn't spend long on it. Five events, two minutes, no debate about whether they're exactly the right five. Speed matters more than consensus here. The structure only needs to be good enough to sort.
+S: The obvious alternative would be swimlanes, a horizontal lane per department. Elena avoided that on purpose. Greenline has many parallel processes, so swimlanes would eat all the vertical space, and they'd lock people into their department view at the moment we want them to mix.
+
+A: Ten thirty. The sorting is noisy. People are carrying handfuls of notes along the wall. And then, the first real argument, right at a pivotal event.
+M: This is wrong. "Member added to community" has to come after the board approval. Tom has it here, before the documents are even checked.
+T: Because for us, that's when the member exists. The moment the form is submitted, we create the member record, and they can log in to the portal.
+M: But they're not a member! Half of them never complete the documents.
+L: And for me, a member is someone with a meter that's actually connected to the community. That happens two months later, when the grid operator confirms it. Before that, I don't count them in anything.
+N: And for us, a member is anyone who calls and says "I'm a member". Which includes people whose application was rejected.
+S: There's a pause. Then some laughter.
+
+F: Hold on. This is important, so let's not solve it in two minutes. How many different things are we calling "member"?
+T: At least three. Someone who has an account. Someone the board approved. Someone whose meter is counted.
+F: Then let's make three events, with three names. "Member account created". "Membership approved". "Member meter activated". Where does each one go?
+S: The three notes go in three different places on the wall, two months apart. And Elena puts a purple sticky note next to them. On it: "What is a member? Three meanings: account, approved, active meter."
+F: That's a hot spot. It means: there's an important problem here, we're not solving it now, and we won't forget it.
+
+A: Freeze. This is one of the most valuable moments of the day, and it came from moving sticky notes.
+S: Each department had its own sequence, and each one made sense locally. The conflict only appeared when the timeline forced the sequences to merge. That's the point of enforcing a single timeline: it makes people have the conversations they've been avoiding.
+A: And for Tom, this is gold. The new member platform was going to have one "member" table. Now he knows there are at least three concepts behind that word, with different owners. In episode six we talked about language as the first heuristic for bounded contexts. Here it is, live: the same word, different meanings, in different parts of the flow.
+S: Notice also who writes the hot spots. In this phase, the facilitator places them, not the participants. Elena is listening for heat, and marking it. If you invite everyone to write problems this early, you get a flood of complaints with little signal. Participants get their turn later.
+A: And the hot spot is a safe target. The problem is now on the wall, not on Tom or Marco. Hard on the problem, soft on the people.
+
+S: Ten fifty. The sorting continues, and the gaps get filled. Remember the big empty space between members joining and meter data arriving? Laura looks at it.
+L: Wait. Before we get any meter data, somebody has to register the community with the incentive agency. And the agency has to approve it. That takes weeks.
+M: That's legal's part. Giorgio does it.
+S: Giorgio, from legal, who until now has written four notes, suddenly writes twelve. "Community statute signed." "Community registered with agency." "Agency requested more documents." "Community qualified for incentive."
+A: Elena sees one more thing: the energy analyst's strip, the simulations, is still sitting at the far right.
+F: Davide, when do the simulations happen?
+S: Davide explains that they happen before a community even exists. They're what convinces people to join.
+F: Then they need to move all the way to the left.
+A: Davide moves the whole strip, fifteen notes, to the beginning of the wall. And when he does, Sales notices that the simulation results are the same numbers they show at information evenings. Two teams producing the same forecast, separately. Elena adds a hot spot.
+
+A: Eleven ten. The orange notes are mostly in order. Elena goes back to the flip chart and adds two items to the legend.
+F: Next step. Events don't happen by themselves. Somebody does something, or some system is involved. Small yellow notes are for people: who's involved in this event? Large pink notes are for systems: software, other organizations, anything outside our control. If you're not sure whether something is a system, here's my definition: an external system is anything we can blame.
+S: That gets a laugh. And it works. In ten minutes, the wall gets a new layer.
+A: Yellow notes: "Prospective member". "Producer member", with solar panels. "Consumer member". "Community referent", the volunteer who represents a community. "Board". "Support agent".
+S: Pink notes: "Grid operator portal". "Incentive agency portal". "Bank". "Member portal", our own software. "E-signature service". And one large pink note, right in the middle of the payout section, that says: "The Big Spreadsheet".
+
+T: Is the spreadsheet a system? It's ours.
+L: It's mine. I maintain it. But nobody knows how half of the formulas work. Rossella built it three years ago and she left.
+N: Then it's definitely something we can blame.
+S: Laughter again. And Elena adds a purple note under it: "Payout calculation depends on a spreadsheet nobody fully understands."
+A: Someone else writes a pink note: "The regulation". Next to it, Giorgio writes "Rules changed in January".
+F: Good. If the rules can change, what event does that create?
+S: Giorgio writes "Incentive rules updated". And Laura immediately adds two more: "Payout formula changed" and "Past payouts recalculated".
+
+A: Freeze. The fuzzy definition of external system, "anything we can blame", sounds like a joke, but it does real work.
+S: It brought out the spreadsheet, which is technically internal, but is treated as something outside anyone's control. The book says that how people talk about a piece of software tells you a lot about real ownership. Laura says "it's mine", Tom says "is it a system?", and Nina blames it. That's three different relationships with the same thing.
+A: And "The regulation" as an external system created new events. Making a system visible almost always reveals events at its boundary. Rule changes, recalculations. Those weren't on the wall an hour ago.
+S: One more point. Elena didn't argue about whether "Prospective member" and "Consumer member" are the right roles. The goal isn't to put the correct yellow note on every event. It's to trigger conversations wherever behavior depends on who's involved.
+
+S: Eleven forty. The next phase is the explicit walk-through. Elena asks for a narrator.
+F: Marco, you know the beginning best. Walk along the wall, literally walk, and tell us the story from left to right, touching the events as you go. Everyone else: interrupt him whenever something doesn't match.
+M: OK. So, it starts with the simulation. Davide runs a simulation for a town. Then sales organizes an information evening...
+N: Wait. How does the town know about us? Who calls whom?
+M: Usually the mayor's office calls us. Or a referent from an association.
+F: Is that on the wall?
+S: It wasn't. Two new events: "Municipality contacted Greenline" and "Referent proposed a community".
+M: Then people submit the interest form, then the membership request, then documents... then we wait for the board.
+P: How long?
+M: The board meets once a month.
+A: Silence. Then Paolo, quietly.
+P: So a member can wait a month just for a signature?
+M: Sometimes two, if they miss a meeting.
+S: Elena writes a hot spot. "Board approval: once a month, up to two months of waiting."
+
+A: Marco continues until "Member meter activated". Then he stops.
+M: And this is where Laura takes over.
+L: OK, from here it's mine. Every month, the grid operator sends us the meter data. We load it into the spreadsheet...
+T: Who loads it?
+L: I do. I download a file from the portal, I clean it, I paste it.
+T: Every month? For all communities?
+L: For all forty communities. It takes me about four days.
+S: Another hot spot. And a new event that nobody had written: "Meter data file cleaned". Because Laura never thought of it as an event. It was just her job.
+
+A: Freeze. Two techniques in that scene.
+S: First, the walk-through itself. Speaking out loud while physically walking forces the story to be consistent. When Marco had to step back to touch a note, or when he said "then we wait", the gap became obvious. The book says a bumpy narration is a good sign: it means the model is improving.
+A: Second, the relay. Elena didn't ask one person to narrate everything. Marco handed over to Laura at a pivotal event. That way each expert narrates their own territory, and everybody else gets to see them in action.
+S: And one more thing about facilitation. When Paolo heard "once a month", there could have been a long argument about the board. Elena wrote the hot spot and let the story continue. Some discussions can't be solved during the workshop, and narrowing the focus to one issue wastes everyone else's time. The hot spot says: we won't forget this.
+A: Though the book also says: watch body language. If the whole room clearly wants a discussion that's been waiting for years, don't kill it to protect the schedule. Here, people wanted to keep going. So Elena kept going.
+
+S: Twelve forty. Laura finishes her part at "Payout sent to members". People look tired. Elena calls it.
+F: That was the hardest part of the day. Look at the wall now. Two hours ago, it was a pile of notes. Now it's a story that more or less makes sense from left to right. Lunch is here. Forty-five minutes. After lunch, we'll test that story from the other end, and then you'll get your say.
+
+A: Let's take stock before part three. The wall now has five pivotal sections marked with tape. About three hundred orange events. Twenty-odd yellow people, fifteen pink systems. And eleven purple hot spots, all written by Elena, including the three meanings of "member", the duplicated forecasts, the board that meets monthly, the spreadsheet nobody understands, and four days of manual data loading.
+S: If you're facilitating, here's what to keep from this part. Let the group choose pivotal events, quickly. Watch for heat while people sort, and mark it with hot spots yourself. Use the blame definition for external systems. And run the walk-through as a relay, with one narrator per territory.
+A: In part three: we walk the story backwards and find what's still missing, everybody adds problems and opportunities, and we vote. See you there.
