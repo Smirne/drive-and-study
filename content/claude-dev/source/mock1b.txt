@@ -1,0 +1,309 @@
+Mock exam one, part two.
+
+Question 1.
+Topic: cd-agents
+A team must choose an architecture for four workloads. Which two need an agent loop rather than a predefined workflow? Choose two.
+A. Translating each product page into five languages, using an approved glossary for terms
+B. Converting supplier CSV files into a fixed JSON format, with validation of every field
+C. Investigating why a nightly job fails, with no known cause
+D. Researching vendors, following leads as they appear
+E. Classifying incoming emails into four categories
+[THINK]
+The answers are C and D. Their steps depend on what's found along the way. The others are fixed, predictable pipelines that a workflow handles more cheaply and reliably.
+
+Question 2.
+Topic: cd-agents
+A team wrote its own agent loop on the Messages API. It now needs file and shell tools, permission controls, resumable sessions and subagents. What's the most effective next step?
+A. Add an MCP server for each missing capability
+B. Adopt a graph orchestration framework
+C. Write the missing features into the custom loop one by one, reusing the existing code
+D. Adopt the Claude Agent SDK, which provides file and shell tools, permissions, sessions and subagents out of the box
+[THINK]
+The answer is D. The Agent SDK is Claude Code's agent harness as a library. MCP adds tools but not the harness.
+
+Question 3.
+Topic: cd-agents
+A bank wants an agent whose traffic never leaves its own network, using an internal toolchain installed on its own machines. The managed hosted option would be quicker to start. What should it choose?
+A. A fully managed cloud sandbox, with a domain allow list for the internal tools
+B. Self-hosted execution on its own infrastructure
+C. Claude Code in bypass permissions mode
+D. The Message Batches API
+[THINK]
+The answer is B. The network and toolchain requirements rule out a sandbox hosted outside the bank.
+
+Question 4.
+Topic: cd-agents
+A coding agent sometimes declares a task complete without running the tests, despite a system prompt instruction to always run them. What gives a guarantee?
+A. Repeat the instruction at the end of every user message, so it's always the most recent text
+B. Raise the effort level to maximum
+C. A hook on the stop event that blocks the agent from completing until the full test suite has run and passed
+D. A larger model that follows instructions better, combined with a reminder in every user message
+[THINK]
+The answer is C. A hook runs deterministically. Instructions, effort and model size remain probabilistic.
+
+Question 5.
+Topic: cd-agents
+An orchestrator delegates code searches to subagents. The subagents often fail because they don't know which service the user is working on. What's the likely cause?
+A. Subagents can't use search tools
+B. Subagents need the most capable model to infer the missing context on their own
+C. The task messages to the subagents weren't self-contained
+D. The orchestrator used too many subagents at once, so they lost track of the shared conversation
+[THINK]
+The answer is C. A subagent starts with a fresh context, so the task message must include the context it needs.
+
+Question 6.
+Topic: cd-agents
+A trace shows an agent calling the same API tool forty times with the same failing input until its budget runs out. Which two changes address it? Choose two.
+E. Removing the tool's input schema
+B. Raising the temperature so it tries other inputs on each attempt
+C. Tool errors that say what input is expected
+D. Switching to batch processing
+A. A maximum number of iterations
+[THINK]
+The answers are C and E. Agents need a stopping condition, and useful error messages let the model correct itself instead of repeating.
+
+Question 7.
+Topic: cd-agents
+Which workflow pattern fits writing a marketing text, checking it against brand rules with a programmatic gate, then translating it?
+A. Prompt chaining
+B. Orchestrator-workers
+C. Voting
+D. Autonomous agent
+[THINK]
+The answer is A. Fixed sequential steps with gates between them is prompt chaining.
+
+Question 8.
+Topic: cd-agents
+A product team wants long-running research agents that work for hours, with a sandbox, file storage and session history, but no infrastructure to operate. Which option fits best?
+A. Claude Code headless in a cron job on a laptop
+B. The Message Batches API
+C. A stdio MCP server
+D. Claude Managed Agents
+[THINK]
+The answer is D. Managed Agents hosts the loop, the sandbox, the tools and the state, for long-running and asynchronous work.
+
+Question 9.
+Topic: cd-agents
+A customer service agent must never issue refunds above five hundred euros without a supervisor's approval. Which design enforces this?
+A. A system prompt rule with an example of a refund above the threshold being escalated
+B. A pre tool use hook or permission callback on the refund tool that requires a supervisor's approval above the threshold
+C. A lower effort level for refund requests
+D. An evaluation run once a month
+[THINK]
+The answer is B. A deterministic check on the tool call enforces the rule every time.
+
+Question 10.
+Topic: cd-agents
+An agent working across several days keeps redoing analysis it already completed in earlier sessions. What's missing?
+A. A larger context window, so earlier sessions can be loaded in full
+B. A higher effort level
+C. Persistent memory, such as progress notes, read at each start
+D. More parallel tool calls, so the agent finishes the analysis before the session ends
+[THINK]
+The answer is C. Sessions start with fresh context, so state must be saved and reloaded explicitly.
+
+Question 11.
+Topic: cd-code
+A team's Claude Code pre tool use hook, which blocks writes to the migrations folder, is defined in one developer's settings dot local dot json. Other developers' sessions don't enforce it. What should they do?
+A. Copy the rule into CLAUDE dot M D
+B. Ask each developer to install the hook manually in their own user settings file
+C. Move the hook to the committed dot claude slash settings dot json, or to managed settings for the whole organization
+D. Enforce it only in CI
+[THINK]
+The answer is C. The local settings file is personal and not committed. CLAUDE dot M D is guidance, not enforcement, and CI doesn't cover local sessions.
+
+Question 12.
+Topic: cd-code
+A security hook detects a forbidden command and exits with status one, but the command still runs. Why?
+A. Hooks can't block bash commands
+B. Only exit code two blocks the action
+C. The hook must print the word deny on standard output, in addition to the exit status
+D. The hook needs to run after the tool, not before
+[THINK]
+The answer is B. Exit two blocks and passes the error output to Claude as the reason. Alternatively, return JSON with a deny decision.
+
+Question 13.
+Topic: cd-code
+A team keeps pasting the same twelve-step release procedure into Claude Code, and also wants Claude to apply it automatically when someone mentions a release. What's the best packaging?
+A. A skill, with a description saying when to use it
+B. A long CLAUDE dot M D section, so the procedure is in context for every session
+C. An MCP server that returns the text
+D. A subagent with no tools, whose system prompt contains the whole procedure
+[THINK]
+The answer is A. A skill's body loads only when relevant, and its description lets Claude pick it automatically.
+
+Question 14.
+Topic: cd-code
+Which two statements about CLAUDE dot M D files are correct? Choose two.
+A. A user file overrides the project file entirely
+B. Applicable files are concatenated, closest read last
+C. They're guidance, so guarantees need hooks or permissions
+D. Only one CLAUDE dot M D file can be loaded per session, the one closest to the working directory
+E. They're enforced by the permission system
+[THINK]
+The answers are B and C. Files add to each other rather than override, and their content is context, not enforcement.
+
+Question 15.
+Topic: cd-code
+A CI job runs Claude Code headless to fix lint errors. Results differ between runners because some have personal hooks and MCP servers installed. What helps make runs reproducible?
+A. Run in bypass permissions mode
+B. Use plan mode
+D. Add more instructions to the project's CLAUDE dot M D, telling Claude to ignore personal hooks and servers
+C. Use bare mode, and pass the needed settings, allowed tools and MCP configuration explicitly on the command line
+[THINK]
+The answer is D. Bare mode skips the automatic discovery of hooks, skills, plugins, MCP servers and CLAUDE dot M D.
+
+Question 16.
+Topic: cd-security
+A browsing agent read a page containing hidden instructions, then used its email tool to send customer data outside the company. Which two measures provide the strongest protection? Choose two.
+D. A larger model that's harder to fool
+B. A stronger warning in the system prompt about hidden instructions on web pages
+C. Least privilege for the browsing agent
+A. A gate on the email tool allowing approved recipients
+E. Lower temperature on every request
+[THINK]
+The answers are C and D. Deterministic controls and least privilege limit the damage whatever the model decides. Prompts and model choice remain probabilistic.
+
+Question 17.
+Topic: cd-security
+An email-triage agent processes messages from unknown senders. How should the email bodies be given to the model?
+A. Concatenated into the system prompt
+B. As the user's own text, so the model treats them as requests from the person it serves
+C. In tool result blocks, labeled as untrusted email content
+D. Inside the request headers
+[THINK]
+The answer is C. Untrusted content belongs in tool results, clearly labeled, with a policy that embedded instructions aren't commands.
+
+Question 18.
+Topic: cd-security
+Which two practices are correct for API keys? Choose two.
+A. Separate workspaces and keys per environment
+B. An admin key in the application, for full access
+E. One shared key for all teams, to simplify billing
+D. Keys embedded in the mobile app, so calls skip a network hop and respond faster
+C. Keys in a secrets manager, rotated
+[THINK]
+The answers are A and E. Environment separation limits blast radius, and secret storage with rotation protects keys. Admin keys manage the organization, not model calls.
+
+Question 19.
+Topic: cd-security
+A team wants a cheap first line of defense that flags jailbreak attempts in user input before the main model sees them. What fits?
+A. A small fast model as a structured classifier
+B. The most capable model with maximum effort, reviewing every message before the main model
+C. A longer system prompt
+D. Disabling tools for all users
+[THINK]
+The answer is A. A lightweight screen with structured output is fast and cheap, and adds a layer before the main conversation.
+
+Question 20.
+Topic: cd-security
+A developer wants to run Claude Code with bypass permissions to avoid prompts during a long refactor. Under what condition is that acceptable?
+A. Whenever the developer is watching the terminal
+B. Only inside an isolated container or virtual machine, with no access to production systems, credentials or sensitive data
+C. Whenever CLAUDE dot M D clearly forbids destructive commands and pushes to the main branch
+D. Never, under any condition
+[THINK]
+The answer is B. Bypass permissions offers no protection against prompt injection or mistakes, so isolation is required.
+
+Question 21.
+Topic: cd-eval
+A team uses an LLM judge to grade answer helpfulness. Spot checks show the judge disagrees with domain experts a third of the time. Which two steps should come first? Choose two.
+D. Remove the rubric so the judge can use its own judgment
+B. Refine the rubric into concrete criteria and a fixed scale
+C. Use the same model that produced the answers as the judge, so it understands their intent
+A. Compare the judge with expert grades on a sample
+E. Trust the judge, because it's faster than experts
+[THINK]
+The answers are B and D. Calibration against human grades and a detailed rubric make the judge trustworthy. A different model from the generator is preferable.
+
+Question 22.
+Topic: cd-eval
+A shopping assistant told customers that an item was in stock. It wasn't: the tool returned inventory from a cache refreshed only once a day. Where's the failure, and what's the fix?
+A. Model reasoning; switch to a larger model
+B. Prompt design; add examples of answers that warn the customer when stock may be outdated
+C. Integration layer; fix data freshness
+D. Temperature; set it to zero
+[THINK]
+The answer is C. The model faithfully reported the data it was given. The problem is in the data layer.
+
+Question 23.
+Topic: cd-eval
+Which approach best detects whether a new prompt version broke behavior that used to work?
+A. Testing three hand-picked examples in the playground, including the case that motivated the change
+B. Running the golden set before and after, by category
+C. Asking the model whether the new prompt is better than the old one, with both prompts included
+D. Waiting for user feedback after release
+[THINK]
+The answer is B. A regression suite compared against the previous results shows both improvements and breakages.
+
+Question 24.
+Topic: cd-eval
+An agent asked to fix a bug writes a long explanation of the fix but never edits the file, although it has an edit tool. Which failure mode is this?
+A. Hallucination
+B. Context loss
+C. Format drift
+D. Under-acting
+[THINK]
+The answer is D. The model describes instead of acting. Ask for the action explicitly and check that the tool is available and well described.
+
+Question 25.
+Topic: cd-eval
+A team must evaluate a summarization feature on thousands of cases every night. Which grading setup is most practical?
+A. Human grading of every case
+B. Exact string match against one carefully written reference summary for each case
+C. Code checks plus a calibrated LLM judge
+D. No grading, only latency and cost measurements, since summaries are subjective anyway
+[THINK]
+The answer is C. Code checks cover what can be checked deterministically, and a calibrated judge scales nuanced criteria. Exact match fails for free-form summaries.
+
+Question 26.
+Topic: cd-eval
+Production logs show users getting confident answers that contradict the provided documents. Before changing the prompt, what should the team check first?
+A. The actual request that was sent
+B. The model's temperature
+C. Whether a larger model would follow the documents more faithfully
+D. The user interface colors
+[THINK]
+The answer is A. Many apparent model errors come from retrieval or integration sending the wrong context. Inspect the real request first.
+
+Question 27.
+Topic: cd-prompt
+A team wants consistent output format for a classification prompt. Which technique is most effective?
+A. Three to five varied examples in example tags
+B. A longer explanation of the format in capital letters, repeated at the end of the prompt
+C. Higher temperature
+D. Asking the model to be consistent
+[THINK]
+The answer is A. Diverse examples steer format and tone more reliably than descriptions alone.
+
+Question 28.
+Topic: cd-prompt
+An extraction schema includes a field called reasoning, asking for the model's step by step thinking. Some requests now end with a refusal. What should the team change?
+A. Raise max tokens
+D. Remove the schema entirely, and parse the reasoning out of free text
+C. Lower the temperature
+B. Ask for a short explanation or evidence instead
+[THINK]
+The answer is D. Requests for the model's internal reasoning can trigger a refusal category. Ask for a brief justification or evidence instead.
+
+Question 29.
+Topic: cd-prompt
+A coding agent's harness compacts context automatically. The agent keeps stopping early, saying it's running out of space. What prompt change helps?
+A. Ask it to work faster and finish each task before its context fills up
+B. Tell it the context is compacted, so it needn't stop early
+C. Lower the effort, so the agent uses less context per task and never fills the window
+D. Remove all tools
+[THINK]
+The answer is B. The docs recommend telling the model about compaction so it doesn't wrap up prematurely.
+
+Question 30.
+Topic: cd-prompt
+A team wants Claude to answer support questions only from its knowledge base, and to make answers auditable. Which approach fits best?
+A. Ask for answers in capital letters
+B. Provide the articles as documents with citations enabled, and define a not-found answer for questions the articles don't cover
+C. Raise the temperature for variety
+D. Rely on the model's training data, which already covers most common support questions
+[THINK]
+The answer is B. Citations tie claims to source passages, and an explicit not-found answer prevents guessing.
+
+That's the end of mock exam one.

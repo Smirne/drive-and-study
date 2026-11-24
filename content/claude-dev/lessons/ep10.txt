@@ -1,0 +1,58 @@
+Claude Certified Developer, Foundations. Episode ten. Agents and workflows.
+
+Agents and workflows is seventeen percent of the exam. The questions ask you to choose between a workflow and an agent, choose where it runs, build it with the Agent SDK so that required actions happen deterministically, and diagnose agent traces.
+
+Definitions first, from Anthropic's guidance on building effective agents. A workflow is a system where LLM calls and tools are orchestrated through predefined code paths. An agent is a system where the model directs its own process: it decides which tools to call and when it's done, in a loop, using feedback from the environment.
+
+The guiding rule: use the simplest solution that works. Often a single, well-prompted call with the right context is enough. Workflows give predictability and consistency for well-defined tasks. Agents give flexibility for open-ended tasks where you can't predict the steps, at the cost of more latency, more tokens, and the risk of compounding errors.
+
+A typical question gives four workloads and asks which two need an agent. Translating documents and converting a CSV file into JSON are fixed pipelines: workflows. Debugging a failure with an unknown cause, or open-ended vendor research, where the next step depends on what you find: agents.
+
+The workflow patterns.
+Prompt chaining: a fixed sequence of calls, each processing the previous output, with programmatic checks, called gates, in between. For tasks that split cleanly into steps, like outline, check, then draft.
+Routing: classify the input, then send it to a specialized prompt or model. For example, simple questions to a small model, hard ones to a large one.
+Parallelization, in two forms. Sectioning: independent subtasks run at the same time, like one call answering while another screens for policy violations. Voting: the same task runs several times, and the results are compared, for confidence.
+Orchestrator-workers: a central model breaks the task down dynamically and delegates the pieces to worker calls, then combines the results. Unlike sectioning, the subtasks aren't known in advance.
+Evaluator-optimizer: one model generates, another evaluates against clear criteria and gives feedback, in a loop, until the result passes.
+
+Agents are a tool loop with environment feedback. Two things every agent needs: a clear stopping condition, and guardrails. Stopping conditions include the model finishing its task, a maximum number of turns or iterations, a budget limit, and checkpoints where a human must approve. A trace showing an agent repeating the same failing call twenty times reveals a missing termination condition, or tool errors that don't explain how to recover.
+
+Three principles from the same guidance: keep the design simple, make the agent's planning transparent, and invest in the agent-computer interface, the tools, as much as you'd invest in a user interface.
+
+Now, where to build and run it.
+
+The Messages API and the client SDKs, when you want full control and you write the loop yourself.
+
+The Claude Agent SDK, in Python or TypeScript, gives you Claude Code's agent loop as a library: built-in tools for files, shell, search and web; permissions; hooks; subagents; sessions you can resume or fork; MCP; skills and memory loaded from the project's dot claude folder; and plugins. It runs in your process, on your infrastructure. A typical question: a team wrote a custom loop and now needs file and shell tools, permissions, sessions and subagents. Adopt the Agent SDK, rather than rebuilding all of that, or reaching for a graph framework or MCP, which don't supply the harness.
+
+Claude Managed Agents is a hosted service. You define an agent, its model, system prompt, tools, MCP servers and skills, once. You define an environment: an Anthropic-managed cloud sandbox, or a self-hosted sandbox on your own infrastructure. Then you start sessions, send events, and stream the results. Anthropic runs the loop, the tools, the sandbox and the state, including caching and compaction. It fits long-running, asynchronous or scheduled work, when you don't want to operate sandboxes. If the scenario requires traffic to stay inside your own network, or a custom toolchain on your own machines, look at self-hosted execution, or the Agent SDK on your infrastructure.
+
+Claude Code itself can run headless, with dash p, inside CI pipelines, for scripted coding tasks.
+
+Hooks: making required actions deterministic. The exam guide emphasizes this. A hook is code that runs at a fixed point in the agent lifecycle: before a tool call, after a tool call, when a prompt is submitted, when the agent stops, when a subagent stops, before compaction, at session start and end. In the Agent SDK, hooks are callbacks in your code; in Claude Code, they're configured in settings files. A pre tool use hook can inspect a call and allow it, deny it with a reason, or ask for approval. A post tool use hook can run a formatter or a test after every edit. A stop hook can block the agent from finishing until the tests pass.
+
+The pattern to recognize: anything that must always happen, or must never happen, belongs in a hook or a permission rule, not in the prompt. "Always run the linter after editing", "never send email outside the company domain", "never write to the production database": hooks. Prompts are for guidance; hooks are for guarantees.
+
+Permissions in the SDK work like Claude Code's: allowed and disallowed tools, a permission mode, and a callback that decides at runtime whether a tool call may proceed.
+
+Subagents. An orchestrator delegates to subagents, each with its own context window, its own system prompt, a restricted tool set, and maybe a cheaper model or lower effort. Use them for parallel, independent work, and to isolate noisy tasks so only a summary comes back. Don't use them for tightly coupled steps that need shared state, or for tiny tasks, where the overhead isn't worth it. Common trace failures: a subagent that lacks context because its task message wasn't self-contained; subagents doing duplicate work because the orchestrator's instructions didn't divide the work clearly; an orchestrator that trusts a subagent's summary without verification.
+
+Memory. Agents that span sessions need memory outside the context: files the agent writes and reads, like progress notes, or the memory tool, or CLAUDE dot M D files in Claude Code. In traces, look for an agent that redoes work it already finished: a missing memory or handoff.
+
+Reading traces. The exam gives you an agent trace and asks what's missing. Ask these questions in order. Did it stop when it should, or loop? Was a required step skipped, which a hook should have enforced? Did a subagent get the context it needed? Did the context fill with noise until the agent lost track of its goal? Did a tool return an error the agent couldn't understand? Did the agent act on instructions found inside a tool result? Each of these points to a specific fix: a termination condition, a hook, a better task message, pruning or compaction, a better error message, an injection defense.
+
+Quick check.
+Converting CSV files to JSON every night: workflow or agent?
+[THINK]
+A workflow. The steps are fixed and predictable.
+Which workflow pattern breaks a task into subtasks that aren't known in advance?
+[THINK]
+Orchestrator-workers.
+The agent must always run the test suite before it reports completion. Prompt instruction or hook?
+[THINK]
+A hook, for example a stop hook that blocks completion until tests pass. Prompts aren't guaranteed.
+A trace shows the same failing tool call repeated many times. What's missing?
+[THINK]
+A termination condition, like a maximum number of iterations, and a tool error message that explains how to recover.
+
+In the next episode: Claude Code.

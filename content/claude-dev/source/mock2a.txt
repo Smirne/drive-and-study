@@ -1,0 +1,310 @@
+Mock exam two, part one.
+
+Question 1.
+Topic: cd-apps
+A chatbot keeps the conversation history on the client and sends only the newest user message to the API. Users complain that Claude forgets what they said two turns ago. What's the cause?
+A. The model's context window is too small
+B. Prompt caching expired between turns, so the earlier messages were dropped from memory
+C. The temperature is set too high
+D. The API is stateless, so the full conversation history must be sent with every request
+[THINK]
+The answer is D. Each request must include the whole conversation. Caching reduces the cost of resending it.
+
+Question 2.
+Topic: cd-apps
+A request returns stop reason refusal with HTTP status two hundred. The application currently treats every two hundred as a valid answer and stores it as structured data. What should it do?
+A. Retry the same request in a loop until the stop reason changes, then store the result
+C. Treat it as a network error
+B. Detect the refusal, and handle it, for example with a fallback model
+D. Lower max tokens
+[THINK]
+The answer is C. A refusal is a normal response, not an error, and its content may not match the expected schema.
+
+Question 3.
+Topic: cd-apps
+An agent using the server-side web search tool returns a response with stop reason pause turn. What should the application do?
+A. Treat the response as final
+B. Start a new conversation without the search tool, passing the partial answer as context
+C. Send the assistant content back unchanged, with the same tools, so the server-side search loop can continue
+D. Add a tool result block for each search
+[THINK]
+The answer is C. Pause turn means the server tool loop hit its iteration limit. Server tools don't need client tool results.
+
+Question 4.
+Topic: cd-apps
+A report generator needs outputs that may take fifteen minutes to produce. Non-streaming requests time out. Which two approaches fit? Choose two.
+A. Use streaming, collecting the final message with the SDK helper
+E. Split the report request across several API keys
+C. Retry the non-streaming request with a longer client timeout until it succeeds
+D. Lower max tokens so the report is always short
+B. Use the Message Batches API if nobody waits for the result
+[THINK]
+The answers are A and E. Long requests should stream, or go through batches. The SDKs refuse non-streaming requests expected to exceed about ten minutes.
+
+Question 5.
+Topic: cd-apps
+A streaming client accumulates input JSON deltas for a tool call and tries to parse each fragment as it arrives, failing with parse errors. What's the correct handling?
+A. Concatenate the fragments
+B. Switch tool choice to none, so no tool input is streamed
+C. Parse only the first fragment
+D. Disable streaming for all requests that use tools, and keep it only for plain text answers
+[THINK]
+The answer is A. Fragments aren't valid JSON alone. Accumulate, then parse when the block ends, or use the SDK helpers.
+
+Question 6.
+Topic: cd-apps
+A streaming response returned HTTP two hundred, but the user saw nothing after a few sentences. Logs show an error event of type overloaded in the middle of the stream. What does this tell the team?
+A. The API key is invalid
+B. Errors can occur mid-stream after the two hundred status, so the client must handle error events in the stream and recover
+C. The model refused the request partway through the answer
+D. The request exceeded the byte size limit, which is only checked once streaming has started
+[THINK]
+The answer is B. Mid-stream errors arrive as error events, not status codes. Handle them, and resume from the partial text if appropriate.
+
+Question 7.
+Topic: cd-apps
+A team needs to estimate whether a large document set fits in a request before sending it, to decide whether to chunk it. What should they use?
+A. The token counting endpoint
+B. The Message Batches API
+C. A high max tokens value, then read the usage of the response
+D. The request I D header of a previous request with the same documents
+[THINK]
+The answer is A. Token counting estimates the input size of a request without generating output.
+
+Question 8.
+Topic: cd-apps
+A team uses one workspace and one key for development, testing and production. A load test exhausted the rate limit and production users got errors. Which change prevents this?
+A. Use an admin key for production, since admin keys have higher limits
+B. Disable rate limits
+C. Separate workspaces and keys per environment
+D. Retry production requests more aggressively, with a higher retry count than the test scripts use
+[THINK]
+The answer is C. Workspaces isolate keys and limits, so one environment can't exhaust another's capacity.
+
+Question 9.
+Topic: cd-apps
+A team sends five product images in one request and asks Claude to compare them. Answers sometimes mix up which product is which. What helps most?
+A. Put the question before the images
+B. Convert the images to one collage
+C. Lower the image resolution drastically, so all five fit in less context
+D. Label each image, image one, image two, and so on, and refer to those labels in the question
+[THINK]
+The answer is D. Labels make references unambiguous. Images are best placed before the question.
+
+Question 10.
+Topic: cd-apps
+Which statement about model I Ds on current Claude models is correct?
+A. A dateless I D is an alias that moves to newer snapshots
+D. Production should always use the latest alias
+C. Model weights behind an I D are updated monthly
+B. A dateless I D is a pinned snapshot
+[THINK]
+The answer is D. From the four point six generation, the dateless I D is the snapshot itself. Older dated models had aliases that moved.
+
+Question 11.
+Topic: cd-apps
+A team adds Claude to its CI pipeline to review pull requests. Which two practices fit? Choose two.
+D. Commit the API key in the pipeline file for simplicity
+B. Pin the model, and version the review prompt
+C. Use bypass permissions so the job never stops
+A. Store the API key as a CI secret
+E. Let the job push its suggested fixes directly to the protected main branch
+[THINK]
+The answers are B and D. Secrets belong in the CI secret store, and pinning plus versioned prompts keep reviews reproducible.
+
+Question 12.
+Topic: cd-apps
+A team caches a large set of documents for a batch of thirty thousand requests that will be processed over several hours. Cache hits are low. What should they change?
+A. Disable caching for batches
+B. Use the one-hour cache lifetime
+C. Put the documents after the question, so the prefix is shorter and cheaper to write
+D. Use streaming inside the batch requests, so each one starts sooner
+[THINK]
+The answer is B. Batch requests may be processed far apart in time, so the five-minute cache often expires. Streaming isn't supported in batches.
+
+Question 13.
+Topic: cd-model
+A routing service must classify fifty thousand support emails per hour into six categories, with responses in under a second. Which model choice is most appropriate to start the evaluation with?
+A. The fastest, cheapest model tier
+B. The most capable model at maximum effort
+C. The most capable model with batches
+D. Any model, as long as temperature is zero
+[THINK]
+The answer is A. High-volume, latency-sensitive classification is the fast tier's use case. Confirm with an evaluation.
+
+Question 14.
+Topic: cd-model
+Which two changes invalidate the cached prompt prefix for the whole request? Choose two.
+C. Adding a new user message at the end
+B. Adding a tool to the tools list
+A. Changing a tool's description
+D. Changing the text of the latest user question
+E. Reading the cache twice within five minutes
+[THINK]
+The answers are B and C. Tools come first in the prefix, so any change to tool definitions invalidates everything after them. New messages at the end extend the prefix.
+
+Question 15.
+Topic: cd-model
+Usage for a request shows cache creation input tokens and cache read input tokens both at zero, even though cache control is set. What's the most likely cause?
+A. The model doesn't support caching
+C. The breakpoint is on the system prompt, and system prompts can't be cached on their own
+B. The cached prefix is shorter than the minimum cacheable length, so it's silently not cached at all
+D. The cache was read successfully
+[THINK]
+The answer is C. Prefixes below the minimum length are silently not cached, without an error.
+
+Question 16.
+Topic: cd-model
+A team's agent system prompt starts with the current timestamp, followed by twenty thousand tokens of stable instructions. Cache reads are always zero. What's the fix?
+A. Move the timestamp after the stable instructions
+B. Use the one-hour cache lifetime
+C. Remove the instructions, and keep only the timestamp at the top
+D. Add a breakpoint before the timestamp only, and keep the timestamp at the top for context
+[THINK]
+The answer is A. Changing content at the start of the prefix invalidates everything after it. Stable content first, variable content last.
+
+Question 17.
+Topic: cd-model
+A team uses manual thinking with a budget tokens value. On a newer model, the request returns a four hundred error. What should they do?
+A. Use adaptive thinking with an effort level
+B. Remove thinking, and raise the temperature to compensate for the lost reasoning
+C. Set budget tokens higher, above the default maximum for that model
+D. Switch to streaming
+[THINK]
+The answer is A. On the newest models, budget tokens is rejected. Adaptive thinking with effort replaces it.
+
+Question 18.
+Topic: cd-model
+A cost review shows that output tokens make up most of the spend for a summarization feature whose results are parsed by code. Which two changes reduce output cost? Choose two.
+A. Ask for a concise structured format
+D. Remove the max tokens limit so the model can finish freely without retries
+C. Add more documents to the input
+B. Lower the effort, if the evaluation passes
+E. Switch the input to base64 encoding
+[THINK]
+The answers are A and D. Shorter structured output and less thinking reduce output tokens. Output costs several times more than input.
+
+Question 19.
+Topic: cd-model
+Anthropic releases a new model version. What's the safest way to adopt it?
+A. Switch immediately, since a newer version is better on every benchmark it was tested on
+D. Switch only the system prompt
+C. Wait until the old model is retired
+B. Run the regression evaluation on the new model, compare quality, latency and cost, adjust the prompts if needed, then switch
+[THINK]
+The answer is D. Newer models may follow instructions differently. The evaluation suite is the gate.
+
+Question 20.
+Topic: cd-prompt
+A long multi-document prompt places the user's question first, followed by sixty thousand tokens of documents. Answers miss details. What change does the guidance recommend?
+A. Repeat the question three times at the start, so it stays in focus while the model reads
+B. Documents first, in tags; the question at the end
+C. Shorten every document to one paragraph
+D. Use a higher temperature
+[THINK]
+The answer is B. Long content first and the query last improves quality on long, multi-document inputs.
+
+Question 21.
+Topic: cd-prompt
+A prompt says "NEVER use markdown". Answers still contain bullet lists. What's a better instruction?
+A. Repeat the rule in capital letters three times, at the start, middle and end
+B. Ask for "flowing prose paragraphs" instead
+C. Raise the temperature
+D. Add a stop sequence on the asterisk character
+[THINK]
+The answer is B. Telling the model what to do works better than what not to do, and the prompt's own style influences the output.
+
+Question 22.
+Topic: cd-prompt
+Which two techniques make a prompt with mixed instructions, context and user input easier for Claude to parse unambiguously? Choose two.
+E. Using random capitalization for emphasis
+B. Writing everything as one long paragraph
+C. Placing the role and stable rules in the system prompt
+D. Putting the user input inside the instructions without delimiters
+A. XML tags around each part, such as instructions, documents and input
+[THINK]
+The answers are C and E. Tags separate the parts clearly, and the system prompt holds the role and stable rules.
+
+Question 23.
+Topic: cd-prompt
+An agent's context fills with verbose test logs from every run, and quality drops after a few hours. Which approach keeps the main context focused?
+A. Raise max tokens, so the logs and the answers both fit
+B. Use a larger model
+C. Delegate test runs to a subagent
+D. Enable caching for the logs, so repeated log output costs less
+[THINK]
+The answer is C. The subagent's context absorbs the noise, and only the summary enters the main conversation.
+
+Question 24.
+Topic: cd-prompt
+A team uses context editing to clear old tool results in a long agent session, but notices that cache costs went up. What adjustment helps?
+A. Disable caching
+C. Clear one tool result at every turn, so the context shrinks smoothly and predictably
+B. Clear in larger chunks, less often
+D. Keep all tool results forever, and disable the cache instead
+[THINK]
+The answer is C. Clearing changes the prefix and invalidates the cache, so clear in larger chunks less often.
+
+Question 25.
+Topic: cd-prompt
+Users ask a policy assistant about topics the policies don't cover, and it answers confidently anyway. What's the best fix?
+A. Raise the temperature
+B. Instruct it to answer only from the policies, with a predefined not-found response when they don't cover the question, and test that response
+C. Use a larger model
+D. Remove the policies from the prompt, and let the model answer from its general knowledge of such policies
+[THINK]
+The answer is B. Explicit permission and a defined way to say "not covered" prevent confident guessing.
+
+Question 26.
+Topic: cd-tools
+A team exposes twelve separate tools for one service: create issue, update issue, close issue, and so on. Claude often picks the wrong one. What does the guidance recommend?
+A. Consolidate them into fewer tools with an action parameter
+B. Add twelve more tools for edge cases
+C. Remove all descriptions to save tokens, and rely on the names, which are already clear
+D. Force tool choice to any
+[THINK]
+The answer is A. Fewer, more capable tools reduce selection ambiguity.
+
+Question 27.
+Topic: cd-tools
+A database tool returns the full record, with eighty fields and internal codes, for every query. The agent's context grows quickly and it misreads codes. Which two changes help? Choose two.
+A. Return only the needed fields
+E. Disable the tool's input schema, so the agent can pass any query it needs
+C. Return the records as images
+D. Increase the context window
+B. Use meaningful, stable identifiers
+[THINK]
+The answers are A and E. Shaped, meaningful responses save context and reduce errors.
+
+Question 28.
+Topic: cd-tools
+When should a capability be built as an MCP server rather than as a custom tool defined in one application's API requests?
+A. When only one script will ever use it
+B. When it must be reusable across hosts and agents
+C. When it's a procedure of instructions with no external access, shared by the whole team
+D. When it duplicates a built-in tool, to have more control over its behavior
+[THINK]
+The answer is B. MCP is the standard for reusable integrations across hosts. Procedures without external access are skills.
+
+Question 29.
+Topic: cd-tools
+A team configures a project MCP server for everyone in the repository. Each developer must use their own API token. How should they configure it?
+A. Put a shared token directly in dot mcp dot json, and make the repository private
+D. Put the token in CLAUDE dot M D
+C. Email the token to the team
+B. Reference an environment variable in dot mcp dot json
+[THINK]
+The answer is D. Environment variable expansion keeps secrets out of committed files.
+
+Question 30.
+Topic: cd-tools
+A tool's input schema is complex, with nested objects and format-sensitive fields, and Claude's calls often fail validation. Which two changes help most? Choose two.
+D. Force tool choice to none
+B. Enable strict tool use so inputs always match the schema
+C. Remove the description to shorten the definition
+A. Add input examples that show valid calls
+E. Accept any input and ignore validation errors
+[THINK]
+The answers are B and D. Examples show correct usage, and strict mode guarantees schema-valid inputs.
+
+That's the end of part one.

@@ -1,0 +1,47 @@
+Claude Certified Developer, Foundations. Episode eight. Tools: the loop, the definitions, and the errors.
+
+Tools are how Claude acts on the world, and they appear in several domains: API mechanics, tools and MCP, agents, and security. This episode covers the tool use loop, how to write tool definitions, tool choice, parallel calls, errors, response shaping, and server tools.
+
+The loop. You send a request with a tools list. Each tool has a name, a description, and an input schema in JSON Schema. Claude decides to call a tool: the response has stop reason tool use, and one or more tool use blocks, each with an I D, the tool name, and the input. Your code runs the tool. Then you send a new request with the full history: the assistant's response, unchanged, followed by a user message containing a tool result block for each tool use, with the matching tool use I D and the content. Claude continues, maybe calling more tools, until it stops with end turn.
+
+The formatting rules are strict, and they're an exam favorite. The tool results go in the user message that immediately follows the assistant's tool use. Put the tool result blocks first in that message. Don't put text before them. A classic four hundred error: an application puts a text block saying "here are the results" before the tool result blocks. When Claude made several tool calls in parallel, return all the results in that same single user message, not in separate messages. And every tool use I D needs its result.
+
+The SDKs include a tool runner that does this loop for you, and the Agent SDK runs the whole agent loop.
+
+Client tools and server tools. Client tools run in your application: your own functions, plus Anthropic-defined tools like bash, the text editor, memory and computer use, whose schemas Anthropic defines but you execute. Server tools run on Anthropic's side: web search, web fetch, code execution, tool search, and the MCP connector. You see their results directly, and they may be billed per use, like per search. When a server tool loop hits its iteration limit, you get stop reason pause turn, and you continue by sending the assistant content back.
+
+Now writing definitions, which is where most tool problems start.
+
+The description is by far the most important factor. The docs ask for at least three or four sentences per tool, covering what the tool does, when to use it and when not to, what each parameter means, and its limitations, such as what it doesn't return. Write it like documentation for a new colleague.
+
+The official sample question: an agent misuses a tool described only as "Looks up an order". It passes customer emails, order numbers in the wrong format, or invoice I Ds. The fix: a description that says exactly which identifier the tool expects, its format, with an example, plus a structured error message, when the input is wrong, that states the expected format so Claude can correct itself. Another classic: two tools with vague, overlapping descriptions, search customers and search orders, and Claude confuses them. The fix is to rewrite both descriptions to state clearly what each is for and when to use it; not removing a tool, not merging them, not adding keyword routing in code.
+
+More guidance. Name tools clearly and namespace them by service when you have many, like github list pull requests, slack send message. Consolidate closely related operations into one tool with an action parameter, rather than ten tiny tools. For complex inputs, add input examples to the definition. Use strict true to guarantee that inputs match the schema. Make tools hard to misuse, a principle the docs call poka-yoke, mistake-proofing: for example, require absolute file paths, so the tool works whatever the current directory is.
+
+Tool choice. Auto, the default when tools are present: Claude decides whether to call a tool. Any: Claude must call one of the tools, but chooses which. Tool: Claude must call one specific named tool. None: no tools. With any or tool, the response starts directly with the tool call, with no text before it and no thinking. Exam trap: if every response must be a call to one specific extraction tool, set tool choice to that tool; any still lets Claude pick the wrong tool, and prompting is probabilistic. But on some of the newest models, forced tool choice, any or tool, returns a four hundred; there, use auto with strict tools, or structured outputs, to guarantee the format.
+
+Parallel tool use. Claude can call several independent tools at once in one response. It's faster. If your application can't handle that, set disable parallel tool use in tool choice. If you want more parallelism, say so in the prompt.
+
+Errors. When a tool fails, don't crash the loop and don't hide the error. Return a tool result with is error set to true and a useful message: what went wrong, and what to do instead. "Invalid date format, expected year dash month dash day, for example twenty twenty-six dash zero one dash thirty-one" lets Claude retry correctly. A bare "error" doesn't. Distinguish errors that are worth retrying, like a timeout, from errors that aren't, like permission denied, and say so in the message. And set limits: a maximum number of retries or iterations, so an agent can't loop forever on a failing tool.
+
+Shaping responses. Return only what Claude needs to decide its next step. Use meaningful, stable identifiers, like slugs or I Ds that other tools accept, rather than internal codes. Paginate or truncate large results, and say so. A tool returning fifty kilobytes of JSON with every field wastes context and attention.
+
+The tool-use overhead. Tool definitions are sent on every request, and the API adds a short system prompt when tools are present. Many tools mean many tokens and worse selection; past thirty to fifty tools, selection accuracy drops. Tool search with deferred loading solves it: only a search tool and your most-used tools are loaded up front, and Claude finds the others when needed.
+
+Finally, structured outputs through tools. Before JSON outputs existed, a common pattern was a fake tool whose input schema is the structure you want, forced with tool choice. Today, JSON outputs in output config are the direct way to get structured responses; strict tools are for actual function calls.
+
+Quick check.
+Where do tool results go, and what's not allowed before them?
+[THINK]
+In the user message right after the assistant's tool use, as tool result blocks first. No text before them.
+Claude made three parallel tool calls. How many user messages carry the results?
+[THINK]
+One. All three tool results go in the same user message.
+Every response must call one specific tool. Which tool choice?
+[THINK]
+Tool, with that tool's name. Any could pick a different tool. On models that reject forced tool choice, use auto with strict tools or structured outputs.
+A tool fails because of a bad input format. What should the tool result contain?
+[THINK]
+Is error true, and a message that states the expected format, ideally with an example.
+
+In the next episode: the Model Context Protocol.

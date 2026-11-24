@@ -20,6 +20,7 @@ The site is organised in **packs**, one per subject. Each pack has its own lesso
 | TOGAF Foundation (`content/togaf-foundation`) | `/lessons` | `/drill` |
 | EventStorming (`content/eventstorming`) | `/eventstorming/lessons` | `/eventstorming/drill` |
 | Java SE 25, 1Z0-831 (`content/ocp-java25`) | `/java/lessons` | `/java/drill` |
+| Claude Certified Developer, CCDV-F (`content/claude-dev`) | `/claude-dev/lessons` | `/claude-dev/drill` |
 
 `/` is the home page and lists the packs. The TOGAF pack:
 - `/lessons` has 13 audio episodes: 8 lessons, 2 practice exams, a recap podcast, commonly confused pairs and a 30-minute story of one full ADM cycle. They play in order and the page remembers where you stopped.
@@ -65,10 +66,12 @@ public/                           what Vercel serves (committed, no build step o
   drill.html, lessons.html        TOGAF pack pages (generated)
   eventstorming/*.html            EventStorming pack pages (generated; assets via ../ relative paths)
   java/*.html                     Java SE 25 pack pages (generated)
+  claude-dev/*.html               Claude Certified Developer pack pages (generated)
   buttons.html                    media-button test page (hand-written)
   audio/lessons/ep1..13.mp3       TOGAF lesson audio (64 kbps mono)
   audio/lessons/eventstorming/    EventStorming lesson audio
   audio/lessons/java/             Java SE 25 lesson audio
+  audio/lessons/claude-dev/       Claude Certified Developer lesson audio
   audio/drill/<pack>/*.mp3        drill speech clips (voice mode q/e, buttons mode s/o/confirm)
   audio/test/quiet.mp3            near-silent loop that keeps the button test the active media player
 app/template.html                 drill UI + state machine (matcher, questions and clip URLs injected)
@@ -95,6 +98,7 @@ tests/smoke_touch.py              drill: touch mode is silent (no clip played or
 tests/smoke_exam.py               mock exam: no feedback, timer, results, CSV/JSON/summary, review, time-up, history
 tests/smoke_eventstorming.py      EventStorming drill: concepts, graded scenarios, readiness check, separate saved results
 tests/smoke_java.py               Java drill: spoken concept set, code mock forced to touch, code blocks, choose-two, mode restored
+tests/smoke_claude.py             Claude Developer drill: spoken scenario set, silent mock with choose-two, results summary
 tests/smoke_site.py               site: home, both packs' lessons players and drills, cross-links, audio files, button test
 ```
 
@@ -107,7 +111,7 @@ a workshop. The material is an independent summary in our own words, not the boo
   is, preparing the room and invitations, running a Big Picture, facilitation patterns and
   anti-patterns, finding bounded contexts, Process Modeling and its color grammar, Design-Level and
   aggregates, how it maps to DDD / CQRS / event sourcing, and remote workshops. Each lesson ends with
-  a short spoken quiz with pauses. The example session (episodes 12–14, about 45 minutes) acts out an
+  a short spoken quiz with pauses. The example session (episodes 12–14, about 40 minutes) acts out an
   in-person Big Picture for a fictional energy-community company, with a facilitator, five participants
   and two hosts who describe the wall and pause the action to explain each facilitation move.
 - `/eventstorming/drill`: 30 concept questions with feedback, 12 facilitation scenarios graded
@@ -131,6 +135,26 @@ them runs in touch mode and then restores the chosen mode. Each one has a `Check
 `python3 tools/verify_java.py content/ocp-java25` compiles and runs it with JDK 25 (`apt install
 openjdk-25-jdk-headless`) to confirm the expected output, compile error, exception, or which option snippets compile.
 
+### Claude Certified Developer pack
+
+For Claude Certified Developer: Foundations (CCDV-F), following the exam guide v1.1 in force from
+7 December 2026: 70 scenario questions (60 scored) in 120 minutes, pass at 720 scaled. Weights:
+Agents & Workflows 17%, Applications & Integration 20%, Claude Code 8%, Eval/Testing/Debugging 10%,
+Model Selection 12%, Prompt & Context 15%, Security 8%, Tools & MCP 10%.
+
+- `/claude-dev/lessons`: 14 episodes: the exam and the platform map; the Messages API, stop reasons and
+  errors; streaming, batches, vision, files and citations; models, tokens, thinking and effort; prompt
+  caching and cost; prompt engineering and structured output; context engineering for long sessions;
+  tools; MCP; agents and workflows (Agent SDK, Managed Agents, hooks); Claude Code; security; evaluation,
+  testing and debugging; and a two-host recap with a rapid-fire round.
+- `/claude-dev/drill`: two sets of 25 spoken scenario questions, and two mock exams of 60 questions
+  (120 min, practice pass mark 44/60 ≈ 72% as a stand-in for the scaled 720) with "choose two" questions.
+  The mock source files are listed in `silentSources` in `pack.json`, so they're touch only and get no clips.
+
+Facts were checked against the Claude Platform, Claude Code and MCP documentation in November 2026;
+the platform changes quickly, so re-check details such as model names, prices and beta headers before
+relying on them.
+
 ## Adding a pack
 
 1. `content/<pack>/pack.json`: page texts, URL `base` (`""` = site root, used by TOGAF only), storage
@@ -149,7 +173,7 @@ openjdk-25-jdk-headless`) to confirm the expected output, compile error, excepti
 python3 tools/parse.py content/togaf-foundation       # only if source/*.txt changed
 python3 tools/gen_clips.py content/togaf-foundation models --only-missing   # after adding questions (see script header)
 python3 tools/build.py                                 # all packs (or name pack folders)
-node tests/test_matcher.js && for t in tap voice buttons touch part2 eventstorming java exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
+node tests/test_matcher.js && for t in tap voice buttons touch part2 eventstorming java claude exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
 ```
 
 ## Deploy (Vercel)

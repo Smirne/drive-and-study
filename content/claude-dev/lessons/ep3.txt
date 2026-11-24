@@ -1,0 +1,60 @@
+Claude Certified Developer, Foundations. Episode three. Streaming, batches, vision, files and citations.
+
+This episode is about how requests travel: in real time with streaming, in bulk with batches, and with rich inputs like images and documents, including citations that point back to the source.
+
+Streaming. Set stream to true, and the response arrives as server-sent events. Know the order of the events.
+First, message start, which carries a message with empty content.
+Then, for each content block: content block start, a series of content block deltas, and content block stop. Each block has an index matching its position in the final content list.
+Then one or more message delta events, which carry the top-level changes: the stop reason and the cumulative usage.
+Finally, message stop.
+Ping events can appear anywhere, and new event types may be added, so your code must ignore events it doesn't recognize.
+
+The deltas have types. Text deltas carry text. Input JSON deltas carry fragments of a tool's input, as partial JSON strings. Thinking deltas carry thinking, and a signature delta closes a thinking block.
+
+Here's the official sample question in this area. A chat application shows answers cut off mid-sentence. The handler treats the first content block stop event as the end of the response, and never reads the stop reason. The fix: the end of the message is the message stop event, and the stop reason arrives in message delta; check it, so a max tokens truncation is detected and flagged. Content block stop only ends one block, and a response can have several blocks: text, then a tool call, for example.
+
+For tool calls, you accumulate the partial JSON strings of a block and parse them only at its content block stop, because fragments aren't valid JSON on their own. The SDK helpers do this for you.
+
+Errors can happen in the middle of a stream, after the HTTP status was already two hundred. They arrive as an error event, for example an overloaded error. So a streaming client needs error handling inside the stream, not just on the status code. To recover, keep what you received, and on current models send a new request with a user message that contains the partial answer and asks Claude to continue. Partial tool calls and thinking blocks can't be resumed; you resume from text.
+
+Why stream? Two reasons. The user sees the answer as it's produced, which improves perceived latency. And long generations avoid HTTP timeouts: requests that may run more than about ten minutes should stream. The SDKs offer helpers to print text as it arrives, or to collect the final message from a stream without handling the events yourself.
+
+Batches. The Message Batches API processes large volumes of independent requests asynchronously, at fifty percent of the standard price. A batch holds up to one hundred thousand requests, or two hundred and fifty-six megabytes. Most batches finish in less than an hour, but the guarantee is twenty-four hours: requests not processed in time expire. Results stay available for twenty-nine days.
+
+Each request in a batch has a custom I D that you choose. Results come back as a JSON lines file, and their order is not guaranteed: always match results to requests by custom I D, never by position. Each result is succeeded, errored, canceled, or expired, and only succeeded requests are billed. One failing request doesn't affect the others.
+
+Batches support most features: tools, vision, thinking, system prompts, multi-turn conversations, and prompt caching. For batches that share a large context, use the one-hour cache duration, because requests in a batch may be processed far apart in time. What batches don't support: streaming, and anything where someone is waiting.
+
+The exam's typical choice: a nightly backfill of four hundred thousand product descriptions, nobody waiting, cost matters: batches. A user in an editor waiting for a regeneration: real-time requests, with streaming. Mixed workloads use both. And never choose batches when the scenario says latency in seconds.
+
+Vision. Images go in image content blocks, from base64 data, a URL, or a file I D from the Files API. Supported formats are JPEG, PNG, GIF and WebP. Cost scales with pixels: roughly, each twenty-eight by twenty-eight pixel patch is one token. Large images are downscaled automatically: on most models the long edge is limited to about one thousand five hundred and sixty-eight pixels; newer models have a high-resolution tier up to about two thousand five hundred pixels, which also costs more tokens.
+
+So, a classic scenario: an application reads meter photos at twelve megapixels, and it's slow and expensive. A test shows that one-megapixel images give the same accuracy. The fix: downscale on the client before sending. Changing from base64 to a URL doesn't change the token cost; it only changes how the image travels.
+
+Best practices for images: put the image before the text that asks about it, label multiple images, image one, image two, and keep text in images legible. Limitations: counting and precise coordinates are approximate, very small or rotated images cause mistakes, and Claude won't identify people from their faces.
+
+The Files API. Upload a file once, get a file I D, and reference it in later requests instead of sending the bytes every time. That's useful for large PDFs or images used in several requests, and for documents used across batch requests. Files belong to a workspace.
+
+Documents and PDFs. A document content block can carry plain text, a PDF, or custom content made of separate text blocks. PDFs are processed both as text and as page images, so charts and tables are visible to Claude. A request can include up to six hundred images or PDF pages on current models.
+
+Citations. Turn on citations on a document block, and Claude's answer comes back with text blocks that carry citations: the exact cited text and its location. For plain text, character positions. For PDFs, page numbers. For custom content, block indexes. Why use the feature instead of asking for quotes in the prompt? Three reasons: the citations are guaranteed to point to real passages of the provided documents, the cited text doesn't count as output tokens, and the quality of the chosen quotes is better.
+
+One incompatibility to remember: citations can't be combined with structured outputs in the same request; the API returns a four hundred. Citations need free text interleaved with citation blocks, which conflicts with a strict JSON schema.
+
+Grounding is the bigger idea. When answers must come only from your documents, combine citations with instructions to answer only from the provided documents, and to say clearly when the answer isn't there. A defined "not found" answer is far better than a confident guess.
+
+Quick check.
+In a stream, which event carries the stop reason?
+[THINK]
+Message delta. Message stop marks the end of the message.
+Batch results come back in a different order from the requests. How do you match them?
+[THINK]
+By the custom I D of each request.
+A user is waiting for an answer in a few seconds. Batch or real time?
+[THINK]
+Real time, ideally with streaming. Batches can take up to twenty-four hours.
+Can you enable citations and a JSON schema output format in the same request?
+[THINK]
+No. The API returns a four hundred.
+
+In the next episode: models, tokens, thinking and effort.

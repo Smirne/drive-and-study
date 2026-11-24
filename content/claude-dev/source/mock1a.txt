@@ -1,0 +1,309 @@
+Mock exam one, part one.
+
+Question 1.
+Topic: cd-apps
+A support assistant streams its answers. Users report that long answers sometimes end mid-sentence, with no error shown. Logs show the client treats the first content block stop event as the end of the response. What should the team change?
+A. Lower the temperature so answers become shorter and fit in one block
+B. End at message stop, and check the stop reason in message delta
+C. Disable streaming and wait for the full response in one call, keeping the current completion logic
+D. Add a stop sequence at the end of the system prompt
+[THINK]
+The answer is B. Content block stop ends one block only. The message ends at message stop, and the stop reason in message delta reveals truncation. Option C hides the symptom and still ignores the stop reason.
+
+Question 2.
+Topic: cd-apps
+An application sends sixty independent summarization requests one after another, and the page takes minutes to load. A developer proposes sending all sixty at once with no limit. A user is waiting for the page. What should the team do?
+A. Send all sixty at once and ignore rate limit errors
+B. Move the requests to the Message Batches API, which halves the cost and handles volume
+C. Send them with bounded concurrency and backoff on rate limits
+D. Combine all sixty documents into one request with a larger max tokens
+[THINK]
+The answer is C. Unbounded parallelism triggers four twenty-nine errors. Batches can take hours, which doesn't fit a waiting user.
+
+Question 3.
+Topic: cd-apps
+A team stores an invoicing prompt in a database table that product managers edit directly. The model is referenced through an alias that moves to newer snapshots. Output quality changed twice this month without any deploy. Which two changes address the root causes? Choose two.
+A. Pin the model I D, changing it only after a passing evaluation
+B. Keep the alias so fixes arrive automatically, but restrict who can edit the database table
+C. Version-control the prompt, with a regression evaluation before release
+D. Lower the temperature to zero for all invoicing requests, so the output is fully deterministic
+E. Add a disclaimer to every generated invoice
+[THINK]
+The answers are A and C. A moving alias and untracked prompt edits are both sources of silent drift. Restricting editors leaves the alias problem, and temperature doesn't address either cause.
+
+Question 4.
+Topic: cd-apps
+After Claude requests two tools in one response, the application sends a user message containing a text block that says "Here are the results", followed by two tool result blocks. The API returns a four hundred error. What's the fix?
+A. Send each tool result in its own separate user message, keeping the explanatory text in the first
+B. Set tool choice to none for the follow-up request
+C. Mark both tool results with is error set to true
+D. Put the tool result blocks first in that user message, with no text before them, each with its matching tool use I D
+[THINK]
+The answer is D. Tool results must come first in the user message that follows the tool use, all together. Separate messages or error flags don't fix the ordering problem.
+
+Question 5.
+Topic: cd-apps
+A document analysis feature fails with a four hundred error, "prompt is too long", on very large PDFs. The team plans to raise max tokens. What's the correct response?
+A. Raise max tokens to the model's maximum output, so the analysis has room for long documents
+B. Count input tokens, then split or trim the document
+C. Retry the same request with exponential backoff, since large documents often time out on the first try
+D. Switch to streaming to avoid the limit
+[THINK]
+The answer is B. Max tokens limits output, not input. A four hundred isn't fixed by retrying, and streaming doesn't change the input size.
+
+Question 6.
+Topic: cd-apps
+A company processes four hundred thousand catalog items overnight, and also lets editors regenerate single descriptions interactively during the day. What's the best combination?
+A. Batches overnight, and streamed real-time requests for editors
+B. Real-time requests for both, with unlimited parallelism
+C. The Message Batches API for both workloads
+D. Streaming for the overnight job, to avoid timeouts, and batches for the editors, to cut the cost of their many regenerations
+[THINK]
+The answer is A. Batches give half price for work nobody waits for. Editors waiting for a result need real-time responses, ideally streamed.
+
+Question 7.
+Topic: cd-apps
+A meter-reading feature sends twelve-megapixel photos and is slow and expensive. A test showed that one-megapixel versions give the same accuracy. What should the team do?
+A. Send the images by URL instead of base64 to reduce tokens
+B. Switch to a larger model to process images faster
+C. Downscale the images on the client before sending them
+D. Convert the photos to PDF documents, which are processed more efficiently than raw images
+[THINK]
+The answer is C. Image token cost and latency scale with pixels. A URL only changes how the image travels, not its token cost.
+
+Question 8.
+Topic: cd-apps
+A web front end calls the Claude API directly from the browser with the company's API key, and requests are rejected with a CORS error. What's the right change?
+A. Add the browser's domain to an allow list in the API key settings, so the CORS check passes for that site
+B. Use an admin key, which is allowed from browsers
+C. Move the key to a cookie
+D. Have the browser call your back end, which holds the key
+[THINK]
+The answer is D. Keys must never reach the client. The back end authenticates the user, applies limits and holds the key.
+
+Question 9.
+Topic: cd-apps
+A batch of ten thousand requests finishes. The team reads the results file and writes each result to the database row at the same position as the request. Some rows now contain the wrong summaries. Why?
+A. Batch results aren't guaranteed to come back in request order, so each result must be matched to its request by custom I D
+B. Batches use a different, cheaper model than real-time requests, which produces different summaries
+C. Results expire after one hour
+D. The batch should have used streaming
+[THINK]
+The answer is A. Each request carries a custom I D, and results must be matched with it, not by position.
+
+Question 10.
+Topic: cd-apps
+A team wants to reuse the same set of large reference PDFs across hundreds of requests over the week without uploading the bytes every time. What should they use?
+A. Prefill the assistant turn with the documents
+B. Put the documents in the system prompt as base64 every time, and cache the system prompt for the week
+C. Upload them once with the Files API, and use the file I D
+D. Convert the documents to images, and send them by URL so no bytes are uploaded each time
+[THINK]
+The answer is C. The Files API stores a file once, and requests reference it by I D. Prefill isn't supported on current models.
+
+Question 11.
+Topic: cd-apps
+Which two statuses should an API client retry automatically with exponential backoff? Choose two.
+A. Four hundred, invalid request
+B. Four twenty-nine, rate limit
+C. Four oh one, authentication
+D. Five twenty-nine, overloaded
+E. Four thirteen, request too large
+[THINK]
+The answers are B and D. Rate limits and overload are transient. The others require changing the request, the key, or the size.
+
+Question 12.
+Topic: cd-apps
+A legal assistant must answer only from the provided contracts, and every claim must point to the exact clause it came from. The team also wants the answer as strict JSON. What should they know?
+A. Citations and JSON schema output can be combined freely
+B. Citations and a JSON schema output can't be used in the same request
+C. JSON schema output already includes the source page numbers for every field, so citations aren't needed
+D. Citations only work with images
+[THINK]
+The answer is B. The API returns a four hundred if citations and a JSON schema output format are used together.
+
+Question 13.
+Topic: cd-model
+An insurance company uses the most capable model to extract twelve fields from claim forms. An evaluation on five hundred real forms shows the fastest model matches its accuracy. Responses must arrive within a few seconds, and nine thousand tokens of instructions are the same in every request. Which two changes reduce cost while meeting the requirements? Choose two.
+E. Remove the instructions and rely on the model's defaults
+B. Cache the shared nine thousand token instructions
+C. Move extraction to the Message Batches API
+D. Enable maximum effort on the most capable model
+A. Route extraction to the fastest model, keeping the evaluation as a regression gate
+[THINK]
+The answers are B and E. The evaluation justifies the cheaper model, and caching cuts the repeated prefix. Batches can take hours, which breaks the latency requirement.
+
+Question 14.
+Topic: cd-model
+A thinking model writing long reports frequently stops with the max tokens stop reason, even though the visible text is short. Why?
+A. The system prompt is too long
+D. The model doesn't support long reports
+C. Max tokens applies to the input as well, and the report prompts are long
+B. Thinking tokens count toward max tokens on this model, even when the thinking isn't returned or displayed
+[THINK]
+The answer is D. Max tokens caps thinking and text together. Raise it, or lower the effort.
+
+Question 15.
+Topic: cd-model
+A team caches a long system prompt plus a document set. Their only cache breakpoint is placed after the user's question at the end of the request. Usage shows cache creation tokens on every call, and almost no cache reads. What should they do?
+A. Switch to the one-hour cache lifetime, because the five-minute cache expires too quickly
+B. Remove the documents from the prompt, and let the model answer from the system prompt alone
+C. Put breakpoints on the stable blocks, before the question
+D. Lower the effort level
+[THINK]
+The answer is C. A breakpoint after content that changes every request makes every prefix unique. The lifetime isn't the problem here.
+
+Question 16.
+Topic: cd-model
+A report generator calls the API every twenty minutes with the same forty thousand token prefix. Cache writes appear on every call, never reads. What's the most likely fix?
+A. Use the one-hour cache lifetime
+B. Add more cache breakpoints inside the prefix, so smaller parts of it can be reused
+C. Place the documents after the question
+D. Switch to a model with a larger context window
+[THINK]
+The answer is A. The default cache lives five minutes, so it has expired by the next call.
+
+Question 17.
+Topic: cd-model
+The top model is accurate enough but its output is too slow for a live drafting feature. The faster model failed the accuracy evaluation. What's the best option?
+A. Use the faster model anyway, and add more examples to close the accuracy gap
+B. Enable maximum effort on the top model
+C. Use the top model's fast mode, at a higher price
+D. Move the feature to batches
+[THINK]
+The answer is C. A fast mode keeps the same model, so accuracy holds, with faster output at a premium. The cheaper model already failed the evaluation.
+
+Question 18.
+Topic: cd-model
+Which statement about the effort parameter is correct?
+A. It's a strict token budget that the model never exceeds, replacing max tokens for thinking
+B. It affects only the visible text, not tool calls
+C. It's set inside the thinking parameter as budget tokens
+D. It shapes thinking, tool calls and text in the response
+[THINK]
+The answer is D. Effort is a behavioral signal set in output config, affecting thinking, tool calls and text. It isn't a strict budget.
+
+Question 19.
+Topic: cd-model
+A team wants to know whether lowering effort from high to medium on their agent is safe. What should they do?
+A. Run their evaluation suite at both levels, and compare
+B. Lower it and wait for user complaints
+C. Keep high, because higher effort always gives better answers, whatever the task
+D. Ask the model which level it prefers
+[THINK]
+The answer is A. An effort sweep on your own evaluations finds the lowest level that meets your quality bar.
+
+Question 20.
+Topic: cd-prompt
+A support bot must answer only from a forty thousand token policy manual. The rule "answer only from the manual" sits in the middle of the documents, and the bot sometimes answers from general knowledge. What should the team do?
+A. Lower the temperature to zero
+D. Switch to a model with a larger context window, so the whole manual gets more attention
+C. Add twenty examples of correct answers
+B. Put the rule in the system prompt, place the manual first, and restate the rule right next to the question at the end
+[THINK]
+The answer is D. Instructions buried mid-context get weak attention. Documents first, instructions and question last.
+
+Question 21.
+Topic: cd-prompt
+An agent has run for four hours on a migration. It's slow, expensive, and has started to contradict decisions it made early in the session. Which two measures address this? Choose two.
+A. Clear stale tool results that are no longer needed
+D. Switch to a model with a larger context window
+C. Enable prompt caching, so the context that the model sees gets smaller
+B. Compact the history into a summary that keeps the decisions
+E. Raise the temperature to encourage fresh thinking
+[THINK]
+The answers are A and D. Pruning and compaction reduce and focus the context. Caching changes cost, not size, and a bigger window doesn't restore attention.
+
+Question 22.
+Topic: cd-prompt
+An inventory system consumes Claude's JSON output automatically. Occasionally a response is cut off and the parser crashes. The request already uses a JSON schema output format. What's the best approach?
+A. Retry the same request automatically until parsing succeeds, then pass the result on
+B. Switch to plain text output
+D. Remove the schema, and ask for JSON in the prompt with an example of the expected object
+C. Check the stop reason, validate, and handle failures before processing
+[THINK]
+The answer is D. Structured outputs can still be incomplete when the response hits max tokens, or broken by a refusal. Defensive parsing handles that.
+
+Question 23.
+Topic: cd-prompt
+A team migrates to a current model and their prompt ends with a partial assistant message containing an opening brace, to force JSON. Requests now fail with a four hundred error. What should they do?
+A. Use a JSON schema output format instead
+B. Move the opening brace into the system prompt, where prefill is still allowed
+C. Add the opening brace to the user message
+D. Downgrade to an older model permanently
+[THINK]
+The answer is A. Prefilling the final assistant turn is rejected on current models. Structured outputs give a stronger guarantee anyway.
+
+Question 24.
+Topic: cd-prompt
+A research assistant must never invent facts about the uploaded reports. Which two techniques reduce hallucination most directly? Choose two.
+C. Raise the temperature for more varied answers
+B. Have it extract quotes first, then answer from them
+A. Give it a defined not-found answer
+D. Remove the reports and rely on the model's knowledge, which is broader than any single report
+E. Ask for longer answers with more detail
+[THINK]
+The answers are B and C. Permission to say "not found" and grounding in extracted quotes both reduce unsupported claims.
+
+Question 25.
+Topic: cd-prompt
+Asked "can you suggest improvements to this function?", an agent with editing tools only lists suggestions. The team wants it to apply the changes. What's the best fix?
+A. Raise the effort to maximum, so the agent explores the editing tools more thoroughly
+B. Ask for the action directly: "change this function"
+C. Add "CRITICAL: you MUST edit files" in capital letters at the top of the system prompt
+D. Remove the editing tools
+[THINK]
+The answer is B. Current models follow instructions literally. Ask for the action. Shouting in capitals tends to cause overreaction on current models.
+
+Question 26.
+Topic: cd-tools
+An agent misuses a tool described only as "Looks up an order". It sometimes passes customer emails or invoice numbers. What's the most effective fix?
+A. Rename the tool to get order
+B. Remove the tool, and let the agent ask the user to look up the order manually instead
+C. Add a retry loop that tries different inputs
+D. Describe exactly which identifier the tool expects, with its format and an example, and return a structured error naming the expected format
+[THINK]
+The answer is D. Detailed descriptions are the main factor in correct tool use, and a clear error lets the model recover.
+
+Question 27.
+Topic: cd-tools
+A claims service must return every response as a call to its extract claim tool. With tool choice on auto, some responses are plain text. The model in use supports forced tool use. What's the most reliable fix?
+A. Force the extract claim tool
+B. Set tool choice to any
+C. Add "always use the extract claim tool" to the system prompt
+D. Retry whenever the response is text
+[THINK]
+The answer is A. Forcing the specific tool guarantees the call. Any still allows another tool, and prompting or retries are probabilistic.
+
+Question 28.
+Topic: cd-tools
+A team builds one MCP server for its ticket system, to be used from developers' laptops in Claude Code and from a cloud-hosted agent. Which two design choices fit? Choose two.
+A. Tickets as resources, creation as a tool
+B. Use the stdio transport so every client shares one process
+C. Expose everything as prompts
+D. A remote Streamable HTTP server with authentication
+E. Hard-code an API token in the shared configuration file
+[THINK]
+The answers are A and D. Resources provide data, tools perform actions. A shared server for many clients must be remote; stdio is a local process per host. Secrets don't belong in shared files.
+
+Question 29.
+Topic: cd-tools
+An agent connected to six MCP servers has around two hundred tools. Each request carries tens of thousands of tokens of tool definitions, and the agent often picks the wrong tool. What should the team do?
+A. Shorten every description to one line
+B. Enable tool search with deferred loading
+C. Force tool choice to any, so the agent must always pick one of the two hundred tools
+D. Move the agent to a model with a larger context window, so all definitions fit comfortably
+[THINK]
+The answer is B. Tool search loads only the tools needed for the request, reducing tokens and improving selection. Short descriptions make selection worse.
+
+Question 30.
+Topic: cd-tools
+A file tool sometimes fails because the agent changes directory and then passes relative paths. Which tool design change prevents the mistake?
+A. Require absolute file paths in the tool's input schema
+B. Add a sentence to the prompt asking for care with paths
+C. Retry failed calls three times
+D. Remove the change directory command
+[THINK]
+The answer is A. Designing the tool so the mistake can't happen, sometimes called poka-yoke, is more reliable than asking the model to be careful.
+
+That's the end of part one.

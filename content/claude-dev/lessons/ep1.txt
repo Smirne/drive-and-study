@@ -1,0 +1,51 @@
+Claude Certified Developer, Foundations. Episode one. The exam, and a map of the Claude platform.
+
+Welcome. This series prepares you for the Claude Certified Developer Foundations exam, and it's built to be heard: no code to read, just the decisions and the rules behind them. This first episode covers the exam itself, how its questions work, and a map of the platform that the rest of the series fills in.
+
+Start with the exam. Version one point one of the exam guide takes effect on December seventh, twenty twenty-six. It has seventy questions in one hundred and twenty minutes. Sixty are scored and ten are unscored trial questions, and you can't tell which ones. Every question is a multiple choice scenario, and each one tells you how many answers to pick: one, or two. The score is scaled from one hundred to one thousand, and you pass at seven hundred and twenty. You get a pass or fail, your scaled score, and a percentage per domain, but only the total decides the result. There are no prerequisites. The certification is valid for twelve months, and renewal is a free, unproctored assessment before it expires.
+
+Before that date, version one point zero had fifty-three questions in the same time, with a heavy weight on applications and integration. If you sit the exam after December seventh, study for the new weights.
+
+There are eight domains. Applications and integration, twenty percent. Agents and workflows, seventeen. Prompt and context engineering, fifteen. Model selection and optimization, twelve. Evaluation, testing and debugging, ten. Tools and MCP, ten. Claude Code, eight. Security and safety, eight. Notice how balanced it is: no domain dominates, so you can't skip any.
+
+Now the style of the questions, because it shapes how you study. Every question describes a production situation with a constraint: a cost target, a latency limit, a compliance boundary, a failure seen in a trace. The wrong options are almost never nonsense. They're real techniques, applied in the wrong place. Batch processing is a real cost saver, but not when a user is waiting. A bigger model is a real fix for some failures, but not for a prompt that hides the key instruction in the middle of forty thousand tokens. So the skill being tested is matching the technique to the symptom. When you read a question, find the constraint first, then ask which option addresses the cause, not the symptom.
+
+Another pattern: deterministic beats probabilistic when something must always happen. If a rule must never be broken, an instruction in a prompt or in a CLAUDE dot M D file is not enough, because the model can still ignore it. A hook, a permission rule, a schema, or code outside the model is the answer. Expect that idea in several domains.
+
+Now the map. There are several ways to build with Claude, and the exam expects you to choose between them.
+
+The Messages API is the foundation. You send a list of messages and get a response. Everything else is built on it: tool use, streaming, vision, thinking, caching, structured output. The client SDKs, in Python, TypeScript and other languages, wrap this API, add typed errors and automatic retries, and include helpers like a tool runner. If you call the API directly, you write the agent loop yourself.
+
+The Message Batches API processes large volumes asynchronously at half price, with results within twenty-four hours.
+
+The Claude Agent SDK is Claude Code as a library, in Python or TypeScript. It gives you the same agent loop, built-in tools for files, shell and web, context management, hooks, subagents, permissions, sessions, skills and MCP. It runs in your own process. Use it when you want an agent without writing the loop yourself.
+
+Claude Managed Agents is a hosted REST service. Anthropic runs the agent loop and the sandbox, keeps the session history and the files, and streams events to you. It's meant for long-running or asynchronous work, when you don't want to operate your own sandbox. The sandbox can also be self-hosted, for compliance or data residency.
+
+Claude Code is the coding agent you use in the terminal, the IDE, the desktop app or the web. It's configured with CLAUDE dot M D files, settings files, permissions, hooks, skills, subagents, plugins and MCP servers. It can also run headless, with dash p, in scripts and CI.
+
+And MCP, the Model Context Protocol, is the open standard for connecting tools and data to any of these hosts.
+
+A quick decision guide. Calling the model for a single task, or wanting full control of the loop: the Messages API. Thousands of independent requests where nobody waits: batches. An agent in your own application, with files and shell, without writing the loop: the Agent SDK. Long-running agents without your own infrastructure: Managed Agents. Interactive development, or scripted coding tasks in CI: Claude Code. A reusable integration with an external system, shared across hosts: an MCP server.
+
+Next, the models. At the time of writing, the current lineup is Claude Fable five point two, Opus five point five, Sonnet five point five, and Haiku five point five. Fable is for the most demanding reasoning and long-horizon agentic work, and it's the most expensive. Opus is the recommended starting point for most workloads. Sonnet is the balance of speed and intelligence. Haiku is the fastest and cheapest, for high-volume, latency-sensitive tasks like classification, extraction and routing. All of them have a one million token context window, up to one hundred and twenty-eight thousand output tokens, vision, tool use, and adaptive thinking. Exact prices change, so focus on the ratios: each step down the ladder is much cheaper, and Haiku is dramatically cheaper than the rest.
+
+Model I Ds matter for the exam's configuration questions. From the four point six generation on, a model I D without a date, like claude dash opus dash five dash five, is a pinned snapshot. Anthropic never changes the weights behind an I D; a new version gets a new I D. Older models had dated snapshots, plus convenience aliases that moved to the newest snapshot. The lesson for production: pin the model I D, and move to a new model only after your evaluation passes.
+
+Finally, how to study with this series. Each episode ends with a quick check. Pause and answer out loud before you hear the answer. Then use the drill: two sets of spoken scenario questions, and two full mock exams in the style of the real one. And build something small: a tool-using agent with structured output, prompt caching, a small evaluation set and a hook. The exam guide itself recommends exactly that.
+
+Quick check.
+How many questions does the version one point one exam have, and how many are scored?
+[THINK]
+Seventy questions, sixty scored, in one hundred and twenty minutes.
+A rule must never be broken by an agent. Is a sentence in the system prompt enough?
+[THINK]
+No. Prompts are probabilistic. Use a deterministic control: a hook, a permission rule, a schema, or code.
+You need an agent with file and shell tools inside your own application, without writing the loop. What do you use?
+[THINK]
+The Claude Agent SDK.
+Does the model behind a dateless I D like claude dash opus dash five dash five change over time?
+[THINK]
+No. It's a pinned snapshot. New versions ship under new I Ds.
+
+In the next episode: the Messages API in detail.
