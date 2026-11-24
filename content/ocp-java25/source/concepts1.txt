@@ -1,0 +1,253 @@
+Java 25 concepts, set one. Language basics, dates, control flow, classes and exceptions.
+
+Question 1.
+Topic: java-basics
+What does Math dot round return for minus two point five?
+A. Minus three, because it always rounds halves away from zero
+B. Minus two, because it adds one half and takes the floor
+C. Minus two point five, unchanged, as a double
+D. It throws an ArithmeticException for negative halves
+[THINK]
+The answer is B. Math dot round adds one half and takes the floor, so minus two point five becomes minus two, while positive two point five becomes three.
+
+Question 2.
+Topic: java-basics
+A byte variable b holds ten. Which statement compiles without a cast?
+A. A plain assignment of b plus five
+B. Multiplying b by one and assigning it back
+C. The compound form, b plus equals five
+D. Unary plus, b equals plus b
+[THINK]
+The answer is C. Compound assignment includes an implicit cast back to the variable's type. The other forms produce an int, which can't be assigned to a byte without a cast.
+
+Question 3.
+Topic: java-basics
+Two Integer variables are both assigned the literal one hundred twenty-seven by autoboxing. What does comparing them with double equals give?
+A. Always false, because they are different objects
+B. A compile error, because double equals isn't allowed on wrappers
+C. A NullPointerException, because unboxing happens first
+D. True, because small Integer values are cached
+[THINK]
+The answer is D. Integer dot valueOf caches small values, so both variables point to the same object. With one hundred twenty-eight, the comparison would normally be false.
+
+Question 4.
+Topic: java-basics
+A String variable s holds "java". The code calls s dot toUpperCase without assigning the result, then prints s. What is printed?
+A. java, in lower case
+B. JAVA, in upper case
+C. Nothing, because the call fails to compile
+D. Java, with only the first letter capitalized
+[THINK]
+The answer is A. Strings are immutable. toUpperCase returns a new String, and since the result isn't assigned, s is unchanged.
+
+Question 5.
+Topic: java-basics
+Which statement about text blocks is correct?
+A. They keep every leading space exactly as typed in the source
+B. Incidental indentation is removed, based on the least indented line, including the closing delimiter
+C. They can start on the same line as the opening three quotes, like a normal string literal
+D. They always end with a line break, whatever you do
+[THINK]
+The answer is B. The opening delimiter must be followed by a line break, and the common incidental indentation is stripped. Placing the closing delimiter on the last content line avoids the final line break.
+
+Question 6.
+Topic: java-time
+What does Period dot ofYears one, followed by dot ofDays two, produce?
+A. A period with both the years and the days
+B. A compile error, because the methods can't be chained
+C. A period with only the days from ofDays
+D. A period where the years are converted into days
+[THINK]
+The answer is C. ofDays is a static method. Calling it on the result of ofYears ignores that result, so only the last call counts: P two D.
+
+Question 7.
+Topic: java-time
+What happens when you call plusHours on a LocalDate?
+A. It doesn't compile, because LocalDate has no plusHours method
+B. It compiles, and adds the hours as a fraction of a day
+C. It compiles, and throws UnsupportedTemporalTypeException at runtime
+D. It compiles, and returns the same date unchanged
+[THINK]
+The answer is A. LocalDate has no time part, so it has no plusHours method. Using plus with a time-based unit or Duration compiles, but throws UnsupportedTemporalTypeException at runtime.
+
+Question 8.
+Topic: java-time
+In a DateTimeFormatter pattern, what does a lowercase m mean?
+A. Month of the year
+B. Minute of the hour
+C. Millisecond of the second
+D. The morning or afternoon marker
+[THINK]
+The answer is B. Uppercase M is the month, lowercase m is the minute. Uppercase H is the hour on a twenty-four hour clock, lowercase h on a twelve hour clock.
+
+Question 9.
+Topic: java-time
+Clocks in a time zone jump forward one hour at two in the morning. You create a ZonedDateTime for half past two that day. What do you get?
+A. A DateTimeException, because the local time doesn't exist
+B. An hour earlier, because the time is moved back
+C. The same local time, with the winter offset
+D. An hour later, with the summer offset
+[THINK]
+The answer is D. During a gap, the local time is moved forward by the length of the gap, so half past two becomes half past three with the summer offset.
+
+Question 10.
+Topic: java-flow
+A switch expression on an int value has cases for one and two, and no default. What happens?
+A. It compiles, and yields zero for other values
+B. It compiles, and throws an exception at runtime for any other values
+C. It doesn't compile, because a switch expression must be exhaustive
+D. It compiles only if the value is final
+[THINK]
+The answer is C. A switch expression must produce a value for every input. For an int, that requires a default. A switch statement on an int doesn't have that requirement.
+
+Question 11.
+Topic: java-flow
+In a switch expression, an arrow branch has a block body. How does the block produce its value?
+A. With the return keyword
+B. With the yield keyword
+C. With the break keyword followed by the value
+D. With the last expression in the block, without a keyword
+[THINK]
+The answer is B. Inside a block in a switch expression, yield gives the value. return would try to return from the enclosing method, which isn't allowed there.
+
+Question 12.
+Topic: java-flow
+A pattern switch has case CharSequence c first, and case String s second. What happens?
+A. It compiles, and strings always go to the String case
+B. It compiles, but the String case is never reached, with a warning only
+C. It throws a ClassCastException when a String arrives
+D. It doesn't compile, because the String case is dominated
+[THINK]
+The answer is D. Every String is a CharSequence, so the first case already matches everything the second would. A dominated case label is a compile error. Put the more specific case first.
+
+Question 13.
+Topic: java-flow
+A pattern switch receives a null selector and has no case null. What happens?
+A. It throws a NullPointerException
+B. It runs the default branch
+C. It skips the switch entirely
+D. It doesn't compile, because a case null is mandatory
+[THINK]
+The answer is A. A switch without a case null throws NullPointerException on a null selector, even with a default. Add case null, or case null comma default, to handle it.
+
+Question 14.
+Topic: java-flow
+Where can the pattern variable s be used after the test "if not obj instanceof String s, return"?
+A. Nowhere, because the test is negated
+B. Only inside the if block
+C. After the if statement, for the rest of the block
+D. Only in an else branch attached to that if statement
+[THINK]
+The answer is C. If the if statement returns when the test fails, the compiler knows that the test succeeded afterwards, so s is in scope after the if.
+
+Question 15.
+Topic: java-oop
+A parent class only has a constructor that takes a String. Its child class declares no constructor at all. What happens?
+A. The child inherits the String constructor automatically
+B. It doesn't compile: the default constructor calls super with no arguments
+C. The code compiles, and the String parameter is null
+D. The code compiles, but fails at runtime as soon as a child object is created
+[THINK]
+The answer is B. Constructors aren't inherited. The compiler-generated default constructor calls super with no arguments, which doesn't exist in the parent.
+
+Question 16.
+Topic: java-oop
+Java 25 allows statements before the call to super in a constructor. What can these statements do?
+A. Call instance methods of the object being built
+B. Read instance fields of the object to compute the arguments for super
+C. Return early from the constructor
+D. Validate arguments, and assign fields that have no initializer
+[THINK]
+The answer is D. In the constructor prologue, you can't use this, read fields, call instance methods or return. You can compute and validate arguments, call static methods, and assign uninitialized fields.
+
+Question 17.
+Topic: java-oop
+A class has an overload taking a long and another taking an Integer. You call it with an int. Which one runs?
+A. The long version, because widening beats autoboxing
+B. The Integer version, because boxing gives an exact type
+C. Neither, because the call is ambiguous
+D. The one declared first in the class
+[THINK]
+The answer is A. Overload resolution prefers an exact match, then widening, then boxing, then varargs. Widening an int to a long comes before boxing.
+
+Question 18.
+Topic: java-oop
+A parent reference points to a child object. Both classes declare a field called name and an instance method called describe. Which are used?
+A. The child's field and the child's method
+B. The parent's field and the parent's method
+C. The parent's field and the child's method
+D. The child's field and the parent's method
+[THINK]
+The answer is C. Fields are hidden, not overridden, so the reference type decides. Instance methods are overridden, so the runtime type of the object decides.
+
+Question 19.
+Topic: java-oop
+A class implements two interfaces that both declare a default method with the same signature. What must happen?
+A. The first interface listed wins automatically
+B. The class must override the method, or it doesn't compile
+C. The method from the interface declared more recently is used
+D. The call throws an exception at runtime
+[THINK]
+The answer is B. The compiler can't choose, so the class must override the method. Inside, it can call one of them with the interface name, dot super, dot the method.
+
+Question 20.
+Topic: java-types
+In a record's compact canonical constructor, what can you assign?
+A. The fields directly, using this dot the field name, like in a class
+B. Nothing at all, because records are immutable
+C. Only static fields of the record
+D. The constructor parameters, which are then copied into the fields
+[THINK]
+The answer is D. A compact constructor works on the parameters. The fields are final and assigned automatically at the end, so assigning this dot x doesn't compile.
+
+Question 21.
+Topic: java-types
+A class directly extends a sealed class and is listed in its permits clause. Which modifier must it have?
+A. One of final, sealed or non-sealed
+B. abstract, so it can't be instantiated
+C. None, because the permits clause is enough
+D. static, because permitted classes must be nested
+[THINK]
+The answer is A. Each permitted subclass must say how the hierarchy continues: final stops it, sealed restricts it again, non-sealed reopens it. Records and enums are implicitly final.
+
+Question 22.
+Topic: java-types
+A compact source file declares a main method with a String array parameter and another main with no parameters. Which one does the launcher run?
+A. The one with no parameters, because it's simpler
+B. Neither, because the file doesn't compile
+C. The one with the String array parameter
+D. The one declared first in the file
+[THINK]
+The answer is C. The launcher looks for a main with a String array first, and only uses the no-parameter one when that doesn't exist.
+
+Question 23.
+Topic: java-exceptions
+Does a multi-catch of FileNotFoundException and IOException compile?
+A. Yes, and FileNotFoundException is handled first
+B. Yes, but only with a separate finally block
+C. Only if IOException is listed first in the multi-catch
+D. No, because the two types are related by inheritance
+[THINK]
+The answer is D. Types in a multi-catch can't be subclasses of each other, because one would already cover the other.
+
+Question 24.
+Topic: java-exceptions
+In a try-with-resources statement, the try block throws an exception, and then the resource's close method also throws. What reaches the caller?
+A. The exception from close, which replaces the first one
+B. The one from the try block, with the close exception suppressed
+C. Both exceptions, chained as cause and effect
+D. Only an Error, because two exceptions can't be in flight at once
+[THINK]
+The answer is B. In try-with-resources, the primary exception is the one from the try block. Exceptions thrown while closing are added to it as suppressed.
+
+Question 25.
+Topic: java-exceptions
+Both the try block and the finally block contain a return statement. Which value does the method return?
+A. The value from finally
+B. The value from try
+C. The method doesn't compile
+D. It depends on whether an exception was thrown
+[THINK]
+The answer is A. finally runs after the try's return value is computed, and its own return replaces it. Any exception from the try block would also be discarded.
+
+That's the end of set one.

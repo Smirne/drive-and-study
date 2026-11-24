@@ -1,0 +1,49 @@
+Java 25 Developer Professional. Episode four. Control flow, switch, and pattern matching.
+
+This episode covers loops and branches quickly, then spends most of its time on switch and pattern matching, which have changed the most in recent versions, and which the exam tests heavily.
+
+Loops first. The basic for loop has three parts, all optional; an empty condition means loop forever. Variables declared in the for header are scoped to the loop. The enhanced for loop works on arrays and on anything Iterable, but not on a Map directly; you iterate over its keySet, values, or entrySet. A while loop may run zero times; a do-while loop always runs at least once, and it needs a semicolon after the closing condition.
+
+break exits the innermost loop or switch; continue skips to the next iteration. With a label, break or continue applies to the labeled loop instead, which is how you exit nested loops. Watch for unreachable code: a statement right after break, continue, return or throw, in the same block, doesn't compile. So does code after an infinite loop with no break, such as while true without a break.
+
+Now the switch. There are two forms of switch, and two styles of case labels, which gives four combinations.
+
+A switch statement is used for its side effects. A switch expression produces a value, so it can be assigned or returned, and it ends with a semicolon when used in an assignment.
+
+The old colon style falls through: after a matching case, execution continues into the next cases until a break. The new arrow style doesn't fall through: only the matching branch runs. You can't mix the two styles in the same switch.
+
+In a switch expression, every possible value must produce a result: the switch must be exhaustive. For an int or a String, that means you need a default. For an enum, you can cover all constants instead. For a sealed hierarchy, covering all permitted subtypes is enough. An arrow branch can be a single expression, a block, or a throw. In a block, the value is returned with the keyword yield, not return. In a colon-style switch expression, you also use yield.
+
+Case labels can list several constants separated by commas. Constants must be compile-time constants of a compatible type, and duplicates don't compile.
+
+What types can you switch on? Traditionally, int and smaller integer types, their wrappers, char, String and enums. Not long, float, double or boolean as plain constant switches. With pattern matching, you can switch on any reference type.
+
+Now pattern matching. It started with instanceof. Instead of testing a type and then casting, you write: object instanceof String s. If the test succeeds, s is a String variable, already cast. The pattern variable is in scope only where the compiler knows the test succeeded. So in "if obj instanceof String s and s dot length greater than three", the second part can use s, because of short-circuit and. With or, it can't. And in a negated test, like "if not obj instanceof String s, return", s is in scope after the if statement.
+
+A trap: if the expression's static type can never be the pattern's type, it doesn't compile. For example an Integer can't be tested against a String pattern. Also, since Java 21, instanceof with a pattern is allowed even when the test is always true.
+
+Pattern matching for switch takes this further. Case labels can be type patterns, such as case String s, or case Integer i. A guard adds a condition with the keyword when: case String s when s dot isEmpty. Order matters. A case is dominated if an earlier case already matches everything it would match, and a dominated case doesn't compile. So case CharSequence before case String is an error, and an unguarded case String before a guarded case String is also an error. The guarded one should come first. The default label must come after the patterns it would otherwise dominate.
+
+null deserves attention. A traditional switch on a null reference throws NullPointerException. A pattern switch does too, unless it has an explicit case null. You can combine it, as in case null, default.
+
+Record patterns go one step further: they deconstruct a record. If Point is a record with x and y, then case Point open bracket int x, int y close bracket binds the two components directly. Record patterns can be nested, and you can use var for a component's type. They also work with instanceof.
+
+Exhaustiveness with patterns: a switch over a sealed interface, whose permitted subtypes are all records, is exhaustive if it covers each subtype, so it needs no default. That's a powerful design: if someone later adds a new subtype, every switch that doesn't handle it stops compiling.
+
+Finally, unnamed variables and patterns, final since Java 22. The underscore character can replace a variable you don't need: in a catch clause, a lambda parameter, a for loop variable, a try-with-resources resource, or a pattern. For example, case Point open bracket int x, underscore close bracket matches any point and ignores y. Or case Circle underscore, when you only care about the type. Note that an underscore can't be read: it's not a variable you can use later. And you can have several underscores in the same scope.
+
+Quick check.
+In a switch expression with a block body on an arrow branch, which keyword returns the value?
+[THINK]
+yield.
+Does a switch expression over an int with cases one and two, and no default, compile?
+[THINK]
+No. A switch expression must be exhaustive, so it needs a default.
+Which order is correct: case String s, then case CharSequence c, or the reverse?
+[THINK]
+String first, then CharSequence. The reverse makes the String case dominated, which doesn't compile.
+What does a pattern switch do when the selector is null and there's no case null?
+[THINK]
+It throws a NullPointerException.
+
+In the next episode: classes, constructors, inheritance and interfaces.

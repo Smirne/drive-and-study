@@ -1,0 +1,47 @@
+Java 25 Developer Professional. Episode five. Classes, constructors, inheritance and interfaces.
+
+Object-oriented questions are the largest group on most Java exams. This episode covers the mechanics: initialization order, constructors including the new flexible bodies, overloading and overriding, and interfaces.
+
+Start with access modifiers. Private means the class itself. Package access, with no keyword, means the same package. Protected means the same package plus subclasses, with a twist: in a different package, a subclass can access a protected member only through a reference of its own type or a subtype, not through a reference to the parent. Public means everyone, subject to module exports.
+
+Initialization order is a guaranteed exam question. When a class is first used, its static initialization runs once: static fields and static initializer blocks, in the order they appear. If the class has a parent, the parent's static initialization runs first. Then, every time you create an object: the constructor starts, the parent constructor runs first, all the way up to Object; then the instance fields and instance initializer blocks of the current class run, in order of appearance; then the rest of the constructor body. So the expected print order is: parent static, child static, parent instance initializers, parent constructor, child instance initializers, child constructor.
+
+Constructors. If you write no constructor, the compiler adds a default no-argument constructor. As soon as you write any constructor, it doesn't. Every constructor calls a parent constructor, explicitly with super, or implicitly with super and no arguments. If the parent has no no-argument constructor, a child constructor that doesn't call super explicitly fails to compile. That's a very common trap: the child class looks innocent, but the parent only has a constructor with a parameter.
+
+A constructor can call another constructor of the same class with this, followed by arguments. Calling this and super in the same constructor isn't allowed, and constructors calling each other in a cycle don't compile.
+
+Now flexible constructor bodies, final in Java 25. Statements may appear before the call to super or this. This part is the prologue. In the prologue you can validate or compute arguments, call static methods, and assign fields of this class that have no initializer. You can't read instance fields, call instance methods, use this explicitly or implicitly, or return. If there's no explicit super or this call, the whole body is the epilogue, as before. The typical use is validating an argument before passing it to the parent, instead of doing it in a static helper.
+
+Final fields must be assigned exactly once: at declaration, in an initializer block, or in every constructor. A final field never assigned, or assigned twice, doesn't compile. Static final fields must be assigned at declaration or in a static block.
+
+Overloading means same method name, different parameter lists. The return type alone isn't enough. When the compiler chooses an overload, it prefers an exact match, then a widening primitive conversion, then autoboxing, then varargs, in that order. So with overloads for long and for Integer, passing an int calls the long version: widening wins over boxing.
+
+Overriding means a subclass provides its own implementation of an inherited instance method with the same signature. The rules: the access can't be more restrictive; the return type must be the same or a subtype, called covariant; the method can't throw new or broader checked exceptions, though it can throw fewer or none, and any unchecked exceptions. You can't override a final method. A private method isn't inherited, so a method with the same name in the child is a new method, not an override. The Override annotation makes the compiler check that you really are overriding.
+
+Static methods aren't overridden; they're hidden. If parent and child both have a static method with the same signature, the version called depends on the reference type, not the object. An instance method can't hide a static one, or the reverse; that's a compile error. Fields are also hidden, never overridden: accessing a field uses the reference type. Only instance methods use the object's runtime type. This contrast is a classic: a parent reference to a child object, printing a field and calling a method, shows the parent's field but the child's method.
+
+Abstract classes can't be instantiated, can have constructors, fields and concrete methods, and may have abstract methods, which have no body. The first concrete subclass must implement all inherited abstract methods. An abstract method can't be private, final or static.
+
+Interfaces. Interface methods are implicitly public and abstract, unless they're default, static or private. Fields are implicitly public, static and final, so they're constants. A default method provides an implementation that implementing classes inherit. If a class inherits two default methods with the same signature from two interfaces, it must override it, or it doesn't compile. Inside the override, you can call a specific version with the interface name, dot super, dot the method. Static interface methods aren't inherited by implementing classes: you call them with the interface name. Private interface methods are helpers for default and static methods.
+
+A class can extend one class and implement many interfaces. An interface can extend many interfaces. If a class inherits a method from its superclass and a default with the same signature from an interface, the class method wins.
+
+Casting objects: a cast to a type that can't possibly be related, like an unrelated final class, doesn't compile. A cast that compiles but is wrong at runtime throws ClassCastException. Upcasting to a parent type is implicit; downcasting needs an explicit cast, and is best preceded by an instanceof check with a pattern.
+
+Finally, a few words about Object methods. equals and hashCode must be consistent: equal objects must have equal hash codes. Overriding equals with a parameter of your own type, instead of Object, is an overload, not an override, a classic trap with HashSet behavior.
+
+Quick check.
+The parent class only has a constructor that takes a String. The child declares no constructor. Does it compile?
+[THINK]
+No. The default constructor calls super with no arguments, which doesn't exist.
+A parent reference points to a child object. Both declare a field called name and a method getName. Which field and method are used?
+[THINK]
+The parent's field, because fields use the reference type, and the child's method, because instance methods use the runtime type.
+With overloads for long and for Integer, which one does an int argument call?
+[THINK]
+The long version. Widening is preferred to autoboxing.
+In a constructor prologue, can you assign a field of the class?
+[THINK]
+Yes, if the field has no initializer. You can't read fields or call instance methods there.
+
+In the next episode: records, sealed types, enums, nested classes, and compact source files.

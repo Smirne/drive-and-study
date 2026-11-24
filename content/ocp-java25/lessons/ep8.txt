@@ -1,0 +1,43 @@
+Java 25 Developer Professional. Episode eight. Arrays, collections, and generics.
+
+Collections questions test which methods exist, what they return, and which ones throw at runtime. This episode covers arrays, the main collection interfaces, sequenced collections, sorting, and generics with wildcards.
+
+Arrays first. An array has a fixed length, available as the length field, without parentheses. Elements get default values: zero for numbers, false for booleans, null for references. Indexes run from zero to length minus one. In a declaration, the size goes on the right, never on the left: int brackets numbers equals new int, brackets five. When you use an initializer list, like new int brackets, braces one two three, you can't also give a size. Multi-dimensional arrays are arrays of arrays, so the inner ones can have different lengths.
+
+Arrays are covariant: a String array can be assigned to an Object array variable. But storing an Integer into it at runtime throws ArrayStoreException, because the real array is still a String array.
+
+The Arrays class has static helpers. sort sorts in place, in natural order. binarySearch only works on a sorted array; if the element is found it returns the index, otherwise it returns minus the insertion point, minus one. So searching for a value that would go at index two returns minus three. Arrays dot equals compares content, while calling equals on the array itself compares references. Arrays dot compare compares lexicographically and returns a negative, zero or positive number, and mismatch returns the first index where two arrays differ, or minus one if they're equal. Arrays dot asList returns a fixed-size list backed by the array: you can set elements, which also changes the array, but adding or removing throws UnsupportedOperationException.
+
+Now the collections. List keeps order and allows duplicates; ArrayList is the usual implementation, LinkedList also implements Deque. Set has no duplicates: HashSet has no defined order, LinkedHashSet keeps insertion order, TreeSet keeps elements sorted. Queue and Deque add operations at the ends: offer, poll and peek return special values like null or false instead of throwing, while add, remove and element throw when they fail. ArrayDeque is the usual Deque, and it doesn't accept null. Map associates keys with values: HashMap, LinkedHashMap, and the sorted TreeMap. Map isn't a Collection.
+
+List has a trap with remove: on a list of integers, remove of an int argument removes by index, while remove of an Integer object removes by value.
+
+Immutable and unmodifiable collections. List dot of, Set dot of, and Map dot of create unmodifiable collections. Any attempt to add, remove or set throws UnsupportedOperationException. They don't accept null elements: a null throws NullPointerException. Set dot of and Map dot of with duplicate elements or keys throw IllegalArgumentException. List dot copyOf makes an unmodifiable copy. Collections dot unmodifiableList, instead, returns a read-only view: you can't change it through the view, but changes to the original list show through. And Stream dot toList also returns an unmodifiable list.
+
+Useful Map methods: getOrDefault, putIfAbsent, which only puts when the key is absent or mapped to null, merge, compute, computeIfAbsent, and computeIfPresent. In merge, if the remapping function returns null, the key is removed. TreeMap and TreeSet don't accept null keys with natural ordering.
+
+Sequenced collections, added in Java 21. The interface SequencedCollection is implemented by List, Deque, LinkedHashSet and the sorted sets. It adds getFirst, getLast, addFirst, addLast, removeFirst, removeLast, and reversed, which returns a reversed view, not a copy. SequencedMap, implemented by LinkedHashMap and the sorted maps, adds firstEntry, lastEntry, pollFirstEntry, pollLastEntry, putFirst, putLast, and reversed. HashSet and HashMap aren't sequenced, because they have no defined order. On a sorted set, addFirst and addLast throw UnsupportedOperationException, because the sort order decides the position. On an empty list, getFirst throws NoSuchElementException.
+
+Sorting. Comparable defines the natural order with compareTo, and it's implemented by String, the wrappers, and the date classes. String natural order puts digits before uppercase letters, and uppercase before lowercase. Comparator defines an external order with compare. You build comparators with Comparator dot comparing, a key extractor, then thenComparing for ties, reversed for the opposite order, and nullsFirst or nullsLast. Be careful with reversed in a chain: it reverses everything built so far. Collections dot sort and List dot sort sort in place; a TreeSet or TreeMap needs either Comparable elements or a Comparator, otherwise adding the elements throws ClassCastException.
+
+Generics. Generic types give compile-time type safety. The diamond operator lets the compiler infer the type arguments on the right side. Generic information is erased at runtime, which explains several restrictions: you can't create an instance of a type parameter with new, can't create a generic array directly, can't use instanceof with a parameterized type like List of String, and can't overload two methods whose parameters differ only by type argument, like List of String and List of Integer, because after erasure they're identical. A static member can't use the class's type parameter.
+
+A List of Integer isn't a List of Number, even though Integer is a Number. That's what wildcards solve. Question mark extends Number is an upper bound: you can read elements as Number, but you can't add anything except null, because the real list might be of Integer or of Double. Question mark super Integer is a lower bound: you can add Integers, and reading gives you only Object. The memory aid is PECS: producer extends, consumer super. An unbounded wildcard, just a question mark, means any type, read-only in practice.
+
+A generic method declares its type parameter before the return type, like static, angle bracket T, angle bracket, T first, open parenthesis, List of T.
+
+Quick check.
+What does Arrays dot binarySearch return when the value isn't found and would be inserted at index two?
+[THINK]
+Minus three: minus the insertion point, minus one.
+What happens when you call add on a list returned by List dot of?
+[THINK]
+UnsupportedOperationException.
+Which of these is a SequencedCollection: HashSet, LinkedHashSet, or both?
+[THINK]
+Only LinkedHashSet. HashSet has no defined order.
+Can you add an Integer to a List of question mark extends Number?
+[THINK]
+No. With an upper bounded wildcard you can only add null.
+
+In the next episode: lambdas and streams.

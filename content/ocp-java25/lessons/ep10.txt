@@ -1,0 +1,41 @@
+Java 25 Developer Professional. Episode ten. Concurrency, virtual threads, and scoped values.
+
+Concurrency questions often have output that's not guaranteed, and the right answer is that the result can't be predicted. This episode covers threads, executors, thread safety, concurrent collections, virtual threads and scoped values.
+
+Threads. You create a thread from a Runnable and call start, which runs the task on a new thread. Calling run instead just executes the method on the current thread, a classic trap. Calling start twice on the same thread throws IllegalThreadStateException. A thread can be a daemon; the JVM exits when only daemon threads are left. join waits for a thread to finish, and sleep pauses the current thread; both throw the checked InterruptedException.
+
+Since Java 21, the Thread class offers builders: Thread dot ofPlatform and Thread dot ofVirtual, each with start, unstarted, and factory methods. Thread dot startVirtualThread starts a virtual thread directly.
+
+Executors. Instead of managing threads, you submit tasks to an ExecutorService. execute takes a Runnable and returns nothing. submit takes a Runnable or a Callable and returns a Future. Future dot get blocks until the result is ready. If the task threw an exception, get throws ExecutionException, a checked exception, with the original as its cause. invokeAll runs a collection of Callables and returns a list of Futures; invokeAny returns the result of one that completed successfully.
+
+Factory methods in Executors: newSingleThreadExecutor, newFixedThreadPool, newCachedThreadPool, newScheduledThreadPool, and newVirtualThreadPerTaskExecutor. A scheduled executor has schedule, to run once after a delay; scheduleAtFixedRate, which starts executions at a fixed period; and scheduleWithFixedDelay, which waits a fixed delay after each execution ends.
+
+Shutting down. shutdown stops accepting new tasks but lets submitted ones finish; it doesn't wait. shutdownNow tries to interrupt running tasks and returns the ones never started. awaitTermination waits, up to a timeout. Submitting after shutdown throws RejectedExecutionException. Since Java 19, ExecutorService is AutoCloseable: close shuts down and waits for all tasks to finish, which makes try-with-resources the simplest pattern. An executor that's never shut down can keep the program from exiting.
+
+Thread safety. A race condition happens when threads read and write shared data without coordination. count plus plus isn't atomic, even on a volatile variable: volatile guarantees visibility, not atomicity. Fixes include the atomic classes, like AtomicInteger with incrementAndGet and getAndIncrement; synchronized methods or blocks, which lock on an object's monitor, and for a static synchronized method, on the class object; and the Lock interface. With a ReentrantLock, you call lock, then unlock in a finally block. tryLock returns immediately with a boolean, or waits up to a timeout. Unlocking a lock you don't hold throws IllegalMonitorStateException. A reentrant lock acquired twice must be released twice.
+
+Liveness problems: deadlock, where threads wait for each other forever; starvation, where a thread never gets access to a resource; and livelock, where threads keep reacting to each other without making progress.
+
+CyclicBarrier makes a set of threads wait for each other at a common point, and can run an action when the last one arrives. CountDownLatch lets threads wait until a count reaches zero; it can't be reset.
+
+Concurrent collections. Modifying an ArrayList while iterating over it with an enhanced for loop throws ConcurrentModificationException, even in a single thread. ConcurrentHashMap allows safe concurrent access, and doesn't accept null keys or values. CopyOnWriteArrayList copies the array on every write, so its iterators see a snapshot and never throw. ConcurrentLinkedQueue, ConcurrentSkipListMap and ConcurrentSkipListSet, the sorted ones, and blocking queues like LinkedBlockingQueue, with put and take, complete the picture. Collections dot synchronizedList wraps a list, but iterating over it still requires manual synchronization.
+
+Virtual threads, final since Java 21. They're lightweight threads managed by the JVM and mounted on a small pool of platform threads, called carriers. When a virtual thread blocks on input-output, it unmounts and frees its carrier. They're ideal for many tasks that spend most of their time waiting, and they don't make CPU-bound code faster. Rules to remember: virtual threads are always daemon threads, and calling setDaemon false throws IllegalArgumentException. Their priority is always normal, and setPriority has no effect. Don't pool virtual threads; create one per task, typically with newVirtualThreadPerTaskExecutor.
+
+Scoped values, final in Java 25. A ScopedValue shares an immutable value with the code called within a bounded scope, as a safer, cheaper alternative to ThreadLocal, especially with many virtual threads. You create one with ScopedValue dot newInstance, usually as a static final field. Then ScopedValue dot where, with the scoped value and a value, followed by run, with a Runnable, or call, with an operation that returns a result. Inside that scope, and in any method it calls, get returns the bound value. Outside, the value is unbound: get throws NoSuchElementException, isBound returns false, and orElse returns a fallback. There's no set method: a binding can't be changed, but a nested where can rebind it for an inner scope; when the inner scope ends, the outer value is visible again. So binding x, then rebinding y in a nested call, and reading before, inside, and after, gives x, y, x.
+
+Quick check.
+What happens if you call run instead of start on a Thread?
+[THINK]
+The task runs on the current thread; no new thread is started.
+Is count plus plus on a volatile int thread safe?
+[THINK]
+No. volatile gives visibility, not atomicity. Use an AtomicInteger or a lock.
+What does isDaemon return for a virtual thread?
+[THINK]
+Always true.
+What does get on a scoped value do outside any binding scope?
+[THINK]
+It throws NoSuchElementException.
+
+In the next episode: modules, packaging, and deployment.

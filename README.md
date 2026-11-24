@@ -19,6 +19,7 @@ The site is organised in **packs**, one per subject. Each pack has its own lesso
 |---|---|---|
 | TOGAF Foundation (`content/togaf-foundation`) | `/lessons` | `/drill` |
 | EventStorming (`content/eventstorming`) | `/eventstorming/lessons` | `/eventstorming/drill` |
+| Java SE 25, 1Z0-831 (`content/ocp-java25`) | `/java/lessons` | `/java/drill` |
 
 `/` is the home page and lists the packs. The TOGAF pack:
 - `/lessons` has 13 audio episodes: 8 lessons, 2 practice exams, a recap podcast, commonly confused pairs and a 30-minute story of one full ADM cycle. They play in order and the page remembers where you stopped.
@@ -63,9 +64,11 @@ public/                           what Vercel serves (committed, no build step o
   index.html                      home page (hand-written)
   drill.html, lessons.html        TOGAF pack pages (generated)
   eventstorming/*.html            EventStorming pack pages (generated; assets via ../ relative paths)
+  java/*.html                     Java SE 25 pack pages (generated)
   buttons.html                    media-button test page (hand-written)
   audio/lessons/ep1..13.mp3       TOGAF lesson audio (64 kbps mono)
   audio/lessons/eventstorming/    EventStorming lesson audio
+  audio/lessons/java/             Java SE 25 lesson audio
   audio/drill/<pack>/*.mp3        drill speech clips (voice mode q/e, buttons mode s/o/confirm)
   audio/test/quiet.mp3            near-silent loop that keeps the button test the active media player
 app/template.html                 drill UI + state machine (matcher, questions and clip URLs injected)
@@ -82,6 +85,7 @@ tools/gen_clips.py                questions.json -> public/audio/drill/<pack>/*.
 tools/gen_lesson.py               single-voice lesson script -> wav
 tools/gen_podcast.py              podcast script -> wav (hosts A:/S:, plus a cast F: M: L: T: N: P: for the example session)
 tools/build.py                    templates + every pack -> its drill.html and lessons.html
+tools/verify_java.py              compiles and runs every code question of a Java pack on JDK 25 (Check: lines)
 tests/test_matcher.js             matcher vs every option in the bank (node; must give 0 wrong)
 tests/smoke_tap.py                drill: full session by keyboard, review queue
 tests/smoke_voice.py              drill: voice paths with a fake speech engine
@@ -90,6 +94,7 @@ tests/smoke_part2.py              drill: graded scenarios, per-option points, mo
 tests/smoke_touch.py              drill: touch mode is silent (no clip played or fetched), practice, review, full mock exam
 tests/smoke_exam.py               mock exam: no feedback, timer, results, CSV/JSON/summary, review, time-up, history
 tests/smoke_eventstorming.py      EventStorming drill: concepts, graded scenarios, readiness check, separate saved results
+tests/smoke_java.py               Java drill: spoken concept set, code mock forced to touch, code blocks, choose-two, mode restored
 tests/smoke_site.py               site: home, both packs' lessons players and drills, cross-links, audio files, button test
 ```
 
@@ -107,6 +112,24 @@ a workshop. The material is an independent summary in our own words, not the boo
   and two hosts who describe the wall and pause the action to explain each facilitation move.
 - `/eventstorming/drill`: 30 concept questions with feedback, 12 facilitation scenarios graded
   5/3/1/0 with the reasons for every option, and a 20-question readiness check (20 min, target 14).
+
+### Java SE 25 pack
+
+For Oracle Certified Professional: Java SE 25 Developer (exam 1Z0-831: 50 questions, 120 minutes, pass 68%).
+
+- `/java/lessons`: 13 episodes, written to be heard, with no code to read: the exam and what changed up to
+  Java 25; numbers, operators and strings; dates and times; switch and pattern matching; classes,
+  constructors (including flexible constructor bodies) and interfaces; records, sealed types, enums, nested
+  classes and compact source files; exceptions; arrays, collections and generics; lambdas, streams and
+  gatherers; concurrency, virtual threads and scoped values; packages, module import declarations, modules
+  and the JDK tools; I/O, NIO.2, serialization and localization; and a two-host recap with a rapid-fire round.
+- `/java/drill`: two sets of 25 concept questions with no code, voiced for voice and car-button modes, and
+  two mock exams of 50 code questions (120 min, pass 34) with "choose two" questions.
+
+Code questions are **silent**: they're shown with a code block, never read aloud, so a session that contains
+them runs in touch mode and then restores the chosen mode. Each one has a `Check:` line, and
+`python3 tools/verify_java.py content/ocp-java25` compiles and runs it with JDK 25 (`apt install
+openjdk-25-jdk-headless`) to confirm the expected output, compile error, exception, or which option snippets compile.
 
 ## Adding a pack
 
@@ -126,7 +149,7 @@ a workshop. The material is an independent summary in our own words, not the boo
 python3 tools/parse.py content/togaf-foundation       # only if source/*.txt changed
 python3 tools/gen_clips.py content/togaf-foundation models --only-missing   # after adding questions (see script header)
 python3 tools/build.py                                 # all packs (or name pack folders)
-node tests/test_matcher.js && for t in tap voice buttons touch part2 eventstorming exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
+node tests/test_matcher.js && for t in tap voice buttons touch part2 eventstorming java exam site; do python3 tests/smoke_$t.py || break; done   # pip install playwright
 ```
 
 ## Deploy (Vercel)

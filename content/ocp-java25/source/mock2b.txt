@@ -1,0 +1,562 @@
+Mock exam two, part two.
+
+Question 1.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    Deque<Integer> d = new ArrayDeque<>();
+    d.push(1); d.offer(2); d.offerFirst(3); d.addLast(4);
+    IO.println(d.pop() + " " + d.pollLast() + " " + d.peek() + " " + d);
+}
+```
+What is the result?
+A. `3 4 1 [1, 2]`
+B. `1 4 2 [2]`
+C. `3 2 1 [1, 4]`
+D. `4 1 3 [3, 2]`
+Check: output
+[THINK]
+The answer is A. push and offerFirst add at the front, offer and addLast at the end, giving 3, 1, 2, 4. pop removes from the front, pollLast from the end, and peek reads the front without removing it.
+
+Question 2.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    TreeSet<Integer> t = new TreeSet<>(List.of(10, 5, 20, 15));
+    IO.println(t.ceiling(12) + " " + t.lower(10) + " " + t.headSet(15) + " " + t.descendingSet().first());
+}
+```
+What is the result?
+A. `10 5 [5, 10, 15] 20`
+B. `15 10 [5, 10] 5`
+C. `15 5 [5, 10] 20`
+D. `15 5 [5, 10, 15] 20`
+Check: output
+[THINK]
+The answer is C. ceiling returns the smallest element greater than or equal to 12, which is 15. lower returns the greatest element strictly less than 10. headSet excludes its bound by default. The descending set starts with the largest element.
+
+Question 3.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    Map<String, Integer> m = Map.of("a", 1, "b", 2, "a", 3);
+    IO.println(m.get("a"));
+}
+```
+What is the result?
+A. `3`
+B. `1`
+C. An IllegalArgumentException is thrown
+D. An UnsupportedOperationException is thrown
+Check: exception IllegalArgumentException
+[THINK]
+The answer is C. Map.of rejects duplicate keys with an IllegalArgumentException when the map is created. Set.of behaves the same way with duplicate elements.
+
+Question 4.
+Topic: java-collections
+```
+import java.util.*;
+
+void main() {
+    var m = new LinkedHashMap<String, Integer>();
+    m.put("x", 1); m.put("y", 2); m.put("z", 3);
+    m.putFirst("z", 30);
+    m.pollLastEntry();
+    IO.println(m + " " + m.firstEntry().getKey() + " " + m.sequencedKeySet().reversed());
+}
+```
+What is the result?
+A. `{x=1, y=2} x [y, x]`
+B. `{z=30, x=1} z [x, z]`
+C. `{z=30, x=1, y=2} z [y, x, z]`
+D. An UnsupportedOperationException is thrown
+Check: output
+[THINK]
+The answer is B. LinkedHashMap is a SequencedMap. putFirst moves the existing key z to the front with its new value. pollLastEntry removes y, the last entry. sequencedKeySet().reversed() is a reversed view of the keys.
+
+Question 5.
+Topic: java-collections
+```
+import java.util.*;
+
+public class Main {
+    static <T extends Comparable<T>> T max(List<T> list) {
+        T best = list.get(0);
+        for (T t : list) if (t.compareTo(best) > 0) best = t;
+        return best;
+    }
+    public static void main(String[] args) {
+        IO.println(max(List.of("pear", "Apple", "fig")) + " " + max(List.of(3, 11, 7)));
+    }
+}
+```
+What is the result?
+A. `Apple 11`
+B. `pear 7`
+C. `pear 11`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is C. String natural order compares character codes, and lower case letters come after upper case, so pear is the greatest. Integers compare numerically.
+
+Question 6.
+Topic: java-collections
+```
+import java.util.*;
+
+public class Main<T> {
+    /*?*/
+    public static void main(String[] args) {}
+}
+```
+Which two members can replace /*?*/ so that the code compiles? Choose two.
+A. `static T create() { return null; }`
+B. `@SuppressWarnings("unchecked") T[] arr = (T[]) new Object[10];`
+C. `T obj = new T();`
+D. `boolean check(Object o) { return o instanceof List<String>; }`
+E. `<U extends Number> double twice(U u) { return u.doubleValue() * 2; }`
+Check: options
+[THINK]
+The answers are B and E. A cast to T[] compiles, with an unchecked warning. A generic method can declare its own bounded type parameter. A static member can't use the class's type parameter, new T() isn't possible because of erasure, and instanceof with List<String> isn't safe at runtime, so it doesn't compile.
+
+Question 7.
+Topic: java-streams
+```
+import java.util.*;
+import java.util.stream.*;
+
+void main() {
+    var r = Stream.of(List.of(3, 1), List.of(2, 3), List.<Integer>of())
+        .flatMap(List::stream)
+        .distinct()
+        .sorted(Comparator.reverseOrder())
+        .map(String::valueOf)
+        .collect(Collectors.joining("-", "<", ">"));
+    IO.println(r);
+}
+```
+What is the result?
+A. `<3-1-2-3>`
+B. `<1-2-3>`
+C. `3-2-1`
+D. `<3-2-1>`
+Check: output
+[THINK]
+The answer is D. flatMap merges the lists into one stream, the empty list adds nothing, distinct drops the second 3, and the reverse order sorts descending. joining takes a delimiter, a prefix and a suffix.
+
+Question 8.
+Topic: java-streams
+```
+import java.util.*;
+import java.util.stream.*;
+
+void main() {
+    int[] nums = {1, 2, 3};
+    long a = Stream.of(nums).count();
+    long b = Arrays.stream(nums).count();
+    int c = IntStream.of(nums).map(x -> x * x).sum();
+    IO.println(a + " " + b + " " + c);
+}
+```
+What is the result?
+A. `1 3 14`
+B. `3 3 14`
+C. `3 3 6`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is A. Stream.of with an int array creates a stream with a single element, the array itself, because int[] isn't an array of objects. Arrays.stream and IntStream.of produce the three numbers.
+
+Question 9.
+Topic: java-streams
+```
+import java.util.*;
+import java.util.stream.*;
+
+void main() {
+    Map<Integer, String> m = Stream.of("kiwi", "fig", "plum", "pear", "apple")
+        .collect(Collectors.toMap(String::length, s -> s, (x, y) -> x + "|" + y, TreeMap::new));
+    IO.println(m);
+}
+```
+What is the result?
+A. An IllegalStateException is thrown, because of duplicate keys
+B. `{3=fig, 4=kiwi|plum|pear, 5=apple}`
+C. `{3=fig, 4=pear, 5=apple}`
+D. `{3=fig, 4=kiwi, 5=apple}`
+Check: output
+[THINK]
+The answer is B. With a merge function, duplicate keys are combined instead of throwing. The fourth argument chooses the map implementation, here a TreeMap sorted by key.
+
+Question 10.
+Topic: java-streams
+```
+import java.util.stream.*;
+
+void main() {
+    var a = Stream.iterate(1, n -> n * 2).limit(6).takeWhile(n -> n < 10).toList();
+    var b = Stream.of(5, 1, 6, 2).dropWhile(n -> n > 2).toList();
+    IO.println(a + " " + b);
+}
+```
+What is the result?
+A. `[1, 2, 4, 8] [1, 2]`
+B. `[1, 2, 4, 8, 16, 32] [1, 6, 2]`
+C. `[1, 2, 4, 8] [1, 6, 2]`
+D. `[1, 2, 4] [6]`
+Check: output
+[THINK]
+The answer is C. takeWhile stops at the first element that fails, 16. dropWhile drops 5, then keeps everything from 1 on, including 6, even though 6 matches the condition.
+
+Question 11.
+Topic: java-streams
+```
+import java.util.*;
+
+void main() {
+    Optional<String> o = Optional.of("java");
+    String a = o.map(String::length).filter(n -> n > 4).map(n -> "long").orElse("short");
+    String b = Optional.<String>empty().or(() -> Optional.of("alt")).get();
+    String c = Optional.ofNullable((String) null).map(String::trim).orElseGet(() -> "none");
+    IO.println(a + " " + b + " " + c);
+}
+```
+What is the result?
+A. `long alt none`
+B. `short alt none`
+C. `short alt null`
+D. A NoSuchElementException is thrown
+Check: output
+[THINK]
+The answer is B. java has 4 characters, so the filter empties the Optional and orElse gives short. or supplies another Optional when empty. map on an empty Optional stays empty, so orElseGet runs its supplier.
+
+Question 12.
+Topic: java-streams
+```
+import java.util.function.*;
+
+public class Main {
+    public static void main(String[] args) {
+        BiFunction<String, Integer, Character> f = /*?*/;
+        IO.println(f.apply("hello", 1));
+    }
+}
+```
+Which two expressions can replace /*?*/ so that the code compiles and prints e? Choose two.
+A. `String::charAt`
+B. `(s, i) -> s.charAt(i)`
+C. `s -> s.charAt(1)`
+D. `Character::valueOf`
+E. `String::valueOf`
+Check: options
+[THINK]
+The answers are A and B. String::charAt is a reference to an instance method of an arbitrary object: the first argument becomes the receiver and the second is passed to charAt. Option C has one parameter instead of two. Neither valueOf method takes a String and an Integer and returns a Character.
+
+Question 13.
+Topic: java-streams
+```
+import java.util.*;
+import java.util.stream.*;
+
+void main() {
+    var sb = new StringBuilder();
+    IntStream.rangeClosed(1, 5).parallel().map(i -> i * 10).forEachOrdered(sb::append);
+    var first = List.of(7, 8, 9).parallelStream().filter(n -> n > 7).sorted().findFirst().get();
+    IO.println(sb + " " + first);
+}
+```
+What is the result?
+A. `1020304050 8`
+B. The digits of the first number can appear in any order, followed by 8
+C. `1020304050` followed by 8 or 9
+D. `5040302010 9`
+Check: output
+[THINK]
+The answer is A. forEachOrdered respects the encounter order even in a parallel stream. findFirst on an ordered stream returns the first element in encounter order, even in parallel; findAny could return 8 or 9.
+
+Question 14.
+Topic: java-concurrency
+```
+import java.util.*;
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        List<Callable<String>> tasks = List.of(() -> "a", () -> "b", () -> "c");
+        try (var ex = Executors.newFixedThreadPool(2)) {
+            var sb = new StringBuilder();
+            for (Future<String> f : ex.invokeAll(tasks)) sb.append(f.get());
+            IO.println(sb + " " + ex.isShutdown());
+        }
+    }
+}
+```
+What is the result?
+A. `abc true`
+B. The letters in an unpredictable order, followed by false
+C. `abc false`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is C. invokeAll waits for all tasks and returns their Futures in the same order as the tasks, whatever order they ran in. The executor is still open inside the try block; close shuts it down at the end.
+
+Question 15.
+Topic: java-concurrency
+```
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
+
+public class Main {
+    public static void main(String[] args) {
+        var atomic = new AtomicInteger();
+        try (var ex = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (int i = 0; i < 1000; i++) {
+                ex.submit(() -> { atomic.incrementAndGet(); });
+            }
+        }
+        IO.println(atomic.get() + " " + atomic.getAndIncrement() + " " + atomic.get());
+    }
+}
+```
+What is the result?
+A. `1000 1001 1001`
+B. A number up to 1000, unpredictable, then that number twice
+C. `1000 1000 1000`
+D. `1000 1000 1001`
+Check: output
+[THINK]
+The answer is D. incrementAndGet is atomic, and closing the executor waits for every task, so the count is exactly 1000. getAndIncrement returns the old value, 1000, and then the value is 1001.
+
+Question 16.
+Topic: java-concurrency
+```
+import java.util.concurrent.locks.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Lock lock = new ReentrantLock();
+        if (lock.tryLock()) {
+            try { IO.print("locked "); } finally { lock.unlock(); }
+        }
+        lock.unlock();
+        IO.println("end");
+    }
+}
+```
+What is the result?
+A. `locked end`
+B. `locked` followed by an IllegalMonitorStateException
+C. `end`
+D. The program waits forever
+Check: exception IllegalMonitorStateException
+[THINK]
+The answer is B. tryLock succeeds and the finally block releases the lock. The second unlock is called by a thread that no longer holds the lock, which throws IllegalMonitorStateException.
+
+Question 17.
+Topic: java-concurrency
+```
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Thread t = new Thread(() -> IO.print(Thread.currentThread().getName() + " "));
+        t.setName("worker");
+        t.run();
+        t.start();
+        t.join();
+        IO.println();
+    }
+}
+```
+What is the result?
+A. `worker worker`
+B. `main main`
+C. `main worker`
+D. An IllegalThreadStateException is thrown
+Check: output
+[THINK]
+The answer is C. run executes the Runnable on the calling thread, main. start then runs it on the new thread, worker. Calling run first doesn't count as starting the thread.
+
+Question 18.
+Topic: java-modules
+A module uses ServiceLoader.load(Plugin.class) to find implementations of the service interface com.acme.spi.Plugin. Which directive must its module-info.java declare?
+A. `uses com.acme.spi.Plugin;`
+B. `provides com.acme.spi.Plugin;`
+C. `requires java.util.ServiceLoader;`
+D. `exports com.acme.spi to java.base;`
+E. `opens com.acme.spi;`
+Check: none
+[THINK]
+The answer is A. The consumer declares uses with the service interface. Providers declare provides, the interface, with, and the implementation class. ServiceLoader is in java.base, which every module reads.
+
+Question 19.
+Topic: java-modules
+The modular application com.acme.app is compiled into the mods directory, and its main class is com.acme.app.Main. Which command runs it?
+A. `java -cp mods -m com.acme.app.Main`
+B. `java -p mods -m com.acme.app/com.acme.app.Main`
+C. `java --module-path mods com.acme.app/com.acme.app.Main`
+D. `java -p mods -m com.acme.app.Main/com.acme.app`
+E. `java -d mods com.acme.app`
+Check: none
+[THINK]
+The answer is B. -p, or --module-path, sets the module path, and -m, or --module, takes the module name, a slash, and the main class. For java, -d means --describe-module.
+
+Question 20.
+Topic: java-io
+```
+import java.nio.file.*;
+import java.io.IOException;
+
+void main() throws IOException {
+    Path dir = Path.of("work");
+    Files.createDirectories(dir.resolve("sub"));
+    Path f = Files.writeString(dir.resolve("a.txt"), "x\ny\n");
+    Files.copy(f, dir.resolve("sub/a.txt"));
+    try {
+        Files.delete(dir.resolve("sub"));
+    } catch (DirectoryNotEmptyException e) {
+        IO.print("not empty ");
+    }
+    try (var s = Files.list(dir)) {
+        IO.println(s.count() + " " + Files.readAllLines(f).size());
+    }
+}
+```
+The program runs in an empty directory. What is the result?
+A. `not empty 2 2`
+B. `not empty 3 3`
+C. `1 2`
+D. A NoSuchFileException is thrown
+Check: output
+[THINK]
+The answer is A. createDirectories creates work and work/sub. delete refuses a directory that isn't empty. list returns only the direct children, a.txt and sub. The text ends with a line break, so there are two lines, not three.
+
+Question 21.
+Topic: java-io
+```
+import java.io.*;
+
+public class Main {
+    static class Base { int b = 1; Base() { b = 2; } }
+    static class Item extends Base implements Serializable {
+        int x = 3; transient int y = 4; static int z = 5;
+        Item() { x = 6; }
+    }
+    public static void main(String[] args) throws Exception {
+        var item = new Item();
+        item.b = 7; item.x = 8; item.y = 9;
+        var bytes = new ByteArrayOutputStream();
+        try (var out = new ObjectOutputStream(bytes)) { out.writeObject(item); }
+        Item.z = 10;
+        try (var in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()))) {
+            Item copy = (Item) in.readObject();
+            IO.println(copy.b + " " + copy.x + " " + copy.y + " " + Item.z);
+        }
+    }
+}
+```
+What is the result?
+A. `7 8 9 5`
+B. `2 6 4 10`
+C. `7 8 0 10`
+D. `2 8 0 10`
+Check: output
+[THINK]
+The answer is D. Base isn't serializable, so its no-argument constructor runs during deserialization and sets b to 2. x is restored from the stream, y is transient and gets 0, and the Item constructor doesn't run. Static fields aren't serialized at all.
+
+Question 22.
+Topic: java-io
+```
+import java.io.*;
+
+void main() throws IOException {
+    var r = new BufferedReader(new StringReader("a\n\nb"));
+    int n = 0;
+    String line;
+    while ((line = r.readLine()) != null) n += line.isEmpty() ? 10 : 1;
+    IO.println(n);
+}
+```
+What is the result?
+A. `2`
+B. `12`
+C. `3`
+D. `22`
+Check: output
+[THINK]
+The answer is B. readLine returns "a", then an empty string for the empty line, then "b", and null at the end of the input. The empty line adds 10.
+
+Question 23.
+Topic: java-locale
+```
+# Msgs.properties
+greet=Hello
+bye=Bye
+
+# Msgs_en.properties
+greet=Hi
+bye=Ciao
+
+# Msgs_fr.properties
+greet=Bonjour
+
+// Main.java
+Locale.setDefault(Locale.US);
+var b = ResourceBundle.getBundle("Msgs", Locale.FRANCE);
+IO.println(b.getString("greet") + " " + b.getString("bye"));
+```
+What is the result?
+A. `Bonjour Bye`
+B. `Bonjour Ciao`
+C. `Hello Bye`
+D. `Bonjour null`
+E. A MissingResourceException is thrown
+Check: none
+[THINK]
+The answer is A. There's no Msgs_fr_FR, so Msgs_fr is chosen. A key missing from it is looked up in its parents, Msgs_fr and then the base Msgs, never in the default locale's bundle, so bye comes from Msgs.properties.
+
+Question 24.
+Topic: java-locale
+```
+import java.util.*;
+import java.text.*;
+
+void main() {
+    Locale l = new Locale.Builder().setLanguage("IT").setRegion("ch").build();
+    var cf = NumberFormat.getCurrencyInstance(Locale.US);
+    IO.println(l + " " + l.getLanguage() + " " + cf.format(1234.567));
+}
+```
+What is the result?
+A. `IT_ch IT $1,234.567`
+B. `it_CH it $1,234.57`
+C. `it_CH it $1234.57`
+D. An IllformedLocaleException is thrown
+Check: output
+[THINK]
+The answer is B. Locale.Builder normalizes the case: language in lower case, region in upper case. The US currency format adds the dollar sign, grouping, and rounds to two decimals.
+
+Question 25.
+Topic: java-locale
+```
+import java.text.*;
+
+void main() {
+    String s = MessageFormat.format("{1} has {0} item(s), {1}!", 3, "Ann");
+    IO.println(s + " " + String.format("%05.1f|%-4s|%x", 3.14159, "ab", 255));
+}
+```
+What is the result?
+A. `3 has Ann item(s), 3! 3.1|ab|255`
+B. `Ann has 3 item(s), Ann! 3.14|  ab|ff`
+C. `Ann has 3 item(s), Ann! 003.1|ab  |ff`
+D. `Ann has 3 item(s), Ann! 003.1|ab  |FF`
+Check: output
+[THINK]
+The answer is C. MessageFormat placeholders are numbered by argument position from zero, and can repeat. %05.1f pads with zeros to a width of 5 with one decimal, %-4s left-aligns in 4 characters, and lower case %x prints hexadecimal in lower case.
+
+That's the end of mock exam two.

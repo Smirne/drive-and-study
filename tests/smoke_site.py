@@ -57,6 +57,17 @@ with sync_playwright() as p:
     assert pg.request.get(pg.url.rsplit('/', 1)[0] + '/' + clip).ok
     pg.click('a[href="/eventstorming/lessons"]'); pg.wait_for_selector('#list li'); print('es back to lessons ok')
     pg.click('a.home'); pg.wait_for_selector('a.card')
+    # Java pack: /java/
+    pg.click('a[href="/java/lessons"]'); pg.wait_for_selector('#list li')
+    print('java lessons:', pg.title(), '| items:', pg.locator('#list li').count())
+    assert pg.locator('#list li').count() == 13
+    assert pg.evaluate('document.documentElement.scrollWidth') == 390
+    pg.click('#ep-12'); pg.wait_for_timeout(500)
+    assert pg.evaluate('document.getElementById("audio").src') == base + '/audio/lessons/java/ep13.mp3'
+    pg.click('a.drill'); pg.wait_for_selector('#startAll'); print('java drill:', pg.title())
+    assert 'Java' in pg.title()
+    assert pg.request.get(pg.url.rsplit('/', 1)[0] + '/' + pg.evaluate('CLIPS.q0')).ok
+    pg.click('a.home'); pg.wait_for_selector('a.card')
     # button test page: capture media-session handlers, press "next" three times -> "Answer 3"
     bp = b.new_page(viewport={'width': 390, 'height': 844}); berr = []
     bp.on('pageerror', lambda e: berr.append(str(e)))

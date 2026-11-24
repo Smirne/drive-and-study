@@ -1,0 +1,45 @@
+Java 25 Developer Professional. Episode eleven. Packages, modules, and deployment.
+
+This episode covers packages and imports, including module import declarations, new in Java 25, then the module system, services, and the command-line tools: javac, java, jar, jdeps and jlink.
+
+Packages and imports first. A source file can have one package declaration, which must be the first statement, followed by imports, then type declarations. java dot lang is always imported. A wildcard import, like java dot util dot star, imports the types of one package, not its subpackages. A static import brings in static members, like import static java dot lang dot Math dot max. If two wildcard imports provide a type with the same name, like Date from java dot util and java dot sql, the code compiles until you use the simple name Date, which is ambiguous. A single-type import resolves the ambiguity, because single-type imports take precedence over wildcard imports. Two single-type imports of the same simple name don't compile.
+
+Module import declarations, final in Java 25. You write import module, followed by a module name, for example import module java dot base. This imports, on demand, all the public top-level types in every package exported by that module, and also by the modules it requires transitively. So import module java dot sql also brings in java dot xml types. It works in any source file, even code that isn't itself in a module. Ambiguity works as you'd expect: java dot base and java dot desktop both export a type called List, java dot util dot List and java dot awt dot List, so importing both modules and using List doesn't compile. Shadowing rules settle it: a single-type import beats everything, and a package wildcard import, like java dot util dot star, beats a module import. A compact source file implicitly imports module java dot base.
+
+Now the module system. A module is described by a module-info dot java file at the root of its source. The directives are worth memorizing exactly.
+requires, followed by a module, declares a dependency. requires transitive also makes the dependency readable by any module that requires this one. requires static is a dependency needed at compile time, optional at runtime.
+exports, followed by a package, makes its public types accessible to other modules. exports, package, to, module names, restricts that to specific modules. Note the asymmetry: you require modules, but you export packages.
+opens, followed by a package, allows deep reflection at runtime, including on private members, without exporting it for compile time. An open module, declared with open module, opens all its packages.
+uses and provides with are for services, covered shortly.
+
+Every module implicitly requires java dot base. Cyclic requires between modules aren't allowed, and the same package can't be in two modules read by the same module; that's a split package.
+
+Kinds of modules. A named module has a module-info and sits on the module path. An automatic module is a regular jar placed on the module path: its name comes from the Automatic-Module-Name entry in the manifest, or, if missing, from the jar file name, without the version, with dashes replaced by dots. An automatic module exports all its packages and reads all other modules. The unnamed module contains everything on the class path: it reads all modules and exports everything, but named modules can't require it.
+
+Services. A service has four parts. The service interface, in an exported package. A service provider, an implementation, declared in its module with provides, interface name, with, implementation class. The provider class needs a public no-argument constructor or a public static method called provider. The consumer module declares uses, with the interface name. And the code calls ServiceLoader dot load with the interface class; the loader is iterable, and its stream method returns a stream of ServiceLoader dot Provider objects, from which you call get. The consumer never references the implementation class.
+
+Command-line tools. Compile with javac, minus d for the output directory, minus p or minus minus module-path for dependencies, and the source files. Run with java, minus p for the module path, and minus m or minus minus module, with module name, slash, main class. Some useful java options: minus minus list-modules, minus minus describe-module or minus d, which shows a module's directives, and minus minus show-module-resolution. Careful: for java, minus d means describe-module, while for javac, minus d is the output directory.
+
+jar creates archives: jar minus minus create, or minus c, minus minus file, or minus f, and minus minus main-class, or minus e, to set the entry point. A jar with a main class runs with java minus jar.
+
+jdeps analyzes dependencies. jdeps minus s, or minus minus summary, gives a summary. minus minus list-deps lists the modules a jar needs. minus minus jdk-internals finds uses of internal JDK APIs, and suggests replacements.
+
+jlink builds a custom runtime image containing only the modules you need: minus minus module-path, minus minus add-modules, and minus minus output for the directory. It requires named modules; automatic modules can't be linked. jmod creates jmod files, an alternative packaging format for jlink.
+
+Migration strategies. Bottom-up: start with the libraries that have no dependencies, turn them into named modules, and move up; the rest stays on the class path. Top-down: put all the jars on the module path, so they become automatic modules, then turn the top applications into named modules first, moving down.
+
+Quick check.
+What's the difference between requires and requires transitive?
+[THINK]
+requires transitive also makes the dependency readable by any module that requires this one.
+Two module imports both export a type called List. You use List. What happens, and how do you fix it?
+[THINK]
+It doesn't compile because it's ambiguous. A single-type import, or a package wildcard import, resolves it.
+Which directive allows deep reflection without exporting a package?
+[THINK]
+opens.
+In which file and with which directive does a provider module register its implementation?
+[THINK]
+In module-info dot java, with provides, interface, with, implementation.
+
+In the next episode: input and output, files, serialization, and localization.

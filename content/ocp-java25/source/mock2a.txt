@@ -1,0 +1,589 @@
+Mock exam two, part one.
+
+Question 1.
+Topic: java-basics
+```
+void main() {
+    int i = 5;
+    int j = i++ + ++i;
+    int k = i-- - --i;
+    IO.println(i + " " + j + " " + k);
+}
+```
+What is the result?
+A. `5 11 2`
+B. `5 12 2`
+C. `6 12 0`
+D. `5 12 0`
+Check: output
+[THINK]
+The answer is B. i++ yields 5 and makes i 6; ++i makes i 7 and yields 7, so j is 12. Then i-- yields 7 and makes i 6; --i makes i 5 and yields 5, so k is 2, and i ends at 5.
+
+Question 2.
+Topic: java-basics
+```
+void main() {
+    int a = 0, b = 0;
+    boolean r = (a++ > 0) && (b++ > 0);
+    boolean s = (a++ > 0) | (b++ > 0);
+    IO.println(a + " " + b + " " + r + " " + s);
+}
+```
+What is the result?
+A. `2 1 false true`
+B. `2 2 false true`
+C. `2 0 false true`
+D. `1 1 false false`
+Check: output
+[THINK]
+The answer is A. && short-circuits: the left side is false, so b++ doesn't run. The single | always evaluates both sides: a++ yields 1, which is greater than 0, and b++ runs once.
+
+Question 3.
+Topic: java-basics
+```
+void main() {
+    String a = "hi";
+    String b = "h" + "i";
+    String c = "h";
+    String d = c + "i";
+    IO.println((a == b) + " " + (a == d) + " " + (a == d.intern()));
+}
+```
+What is the result?
+A. `true true true`
+B. `false false true`
+C. `true false true`
+D. `true false false`
+Check: output
+[THINK]
+The answer is C. "h" + "i" is a compile-time constant, so it's the same pooled literal as a. c + "i" involves a variable, so it's built at runtime as a new object. intern returns the pooled instance.
+
+Question 4.
+Topic: java-basics
+```
+void main() {
+    String t = """
+        one \
+        two
+          three""";
+    IO.println(t.lines().count() + " " + t.length());
+}
+```
+What is the result?
+A. `3 17`
+B. `2 17`
+C. `2 15`
+D. `3 15`
+Check: output
+[THINK]
+The answer is C. A backslash at the end of a line joins it with the next, giving "one two". The incidental indentation of 8 spaces is removed, leaving 2 spaces before three. The closing delimiter on the last line means no final line break: 7 plus 1 plus 7 characters.
+
+Question 5.
+Topic: java-basics
+```
+void main() {
+    double d = 9.99;
+    int i = (int) d;
+    long r = Math.round(d);
+    float f = 1.1f;
+    IO.println(i + " " + r + " " + (f == 1.1) + " " + (int) 'A' / 2);
+}
+```
+What is the result?
+A. `10 10 true 32`
+B. `9 10 true 32.5`
+C. `9 9 false 32`
+D. `9 10 false 32`
+Check: output
+[THINK]
+The answer is D. A cast to int truncates, while Math.round rounds. 1.1f widened to double isn't exactly equal to the double 1.1. 'A' is 65, and 65 / 2 is integer division: 32.
+
+Question 6.
+Topic: java-time
+```
+import java.time.*;
+
+void main() {
+    ZoneId rome = ZoneId.of("Europe/Rome");
+    var a = ZonedDateTime.of(2026, 3, 29, 1, 0, 0, 0, rome);
+    var b = a.plusHours(2);
+    var c = a.plusDays(1);
+    IO.println(b.toLocalTime() + " " + Duration.between(a, c).toHours());
+}
+```
+On March 29, 2026, clocks in Rome jump from 02:00 to 03:00. What is the result?
+A. `03:00 24`
+B. `04:00 23`
+C. `03:00 23`
+D. `04:00 24`
+Check: output
+[THINK]
+The answer is B. plusHours works on the time line: two real hours after 01:00 is 04:00 local time, because an hour is skipped. plusDays keeps the local time, 01:00 the next day, which is only 23 hours later.
+
+Question 7.
+Topic: java-time
+```
+import java.time.*;
+
+void main() {
+    var d = LocalDate.parse("2025-02-29");
+    IO.println(d.plusDays(1));
+}
+```
+What is the result?
+A. `2025-03-01`
+B. `2025-03-02`
+C. A DateTimeParseException is thrown
+D. Compilation fails
+Check: exception DateTimeParseException
+[THINK]
+The answer is C. 2025 isn't a leap year, so February 29 is invalid, and parse throws a DateTimeParseException. Factory methods like LocalDate.of would throw a DateTimeException.
+
+Question 8.
+Topic: java-time
+```
+import java.time.*;
+
+void main() {
+    var p = Period.of(1, 14, 40);
+    IO.println(p + " " + p.normalized() + " " + LocalDate.of(2025, 1, 1).plus(p));
+}
+```
+What is the result?
+A. `P1Y14M40D P2Y2M40D 2027-04-10`
+B. `P1Y14M40D P2Y3M10D 2027-04-10`
+C. `P2Y2M40D P2Y2M40D 2027-04-10`
+D. A DateTimeException is thrown, because 14 isn't a valid month
+Check: output
+[THINK]
+The answer is A. A Period stores its values as given. normalized only converts months into years; days are never converted, because months have different lengths. Adding the period adds years and months first, giving March 1, 2027, then 40 days.
+
+Question 9.
+Topic: java-flow
+```
+enum Size { S, M, L }
+
+void main() {
+    Size s = Size.M;
+    String r = switch (s) {
+        case S -> "small";
+        case Size.M -> "medium";
+        case L -> "large";
+    };
+    IO.println(r);
+}
+```
+What is the result?
+A. `medium`
+B. Compilation fails, because case labels can't use qualified enum names
+C. Compilation fails, because the switch has no default
+D. A MatchException is thrown
+Check: output
+[THINK]
+The answer is A. Since Java 21, qualified enum constant names are allowed in case labels. A switch expression over an enum is exhaustive when every constant is covered, so no default is needed.
+
+Question 10.
+Topic: java-flow
+```
+record Point(int x, int y) {}
+record Line(Point from, Point to) {}
+
+void main() {
+    Object o = new Line(new Point(1, 2), new Point(3, 4));
+    if (o instanceof Line(Point(var x, _), Point(_, int y)) && x < y) {
+        IO.println(x + y);
+    }
+}
+```
+What is the result?
+A. `3`
+B. `4`
+C. `5`
+D. Compilation fails
+Check: output
+[THINK]
+The answer is C. Nested record patterns deconstruct both points. x binds the first point's x, 1, and y binds the second point's y, 4. The underscores are unnamed patterns that match anything.
+
+Question 11.
+Topic: java-flow
+```
+String test(Object o) {
+    return switch (o) {
+        case Integer i when i > 0 -> "positive";
+        case Integer i -> "int";
+        case String s -> "string " + s.length();
+        case null, default -> "other";
+    };
+}
+
+void main() {
+    IO.println(test(-1) + " " + test(null) + " " + test("ab") + " " + test(2.0));
+}
+```
+What is the result?
+A. `int other string 2 other`
+B. `positive other string 2 other`
+C. A NullPointerException is thrown
+D. Compilation fails
+Check: output
+[THINK]
+The answer is A. -1 fails the guard and matches the unguarded Integer case. case null, default handles both null and the Double. Writing case null, default before the Integer cases wouldn't compile, because it would dominate them.
+
+Question 12.
+Topic: java-flow
+```
+void main() {
+    int x = 0;
+    while (true) {
+        x++;
+        if (x > 2) break;
+    }
+    IO.println(x);
+    for (;;) { }
+    IO.println("end");
+}
+```
+What is the result?
+A. `3` and the program keeps running
+B. `3 end`
+C. `2` and the program keeps running
+D. Compilation fails
+Check: compile-error
+[THINK]
+The answer is D. The while loop has a break, so the code after it is reachable. But for (;;) without a break never completes, so the last println is unreachable, which is a compile error.
+
+Question 13.
+Topic: java-oop
+```
+// a/Parent.java
+package a;
+public class Parent {
+    protected int value = 1;
+}
+
+// b/Child.java
+package b;
+import a.Parent;
+public class Child extends Parent {
+    void test(Parent p, Child c) {
+        int v1 = value;        // line 1
+        int v2 = c.value;      // line 2
+        int v3 = p.value;      // line 3
+        int v4 = this.value;   // line 4
+    }
+}
+```
+Which line fails to compile?
+A. Line 1
+B. Line 2
+C. Line 3
+D. Line 4
+Check: none
+[THINK]
+The answer is C. In a different package, a subclass can access a protected member only through a reference of its own type or a subtype. p is a Parent reference, so p.value doesn't compile.
+
+Question 14.
+Topic: java-oop
+```
+public class Main {
+    static abstract class Shape {
+        Shape() { IO.print(name() + " "); }
+        abstract String name();
+    }
+    static class Square extends Shape {
+        private String label = "square";
+        String name() { return label; }
+    }
+    public static void main(String[] args) {
+        IO.println(new Square().name());
+    }
+}
+```
+What is the result?
+A. `square square`
+B. `null square`
+C. `null null`
+D. A NullPointerException is thrown
+Check: output
+[THINK]
+The answer is B. The parent constructor runs before the child's field initializers. The overridden name method is called from Shape's constructor while label is still null. Concatenating null prints "null", without an exception.
+
+Question 15.
+Topic: java-oop
+```
+import java.io.*;
+
+public class Main {
+    static class Parent {
+        protected Number get() throws IOException { return 1; }
+    }
+    static class Child extends Parent {
+        /*?*/
+    }
+    public static void main(String[] args) { new Child(); }
+}
+```
+Which two methods can replace /*?*/ so that the code compiles? Choose two.
+A. `public Integer get() { return 2; }`
+B. `Number get() throws IOException { return 2; }`
+C. `protected Object get() throws IOException { return 2; }`
+D. `protected Number get() throws FileNotFoundException { return 2; }`
+E. `protected Number get() throws Exception { return 2; }`
+Check: options
+[THINK]
+The answers are A and D. An override may widen access, return a subtype, and throw fewer or narrower checked exceptions. Option B reduces access to package level, option C returns a supertype, and option E throws a broader checked exception.
+
+Question 16.
+Topic: java-oop
+```
+import java.util.*;
+
+public class Main {
+    static class Key {
+        final int id;
+        Key(int id) { this.id = id; }
+        public boolean equals(Key k) { return k != null && k.id == id; }
+        public int hashCode() { return id; }
+    }
+    public static void main(String[] args) {
+        Set<Key> set = new HashSet<>();
+        set.add(new Key(1));
+        set.add(new Key(1));
+        IO.println(set.size() + " " + new Key(1).equals(new Key(1)));
+    }
+}
+```
+What is the result?
+A. `1 true`
+B. `2 false`
+C. `1 false`
+D. `2 true`
+Check: output
+[THINK]
+The answer is D. equals(Key) overloads equals instead of overriding equals(Object). HashSet calls equals(Object), inherited from Object, which compares references, so both keys are added. The direct call picks the overload with the more specific type and returns true.
+
+Question 17.
+Topic: java-oop
+```
+public class Main {
+    static class Animal { }
+    static class Dog extends Animal { }
+    static class Cat extends Animal { }
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        Object o = a;
+        Cat c = (Cat) o;
+        IO.println("done");
+    }
+}
+```
+What is the result?
+A. `done`
+B. Compilation fails
+C. A ClassCastException is thrown
+D. `done`, and c is null
+Check: exception ClassCastException
+[THINK]
+The answer is C. The cast compiles, because an Object reference might point to a Cat. At runtime the object is a Dog, so the cast throws ClassCastException.
+
+Question 18.
+Topic: java-types
+```
+record Money(int cents, String cur) {
+    static int created = 0;
+    Money {
+        created++;
+        cur = cur.toUpperCase();
+    }
+    public String cur() { return "[" + cur + "]"; }
+}
+
+void main() {
+    var a = new Money(100, "eur");
+    var b = new Money(100, "EUR");
+    IO.println(a.equals(b) + " " + a.cur() + " " + Money.created + " " + a);
+}
+```
+What is the result?
+A. `true [EUR] 2 Money[cents=100, cur=EUR]`
+B. `false [EUR] 2 Money[cents=100, cur=eur]`
+C. `true [EUR] 2 Money[cents=100, cur=[EUR]]`
+D. Compilation fails, because a record can't declare a static field
+Check: output
+[THINK]
+The answer is A. The compact constructor normalizes the parameter before the field is assigned, so both records hold EUR and are equal. Records may have static fields. The generated toString and equals use the fields, not the overridden accessor.
+
+Question 19.
+Topic: java-types
+```
+public class Main {
+    sealed interface Vehicle permits Car, Truck {}
+    /*?*/
+    static final class Truck implements Vehicle {}
+    public static void main(String[] args) {}
+}
+```
+Which two declarations can replace /*?*/ so that the code compiles? Choose two.
+A. `record Car(String plate) implements Vehicle {}`
+B. `static class Car implements Vehicle {}`
+C. `static non-sealed class Car implements Vehicle {}`
+D. `static sealed class Car implements Vehicle {}`
+E. `static final class Car {}`
+Check: options
+[THINK]
+The answers are A and C. A record is implicitly final, and non-sealed reopens the hierarchy. Option B lacks final, sealed or non-sealed. Option D is sealed but has no permitted subclasses. Option E is permitted but doesn't implement Vehicle.
+
+Question 20.
+Topic: java-types
+```
+enum Op {
+    ADD { int apply(int a, int b) { return a + b; } },
+    MUL { int apply(int a, int b) { return a * b; } };
+    abstract int apply(int a, int b);
+}
+
+void main() {
+    int r = 1;
+    for (Op op : Op.values()) r = op.apply(r, 3);
+    IO.println(r + " " + Op.valueOf("MUL").ordinal() + " " + Op.MUL.getClass().equals(Op.class));
+}
+```
+What is the result?
+A. `12 1 true`
+B. `12 1 false`
+C. `6 2 false`
+D. Compilation fails, because an enum can't declare an abstract method
+Check: output
+[THINK]
+The answer is B. ADD gives 1 + 3 = 4, then MUL gives 4 * 3 = 12. MUL is the second constant, ordinal 1. A constant with a body is an instance of an anonymous subclass of the enum, so its class isn't Op itself.
+
+Question 21.
+Topic: java-types
+```
+import java.util.*;
+import java.util.function.*;
+
+void main() {
+    String prefix = "n";
+    var list = new ArrayList<Supplier<String>>();
+    for (int i = 0; i < 3; i++) {
+        int j = i;
+        list.add(() -> prefix + j);
+    }
+    for (var s : list) IO.print(s.get() + " ");
+}
+```
+What is the result?
+A. `n3 n3 n3`
+B. `n2 n2 n2`
+C. Compilation fails, because i isn't effectively final
+D. `n0 n1 n2`
+Check: output
+[THINK]
+The answer is D. Each iteration declares a new variable j, which is effectively final, and each lambda captures its own copy. The lambdas don't use i, which would not compile.
+
+Question 22.
+Topic: java-types
+```
+String greeting = "hi";
+
+void main(String[] args) {
+    IO.println(greeting + " " + args.length);
+}
+
+void main() {
+    IO.println(greeting);
+}
+```
+The file is run with java Hello.java and no arguments. What is the result?
+A. `hi 0`
+B. `hi`
+C. Compilation fails, because main is declared twice
+D. Compilation fails, because main must be static
+Check: output
+[THINK]
+The answer is A. In a compact source file, fields and instance main methods are allowed. When both a main with a String array and a main with no parameters exist, the launcher chooses the one with the String array.
+
+Question 23.
+Topic: java-exceptions
+```
+public class Main {
+    static class R implements AutoCloseable {
+        public void close() throws Exception { throw new Exception("close"); }
+    }
+    public static void main(String[] args) {
+        try (R r = new R()) {
+            throw new IllegalStateException("body");
+        } catch (Exception e) {
+            IO.println(e.getMessage() + " " + e.getSuppressed().length + " " + e.getSuppressed()[0].getMessage());
+        }
+    }
+}
+```
+What is the result?
+A. `close 1 body`
+B. `body 0` followed by an ArrayIndexOutOfBoundsException
+C. `body 1 close`
+D. `close 0` followed by an ArrayIndexOutOfBoundsException
+Check: output
+[THINK]
+The answer is C. The exception from the try block is the primary one. The exception thrown by close is attached to it as suppressed.
+
+Question 24.
+Topic: java-exceptions
+```
+public class Main {
+    static class AppException extends Exception {
+        AppException(String m) { super(m); }
+    }
+    static void run() { IO.print("run "); }
+    public static void main(String[] args) {
+        try {
+            run();
+        } catch (AppException e) {
+            IO.print("caught ");
+        }
+    }
+}
+```
+What is the result?
+A. `run`
+B. `run caught`
+C. Compilation fails
+D. An AppException is thrown
+Check: compile-error
+[THINK]
+The answer is C. AppException is a checked exception, and nothing in the try block can throw it. Catching a checked exception that can't be thrown is a compile error. Catching Exception or a RuntimeException would compile.
+
+Question 25.
+Topic: java-exceptions
+```
+public class Main {
+    static String log = "";
+    static void a() {
+        try {
+            log += "1";
+            throw new RuntimeException();
+        } catch (IllegalArgumentException e) {
+            log += "2";
+        } finally {
+            log += "3";
+        }
+        log += "4";
+    }
+    public static void main(String[] args) {
+        try { a(); } catch (RuntimeException e) { log += "5"; }
+        IO.println(log);
+    }
+}
+```
+What is the result?
+A. `1345`
+B. `135`
+C. `1235`
+D. `13`
+Check: output
+[THINK]
+The answer is B. The RuntimeException doesn't match the IllegalArgumentException catch. finally runs, then the exception leaves the method, skipping the line that adds 4, and main catches it.
+
+That's the end of part one.
