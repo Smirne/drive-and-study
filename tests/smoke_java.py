@@ -83,7 +83,7 @@ with sync_playwright() as p:
     assert pg.evaluate("localStorage.getItem('drill-mode')") == 'buttons'
 
     # review of the mistakes includes silent questions: touch again, with explanations shown after Submit
-    pg.reload()
+    pg.wait_for_timeout(1500); pg.reload()   # let Chromium commit file:// localStorage first
     hist = pg.text_content('#historyList'); print('history:', hist[:120])
     assert 'Mock exam 1' in hist
     assert pg.evaluate("JSON.parse(localStorage.getItem('java-history')).length") == 2

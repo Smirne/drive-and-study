@@ -47,72 +47,72 @@
    {
     "t": "The exam and the platform map",
     "s": "Format and weights from 7 December, question style, Messages API vs Agent SDK vs Managed Agents vs Claude Code, models, pinned IDs",
-    "d": 0
+    "d": 553
    },
    {
     "t": "The Messages API, stop reasons and errors",
     "s": "Request and response shape, the seven stop reasons, usage, retryable errors, rate limits, keys and workspaces",
-    "d": 0
+    "d": 548
    },
    {
     "t": "Streaming, batches, vision, files, citations",
     "s": "Event order, mid-stream errors, batch rules, image cost, Files API, citations and grounding",
-    "d": 0
+    "d": 574
    },
    {
     "t": "Models, tokens, thinking and effort",
     "s": "Context window and context rot, tiers and routing, adaptive thinking, effort levels, safe model migration",
-    "d": 0
+    "d": 494
    },
    {
     "t": "Prompt caching and cost",
     "s": "Prefix order, breakpoints, lifetimes, what invalidates the cache, cost levers, tool search",
-    "d": 0
+    "d": 520
    },
    {
     "t": "Prompt engineering and structured output",
     "s": "Clear prompts, examples, XML, long context, no prefill, JSON outputs, defensive parsing, grounding, prompts as code",
-    "d": 0
+    "d": 526
    },
    {
     "t": "Context engineering for long sessions",
     "s": "Pruning, compaction, context editing, memory, subagents, fresh sessions, shaped tool results",
-    "d": 0
+    "d": 482
    },
    {
     "t": "Tools: loop, definitions, errors",
     "s": "Tool result rules, descriptions, tool choice, parallel calls, error results, server tools",
-    "d": 0
+    "d": 535
    },
    {
     "t": "The Model Context Protocol",
     "s": "Hosts, clients, servers, stdio vs Streamable HTTP, tools/resources/prompts, scopes, MCP vs tool vs skill",
-    "d": 0
+    "d": 557
    },
    {
     "t": "Agents and workflows",
     "s": "Workflow patterns, when to use agents, Agent SDK, Managed Agents, hooks for guarantees, subagents, reading traces",
-    "d": 0
+    "d": 588
    },
    {
     "t": "Claude Code",
     "s": "CLAUDE.md and rules, settings precedence, permissions and modes, hooks and exit codes, skills, subagents, plugins, headless",
-    "d": 0
+    "d": 605
    },
    {
     "t": "Security and safety",
     "s": "Jailbreaks vs indirect injection, layered defenses, least privilege, deterministic guardrails, API keys",
-    "d": 0
+    "d": 530
    },
    {
     "t": "Evaluation, testing and debugging",
     "s": "Success criteria, golden sets, grading methods, LLM judge calibration, failure modes, integration vs model",
-    "d": 0
+    "d": 530
    },
    {
     "t": "Recap podcast",
     "s": "Two hosts, the most common traps domain by domain, and a rapid-fire round",
-    "d": 0
+    "d": 576
    }
   ]
  },

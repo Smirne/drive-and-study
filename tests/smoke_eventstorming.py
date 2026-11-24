@@ -39,7 +39,7 @@ with sync_playwright() as p:
     assert 'Running a Big Picture' in topics and 'Process Modeling' in topics
     s = pg.evaluate('summaryText([lastAttempt])')
     assert s.startswith('# EventStorming practice results'), s[:60]
-    pg.reload()
+    pg.wait_for_timeout(1500); pg.reload()   # let Chromium commit file:// localStorage first
 
     # facilitation scenarios: best answer everywhere except one second-best -> 58/60
     pg.click('#exam-scenarios')
@@ -54,7 +54,7 @@ with sync_playwright() as p:
     pg.wait_for_selector('#doneView:not([hidden])')
     print('scenarios:', pg.text_content('#doneScore'))
     assert pg.text_content('#doneScore') == '58 of 60 points'
-    pg.reload()
+    pg.wait_for_timeout(1500); pg.reload()   # let Chromium commit file:// localStorage first
 
     # readiness check: 15 right -> pass mark 14
     pg.click('#exam-check')
@@ -67,7 +67,7 @@ with sync_playwright() as p:
     print('check:', pg.text_content('#doneScore'), '|', pg.text_content('#doneStats'))
     assert pg.text_content('#doneScore') == '15 of 20 correct' and 'pass' in pg.text_content('#doneStats')
 
-    pg.reload()
+    pg.click('#home')        # not a reload: Chromium sometimes drops file:// localStorage written just before a reload
     hist = pg.text_content('#historyList'); print('history:', hist[:160])
     assert 'Readiness check: 15/20' in hist and 'Mock exam 1' not in hist
     assert pg.evaluate("JSON.parse(localStorage.getItem('drill-history')).length") == 1, 'TOGAF history untouched'
