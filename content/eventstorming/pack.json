@@ -31,7 +31,7 @@
   "title": "EventStorming Audio",
   "eyebrow": "Study companion · Introducing EventStorming",
   "h1": "EventStorming, by ear",
-  "sub": "11 episodes · 10 lessons and a recap podcast · short quizzes with a pause so you can answer aloud",
+  "sub": "14 episodes · 10 lessons, a recap podcast, and a full Big Picture session in three parts · short quizzes with a pause so you can answer aloud",
   "drillLink": "EventStorming drill",
   "drillSub": "30 concept questions, 12 facilitation scenarios and a readiness check",
   "artist": "EventStorming",
@@ -92,6 +92,21 @@
     "t": "Recap podcast",
     "s": "Two hosts, the whole course, a checklist for the day, rapid-fire quiz",
     "d": 528
+   },
+   {
+    "t": "Example session 1: kick-off and chaos",
+    "s": "A Big Picture in person, acted out: invitations, room, kick-off, the stand-off, the icebreaker, quiet chaos",
+    "d": 808
+   },
+   {
+    "t": "Example session 2: the timeline takes shape",
+    "s": "Pivotal events, three meanings of “member”, hot spots, people and systems, the walk-through relay",
+    "d": 785
+   },
+   {
+    "t": "Example session 3: backwards, problems, vote",
+    "s": "Reverse narrative, problems and opportunities, arrow voting, wrap-up, and the facilitator's moves in order",
+    "d": 748
    }
   ]
  },

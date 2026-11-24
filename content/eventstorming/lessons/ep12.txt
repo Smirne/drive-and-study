@@ -1,0 +1,99 @@
+S: Welcome to a different kind of episode. I'm Sara.
+A: And I'm Alex. In the previous episodes we explained Big Picture EventStorming phase by phase. Today we're going to watch one happen. A full session, in person, from the moment people walk into the room to the moment the last arrow is placed on the wall.
+S: It's fiction, but built from the patterns in Alberto Brandolini's book. You'll hear the facilitator and the participants. And because this is audio, and you can't see the wall, Alex and I will describe what's on it, and every now and then we'll freeze the action to explain what the facilitator just did, and why.
+A: There are three parts. In this one: the setup, the kick-off, and chaotic exploration. In part two: enforcing the timeline, people and systems, and the walk-through. In part three: the reverse narrative, problems and opportunities, arrow voting, and the wrap-up.
+
+S: Let's meet the company. Greenline is a small company that runs renewable energy communities. Households and small businesses join a community. Some of them have solar panels on the roof, and some just consume. The energy that's produced and consumed locally, in the same hour, earns an incentive. Greenline collects the incentive and shares it among the members.
+A: Thirty employees, growing fast. And the reason for the workshop is a feeling, more than a precise problem. Payouts to members are late. Support is overwhelmed. The developers are about to rewrite the member platform, and the founder wants to know where to start.
+S: Which is exactly the situation a Big Picture is made for: see the whole system before deciding what to fix.
+A: The facilitator is Elena, an external consultant. And here's the cast. Marco runs operations: onboarding new members and communities. Laura is in finance: incentives and payouts. Tom is the lead developer. Nina leads member support. And Paolo is the founder and CEO.
+S: Plus a dozen others we'll mostly hear about: two more developers, a sales person, an energy analyst, someone from legal, two support agents, and the person who keeps the famous spreadsheet. Fifteen people in total.
+
+A: Before the day, Elena did three things. First, invitations. She asked Paolo a simple question: who knows how this works, and who cares about it? The answer had to include finance and support, not only the people building the software.
+S: She noticed one gap. Nobody from the company that installs the solar panels, a partner, was coming. She didn't fight it. She wrote it down as a risk: part of the story will be guessed.
+A: Second, the room. Greenline's meeting room had a big table in the middle. Elena asked for the canteen instead: a fourteen-meter wall, no table to hide behind. Paper roll along the whole wall. Chairs stacked in a corner, with a few available for anyone who needs one.
+S: Third, materials. Orange sticky notes, lots of them. Small yellow ones for people, large pink ones for systems, purple for hot spots, green for opportunities, blue arrows for the vote. One black marker per person, because thin pens can't be read from two meters away. A flip chart for the legend. Coffee, fruit, and lunch ordered for one o'clock. And a visible timer.
+A: The workshop starts at nine. Let's go in.
+
+S: Nine o'clock. People are coming in with their laptops, looking for the table. There isn't one. Somebody asks where they should sit.
+F: Good morning, everyone. Leave the laptops on the window sill, you won't need them today. And yes, the chairs are in the corner. If you need one, take one, no explanation needed. But for the next couple of hours, most of the work happens standing up, in front of that wall.
+P: Are we sure about this, Elena? Some of us were expecting a presentation.
+F: There won't be one. I'll explain very little, on purpose. You'll understand more by doing it than by listening to me. Let's start with a quick round. Name, what you do, and one thing you'd like to get out of today. One sentence each.
+M: Marco, operations. I bring new members into communities. I'd like everyone to see how many steps that actually takes.
+L: Laura, finance. I'd like to understand why the numbers for the payouts arrive so late.
+T: Tom, I lead development. We're about to rebuild the member platform, and I want to be sure we rebuild the right thing.
+N: Nina, member support. I'd like the people who design things to hear what members ask us every day.
+P: Paolo, I started Greenline. I want to know where the biggest problem is, because I'm not sure anymore.
+S: And so on, around the room. Fifteen sentences, about four minutes.
+
+A: Let's freeze it here. What did Elena just do?
+S: Three small things. She removed the table and the laptops, so there's nothing to hide behind. She told people the chairs are available for real needs, which in the book is "soft on needs, hard on laziness". And she ran a short check-in round. Not a long round of introductions, but enough for everyone to say, out loud, why they're there.
+A: That last sentence from Paolo matters. The founder said, in front of everyone, "I'm not sure anymore". That makes it safe for the others to be unsure too.
+S: Now the goal and the warnings. Listen to how short it is.
+
+F: Here's the goal for today. We're going to explore how Greenline works as a whole, by placing everything that happens along a timeline, on that wall. Along the way we'll mark problems, risks and ideas. At the end, we'll choose where to focus.
+F: Two warnings. It will be chaotic, especially at the beginning. That's expected, it's not a sign that things are going wrong. And it will feel a bit awkward. That's expected too.
+F: Now the only rule you need for the first hour. On the flip chart, I've drawn an orange sticky note. We call it a domain event, or just an event. Something that happens in your business, that matters to someone here. Written with a verb in the past tense. For example: "Contract signed." "Meter reading received." Write one event per sticky note, and put it on the wall. Time flows from left to right. That's it.
+T: Do we start from the beginning? Like, a customer finds our website?
+F: Start from whatever you know best. Put it roughly where it happens in time. If you're not sure, guess. Guessing is allowed. Duplicates are allowed. We'll sort everything out later.
+F: Markers are on the window sill. Off you go.
+
+S: And now, the moment every facilitator dreads. Nobody moves.
+A: Fifteen people, holding pads of orange sticky notes, looking at an empty fourteen-meter wall. Somebody laughs nervously. Two developers look at each other. Laura is writing something, then crosses it out.
+S: Elena doesn't step in. She waits. She's counting in her head.
+A: And then Nina, from support, walks straight to the middle of the wall and sticks a note at about eye level. It says: "Member complained about missing payout."
+N: Well, that's what happens to us every Monday.
+F: Perfect. That's exactly it. Thank you, Nina.
+S: And the ice breaks. Within a minute, ten people are at the wall.
+
+A: Freeze. Why did Elena praise Nina out loud?
+S: Because Nina just showed everyone that it's not hard, and that nobody gets hurt. In the book this is the icebreaker, and rewarding that bravery tells the rest of the room that just doing it is the expected behavior.
+A: And notice where she put it. In the middle, not at the left edge. If you wait for "the beginning", nobody starts. Also notice what Elena didn't do: she didn't place the first note herself. If the facilitator writes first, people start waiting for the facilitator.
+S: And there's a hint of the corporate culture in that pause. Startups usually start in seconds. In companies with a history of blame, people wait to see who moves first. Greenline is somewhere in between.
+
+A: Nine twenty. The wall is filling up. Let's walk along it, from left to right. On the far left, Sales has written: "Information evening held in town hall." "Interest form submitted." Then a dense cluster from Marco: "Membership request received", "Identity documents uploaded", "Meter code provided", "Membership approved by board", "Member added to community."
+S: Further right, Laura's cluster: "Monthly meter data received from grid operator." "Shared energy calculated." "Incentive request submitted to agency." "Incentive received." "Payout calculated." "Payout sent to members."
+A: The energy analyst has written a long strip of his own, almost a separate wall: "Production forecast updated", "Consumption profile estimated", "Community simulation run."
+S: And, scattered everywhere, Nina's team: "Member asked for status of application." "Member called about wrong amount." "Member requested to leave."
+
+A: Now listen to a corner of the room. Tom and Marco are standing together, one pad, one marker, and they haven't stuck anything in five minutes.
+T: So I'd write "Member registered".
+M: No, registered isn't right. They're not registered until the board approves them.
+T: OK, "Member approved"? But in the system, the user exists as soon as they fill in the form.
+M: That's a user, not a member. So we need to agree on the word first, otherwise...
+F: Can I interrupt? Write both. One note "User account created", one note "Membership approved by board". Put them where you think they go. If they're the same thing, we'll merge them later. If they're not, we just learned something.
+T: Fair enough.
+S: Elena walks away immediately.
+
+A: Freeze. This is the committee anti-pattern. Two or three people trying to agree on the perfect wording before writing anything.
+S: It kills throughput, and worse, it hides exactly the disagreement we want to see. Tom and Marco use the word "member" differently. If they settle it privately in a corner, the rest of the room never sees it. If both notes go on the wall, the difference becomes visible.
+A: And keep that one in mind. "Member" meaning different things to operations and to development is going to come back in part two.
+
+S: Nine thirty-five. Elena is walking along the wall, reading. She stops at a big note that just says "Onboarding", in capital letters.
+F: Who wrote "Onboarding"?
+M: Me. That's the whole part where we bring a member in.
+F: Great. Can you split it into the things that actually happen? What happens first, when someone wants to join?
+M: Well, they fill in the form. Then we check the documents. Sometimes the documents are wrong and we ask again. Then we check the meter code with the grid operator, then the board approves...
+F: Every one of those is an event. "Documents rejected" too. Especially "documents rejected".
+M: That's going to take a lot of notes.
+F: That's why the wall is fourteen meters long.
+S: Ten minutes later, "Onboarding" is gone, replaced by eleven orange notes, including three about things going wrong.
+
+A: Freeze. A phase name, like "Onboarding", "Billing", "Registration", is a box that hides all the details. And the details are where the problems live. The book is explicit: we provided an unlimited surface precisely so we can work at the level of events. Phases will emerge later, on their own.
+S: Notice what Elena didn't do. She didn't say "that's wrong". She asked a question that made Marco split it himself. And she didn't correct the tense of the notes that say "Approve membership" instead of "Membership approved". At this point, engagement matters more than precision. She'll fix the wording later, or let it go.
+
+A: Nine forty-five. The room has changed. The first ten minutes were noisy. Now it's quiet. Everybody's writing, everybody's sticking. This is what the book calls quiet chaos.
+S: There are about two hundred notes on the wall. Many duplicates: "Payout sent" appears three times, written by three different people. There are clusters that are well ordered inside, but the clusters are in the wrong order relative to each other. The analyst's simulation strip sits to the right of the payouts, even though it happens before a community is even created.
+A: And there are gaps. Huge empty space between "Member added to community" and "Monthly meter data received". Something must happen there, but nobody has written it yet.
+S: Paolo is standing back, arms crossed, looking at the whole wall.
+P: I didn't think there was this much.
+
+A: Ten o'clock. People are slowing down. They're stepping back from the wall, reading other people's notes, pointing. Elena recognizes the moment.
+F: Stop writing for a second and look at what you've done. In forty-five minutes you've put two hundred and something events on that wall. Most organizations have never seen their whole business in one place. You just did. Questions, before we take a break?
+L: It's a mess, though. Nothing is in order.
+F: It's supposed to be a mess. That's the next step, and it takes energy. Fifteen minutes of coffee. Look at the wall while you drink it.
+
+A: Last freeze for this part. The chaotic exploration followed the pattern the book describes almost exactly: the stand-off, the icebreaker, the quiet chaos, and then contemplation, when people stop writing and start looking.
+S: That contemplation moment is the signal to stop. Elena didn't stop at a fixed time. She watched the room. And she gave the break right before the hardest phase, because sorting the timeline is where the conflicts come out.
+A: What would you note, if you were facilitating this? Three things. Remove the table and the laptops. Don't place the first note. Break committees, and turn phase names into events by asking what actually happens.
+S: In part two, the mess becomes a timeline, and the first real arguments start. See you there.

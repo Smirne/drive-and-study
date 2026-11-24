@@ -1,0 +1,99 @@
+S: This is part three of the Greenline example session, the last one. I'm Sara.
+A: I'm Alex. Where we are: it's half past one, after lunch. The wall tells Greenline's story from left to right, from the first simulation for a town to the payout sent to members. About three hundred events, people and systems, and eleven hot spots written by Elena, the facilitator.
+S: The group thinks the story is complete. It isn't. In the book, the next step usually uncovers another thirty or forty percent of the system.
+
+A: One thirty-five. Elena walks to the far right end of the wall.
+F: Before lunch, we told the story forwards. Now we're going to tell it backwards. I'll pick an event near the end, and we ask: what had to happen for this to be possible? Not what usually comes before it. What it actually needs. Let's start with the one members care about. "Payout sent to members". What does Laura need to send a payout?
+L: The payout amounts, calculated in the spreadsheet. And the incentive has to have arrived from the agency.
+F: Is that all it takes? Amounts and money?
+L: Well, I also need each member's bank details.
+F: Where do they come from?
+S: Silence. Laura looks at Marco. Marco looks at Tom.
+M: They're in the membership request. Sometimes.
+N: Not always. Half the calls we get about missing payouts are because the IBAN is missing or wrong. We collect it by email.
+T: By email? The portal has a field for it.
+N: It's optional. People skip it.
+S: Three new orange events go on the wall: "Bank details provided", "Bank details missing at payout time", and "Bank details requested by email". And Nina adds, quietly: "Payout returned by bank".
+
+A: Freeze. That's the reverse narrative. Going forwards, people tell the happy path, the official version. Going backwards, you ask about preconditions, and the hidden steps appear.
+S: Elena's question, "is that all it takes?", is almost word for word what the book suggests: "So event A is all it takes to have event B?" And she said it out loud, in front of everyone. Speaking out loud is what exposes the assumptions.
+A: And look where the gap was found: on the boundary between three teams. Operations collects the data, development built an optional field, finance needs it, and support handles the calls when it's missing. No single team could have seen it.
+
+S: They keep going backwards. Elena points at "Payout calculated".
+F: What does the calculation need?
+L: The shared energy for each hour, for each community. The list of active members. And the rules: how the incentive is split.
+F: The list of active members. When does that list change?
+M: When someone joins. Or leaves.
+F: Is anybody leaving on this wall?
+S: There's one note from support, "Member requested to leave". Nothing after it. Laura frowns.
+L: Actually, when someone leaves in the middle of the year, I have to split their share by days. I do it by hand. And if they leave before we receive the incentive, we still owe them money for the months they were in.
+P: Do we pay them?
+L: Eventually. When they call.
+S: Five new events: "Member left community". "Member meter deactivated". "Partial-year share calculated". "Former member payout owed". "Former member paid". And a hot spot from Elena: "Members who leave are paid late and by hand."
+A: Then Tom has a thought, out of nowhere.
+T: What happens when the grid operator replaces a meter? The code changes.
+L: Then the data for that member stops arriving, and nobody notices for months.
+S: Two more events, "Meter replaced by grid operator" and "Meter data missing for member", and another hot spot.
+
+A: One more chain, briefly. Elena picks "Incentive received" and asks what it needs. Giorgio, from legal, explains that the agency only pays after the community has been qualified, and only for members registered with the agency. Which means there's a fourth meaning of "member": registered with the agency. Elena adds it to the existing hot spot about members, which now lists four meanings.
+S: In forty minutes, the reverse narrative added about seventy events. Almost a quarter of the wall, and most of it about things going wrong.
+
+A: Freeze. Where do you start a reverse narrative? The book suggests terminal events, the ones that seem to settle everything, like a payout. And pivotal events, which often hide a checklist of preconditions.
+S: Notice also that Elena didn't need a separate round for the money. In the book, there's a bonus phase called "add the money", because developers tend to forget suppliers, invoices and payments. Here, Laura was in the room, and the payout was a pivotal event, so the money was there from the start. That's what good invitations buy you.
+A: And she didn't do the value round from the book, the one where you mark value created and destroyed with small red and green notes. Time was limited. That's a legitimate choice: phases are tools, not a checklist.
+
+S: Two fifteen. Elena goes back to the flip chart.
+F: Until now, I've been writing the purple hot spots. Now it's your turn. You have fifteen minutes. Purple notes are problems: anything that hurts, slows you down, or worries you. Green notes are opportunities: ideas, things that could be better. Put them on the wall, next to the part of the story they're about. You don't need to discuss them, just make them visible.
+A: And the room goes quiet again, like during the first exploration. People walk along the wall, read, write, stick. Some notes are written by people who didn't say much all day.
+S: Let's read some of them. Purple: "We ask members for the same documents twice." "Nobody owns the member data." "Community referents don't know their community's numbers." "The board approval is a bottleneck." "Forecasts shown at information evenings are optimistic." "If Laura is sick, nobody pays anybody."
+A: That last one got a few nervous laughs.
+S: And green: "Make bank details mandatory in the portal." "Monthly statement for each member: energy, share, expected payout." "Board approval by e-signature, not at a meeting." "One forecast, shared by sales and analysis." "Automatic import of meter data."
+A: By two thirty, there are about sixty purple notes, Elena's and everyone else's, and about thirty green ones.
+
+A: Freeze. Why does the book wait until now for this round?
+S: Because now the whole system is visible. If you ask for problems at the start, you get a flood of vague complaints. Now every problem lands on a specific part of a shared story. And because people write rather than speak, this round gives everyone a safe channel to make their opinion visible, without starting a conflict. That's especially useful in companies where speaking up isn't easy.
+A: And the green balances the purple. Sixty problems would be depressing. Thirty ideas next to them say: there are problem solvers in this room too.
+
+S: Two thirty-five. Elena hands out small blue sticky notes, two per person, each with an arrow drawn on it.
+F: Last step. Each of you has two arrows. Point them at the problem or opportunity that you think is most important to work on. Most important by your own judgment. You can put both arrows on the same note, or on two different ones. Let's all vote at the same time, no queue.
+P: Should I go first, to get things started?
+F: Actually, Paolo, I'd ask you to wait a couple of minutes and vote last. When the founder votes first, people tend to follow the founder.
+P: Fair. I'll get a coffee.
+S: Thirty arrows go up in about three minutes. People crowd the wall, some vote immediately, some walk the whole length first. Paolo comes back and places his two arrows when everyone else has finished.
+
+A: Freeze. Why ask the founder to wait?
+S: This is the power play warning in the book. In a corporate setting, the most influential person can steer a vote without meaning to, just by voting first. Elena asked politely, gave a reason, and Paolo accepted. Most leaders do, if you ask the right way.
+A: Also notice: no "voting catwalk", no one-by-one queue in front of the wall. Simultaneous voting is faster, and it reduces the influence people have on each other.
+
+S: Two forty-five. Let's look at where the arrows landed.
+A: The biggest cluster, nine arrows, points at the hot spot about the four meanings of "member", next to the purple note "Nobody owns the member data". Six arrows point at the spreadsheet: "Payout calculation depends on a spreadsheet nobody fully understands", together with "If Laura is sick, nobody pays anybody". And five arrows, which surprised everyone, point at a green note from support: "Monthly statement for each member".
+S: Then a few arrows each for the board approval, the meter data import, and the bank details.
+N: Five votes for the statement! I thought it was just a support thing.
+L: If members could see their numbers, half of the calls would disappear. And so would half of my emails.
+T: And we can't build a statement until we know which "member" we're talking about. It's all the same problem.
+S: Paolo looks at the wall for a long moment.
+P: I came in thinking our problem was the portal. It's not. It's that nobody owns who our members are.
+
+A: Freeze. This is what the book calls seeing through the fog. After a long day, the wall points at a place to start tomorrow morning.
+S: And it wasn't the place the founder expected. That's the value of the format: the voting is informed by a model that everyone built, so the result can be trusted even when it's a surprise.
+A: One caveat from the book: you should only call a vote when you're prepared to act on the result, and when the right people are in the room. Here they were: Paolo was there, and the result can become a plan. If key people are missing, or if the company isn't ready to act, skip the vote.
+
+S: Two fifty. Elena wraps up.
+F: Before you go: I'm taking photos of the whole wall, section by section, and close-ups of every hot spot and every arrow. Please don't take the wall down. Can it stay up for a week?
+P: It stays up.
+F: Good. Here's what I suggest for next steps, and you decide. First: tomorrow morning, a smaller group, Tom, Marco, Laura, Nina and Giorgio, works on the member problem. One hour, at the wall, defining the four meanings and who owns each one. Second: next week, a process modeling session on the payout flow, from meter data to payout, with the full color grammar. That's where we'll design how to replace the spreadsheet. And third: keep the green notes. Some of them, like mandatory bank details, are a day of work, and they don't need a workshop.
+F: Last round, one sentence each. What are you taking away from today?
+M: That my "onboarding" is eleven steps, and three of them are mistakes.
+L: That I'm not the only one who knows the payout is fragile.
+T: That we were about to build the wrong member table.
+N: That support isn't just complaints. We had one of the top ideas.
+P: That I need to stop guessing where the problems are.
+F: Thank you, everybody. It's been a long day.
+
+A: Final freeze, and a look back at the whole session.
+S: The timings first, because people always ask. Kick-off, fifteen minutes. Chaotic exploration, forty-five minutes. Break. Enforcing the timeline, about fifty minutes. People and systems, thirty. Walk-through, an hour. Lunch. Reverse narrative, forty minutes. Problems and opportunities, fifteen. Voting, fifteen. Wrap-up, ten. From nine to three, with breaks. A big company would need more time; a small one, maybe less.
+A: Now the facilitator's moves, in order. Remove the table and the laptops. Keep the kick-off short and set the goal in one sentence. Don't place the first note, and praise the icebreaker. Break committees, and split phase names into events. Watch for the contemplation moment, and break there.
+S: Let the group pick pivotal events quickly. Mark hot spots yourself while people sort. Use "anything we can blame" for systems. Run the walk-through as a relay. Then walk backwards from terminal events, asking "is that all it takes?". Open the problems and opportunities round only when everything is visible. Vote with arrows, simultaneously, and ask the most powerful person to wait. And never take the wall down on the same day.
+A: And notice what Elena almost never did: explain the method. She showed it. Every rule was introduced right when it was needed, one color at a time.
+S: One last thought, for your own workshop. You won't get this exact story. The surprises will be different, and that's the point. Big Picture is a discovery workshop. Plan the phases, but be ready to throw away the plan when you find something more interesting.
+A: That's the end of the example session. Thanks for listening, and good luck with your wall.

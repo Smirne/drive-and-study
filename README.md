@@ -83,7 +83,7 @@ content/<pack>/lessons/ep*.txt    lesson scripts (ep11 recap, ep12 confused pair
 tools/parse.py                    source/*.txt -> questions.json
 tools/gen_clips.py                questions.json -> public/audio/drill/<pack>/*.mp3 (Kokoro offline TTS)
 tools/gen_lesson.py               single-voice lesson script -> wav
-tools/gen_podcast.py              two-host podcast script -> wav
+tools/gen_podcast.py              podcast script -> wav (hosts A:/S:, plus a cast F: M: L: T: N: P: for the example session)
 tools/build.py                    templates + every pack -> its drill.html and lessons.html
 tools/verify_java.py              compiles and runs every code question of a Java pack on JDK 25 (Check: lines)
 tests/test_matcher.js             matcher vs every option in the bank (node; must give 0 wrong)
@@ -103,11 +103,13 @@ tests/smoke_site.py               site: home, both packs' lessons players and dr
 A study companion to Alberto Brandolini's *Introducing EventStorming*, for preparing to facilitate
 a workshop. The material is an independent summary in our own words, not the book's text.
 
-- `/eventstorming/lessons`: 11 episodes (10 lessons and a two-host recap) covering what EventStorming
+- `/eventstorming/lessons`: 14 episodes (10 lessons, a two-host recap, and a three-part example session) covering what EventStorming
   is, preparing the room and invitations, running a Big Picture, facilitation patterns and
   anti-patterns, finding bounded contexts, Process Modeling and its color grammar, Design-Level and
   aggregates, how it maps to DDD / CQRS / event sourcing, and remote workshops. Each lesson ends with
-  a short spoken quiz with pauses.
+  a short spoken quiz with pauses. The example session (episodes 12–14, about 45 minutes) acts out an
+  in-person Big Picture for a fictional energy-community company, with a facilitator, five participants
+  and two hosts who describe the wall and pause the action to explain each facilitation move.
 - `/eventstorming/drill`: 30 concept questions with feedback, 12 facilitation scenarios graded
   5/3/1/0 with the reasons for every option, and a 20-question readiness check (20 min, target 14).
 
