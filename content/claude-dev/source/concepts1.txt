@@ -1,0 +1,253 @@
+Claude Developer concepts, set one. API mechanics, models and cost, prompts and context, tools.
+
+Question 1.
+Topic: cd-apps
+Users report answers that stop mid-sentence. The handler never inspects why generation stopped. What should it check first?
+A. The temperature setting of the request
+B. The stop reason, and handle max tokens as a truncated answer that needs more room or a continuation
+C. Whether streaming is enabled, since streamed answers often end early
+D. The length of the system prompt
+[THINK]
+The answer is B. A stop reason of max tokens means the output was cut at your limit. Treat it as truncation: raise the limit or continue, and never present it as a complete answer.
+
+Question 2.
+Topic: cd-apps
+A request fails with a four hundred error saying the prompt is too long. A colleague proposes raising max tokens. Why won't that work?
+A. Max tokens caps the output, and the input is what overflows
+B. Max tokens can't be changed after the first request
+C. The error is really a rate limit that needs a retry with backoff instead
+D. Max tokens only applies to streaming requests
+[THINK]
+The answer is A. Max tokens limits the output. The input doesn't fit the context window, so count tokens and trim, chunk, or summarize it.
+
+Question 3.
+Topic: cd-apps
+Which pair of errors should a client retry with exponential backoff?
+A. Authentication errors and permission errors
+B. Invalid request errors and not found errors
+C. Rate limit errors and overloaded errors
+D. Request too large errors and billing errors
+[THINK]
+The answer is C. Four twenty-nine rate limits and five twenty-nine overloaded errors are transient. Most other four hundred errors mean the request itself must be fixed.
+
+Question 4.
+Topic: cd-apps
+A nightly job regenerates four hundred thousand product descriptions. Nobody waits for the results, and cost matters most. What fits best?
+A. Real-time requests with streaming
+B. The Message Batches API
+C. A larger model with lower effort
+D. Parallel real-time calls without limits
+[THINK]
+The answer is B. Batches cost half the price and finish within twenty-four hours, which is ideal for large volumes when nobody is waiting.
+
+Question 5.
+Topic: cd-apps
+Batch results arrive in a different order from the submitted requests. How should the application match them?
+A. By their position in the results file
+B. By the timestamp of each result
+C. By the custom identifier set on each request
+D. By resubmitting the batch until the order of results matches the requests
+[THINK]
+The answer is C. Result order isn't guaranteed, so each request carries a custom I D that you use to match its result.
+
+Question 6.
+Topic: cd-apps
+In a streamed response, which event carries the stop reason?
+A. Message start
+B. Content block stop
+C. Message delta
+D. Ping
+[THINK]
+The answer is C. The stop reason and the cumulative usage arrive in message delta. Message stop then ends the message.
+
+Question 7.
+Topic: cd-apps
+A mobile app calls the Claude API directly, with the API key stored inside the app. What's the right architecture?
+A. Encrypt the key inside the app bundle
+B. Use an admin key, which has stronger protections
+C. Rotate the key every week, and keep it obfuscated inside the app bundle
+D. Keep the key on your server, and have the app call your server
+[THINK]
+The answer is D. Anything shipped to users' devices can be extracted. The server holds the key, authenticates users, applies limits, and calls the API.
+
+Question 8.
+Topic: cd-model
+An evaluation shows that the smallest, cheapest model extracts invoice fields as accurately as the large model you use today. Latency must stay low. What do you do?
+A. Keep the large model, because a larger model is always the safer production choice
+B. Route the task to the smaller model, keeping the evaluation as a gate that runs on every prompt or model change
+C. Raise the effort on the large model
+D. Move the task to batch processing
+[THINK]
+The answer is B. When the evaluation proves the cheaper model meets the bar, route to it, and keep running the evaluation to catch regressions.
+
+Question 9.
+Topic: cd-model
+A thinking model often stops with the max tokens stop reason. Which change addresses the cause?
+A. Lower the temperature
+B. Add more examples to the prompt, showing complete reports of the right length
+C. Raise max tokens, or lower the effort level
+D. Switch the request to streaming
+[THINK]
+The answer is C. On thinking models, max tokens caps thinking and text together. Give more room, or reduce how much the model thinks.
+
+Question 10.
+Topic: cd-model
+Which effort level is the usual choice for simple subagent tasks where speed and cost matter most?
+A. Low
+B. High
+C. Max
+D. Extra high
+[THINK]
+The answer is A. Low effort suits simple tasks and subagents. Higher levels add thinking and tool calls that these tasks don't need.
+
+Question 11.
+Topic: cd-model
+Quality changed silently in production, although nobody touched the code. Prompts are edited directly in a database, and the model is referenced through a moving alias. Which fix removes the cause?
+A. Lower the temperature to zero, and add automatic retries whenever quality looks low
+B. Switch to a larger model
+C. Pin the model version, keep prompts in version control with review, and gate every release with a regression evaluation
+D. Add a stronger system prompt
+[THINK]
+The answer is C. Both a moving alias and untracked prompt edits cause silent drift. Pinning and versioning make behavior reproducible, and the evaluation gate catches regressions.
+
+Question 12.
+Topic: cd-model
+A team caches its system prompt and documents, but sees almost no cache reads. The only breakpoint sits after each user's question. What's wrong?
+A. The cache needs a one-hour lifetime, because the default lifetime is too short for documents
+B. The breakpoint covers content that changes on every request
+C. Caching only works with batches
+D. The documents are too long to cache
+[THINK]
+The answer is B. Place breakpoints on the last block that's identical across requests, layered by how often each part changes.
+
+Question 13.
+Topic: cd-model
+A pipeline calls the API every fifteen minutes with the same large prefix. The cache is written each time but never read. What's the cause?
+A. The default cache lives five minutes
+B. The prefix is shorter than the minimum length
+C. Prompt caching is disabled for pipelines
+D. Tool definitions are cached after the messages
+[THINK]
+The answer is A. Use the one-hour cache lifetime, or call more often, so the prefix is still cached at the next call.
+
+Question 14.
+Topic: cd-model
+In what order is the cacheable prompt prefix built?
+A. Messages, then system, then tools
+B. System, then messages, then tools
+C. Tools, then messages, then system
+D. Tools, then system, then messages
+[THINK]
+The answer is D. Tools come first, so changing a tool definition invalidates everything after it.
+
+Question 15.
+Topic: cd-prompt
+A rule saying "answer only from the documents" sits in the middle of forty thousand tokens of documents, and the model answers from general knowledge. What's the best fix?
+A. Lower the temperature to zero
+B. Add more examples of correct answers
+C. Put the rule in the system prompt, place the documents first, and restate the rule right next to the question at the end
+D. Switch to a model with a larger context window, so the documents get more attention
+[THINK]
+The answer is C. Instructions lost in the middle of a long context get weak attention. Put documents first, and the instruction and question last.
+
+Question 16.
+Topic: cd-prompt
+On current models, how do you get output in a strict JSON shape?
+A. Prefill the assistant turn with an opening brace
+B. Set a JSON schema in the output format configuration
+C. Raise the temperature, so the model explores more output formats
+D. Ask politely in the user message only
+[THINK]
+The answer is B. Structured outputs constrain decoding to your schema. Prefill is rejected on current models.
+
+Question 17.
+Topic: cd-prompt
+Structured outputs guarantee valid JSON. In which situation can you still receive output that doesn't match the schema?
+A. When the response stops because of max tokens, leaving the JSON incomplete
+B. When the system prompt is short
+C. When the request uses tool definitions
+D. When the model is called through the Python SDK
+[THINK]
+The answer is A. A truncated response can be incomplete JSON, and refusals can break the schema too. Check the stop reason and validate before acting.
+
+Question 18.
+Topic: cd-prompt
+A four-hour agent session has become slow and keeps contradicting decisions made early on. Which pair of measures helps most?
+A. Switch to a larger model, and enable caching
+B. Raise the temperature, and add more tools
+C. Prune stale tool results, and compact the history into a summary
+D. Restart the session every few minutes, without any handoff of the work done so far
+[THINK]
+The answer is C. Pruning removes noise, and compaction keeps the important decisions in a short summary. Caching changes cost, not context size.
+
+Question 19.
+Topic: cd-prompt
+Why are subagents useful for context management?
+A. They share the main conversation's full history, so nothing has to be repeated to them
+B. They run noisy work in their own context and return only a summary
+C. They make every tool call cheaper
+D. They remove the need for a system prompt
+[THINK]
+The answer is B. The noisy search results or logs stay in the subagent's context. The main conversation receives only the result.
+
+Question 20.
+Topic: cd-tools
+Claude confuses two tools, search customers and search orders, because their descriptions are vague. What's the best fix?
+A. Merge them into one tool
+B. Remove one of the tools, and let the remaining one handle both kinds of search
+C. Route between them with keyword matching in the application code, before Claude decides
+D. Rewrite both descriptions to state what each does, when to use it and when not to, and what each parameter means
+[THINK]
+The answer is D. Detailed descriptions are the most important factor in correct tool selection.
+
+Question 21.
+Topic: cd-tools
+After Claude calls a tool, your code sends a user message with the text "here are the results" followed by the tool result block. The API returns a four hundred. Why?
+A. Tool results must come first in that message
+B. Tool results must be sent in the system prompt
+C. Each tool result needs its own separate request, sent after the text message
+D. The tool use identifier must be omitted
+[THINK]
+The answer is A. Tool result blocks go first in the user message that follows the tool use, each with its matching I D.
+
+Question 22.
+Topic: cd-tools
+Claude made three independent tool calls in one response. How should the results be returned?
+A. In separate user messages, a message for each result
+B. All the tool results together in a single user message
+C. Only the first result, then wait until Claude asks again for the others
+D. As plain text inside the system prompt of the next request
+[THINK]
+The answer is B. Parallel tool results go together in the same user message, each with its tool use I D.
+
+Question 23.
+Topic: cd-tools
+A tool fails because Claude passed a date in the wrong format. What should the tool result contain?
+A. An empty result, so Claude moves on
+B. A generic message that just says error
+C. An error flag, and a message stating what was wrong and the expected format, with an example of a valid date
+D. Nothing at all, and the agent loop should stop immediately with a failure
+[THINK]
+The answer is C. Set is error to true, and explain what was wrong and what's expected, so Claude can correct the call.
+
+Question 24.
+Topic: cd-tools
+Every response of an extraction service must be a call to one specific tool. Leaving tool choice on auto sometimes produces plain text. What's the most direct fix, on a model that supports forced tool use?
+A. Use the any option, so Claude must call some tool
+B. Name that specific tool in tool choice
+C. Add "always use the tool" in capital letters
+D. Retry until a tool call appears
+[THINK]
+The answer is B. Any still lets Claude pick a different tool, and prompts or retries are probabilistic. On models that reject forced tool use, use auto with strict tools or structured outputs.
+
+Question 25.
+Topic: cd-tools
+An agent has eighty tools from several MCP servers. Their definitions cost many tokens and tool selection is getting worse. What helps most?
+A. Tool search, with deferred loading
+B. Shorter descriptions for every tool, so the definitions take fewer tokens
+C. A larger context window
+D. Forcing tool choice to any
+[THINK]
+The answer is A. With deferred loading, only the search tool and frequently used tools load up front, and Claude finds the rest when needed.
+
+That's the end of set one.

@@ -1,0 +1,253 @@
+Claude Developer concepts, set two. Agents and workflows, MCP, Claude Code, security, and evaluation.
+
+Question 1.
+Topic: cd-agents
+Which workload needs an agent rather than a fixed workflow?
+A. Converting CSV files to JSON every night
+B. Translating product pages into French, with a glossary of approved terms
+C. Debugging a failure whose cause is unknown
+D. Summarizing each support ticket into a fixed template
+[THINK]
+The answer is C. The next step depends on what each investigation finds, so the steps can't be planned in advance. The others are fixed pipelines.
+
+Question 2.
+Topic: cd-agents
+Which workflow pattern classifies an input and sends it to a specialized prompt or model?
+A. Routing
+B. Prompt chaining
+C. Evaluator-optimizer
+D. Voting
+[THINK]
+The answer is A. Routing lets each path use its own optimized prompt, and can send easy requests to a small model and hard ones to a large model.
+
+Question 3.
+Topic: cd-agents
+In which pattern does a central model break a task into subtasks that aren't known in advance, delegate them, and combine the results?
+A. Sectioning
+B. Orchestrator-workers
+C. Prompt chaining
+D. Routing
+[THINK]
+The answer is B. Unlike sectioning, the subtasks are decided dynamically by the orchestrator.
+
+Question 4.
+Topic: cd-agents
+A team built its own agent loop, and now needs file and shell tools, permissions, resumable sessions and subagents. What's the most direct choice?
+A. A graph orchestration framework
+B. An MCP server for each capability
+C. The Claude Agent SDK
+D. A longer system prompt
+[THINK]
+The answer is C. The Agent SDK provides Claude Code's agent loop, built-in tools, permissions, sessions, hooks and subagents as a library.
+
+Question 5.
+Topic: cd-agents
+An agent must always run the test suite before it reports that a task is complete. How do you guarantee it?
+A. Add the rule in capital letters to the system prompt, and repeat it at the end
+B. Add the rule to the user's first message
+C. Lower the effort, so the agent works more carefully and has time to run every check
+D. Use a hook at the stop event that blocks completion until the test suite has run and passed
+[THINK]
+The answer is D. Prompts are probabilistic. A hook runs deterministically at a fixed point in the agent lifecycle.
+
+Question 6.
+Topic: cd-agents
+A trace shows an agent repeating the same failing tool call over and over. Which pair of fixes addresses it?
+A. A larger model, and higher temperature
+B. An iteration limit, and a tool error that explains how to recover
+C. More tools, and a longer context window, so the agent can find another way
+D. Prompt caching, and batch processing
+[THINK]
+The answer is B. Agents need a termination condition, and tool errors must tell the model what went wrong and what to do instead.
+
+Question 7.
+Topic: cd-agents
+A company wants long-running agents with a sandbox, tools and session state, but doesn't want to operate any of that infrastructure. What fits?
+A. Claude Managed Agents
+B. The Message Batches API
+C. Claude Code in plan mode
+D. A stdio MCP server
+[THINK]
+The answer is A. Managed Agents runs the agent loop, the sandbox, the tools and the session state as a hosted service.
+
+Question 8.
+Topic: cd-tools
+One MCP server must be shared by developers' laptops and by a cloud agent. Which transport fits?
+A. Standard input and output
+B. Streamable HTTP, with authentication
+C. A local file shared on a network drive
+D. Server-sent events only, without HTTP POST
+[THINK]
+The answer is B. A stdio server is a local process for a single host. A remote Streamable HTTP server can serve many clients.
+
+Question 9.
+Topic: cd-tools
+In an MCP server for a ticket system, what's the right split between reading tickets and creating them?
+A. Both as prompts
+B. Reading as a tool, creating as a resource
+C. Reading as resources, creating as a tool
+D. Both as resources
+[THINK]
+The answer is C. Resources provide data for context. Tools perform actions, especially ones with side effects.
+
+Question 10.
+Topic: cd-tools
+A team keeps pasting the same release checklist into Claude Code. What's the best way to package it?
+A. An MCP server that returns the checklist
+B. A custom API tool
+C. A skill, loaded when relevant
+D. A longer CLAUDE dot M D with the whole checklist
+[THINK]
+The answer is C. A skill packages know-how and procedures, and its body loads only when it's needed.
+
+Question 11.
+Topic: cd-code
+Several CLAUDE dot M D files apply to the same session. How are they combined?
+A. The user file overrides the project file
+B. They're concatenated, and the files closer to the working directory are read last
+C. Only the closest file is loaded
+D. The managed file is loaded only if the user and project files are missing
+[THINK]
+The answer is B. All applicable files are loaded together. They add to each other rather than override.
+
+Question 12.
+Topic: cd-code
+A policy hook detects a forbidden command and exits with code one. What happens?
+A. The command is blocked, and the error output is shown to Claude
+B. Claude Code stops the session
+C. The command still runs, because only exit code two blocks
+D. The user is always asked for permission, whatever the hook returns as its exit status
+[THINK]
+The answer is C. Exit code two is the blocking code. Other non-zero codes are non-blocking errors.
+
+Question 13.
+Topic: cd-code
+A pre tool use hook that enforces a team rule lives in one developer's personal settings. Where should it go so every clone enforces it?
+A. In the committed project settings file
+B. In the local project settings file, next to the shared one
+C. In a CLAUDE dot M D instruction
+D. In the user's home settings file
+[THINK]
+The answer is A. The shared project settings file, dot claude slash settings dot json, is committed with the repository. For organization-wide enforcement, use managed settings.
+
+Question 14.
+Topic: cd-code
+Which settings level has the highest precedence in Claude Code?
+A. User settings
+B. Shared project settings
+C. Local project settings
+D. Managed settings
+[THINK]
+The answer is D. Managed settings win, then command line options, then local project, shared project, and user settings.
+
+Question 15.
+Topic: cd-code
+A CI pipeline runs Claude Code headless and must behave the same on every machine, without loading anybody's personal hooks or CLAUDE dot M D. What helps?
+A. Plan mode
+B. Bare mode, with explicit allowed tools
+C. Bypass permissions mode
+D. A longer system prompt that lists the hooks and servers to ignore
+[THINK]
+The answer is B. Bare mode skips the automatic loading of hooks, skills, plugins, MCP servers and CLAUDE dot M D, so only what you pass explicitly applies.
+
+Question 16.
+Topic: cd-security
+An agent read a web page with hidden instructions, then emailed internal data to an outside address. Which fix gives a guarantee?
+A. A clear sentence in the system prompt forbidding outbound email
+B. A larger model that's harder to fool
+C. A deterministic gate on the email tool, with an allowed list of recipients, enforced outside the model
+D. Lower temperature on every request
+[THINK]
+The answer is C. A hook or approval step enforces the rule regardless of what the model decides. Combine it with least privilege.
+
+Question 17.
+Topic: cd-security
+Where should third-party content, like a fetched web page, be placed in a request?
+A. Inside a tool result block, labeled with its source
+B. Inside the system prompt
+C. As the user's own text message, so the model reads it carefully
+D. In the request headers, where the model doesn't treat it as instructions
+[THINK]
+The answer is A. Untrusted content belongs in tool results, and the system prompt states that instructions inside it are data, not commands.
+
+Question 18.
+Topic: cd-security
+What's the difference between a direct jailbreak and indirect prompt injection?
+A. A jailbreak needs tools to work, while injection only affects plain chat applications
+B. In a jailbreak the user is the attacker; in injection, the instructions hide in content the model reads, like pages or tool results
+C. There's no difference
+D. Injection only affects image inputs
+[THINK]
+The answer is B. Indirect injection arrives through documents, web pages, emails or tool results, while the user may be fully trusted.
+
+Question 19.
+Topic: cd-security
+Which key should an application use to call the model?
+A. An admin key, for full access
+B. A personal key copied from a developer's laptop, because it already has the right access
+C. A workspace key for that environment, kept in a secrets manager and rotated regularly
+D. Any key, as long as it's rotated yearly
+[THINK]
+The answer is C. Applications use workspace-scoped keys, separate per environment, stored securely and rotated. Admin keys manage the organization.
+
+Question 20.
+Topic: cd-security
+Which Claude Code permission mode should only be used inside isolated containers or virtual machines?
+A. Plan
+B. Accept edits
+C. Default
+D. Bypass permissions
+[THINK]
+The answer is D. Bypass permissions runs everything without asking, and offers no protection against prompt injection.
+
+Question 21.
+Topic: cd-eval
+Which grading method is fastest and most reliable, but can't judge nuance?
+A. Code-based grading
+B. Human grading
+C. An LLM judge
+D. User surveys
+[THINK]
+The answer is A. Code-based checks are cheap and deterministic. Use an LLM judge or humans for nuanced qualities.
+
+Question 22.
+Topic: cd-eval
+An LLM judge often disagrees with your domain experts. What should you do first?
+A. Use the same model as the application for judging, so its standards match the answers
+B. Calibrate the judge against expert grades, and refine its rubric
+C. Remove the rubric so the judge decides freely
+D. Stop evaluating and rely on user feedback
+[THINK]
+The answer is B. A judge must be validated against human grades before you trust it. Detailed rubrics and constrained scores help.
+
+Question 23.
+Topic: cd-eval
+An assistant faithfully reported product stock from a cache that was hours out of date. Where's the failure?
+A. In the model's reasoning, so switch to a model that's better at inventory questions
+B. In the integration layer, so fix data freshness and include a last-updated timestamp in the tool result
+C. In the prompt, so add more examples
+D. In the temperature setting
+[THINK]
+The answer is B. The model did its job with the data it received. The fix is in the data layer.
+
+Question 24.
+Topic: cd-eval
+Asked to update a configuration file, the assistant only describes the changes it would make. Which failure mode is this?
+A. Hallucination
+B. Format drift
+C. Under-acting
+D. Context loss
+[THINK]
+The answer is C. Ask for the action explicitly, and make sure the tools to perform it are available and well described.
+
+Question 25.
+Topic: cd-eval
+Before switching production to a new model version, what should you run?
+A. A single manual test in the playground
+B. A regression evaluation on your golden set
+C. Nothing, because new versions are always better than the previous ones on every task
+D. A load test only, since quality is the same across versions
+[THINK]
+The answer is B. A regression suite shows whether quality, format and cost hold before you switch.
+
+That's the end of set two.

@@ -29,7 +29,8 @@ Java-style questions may add a code block (``` fence, before or after the questi
 options (A-F), several right answers ("The answers are B and D."), and "Check: ..." lines read by
 tools/verify_java.py. Questions with code, multiple answers or other than four options are silent
 ("na": shown, never read aloud), keep their option order, and get digits instead of letters in the
-explanation; "a" is a list for multi-answer questions and "c" holds the code.
+explanation (pack.json "silentSources" makes every question of the listed source files silent);
+"a" is a list for multi-answer questions and "c" holds the code.
 
 Graded questions keep the option order of the source (spread the best answers when writing them);
 "a" is the best option, "g" the points per option in display order and "sc" the scenario.
@@ -52,6 +53,8 @@ def natural_key(p: Path):
 
 def parse(pack: Path, keep_checks=False):
     qs = []
+    cfg = pack / 'pack.json'
+    silent_files = set(json.loads(cfg.read_text()).get('silentSources', [])) if cfg.exists() else set()
     for f in sorted((pack / 'source').glob('*.txt'), key=natural_key):
         blocks = re.split(r'\nQuestion \w+\.\n', f.read_text())[1:]
         for b in blocks:
@@ -95,7 +98,7 @@ def parse(pack: Path, keep_checks=False):
                 continue
             m = re.match(r'The answers are ([A-F](?:, [A-F])*,? and [A-F])\b', ex)
             letters = 'ABCDEF'[:len(opts)]
-            if code or m or len(opts) != 4:
+            if code or m or len(opts) != 4 or f.stem in silent_files:
                 # silent question (shown, not read aloud): keep the source order, letters become digits
                 ans = sorted(letters.index(x) + 1 for x in re.findall(r'[A-F]', m.group(1))) if m else \
                     letters.index(re.match(r'The answer is ([A-F])\b', ex).group(1)) + 1

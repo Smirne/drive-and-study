@@ -1,0 +1,63 @@
+Claude Certified Developer, Foundations. Episode five. Prompt caching and controlling cost.
+
+Cost questions on the exam usually come down to prompt caching, batches, model choice, and knowing where tokens go. This episode is mostly about caching, because it's the lever that's easiest to get wrong.
+
+Why caching exists. The API is stateless, so each request resends the system prompt, the tool definitions, and the whole conversation. If a large part of that is identical across requests, the model can reuse its processing of that prefix instead of recomputing it. Cached reads are much cheaper and faster than normal input.
+
+How it works. The cache is a prefix. The order is fixed: tools first, then the system prompt, then the messages. Everything up to and including a block marked with cache control becomes a cacheable prefix. On the next request, if the prefix is byte-for-byte identical, it's read from the cache. Any change in the prefix, even one character, means a miss from that point on.
+
+You can enable it two ways. Automatic caching: add one top-level cache control field, and the breakpoint moves forward to the last cacheable block as a conversation grows. That's the easy default for multi-turn chat. Or explicit breakpoints: put cache control on specific content blocks. You can have up to four breakpoints.
+
+Pricing, as ratios. A cache write costs a bit more than normal input: one point two five times the base input price for the default five-minute cache, or two times for the one-hour cache. A cache read costs a tenth of the base price, and even less on the newest large models. So caching pays off as soon as a prefix is read once or twice.
+
+Lifetime. The default cache lives five minutes, and every read refreshes it at no cost. The one-hour option, set with a time to live of one hour, costs more to write but survives longer gaps. Use it when calls to the same prefix are more than five minutes apart but less than an hour, and for batches that share context.
+
+There's a minimum length: on current models, prompts shorter than about five hundred tokens aren't cached, silently, with no error. On some older models the minimum is one thousand or more.
+
+How to read the usage. Cache creation input tokens: written to the cache in this request. Cache read input tokens: read from the cache. Input tokens: only the uncached part after the last breakpoint. If both cache fields are zero, nothing was cached; usually the prefix was too short, or the breakpoint is in the wrong place.
+
+Now the mistakes, because that's what the exam asks.
+
+Mistake one: a breakpoint on content that changes every request. The official sample question: a team caches a large system prompt and a set of documents, but places its only breakpoint after the user's question. Every request has a different question, so every prefix is unique, and they see almost no cache reads. The fix: put breakpoints on the last block that's identical across requests, and use layered breakpoints matched to how often each part changes. For example, one after the tools and system prompt, which never change, one after the documents, which change daily, and the conversation after that.
+
+Mistake two: dynamic content early in the prompt. A timestamp or a user name at the top of the system prompt changes the prefix every time, and invalidates everything after it. Keep stable content first, and variable content last.
+
+Mistake three: the cache expires between calls. A pipeline calls every fifteen minutes and writes the cache each time but never reads it, because the five-minute cache has expired. The fix: use the one-hour lifetime, or schedule the calls closer together.
+
+Mistake four: changing things that invalidate the cache. Changing tool definitions invalidates everything, because tools come first. Changing the system prompt invalidates the system prompt and the messages. Changing tool choice, adding or removing images, changing the thinking settings, or changing the effort level invalidate the message part. Changing the JSON schema output format invalidates the cache too. And some programming languages randomize the order of JSON keys, which silently changes your tool definitions on every request, so keep the key order stable.
+
+Mistake five: expecting caching to shrink the context. Caching reduces cost and latency, not the number of tokens in the window. If the problem is a bloated context that degrades quality, caching is the wrong answer; pruning, compaction or subagents are the right ones.
+
+There's also a trick for latency: pre-warming. Sending a request with max tokens zero writes the cache without generating output, so the first real user request is a cache hit.
+
+Now, beyond caching, the other cost levers.
+
+Batches halve the price for work that can wait up to twenty-four hours. And they combine with caching.
+
+Model choice is usually the biggest lever: an evaluation that shows a smaller model is good enough can cut costs many times over.
+
+Effort: lower effort means less thinking and fewer tool calls.
+
+Output length: output tokens cost several times more than input. Ask for concise output, use structured outputs instead of long prose when code is the consumer, and set a sensible max tokens.
+
+Tool definitions are tokens too. Every request includes all tool definitions, plus a tool-use system prompt the API adds when tools are present. With dozens of tools, that can be tens of thousands of tokens per call. The tool search tool fixes that: you mark tools with defer loading, and Claude searches for the few it needs, so only those definitions enter the context. Recommended when you have more than about ten tools or more than ten thousand tokens of definitions; selection accuracy also drops past thirty to fifty tools.
+
+Context growth: in an agent, old tool results pile up. Clearing them, or compacting the history, keeps each turn cheap.
+
+Diagnosing a cost problem follows a pattern: look at the usage fields per request. Are cache reads near zero? Fix the breakpoints or the lifetime. Is input huge and growing turn after turn? Trim the context. Is output large? Reduce verbosity or effort. Is it volume of independent work? Move it to batches. Is it the model? Run an evaluation on a cheaper one.
+
+Quick check.
+In which order is the prompt prefix cached?
+[THINK]
+Tools, then system, then messages.
+Calls are fifteen minutes apart and the cache is written but never read. What do you change?
+[THINK]
+Use the one-hour cache lifetime, or call more often. The default lifetime is five minutes.
+Where should a cache breakpoint go?
+[THINK]
+On the last block that's identical across requests, never on content that changes every time.
+Does caching reduce how much of the context window is used?
+[THINK]
+No. It reduces cost and latency only.
+
+In the next episode: prompt engineering and structured output.

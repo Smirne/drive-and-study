@@ -50,7 +50,7 @@ with sync_playwright() as p:
     # review: the three non-best answers come back
     pg.click('#reviewWrong'); pg.wait_for_selector('#pad1:not([disabled])')
     assert pg.text_content('#qTot') == '3'
-    pg.reload()
+    pg.wait_for_timeout(1500); pg.reload()   # let Chromium commit file:// localStorage first
 
     # mock exam: 4 best (20) + 2 second best (6) = 26 points, 2 unanswered -> pass
     pg.click('#exam-p2mock1')
@@ -72,7 +72,7 @@ with sync_playwright() as p:
     csv = pg.evaluate('toCSV([lastAttempt])')
     assert csv.splitlines()[0].endswith('points,max_points')
 
-    pg.reload()
+    pg.wait_for_timeout(1500); pg.reload()   # let Chromium commit file:// localStorage first
     assert 'best 26/40' in pg.text_content('#exam-p2mock1')
     assert 'Part 2 mock 1: 26/40' in pg.text_content('#historyList')
     print('errors:', errs)

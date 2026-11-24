@@ -1,0 +1,51 @@
+Claude Certified Developer, Foundations. Episode eleven. Claude Code.
+
+Claude Code is eight percent of the new exam, and it also shows up in configuration and security questions. This episode covers CLAUDE dot M D and rules, settings and their precedence, permissions and modes, hooks, skills, subagents, plugins, MCP, and headless use in CI.
+
+CLAUDE dot M D files are instructions loaded into every session. There are four places. Managed policy, set by the organization, for everyone. User, in your home folder's dot claude directory, for all your projects. Project, at the repository root or in its dot claude folder, committed and shared with the team. And local, CLAUDE dot local dot M D, for your personal notes on one project, kept out of git.
+
+They don't override each other: they're concatenated. Files from the root of the file system down to the working directory are all loaded, and the ones closer to where you started are read last. Files in subdirectories load on demand, when Claude reads files in those folders. A file can import others with an at sign followed by a path, up to four levels deep.
+
+Rules files are the modular version: markdown files in the dot claude slash rules folder. Without a paths header, they load like CLAUDE dot M D. With a paths header listing file patterns, they load only when Claude works on matching files, for example rules for API code that apply only under the API source folder.
+
+Keep CLAUDE dot M D short, under about two hundred lines, and specific: "run npm test before committing" beats "test your changes". Long procedures belong in skills. The slash init command generates a starting file from the codebase, and slash memory shows what's loaded. And the key exam point: CLAUDE dot M D is context, not enforcement. If something must be guaranteed, use a hook or a permission rule.
+
+Settings are JSON files with the same scopes. User settings in your home folder. Shared project settings, dot claude slash settings dot json, committed for the team. Local project settings, settings dot local dot json, personal and kept out of git. And managed settings from the organization.
+
+Precedence, highest first: managed settings, then command line options, then local project, then shared project, then user. A higher level wins for the same key. Lists, like permission rules, are merged across levels. Managed settings can't be overridden.
+
+The classic question: a pre tool use hook that enforces a team rule lives in one developer's personal settings, so nobody else gets it. Move it to the committed project settings, dot claude slash settings dot json, so every clone enforces it. And for organization-wide policy that nobody can disable: managed settings.
+
+Permissions. Rules come in three lists: allow, ask, and deny, using a tool name and a pattern, like Bash with npm run test and a star, or Read with dot env. Deny rules always win, and they apply in every mode. A typical baseline: deny reading dot env files and secrets, allow the test and lint commands, ask for git push.
+
+Permission modes. Default, or manual: Claude asks before edits and commands. Accept edits: file edits and simple file system commands run without asking. Plan: Claude researches and proposes a plan but makes no changes until you approve it. Auto: a separate classifier model reviews each action instead of you. Don't ask: anything that would require a prompt is denied, which suits locked-down CI. And bypass permissions: everything runs without asking, only for isolated containers or virtual machines, because it offers no protection against prompt injection. Shift plus tab cycles the interactive modes.
+
+Hooks are commands, HTTP calls, prompts or agents that run at lifecycle events: pre tool use, post tool use, user prompt submit, stop, subagent stop, session start, pre compact, notification and more. They're configured in settings files, plugins, or skill and subagent definitions, with a matcher that selects tools by name. A hook receives JSON describing the event on its standard input. The exit code matters: zero means success; two means block, and the error output becomes the reason Claude sees. Any other code, including one, is a non-blocking error, and the action continues. That's a famous trap: a policy hook that exits with one doesn't block anything. Hooks can also return JSON, for example a pre tool use decision of allow, deny or ask, with a reason, or additional context to inject.
+
+Skills package know-how. A skill is a folder with a SKILL dot M D file: a short header with a name and a description, and instructions below. Only the descriptions are in context at the start; the body loads when the skill is used, and supporting files only when the body points to them. That's progressive disclosure, and it's why skills scale. Claude picks a skill automatically by matching its description, so the description must say clearly what it does and when to use it. You can also call it with a slash and its name. Disable model invocation means only you can trigger it, which is right for actions with side effects, like deploying. Skills live in your personal folder, in the project's dot claude slash skills folder, or in plugins. Custom slash commands have been merged into skills: a markdown file in dot claude slash commands still works as a command.
+
+Subagents are specialized assistants defined as markdown files in dot claude slash agents, with a name, a description that tells Claude when to delegate, an optional tool list, a model, and a system prompt as the body. Each runs in its own context and returns only a summary. Built-in ones include Explore, a fast read-only search agent, Plan, used in plan mode, and a general-purpose agent. Use a subagent when a task produces lots of output you don't need to keep, or needs restricted tools; use a skill when you want reusable instructions in the main conversation.
+
+Plugins bundle skills, subagents, hooks and MCP servers into one installable package, with a plugin dot json manifest, distributed through marketplaces. Plugin skills are namespaced, plugin name colon skill name. Teams can declare marketplaces and enabled plugins in the shared project settings so everyone gets the same tooling.
+
+MCP servers, as covered in the previous episode: local, project in dot mcp dot json, or user scope, with an approval prompt for project servers.
+
+Sessions. You can continue the last conversation, or resume a specific one. Slash clear starts fresh, slash compact summarizes. Switching to an unrelated task is a good moment to clear.
+
+Headless mode: claude dash p with a prompt runs non-interactively, for scripts and CI. Output format can be text, JSON, or streaming JSON, and a JSON schema option returns structured output. Allowed tools pre-approves specific tools, using the same rule syntax, and a permission mode sets the baseline, like don't ask for a locked-down pipeline. Append system prompt adds instructions. Bare mode skips the automatic loading of hooks, skills, plugins, MCP servers and CLAUDE dot M D, so a CI run behaves the same on every machine; it's the recommended mode for scripts. Remember that a headless run in an untrusted repository doesn't show the trust dialog, so project hooks and MCP servers could run; bare mode prevents that. And the exit code tells your script whether the run succeeded.
+
+Quick check.
+Several CLAUDE dot M D files apply. Do they override each other?
+[THINK]
+No. They're concatenated, and the ones closer to the working directory are read last.
+A policy hook exits with code one when it detects a violation. Does it block the action?
+[THINK]
+No. Only exit code two blocks. Other non-zero codes are non-blocking errors.
+A hook in a developer's personal settings must apply to the whole team. Where do you move it?
+[THINK]
+To the committed project settings, dot claude slash settings dot json. Or managed settings for the whole organization.
+Which permission mode denies anything that would prompt, for locked-down CI?
+[THINK]
+Don't ask.
+
+In the next episode: security and safety.

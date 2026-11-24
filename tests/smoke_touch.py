@@ -45,7 +45,7 @@ with sync_playwright() as p:
     # review of mistakes
     pg.click('#reviewWrong'); pg.wait_for_selector('#pad1:not([disabled])')
     assert pg.text_content('#qTot') == '6', pg.text_content('#qTot')
-    pg.reload()                                             # mode is remembered
+    pg.wait_for_timeout(1500); pg.reload()   # let Chromium commit file:// localStorage first; mode is remembered
     assert pg.get_attribute('#modeTouch', 'aria-checked') == 'true'
 
     # mock exam 6: no feedback, a tap records and moves on

@@ -1,0 +1,56 @@
+Claude Certified Developer, Foundations. Episode nine. The Model Context Protocol.
+
+MCP, the Model Context Protocol, is the open standard for connecting AI applications to tools and data. The exam asks you to build MCP servers, choose transports and primitives, and decide when MCP is the right mechanism at all, compared with a built-in tool, a custom tool, or a skill.
+
+The participants. A host is the AI application, like Claude Code, Claude Desktop, or your own agent. For each MCP server it connects to, the host creates one MCP client, which keeps a dedicated connection to that server. The server is the program that provides context and capabilities. So one host, many clients, one per server.
+
+Two layers. The data layer is JSON-RPC two point oh: requests, responses, and notifications, with discovery of capabilities, and the primitives. The transport layer moves those messages.
+
+Two transports. Standard input and output, stdio: the host launches the server as a local process and talks to it through its input and output streams. It's fast, simple, local, and typically serves a single client: one process per user's host. Streamable HTTP: the server runs remotely, receives messages by HTTP POST, and can stream responses with server-sent events. One remote server can serve many clients, and it supports standard HTTP authentication, with OAuth recommended for obtaining tokens. An older transport based only on server-sent events is deprecated in favor of Streamable HTTP.
+
+The exam's classic transport question: a team wants one shared MCP server used both by developers' laptops and by a cloud agent. Stdio can't do that, because each stdio server is a local process of a single host. The answer is a remote server over Streamable HTTP, with authentication.
+
+The three server primitives, and who controls each.
+Tools are executable functions that the model decides to call, like create ticket or run query. They're model-controlled, and they take actions.
+Resources are data that provides context, like a file, a database schema, or a ticket's content, identified by a URI. The application decides when to read them; they're application-controlled. In Claude Code, you can reference resources with an at mention.
+Prompts are reusable templates that a user chooses, like a code review template; they're user-controlled. In Claude Code they appear as slash commands.
+
+So, when designing a server: data to read becomes a resource, actions with side effects become tools, and reusable interaction templates become prompts. A typical exam pairing: tickets exposed as resources for reading, and ticket creation as a tool.
+
+Each primitive has list methods for discovery, like tools list, and tools have a call method. A server can notify clients when its list of tools changes. Tool definitions in MCP look like the API's: a name, a title, a description, and an input schema. Everything from the tools episode applies: detailed descriptions, clear names, focused tools, useful error messages, and small, shaped results. A tool result in MCP is a list of content items, and errors should be reported in the result so the model can see and handle them.
+
+Clients can also offer features to servers. Elicitation lets a server ask the user for more information or a confirmation through the host. Sampling, where a server asks the host's model for a completion, and logging to the client are deprecated in the newest protocol version.
+
+Authentication and secrets. For remote servers, use OAuth or tokens over HTTPS. For local stdio servers, credentials typically come from environment variables. Never hard-code secrets in a configuration file that gets committed. In Claude Code's project configuration file, you reference environment variables with a dollar and braces syntax, so each developer supplies their own credentials.
+
+MCP in Claude Code. You add a server with claude mcp add, choosing the transport: HTTP for remote servers, stdio for local ones. There are three scopes. Local, the default: only you, only this project, stored in your user config file. Project: stored in a dot mcp dot json file in the repository, committed and shared with the team. User: only you, in all your projects. For security, Claude Code asks for approval before using project-scoped servers from a repository you just cloned. OAuth logins happen in the slash mcp menu. Large tool outputs are capped, with a warning past ten thousand tokens. MCP tools show up with names prefixed by mcp, the server name, and the tool name, which is also how you match them in permission rules and hooks.
+
+MCP on the API. The MCP connector lets the Messages API connect to remote MCP servers directly, without your own MCP client. In the Agent SDK and Managed Agents, you list MCP servers in the configuration.
+
+Now the key judgment: MCP, custom tool, built-in tool, or skill?
+
+A built-in tool, like web search, code execution, or Claude Code's file and bash tools, is the first choice when it already does the job. Don't rebuild it.
+
+A custom tool, defined directly in your API request or in the Agent SDK, fits when the capability belongs to one application only, and you control the loop.
+
+An MCP server fits when the integration should be reusable across hosts and teams: the same server works in Claude Code, Claude Desktop, and your agents. It also fits when a third party already provides one, and when you need to share access to a remote system with many clients.
+
+A skill fits when what's missing isn't access, but know-how: a procedure, a checklist, conventions, scripts to run. A skill is instructions, loaded only when relevant. A common exam distinction: the team keeps pasting the same deployment checklist into chat. That's a skill, not an MCP server. Conversely, Claude needs to query the company's issue tracker: that's a tool, typically through an MCP server.
+
+Finally, MCP and security. An MCP server's tool descriptions and results enter the model's context, so a malicious or compromised server can inject instructions. Install servers only from sources you trust, give them least privilege, and treat their outputs as untrusted data. Tool results from servers that read external content, like web pages or emails, are a classic prompt injection channel.
+
+Quick check.
+Which transport fits a single shared server used by many developers and a cloud agent?
+[THINK]
+Streamable HTTP, a remote server with authentication. Stdio is a local process for a single host.
+Data the application reads for context, an action with side effects, a reusable user template. Which primitives?
+[THINK]
+A resource, a tool, and a prompt.
+Where is a project-scoped MCP server configured in Claude Code, and is it shared?
+[THINK]
+In dot mcp dot json in the repository. It's committed and shared, and Claude Code asks for approval before using it.
+The team keeps pasting the same deployment checklist into chat. MCP server or skill?
+[THINK]
+A skill. It's know-how, not access to a system.
+
+In the next episode: agents and workflows.

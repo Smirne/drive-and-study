@@ -1,0 +1,128 @@
+{
+ "name": "Claude Certified Developer",
+ "base": "claude-dev",
+ "silentSources": [
+  "mock1a",
+  "mock1b",
+  "mock2a",
+  "mock2b"
+ ],
+ "drill": {
+  "title": "Claude Developer Drill",
+  "h1": "Claude Certified Developer drill &amp; mock exams",
+  "intro": "Scenario questions and full mock exams for Claude Certified Developer: Foundations, following the exam guide in force from 7 December 2026. The concept sets are spoken, so you can do them by voice or with the car's buttons. The mock exams follow the real format: long scenarios, with “choose two” questions mixed in.",
+  "practicePrefix": "concepts",
+  "practiceLabel": "Concepts: all 50 questions with feedback",
+  "practiceTitle": "Concepts",
+  "examsHeading": "Concept sets & mock exams",
+  "examsText": "Two sets of 25 spoken scenario questions with feedback. Then two mock exams of 60 scored-style questions in 120 minutes, weighted like the v1.1 exam guide. The real exam scores on a scale with 720 to pass; the mocks use 72% as an approximation. Mock exams are touch only.",
+  "sayExample": "the stop reason",
+  "summaryTitle": "Claude Certified Developer (CCDV-F) practice results",
+  "filePrefix": "ccdv",
+  "statsKey": "ccdv-drill",
+  "historyKey": "ccdv-history",
+  "mediaTitle": "Claude Developer Drill",
+  "topics": {
+   "cd-apps": "Applications & integration",
+   "cd-agents": "Agents & workflows",
+   "cd-prompt": "Prompt & context engineering",
+   "cd-model": "Model selection & optimization",
+   "cd-eval": "Eval, testing & debugging",
+   "cd-tools": "Tools & MCP",
+   "cd-code": "Claude Code",
+   "cd-security": "Security & safety"
+  }
+ },
+ "lessons": {
+  "title": "Claude Developer Audio",
+  "eyebrow": "Claude Certified Developer · Foundations · exam guide v1.1",
+  "h1": "Building with Claude, by ear",
+  "sub": "14 episodes · 13 lessons and a recap podcast · every domain of the exam guide · quizzes with a pause so you can answer aloud",
+  "drillLink": "Claude Developer drill",
+  "drillSub": "50 spoken scenario questions by voice or car buttons, and two 60-question mock exams",
+  "artist": "Claude Certified Developer",
+  "posKey": "ccdv-pos",
+  "audioDir": "audio/lessons/claude-dev",
+  "episodes": [
+   {
+    "t": "The exam and the platform map",
+    "s": "Format and weights from 7 December, question style, Messages API vs Agent SDK vs Managed Agents vs Claude Code, models, pinned IDs",
+    "d": 553
+   },
+   {
+    "t": "The Messages API, stop reasons and errors",
+    "s": "Request and response shape, the seven stop reasons, usage, retryable errors, rate limits, keys and workspaces",
+    "d": 548
+   },
+   {
+    "t": "Streaming, batches, vision, files, citations",
+    "s": "Event order, mid-stream errors, batch rules, image cost, Files API, citations and grounding",
+    "d": 574
+   },
+   {
+    "t": "Models, tokens, thinking and effort",
+    "s": "Context window and context rot, tiers and routing, adaptive thinking, effort levels, safe model migration",
+    "d": 494
+   },
+   {
+    "t": "Prompt caching and cost",
+    "s": "Prefix order, breakpoints, lifetimes, what invalidates the cache, cost levers, tool search",
+    "d": 520
+   },
+   {
+    "t": "Prompt engineering and structured output",
+    "s": "Clear prompts, examples, XML, long context, no prefill, JSON outputs, defensive parsing, grounding, prompts as code",
+    "d": 526
+   },
+   {
+    "t": "Context engineering for long sessions",
+    "s": "Pruning, compaction, context editing, memory, subagents, fresh sessions, shaped tool results",
+    "d": 482
+   },
+   {
+    "t": "Tools: loop, definitions, errors",
+    "s": "Tool result rules, descriptions, tool choice, parallel calls, error results, server tools",
+    "d": 535
+   },
+   {
+    "t": "The Model Context Protocol",
+    "s": "Hosts, clients, servers, stdio vs Streamable HTTP, tools/resources/prompts, scopes, MCP vs tool vs skill",
+    "d": 557
+   },
+   {
+    "t": "Agents and workflows",
+    "s": "Workflow patterns, when to use agents, Agent SDK, Managed Agents, hooks for guarantees, subagents, reading traces",
+    "d": 588
+   },
+   {
+    "t": "Claude Code",
+    "s": "CLAUDE.md and rules, settings precedence, permissions and modes, hooks and exit codes, skills, subagents, plugins, headless",
+    "d": 605
+   },
+   {
+    "t": "Security and safety",
+    "s": "Jailbreaks vs indirect injection, layered defenses, least privilege, deterministic guardrails, API keys",
+    "d": 530
+   },
+   {
+    "t": "Evaluation, testing and debugging",
+    "s": "Success criteria, golden sets, grading methods, LLM judge calibration, failure modes, integration vs model",
+    "d": 530
+   },
+   {
+    "t": "Recap podcast",
+    "s": "Two hosts, the most common traps domain by domain, and a rapid-fire round",
+    "d": 576
+   }
+  ]
+ },
+ "say": {
+  "intro": "Claude developer drill. After each question, say number one, two, three, or four, or words from the answer. Say repeat to hear the question again.",
+  "intro_buttons": "Claude developer drill, with car buttons. I will read each option. Press next when you hear the one you want. Press previous to hear the question again.",
+  "exam_intro": "Claude developer mock exam. No feedback until the end.",
+  "exam_intro_buttons": "Claude developer mock exam. No feedback until the end.",
+  "exam_pass": "That is above the practice pass mark of seventy-two percent.",
+  "exam_fail": "That is below the practice pass mark of seventy-two percent. Review the missed questions."
+ },
+ "pronounce": {}
+}

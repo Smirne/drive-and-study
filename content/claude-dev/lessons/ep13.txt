@@ -1,0 +1,55 @@
+Claude Certified Developer, Foundations. Episode thirteen. Evaluation, testing and debugging.
+
+This domain grew from under three percent to ten percent in the new exam. It covers designing evaluations, calibrating an LLM judge, regression and behavioral tests, and diagnosing failures: deciding whether a problem comes from the integration around the model or from the model's output.
+
+Why evaluations? Because model behavior is probabilistic, and prompts, models and tools change. Without a test suite you can't tell whether a change improved things, and you can't safely switch to a cheaper model, a new model version, or a lower effort level. Almost every optimization question on the exam has the same hidden answer: measure it with an evaluation first.
+
+Success criteria come first. Good criteria are specific, measurable, achievable and relevant. Not "good answers", but "correct category on ninety-five percent of the test set", or "fewer than one in a thousand outputs flagged by the content filter". Most applications need several dimensions: accuracy, format compliance, tone, latency, cost, and safety.
+
+Eval design principles from the docs. Make the tests task-specific, mirroring real traffic, including edge cases: typos, ambiguous requests, irrelevant context, sarcasm, missing information, adversarial inputs. Automate grading wherever possible. And prefer volume: many automatically graded cases beat a handful of hand-graded ones.
+
+A golden set is a curated collection of inputs with known good outputs or grading criteria, built from real examples and reviewed by domain experts. Keep it versioned. Add every bug you find in production as a new case, so it can never come back unnoticed. Keep a held-out part you don't tune against, to avoid overfitting your prompt to the test.
+
+Three ways to grade.
+Code-based grading: exact match, string contains, JSON schema validation, numeric comparison, running the generated code against tests. Fastest, cheapest, most reliable, but it can't judge nuance.
+Human grading: the most flexible and highest quality, but slow and expensive. Use it to build and audit, not for every run.
+LLM-based grading, an LLM as judge: scalable and able to judge nuance, like tone, helpfulness, or faithfulness to a document. But it must be validated before you trust it.
+
+Making an LLM judge reliable. Give it a detailed rubric with concrete criteria, not "is this good?". Ask for a constrained output: pass or fail, or a score from one to five, not free prose. Let it reason before scoring, for example with thinking on. Use a different model from the one that generated the answer, to avoid self-preference. And calibrate it: have humans grade a sample, compare the judge's grades with theirs, measure agreement, and refine the rubric where they disagree. Re-check calibration when you change the judge's model or prompt. A judge that agrees with humans only sixty percent of the time isn't measuring what you think.
+
+Regression tests run the full suite before every change: a new prompt, a new model version, a new tool, a lower effort. Compare against the previous results, not just against a threshold, because a change can fix one category and break another. Behavioral tests check properties rather than exact outputs: the agent asks for confirmation before deleting; the assistant refuses out-of-scope requests; the answer cites a source; the output parses against the schema. For agents, evaluate the trajectory too: did it call the right tools, in a reasonable number of steps, and stop when it should?
+
+Now debugging. The exam guide lists failure modes to recognize.
+Hallucination: the model states something not supported by the provided information.
+Refusal: the model declines; check the stop reason, which may be refusal.
+Under-acting: the model describes what it would do instead of doing it, or stops early. Often a prompt that asks for suggestions instead of actions, or tools that aren't clearly described.
+Context loss: the model forgets earlier instructions or decisions in a long session.
+Format drift: the output gradually stops matching the expected format, breaking the parser.
+
+The key diagnostic skill: is the problem in the integration layer or in the model's output? Start with the evidence: the exact request that was sent, and the exact response, including the stop reason and usage.
+
+Integration-layer failures look like model failures, but the fix is in your code. Truncated answers because the code ignored the max tokens stop reason. A cut-off stream because the handler stopped at the first content block stop. A four hundred because text was placed before tool results. Stale data: the model faithfully reported cached inventory that was out of date; the model did its job, the fix is cache freshness in your data layer, plus a last-updated timestamp so the answer can mention it. A wrong answer because retrieval returned the wrong documents. A tool that silently failed and returned an empty result, so the model filled the gap. A system prompt that was never sent because of a configuration bug.
+
+Model-output failures are fixed with prompts, examples, structure, model choice or effort. The model had the right information and the right instructions, but answered wrongly, used the wrong format, or ignored an instruction.
+
+So read the actual request before rewriting the prompt. Many "the model is wrong" bugs turn out to be "the model never saw what we thought it saw". Logging the full request and response, with the request I D, is the foundation of debugging.
+
+Error types and recovery. Distinguish transient errors, like rate limits, overload and timeouts, which you retry with exponential backoff, from permanent errors, like invalid requests or authentication failures, which you fix. For tool errors, return a clear error to the model so it can adapt, and cap retries. For parsing failures, check the stop reason first: a truncated response needs a higher max tokens, not a parsing workaround. And for refusals, decide on a fallback model or a user-facing message.
+
+A final pattern: when a fix works for the failing example, add that example to the golden set, then run the whole suite to make sure nothing else broke.
+
+Quick check.
+Name the three grading methods and the main weakness of each.
+[THINK]
+Code-based: can't judge nuance. Human: slow and expensive. LLM judge: must be calibrated before you trust it.
+How do you calibrate an LLM judge?
+[THINK]
+Compare its grades with human grades on a sample, measure agreement, and refine the rubric where they disagree.
+The model faithfully reported out-of-date inventory from a cache. Integration or model failure?
+[THINK]
+Integration. Fix data freshness, and include a last-updated timestamp.
+A model describes the changes it would make instead of making them. Which failure mode?
+[THINK]
+Under-acting. Ask for the action explicitly, and make sure the tools are available and clearly described.
+
+In the last episode: a two-voice recap of the traps that come up most often.

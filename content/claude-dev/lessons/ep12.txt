@@ -1,0 +1,50 @@
+Claude Certified Developer, Foundations. Episode twelve. Security and safety.
+
+Security and safety is eight percent of the exam, and its ideas appear everywhere else too. The exam guide lists three skills: layered defenses against prompt injection, deterministic guardrails with least privilege and hooks, and API key handling.
+
+Start with the threats. A direct jailbreak is when the user is the adversary, trying to make the application do what it shouldn't. Indirect prompt injection is when the user is trusted, but third-party content contains instructions: a web page, an email, a document, a tool result, an MCP server's output. The model reads them as part of its context, and may follow them. For agents with tools, indirect injection is the bigger risk, because the attacker never talks to your application directly. They just plant text where your agent will read it.
+
+The exam's classic scenario: an agent browses a web page that contains hidden instructions, and then uses its email tool to send internal data to an outside address. Which fix gives a guarantee? Not a stronger sentence in the system prompt: prompts are probabilistic. The answer is a deterministic control: gate the send email tool behind a hook or an approval step, restrict recipients to an allowed list, and give the agent only the permissions it needs.
+
+Layered defense means no single measure is trusted alone. The layers, from the docs.
+
+Trust boundaries. Deliver third-party content only inside tool result blocks, never inside the system prompt or as the user's own text. Label it: "this is the body of an inbound email from an unknown sender." Tell the model in the system prompt that instructions found inside tool content are data to report, not commands to follow. Wrap untrusted strings in JSON, so the boundary between your structure and their text is unambiguous. And keep your own instructions out of tool results.
+
+Screening. Use a small, fast model, like Haiku, as a classifier before the main model acts: on user input, to detect jailbreak attempts, and on tool output, to detect injection attempts. Use structured output so the screen returns a simple true or false. If the screen flags content, return an error or a stripped summary instead of the raw content, and consider alerting the user.
+
+Least privilege. Give the agent only the tools and permissions it needs for the task. No secrets it doesn't need. Read-only access where reading is enough. Run tools in a sandbox. Scope credentials narrowly, per environment and per agent. Then a successful injection can do little damage.
+
+Deterministic guardrails. Hooks and permission rules enforce policy regardless of what the model decides. A pre tool use hook can block destructive commands, writes outside allowed folders, network calls to unknown domains, or emails to external recipients. Deny rules can block reading secrets like dot env files. Human approval for irreversible or high-impact actions: payments, deletions, outbound messages, production deploys. Remember the hook exit code: only two blocks.
+
+Monitoring and red-teaming. Log what agents do. Test your own agent with documents and pages that deliberately contain injection attempts, and confirm the defenses catch them. Throttle or ban users who repeatedly try to break the guardrails.
+
+Output handling is part of security too. Treat the model's output as untrusted input to the next system: validate structured output before acting on it, never execute generated code or SQL without sandboxing or review, and escape output shown in web pages.
+
+Data protection. Don't send sensitive data the task doesn't need. Personal data can be redacted or masked before it reaches the model, and a screening step can catch it in outputs too. Some features, like batches and Managed Agents, store data for a period and aren't eligible for zero data retention; check which features fit your compliance requirements before choosing them. Data residency or network-isolation requirements can point you to self-hosted execution.
+
+API keys. The exam guide names four practices.
+One, server-side proxying: never put an API key in a browser, mobile app, or desktop client that users control. The client calls your back end, which authenticates the user, applies limits, and calls Claude with the key. A browser request directly to the API is rejected with a CORS error, which tells you the architecture is wrong.
+Two, workspace keys versus admin keys. Applications use workspace-scoped API keys to call the model. Admin keys manage the organization, users, workspaces and keys, and must never be used by an application to call the model. Give each key the smallest scope that works.
+Three, rotation: keys are rotated regularly and immediately when leaked; a key committed to a repository is compromised, even if the commit is reverted.
+Four, environment separation: separate workspaces and keys for development, staging and production, each with its own spend and rate limits, so a test script can't exhaust production's budget, and a leaked development key can't touch production.
+And store keys in a secrets manager or environment variables, never in code or committed configuration. In Claude Code's dot mcp dot json, reference credentials with environment variable syntax.
+
+Agent tooling has its own risks. In Claude Code, bypass permissions mode offers no protection against injection; use it only in isolated containers. MCP servers and plugins run with your privileges and put text into the model's context, so install only trusted ones. Deny rules protect secrets in every mode. And a cloned repository can contain hooks and MCP configuration; that's why Claude Code asks you to trust a folder, and why CI runs should use bare mode.
+
+Refusals are part of safety as well. When the model declines, the response has stop reason refusal with a normal two hundred status. Handle it explicitly in your application: show a helpful message, log it, and, when appropriate, retry on a fallback model. Don't treat a refusal as a crash, and don't treat it as valid structured output.
+
+Quick check.
+What's the difference between a direct jailbreak and indirect prompt injection?
+[THINK]
+In a jailbreak the user is the adversary. In indirect injection the instructions come from third-party content the agent reads, like a web page or a tool result.
+Where should untrusted third-party content be placed in a request?
+[THINK]
+Inside tool result blocks, labeled with its source, never in the system prompt or as user text.
+An injected page made an agent send data by email. What gives a guarantee?
+[THINK]
+A deterministic control: a hook or approval step on the email tool, with an allowed list of recipients, and least privilege.
+Should a mobile app contain your API key?
+[THINK]
+No. The app calls your back end, which holds the key and calls the API.
+
+In the next episode: evaluation, testing and debugging.

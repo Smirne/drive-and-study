@@ -68,6 +68,17 @@ with sync_playwright() as p:
     assert 'Java' in pg.title()
     assert pg.request.get(pg.url.rsplit('/', 1)[0] + '/' + pg.evaluate('CLIPS.q0')).ok
     pg.click('a.home'); pg.wait_for_selector('a.card')
+    # Claude Developer pack: /claude-dev/
+    pg.click('a[href="/claude-dev/lessons"]'); pg.wait_for_selector('#list li')
+    print('claude-dev lessons:', pg.title(), '| items:', pg.locator('#list li').count())
+    assert pg.locator('#list li').count() == 14
+    assert pg.evaluate('document.documentElement.scrollWidth') == 390
+    pg.click('#ep-13'); pg.wait_for_timeout(500)
+    assert pg.evaluate('document.getElementById("audio").src') == base + '/audio/lessons/claude-dev/ep14.mp3'
+    pg.click('a.drill'); pg.wait_for_selector('#startAll'); print('claude-dev drill:', pg.title())
+    assert 'Claude' in pg.title()
+    assert pg.request.get(pg.url.rsplit('/', 1)[0] + '/' + pg.evaluate('CLIPS.q0')).ok
+    pg.click('a.home'); pg.wait_for_selector('a.card')
     # button test page: capture media-session handlers, press "next" three times -> "Answer 3"
     bp = b.new_page(viewport={'width': 390, 'height': 844}); berr = []
     bp.on('pageerror', lambda e: berr.append(str(e)))

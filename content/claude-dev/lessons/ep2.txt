@@ -1,0 +1,64 @@
+Claude Certified Developer, Foundations. Episode two. The Messages API, stop reasons, and errors.
+
+Applications and integration is the largest domain, and the Messages API is at its center. This episode covers the shape of a request and a response, the stop reason, usage and tokens, errors and retries, and API keys.
+
+A request. You send a POST to the messages endpoint with your API key in a header, and an anthropic version header. The body has three required fields: the model I D, max tokens, and messages. Max tokens is a hard cap on the output for this request, and on current models it includes thinking. It caps the output only, not the input. That distinction is a classic exam trap: when a request fails because the prompt is too long, raising max tokens can't help.
+
+Messages is a list of turns, each with a role, user or assistant, and content. Content is either a plain string or a list of content blocks: text, image, document, tool use, tool result, and others. The system prompt is not a message with a system role: it's a separate top-level field called system. That's where the role, the rules, and stable context go.
+
+The API is stateless. It doesn't remember earlier requests. To continue a conversation, you send the whole history again, every time. That's why long conversations get expensive, and why prompt caching, compaction and context editing exist.
+
+One change from older models: prefill. You used to be able to end the messages with a partial assistant turn, to force Claude to continue from it, for example from an open brace to get JSON. Starting with the four point six models, a prefilled final assistant turn returns a four hundred error. Use structured outputs or clear format instructions instead.
+
+The response. You get back a message with a list of content blocks, usually text, possibly thinking blocks and tool use blocks. Plus a stop reason, and a usage object.
+
+The stop reason tells you why Claude stopped, and the exam loves it. There are seven values.
+End turn: Claude finished naturally. Use the response.
+Max tokens: the output hit your max tokens limit. The answer is truncated. Raise the limit, or continue. Treat it as truncation, never as a finished answer. And if the last block is an incomplete tool call, retry with a higher limit.
+Stop sequence: Claude produced one of your custom stop sequences; the response tells you which.
+Tool use: Claude wants you to run one or more tools and send back the results.
+Pause turn: a server-side tool loop, like web search, hit its iteration limit. Send the assistant content back unchanged to let it continue.
+Refusal: Claude declined. This comes back as a normal two hundred response, not an error, with details about the category. You can retry on a fallback model.
+And model context window exceeded: the output filled the whole context window. Treat it as truncated.
+
+A common bug, and the subject of an official sample question: an application treats a response as complete without checking the stop reason, and users see answers cut mid-sentence. The fix is always the same: read the stop reason, and handle max tokens as truncation.
+
+Usage. Every response reports input tokens and output tokens. With caching, input is split into three fields: cache creation input tokens, cache read input tokens, and input tokens, which counts only the uncached tokens after the last cache breakpoint. Total input is the sum of the three. On thinking models, output tokens include the thinking, even when you don't see the thinking text. There's also a token counting endpoint, to estimate the size of a request before you send it, for example to decide whether to trim or chunk a document.
+
+Sampling parameters. Temperature ranges from zero to one; lower is more focused and repeatable, higher more varied. But temperature zero still isn't a guarantee of identical outputs. If determinism matters, design for it: structured outputs, validation, and tests, not temperature alone.
+
+Errors. Learn these by number.
+Four hundred, invalid request error: the request is malformed or too long, for example the prompt doesn't fit in the context window. Also returned when you hit a spend limit you set yourself. Don't retry as is: fix the request.
+Four oh one, authentication error: bad key.
+Four oh three, permission error: the key can't use that resource.
+Four oh four, not found.
+Four thirteen, request too large: over the byte limit, which is one hundred and twenty-eight megabytes for the Messages API.
+Four twenty-nine, rate limit error: you're sending too much. Retry with exponential backoff, honoring the retry after header.
+Five hundred, API error: an internal error; retry with backoff.
+Five twenty-nine, overloaded error: the API is temporarily overloaded for everyone; retry with backoff.
+
+The rule of thumb: four twenty-nine and the five hundreds are retryable; most other four hundreds mean your request is wrong, and retrying won't help. The official SDKs already retry connection errors, four twenty-nines and five hundreds automatically, twice by default, with exponential backoff, and they respect retry after. You can configure that with a max retries option.
+
+Rate limits are measured in requests per minute, input tokens per minute, and output tokens per minute. A typical exam scenario: sixty independent calls in a sequential loop are slow; firing them all at once with no limit triggers four twenty-nines. The answer is bounded concurrency with backoff. If nobody is waiting for the results, batches.
+
+Every response carries a request I D header. Log it: it's what support needs to trace a specific call.
+
+Long requests. Requests that may take more than about ten minutes should use streaming or batches. The SDKs refuse non-streaming requests that are expected to run that long, to avoid network timeouts.
+
+API keys and workspaces. The key must stay on the server. A browser or mobile app must never contain your API key; the client calls your back end, which calls Claude. In fact, browser requests are rejected with a CORS error, which is a hint you're calling from the wrong place. Keys belong to workspaces. A workspace separates projects, environments or teams, each with its own keys, spend limits and rate limits, under one organization. A good practice is a workspace each for development, staging and production. Admin API keys are a separate kind of key for managing the organization, like users, workspaces and keys; they're not what your application should use to call the model. Rotate keys, keep them in a secrets manager or environment variables, never in source code, and give each environment its own key.
+
+Quick check.
+A request fails with prompt is too long. Does raising max tokens help?
+[THINK]
+No. Max tokens caps the output. The input is too big: count tokens, then trim or chunk.
+Which stop reason means the answer was cut off by your own limit?
+[THINK]
+Max tokens.
+Which status codes should you retry with backoff?
+[THINK]
+Four twenty-nine and the five hundreds, including five twenty-nine overloaded.
+Where is the system prompt placed in a request?
+[THINK]
+In the top-level system field, not in the messages list.
+
+In the next episode: streaming, batches, vision, files and citations.

@@ -1,0 +1,135 @@
+S: Welcome to the recap for the Claude Certified Developer Foundations exam. I'm Sara.
+A: And I'm Alex. This is the episode for the last days before the exam. We go through the traps domain by domain, then a rapid-fire round where you answer during the pause.
+S: The format first. From December seventh, seventy questions in two hours, sixty of them scored. Pass at seven hundred and twenty on a scale to one thousand. Each question says whether to pick one answer or two.
+A: And the style: a production scenario with a constraint, and four options that are all real techniques. Three of them are used in the wrong place. Find the constraint, find the cause, then pick the option that addresses the cause.
+S: One meta-rule that answers many questions: if something must always or never happen, the answer is deterministic. A hook, a permission rule, a schema, an approval step, code. Not a stronger sentence in the prompt.
+
+S: Applications and integration. A user sees answers cut off. What do you check first?
+A: The stop reason. Max tokens means truncation. Raise the limit or handle it, never treat it as a finished answer.
+S: And in a stream?
+A: The stop reason arrives in message delta, and the end of the message is message stop. Content block stop only ends one block.
+S: Prompt is too long, a four hundred. Raise max tokens?
+A: No. Max tokens caps output. Count tokens, then trim or chunk the input.
+S: Which errors do you retry?
+A: Four twenty-nine and the five hundreds, including five twenty-nine overloaded, with exponential backoff and the retry after header. Other four hundreds: fix the request.
+S: Sixty independent calls in a slow sequential loop.
+A: Bounded concurrency with backoff. If nobody's waiting, batches.
+S: Batches, in one breath.
+A: Half price, up to twenty-four hours, results matched by custom I D because order isn't guaranteed, no streaming.
+S: Text before tool results in the user message.
+A: Four hundred. Tool results first, all of them in one message, with matching I Ds.
+S: And the browser that calls the API directly with a key.
+A: Wrong architecture. Keys stay on the server; the client calls your back end.
+
+S: Model selection and optimization. An expensive model does extraction; the cheap model passes the evaluation.
+A: Route to the cheap model, with the evaluation as a gate.
+S: A thinking model keeps stopping at max tokens.
+A: Thinking counts toward max tokens. Raise it or lower the effort.
+S: Effort for simple subagent work?
+A: Low. Medium balances, high for hard reasoning, extra high for long agentic runs, max rarely worth it.
+S: Silent drift in quality after nobody changed anything.
+A: Look for a moving model alias or a prompt edited outside version control. Pin the model, version the prompt, gate releases with a regression evaluation.
+
+S: Caching. One breakpoint after the user's question, almost no cache reads.
+A: The prefix is unique every time. Put breakpoints on the last stable block, layered by how often each part changes.
+S: Cache written every fifteen minutes, never read.
+A: The default lifetime is five minutes. Use the one-hour lifetime, or call more often.
+S: Order of the cached prefix.
+A: Tools, system, messages. Change a tool definition and everything is invalidated.
+S: Does caching shrink a bloated context?
+A: No. It changes price and latency, not size.
+
+S: Prompt and context engineering. A grounding rule lost in the middle of forty thousand tokens.
+A: Rule in the system prompt, restated next to the question at the end. Documents first, question last.
+S: Prefill on current models?
+A: Not supported, it's a four hundred. Use structured outputs or format instructions.
+S: JSON schema output is guaranteed. Can it still fail?
+A: Yes, on max tokens truncation and on refusals. Check the stop reason, validate, and handle failure.
+S: Citations plus JSON schema in one request?
+A: Four hundred. They're incompatible.
+S: A four-hour session is bloated and forgetting decisions.
+A: Prune stale tool results, and compact the history into a summary that keeps the decisions. Subagents for noisy side tasks, fresh sessions for new topics.
+
+S: Tools and MCP. Claude confuses two tools with vague descriptions.
+A: Rewrite the descriptions: what each does, when to use it, parameters, limits. Not removing or merging tools.
+S: Every response must call one specific tool.
+A: Tool choice set to that tool. Any could pick another. On models that reject forced choice, auto with strict tools.
+S: A tool fails on a bad date format.
+A: Tool result with is error true, and a message that states the expected format.
+S: One shared MCP server for laptops and a cloud agent.
+A: Streamable HTTP, remote, with authentication. Stdio is a local process for one host.
+S: Tickets to read and tickets to create.
+A: Read as resources, create as a tool.
+S: Too many tools, too many tokens.
+A: Tool search with deferred loading.
+
+S: Agents and workflows. Translation of documents every night.
+A: Workflow. Agents are for open-ended work with unpredictable steps.
+S: Custom loop that now needs files, shell, permissions, sessions and subagents.
+A: The Agent SDK.
+S: Long-running agents, no sandbox to operate.
+A: Managed Agents. Traffic must stay in your network: self-hosted execution.
+S: The agent must always run tests before finishing.
+A: A hook, like a stop hook that blocks completion. Not a prompt.
+S: A trace repeats the same failing call twenty times.
+A: Missing termination condition, and an unhelpful tool error.
+
+S: Claude Code. Several CLAUDE dot M D files.
+A: Concatenated, not overridden. Closer to the working directory is read last.
+S: Settings precedence.
+A: Managed, command line, local project, shared project, user.
+S: A policy hook exits with one.
+A: It doesn't block. Only exit code two blocks.
+S: Team hook in a personal settings file.
+A: Move it to the committed dot claude slash settings dot json.
+S: Skill or subagent?
+A: Skill for reusable instructions in the main conversation. Subagent for isolated, noisy, or restricted work that returns a summary.
+S: CI run that must behave the same on every machine.
+A: Headless dash p with bare mode, explicit allowed tools, and a locked-down permission mode.
+
+S: Security. Injected web page, agent emails data out.
+A: Deterministic gate on the email tool with allowed recipients, least privilege, untrusted content only in tool results.
+S: Where does third-party content go?
+A: Inside tool result blocks, labeled with its source.
+S: Admin key in the application?
+A: Never. Workspace keys per environment, rotated, in a secrets manager.
+
+S: Evaluation and debugging. An LLM judge disagrees with experts.
+A: Calibrate it against human grades and refine the rubric. Use a detailed rubric and constrained scores.
+S: The model reported stale inventory faithfully.
+A: Integration failure. Fix data freshness and add a timestamp.
+S: The model suggests changes instead of making them.
+A: Under-acting. Ask for the action explicitly.
+
+S: Rapid-fire round. We ask, you answer in the pause.
+A: First. Which stop reason comes back with HTTP two hundred when Claude declines?
+[PAUSE]
+S: Refusal.
+A: Next. How many cache breakpoints can you set?
+[PAUSE]
+S: Up to four.
+A: Next. Which workflow pattern classifies an input and sends it to a specialized path?
+[PAUSE]
+S: Routing.
+A: Next. Which MCP primitive is controlled by the user, and appears as a slash command in Claude Code?
+[PAUSE]
+S: Prompts.
+A: Next. Which permission mode should only be used in isolated containers?
+[PAUSE]
+S: Bypass permissions.
+A: Next. Where is the effort parameter set in a request?
+[PAUSE]
+S: In output config, effort.
+A: Next. Which file shares project MCP servers with the team?
+[PAUSE]
+S: Dot mcp dot json, in the repository root.
+A: Next. Name the three grading methods for evaluations.
+[PAUSE]
+S: Code-based, human, and LLM-based.
+A: Last one. A batch result list comes back in a different order. How do you match results to requests?
+[PAUSE]
+S: By custom I D.
+
+A: That's the recap. Practice with the mock exams in the app, and for every miss, write down the rule, not the answer.
+S: On the day: find the constraint, prefer deterministic controls for guarantees, and measure before you optimize.
+A: Good luck.

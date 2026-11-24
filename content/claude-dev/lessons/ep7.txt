@@ -1,0 +1,47 @@
+Claude Certified Developer, Foundations. Episode seven. Context engineering for long sessions and agents.
+
+An agent that works for hours accumulates tool results, file contents, logs and thinking. The context grows, cost grows, and quality drops. This episode covers how to keep context small and relevant: pruning, compaction, context editing, memory, subagents, and fresh sessions. The exam guide names these explicitly.
+
+Start with the symptoms. A long session gets slow and expensive, because every turn resends everything. It starts forgetting decisions made early on, or contradicting them. It follows the most recent tool output instead of the original instructions. These are signs of context bloat and context rot: the more tokens in the window, the weaker the attention to each of them. A larger model or a larger window doesn't fix it. Caching doesn't fix it either: caching changes the price, not the size.
+
+The toolbox has five tools.
+
+One: pruning. Remove what's no longer needed: old tool results, verbose logs, file contents already processed. The API's context editing feature does this on the server. Its tool result clearing strategy kicks in when the input passes a threshold, by default one hundred thousand tokens, and replaces the oldest tool results with a short placeholder, keeping the most recent ones, by default three. You can exclude tools whose results must never be cleared, and set a minimum amount to clear each time. A thinking clearing strategy does the same for old thinking blocks. Your application keeps the full history; the editing happens only in what the model sees. One trade-off: clearing changes the prefix, which invalidates the prompt cache, so clear in large chunks rather than a little at a time.
+
+Two: compaction. Instead of deleting, summarize. Compaction replaces older turns with a summary written by Claude, so the conversation can continue past the context limit while keeping the important facts and decisions. The API offers server-side compaction, either on demand, where your code decides when to compact and swaps in the summary, or at a token threshold, where the API compacts automatically inside a normal request. You can keep the most recent turns word for word, and write your own summarization prompt if the default drops something you need. Claude Code compacts automatically too, and has a compact command. A good summary keeps decisions, open tasks, constraints and key facts, and drops the noise. A useful prompt tip from the docs: if your harness compacts, tell Claude, so it doesn't stop early worrying about its budget.
+
+So when do you prune, and when do you compact? Prune content that's bulky and no longer needed, like old search results. Compact a long history whose decisions still matter. The exam's typical answer for a four-hour session that's bloated and drifting from earlier decisions combines both: prune stale tool results, and compact the history into a summary that preserves the decisions.
+
+Three: memory outside the context. Instead of keeping everything in the window, the agent writes important facts to files and reads them back when needed. The API's memory tool gives Claude a file-based memory directory that your application stores. Combined with context editing, Claude gets a warning before old results are cleared, so it can save what matters first. In long coding tasks, the same idea appears as state files: a progress notes file, a structured list of tests and their status, and git commits as checkpoints. They let a new context window pick up exactly where the last one stopped.
+
+Four: subagents, for isolation. A subagent runs in its own fresh context window. The main agent gives it a task, the subagent does the noisy work, searching files, reading logs, running tests, and returns only a short summary. The main context never sees the noise. This is the right answer when a side task would flood the main conversation with output you won't reference again. The price: subagents don't see the main conversation, so the task you give them must be self-contained, and only the summary comes back. A common bug in traces: a subagent fails because it lacked context it needed, since the orchestrator assumed it could see the history.
+
+Five: fresh sessions. Sometimes the best move is to start over: a new session, with a short handoff of the essential state. Long sessions that switch topics accumulate irrelevant context. In Claude Code, clearing the conversation between unrelated tasks is a simple habit with a big effect, and CLAUDE dot M D files carry the stable facts into every new session.
+
+A few more context techniques.
+
+Tool definitions are context too. With many tools, use tool search with deferred loading, so only the relevant definitions are loaded.
+
+Return less from tools. A tool that returns a whole database record, or ten thousand lines of logs, wastes context. Shape tool responses to return only the fields the model needs, with stable, meaningful identifiers, and paginate or truncate large outputs, with a note on how to get more.
+
+Progressive disclosure. Skills in Claude Code and the Agent SDK load only their short description up front; the full instructions load only when the skill is used, and their reference files only when needed. That's the same principle: pay for context only when it's relevant.
+
+Order and placement still matter: stable instructions in the system prompt, long documents first, the question last.
+
+And watch for context loss as a failure mode in evaluations: an agent that repeats work, forgets a constraint stated at the start, or contradicts an earlier decision. The diagnosis is usually not the model's intelligence, but what was in its window at that moment.
+
+Quick check.
+A long session is bloated and drifting from earlier decisions. Name two fixes.
+[THINK]
+Prune or clear stale tool results, and compact the history into a summary that keeps the decisions.
+Does a bigger context window or prompt caching fix context rot?
+[THINK]
+No. Caching changes cost, and a bigger window doesn't restore attention. Reduce and focus the context.
+What returns to the main conversation from a subagent?
+[THINK]
+Only its summary or final result. Its own context stays separate.
+What does tool result clearing do when it activates?
+[THINK]
+It replaces the oldest tool results with a placeholder, keeping the most recent ones.
+
+In the next episode: designing and handling tools.

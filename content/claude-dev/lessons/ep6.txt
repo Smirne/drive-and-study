@@ -1,0 +1,57 @@
+Claude Certified Developer, Foundations. Episode six. Prompt engineering and structured output.
+
+Prompt and context engineering is fifteen percent of the exam. This episode covers the prompt half: writing prompts for current models, structured output and defensive parsing, grounding answers in documents, reducing hallucinations, and treating prompts as versioned code. The next episode covers long-running context.
+
+Start with the most useful test from the docs: show your prompt to a colleague who knows nothing about the task. If they'd be confused, Claude will be too. Be clear and direct. Say exactly what you want, including the output you expect.
+
+Explain why. A rule with a reason works better than a bare rule. The docs' example: instead of "never use ellipses", say "your answer will be read by a text-to-speech engine, so never use ellipses, because it can't pronounce them." The model generalizes from the reason.
+
+Put the role and stable rules in the system prompt. Even one sentence of role helps.
+
+Use examples. Three to five diverse examples, wrapped in example tags, steer format and tone better than paragraphs of description. Make them varied, so the model doesn't copy one example's surface details.
+
+Use XML tags to separate the parts of a prompt: instructions, context, documents, examples, the input. Tags make the structure unambiguous, especially when the input itself might contain text that looks like instructions.
+
+Long documents: put them at the top, and the question and instructions at the end. In Anthropic's tests, queries at the end improve quality by up to thirty percent on long, multi-document inputs. A classic scenario: a grounding rule, answer only from the documents, is buried in the middle of forty thousand tokens of documents, and the model answers from general knowledge. The fix: put the rule in the system prompt, and restate it right next to the question at the end. Instructions lost in the middle of a huge context get weak attention. Changing the temperature or adding examples doesn't fix placement.
+
+Say what to do, not what not to do. "Write flowing prose paragraphs" works better than "don't use markdown". And the style of your prompt influences the style of the output.
+
+Be explicit about action. Current models follow instructions precisely. "Can you suggest changes?" gets suggestions. "Change this function" gets changes. Also avoid shouting: words like critical and must, in capital letters, were needed for older models, but on current models they cause overreaction, like calling a tool when it isn't needed. Normal, calm instructions work better.
+
+Prefill is gone on current models: a partial assistant turn at the end of the messages returns an error. Use format instructions or structured outputs instead.
+
+Now structured output, which is how code consumes Claude's answers safely.
+
+JSON outputs. Put a JSON schema in output config, format, with type JSON schema. The API uses constrained decoding, so the response text is valid JSON matching your schema: no parsing errors, required fields present, correct types. All object types need additional properties set to false, and some schema constraints, like minimum values or string lengths, aren't enforced by the decoder; the SDK helpers move them into the description and validate them after the response. The SDKs also have a parse helper that takes a typed model, like a Pydantic class, and returns a parsed object.
+
+Strict tool use is the sibling feature: strict true on a tool definition guarantees that Claude's tool inputs match the tool's schema. JSON outputs control what Claude says; strict tools control how Claude calls your functions. You can use both.
+
+But guarantees have edges, and the exam tests them. If the response stops with max tokens, the JSON may be incomplete. If Claude refuses, the refusal text takes precedence and may not match the schema. So defensive parsing is still required: check the stop reason, parse, validate against the schema, and handle failures with a defined path, like a retry with a higher limit or a fallback, before any downstream system acts on the data. Retrying blindly until parsing succeeds isn't a strategy. And remember: citations and JSON schema output can't be combined in one request.
+
+A subtle trap: asking for the model's reasoning inside a JSON field, like a field called "reasoning" with step by step thinking, can trigger a refusal category that protects the model's internal reasoning. Ask for a short explanation or the supporting evidence instead.
+
+Grounding. When answers must come only from your documents: put the documents first, in document tags with their source, tell Claude to answer only from them, give it an explicit way out, like "if the answer isn't in the documents, say: not found in the provided documents", and ask it to quote the relevant passages before answering, or use the citations feature. A defined not-found answer, checked in your evaluations, is the mark of a well-grounded application.
+
+Reducing hallucinations, from the docs: allow Claude to say "I don't know". For long documents, extract exact quotes first, then answer from them. Verify claims with citations, and retract claims without a supporting quote. Run the same prompt several times and compare: inconsistent answers suggest hallucination. Use follow-up prompts to verify earlier statements. And restrict answers to the provided material when that's the requirement.
+
+Prompt chaining is still useful when you need to inspect intermediate results or enforce a fixed pipeline. The most common chain is self-correction: draft, review against criteria, refine.
+
+Finally, prompts are code. Keep them in version control, review changes, and run a regression evaluation before releasing a prompt change, just as you would for code. When a prompt change fixes one case and breaks others, you only notice with a regression suite. The exam's typical failure: someone edits a prompt directly in a production database, and quality drifts silently. The fix: prompts in version control, with review, and an evaluation gate before release, together with a pinned model version.
+
+When revising a prompt against a failure, change one thing at a time, add the failing case to the evaluation set, and confirm that the fix doesn't regress the other cases.
+
+Quick check.
+Where should long documents go in a prompt, and where the question?
+[THINK]
+Documents at the top, the question and instructions at the end.
+JSON outputs guarantee valid JSON. Name two situations where you can still get invalid output.
+[THINK]
+When the response stops at max tokens, and when Claude refuses.
+Is prefill supported on current models?
+[THINK]
+No. A prefilled final assistant turn returns an error. Use format instructions or structured outputs.
+How should a grounded assistant answer when the documents don't contain the answer?
+[THINK]
+With an explicit, predefined not-found answer, rather than guessing.
+
+In the next episode: managing context in long sessions and agents.

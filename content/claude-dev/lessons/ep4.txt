@@ -1,0 +1,47 @@
+Claude Certified Developer, Foundations. Episode four. Models, tokens, thinking and effort.
+
+Model selection and optimization is about choosing the right model and the right amount of reasoning for each task, and proving the choice with evaluations. This episode covers tokens and context windows, the model tiers, thinking and the effort parameter, and how to change models safely.
+
+Tokens first. A token is a piece of text, roughly three quarters of a word in English, fewer characters in code or other languages. You pay per token, separately for input and output, and output costs several times more than input. Images cost tokens too, by their pixel count.
+
+The context window is everything the model can see in one request, including its own response. The system prompt, every message, tool definitions, tool results, images, documents, and the output with its thinking: all of it counts. Current models have a one million token window, and up to one hundred and twenty-eight thousand output tokens per request. Caching changes what you pay for tokens, not whether they count toward the window.
+
+Two failure modes. If the input alone is too large, the request fails with a four hundred, prompt is too long. If the input fits but generation fills the window, the response stops with the stop reason model context window exceeded. And a quieter problem: as the context grows, accuracy and recall degrade. The docs call it context rot. A huge context window is not a reason to fill it. Keep context focused.
+
+The tiers. Haiku: fastest and cheapest, for classification, extraction, routing, simple subagent tasks, and high volume. Sonnet: a strong balance of speed and intelligence. Opus: the default recommendation for most workloads, especially agentic coding and knowledge work. Fable: the most capable, for the hardest reasoning and long-horizon agents, or when Opus at high effort still fails your evaluations.
+
+The decision is always empirical. A typical scenario: a team uses the most expensive model to extract fields from invoices. An evaluation shows that Haiku is just as accurate on that task. Latency must stay in seconds. The right answer: route the task to the cheaper model, with the evaluation as a gate. Another common pattern is routing: a small model classifies each request, and only the hard ones go to the large model. And the reverse: if the fast model fails the accuracy evaluation, don't keep it just because it's cheap.
+
+There's also a fast mode on some models: the same model, generating output faster, at a higher price. It fits when the right model is too slow in output speed, but a smaller model isn't accurate enough.
+
+Now thinking. Current models use adaptive thinking: before answering, the model decides whether to think and how much, based on the difficulty of the request. You enable it with thinking type adaptive, and on some models it's always on. Thinking appears in thinking blocks. You can display it summarized, or omit it; either way, you pay for all the thinking tokens generated, as output tokens. The billed output is larger than the visible text.
+
+Three rules about thinking blocks. First, max tokens caps thinking and text together, so a thinking model needs a generous max tokens, or answers get truncated. Second, when you send the conversation back, especially during tool use, pass the thinking blocks back unmodified, because they carry the reasoning behind tool calls. Third, don't build logic that assumes every response starts with a thinking block; the model may skip it for easy requests.
+
+Older models used manual extended thinking, with a budget tokens value. On the newest models, budget tokens is rejected. The control is now effort.
+
+The effort parameter lives in output config, effort. The levels, from most to least work: max, extra high, high, medium, low. Effort is a behavioral signal for the whole response: how much the model thinks, how many tool calls it makes, how detailed its explanations are. It's not a strict token budget. Low effort fits simple tasks and subagents that need speed and low cost. Medium balances speed, cost and quality for agentic tasks. High fits complex reasoning and difficult coding. Extra high is for long-running agentic tasks. Max is the deepest, and usually adds a lot of cost for a small gain. Defaults differ by model: most default to high, while Opus five point five and Haiku five point five default to medium. Setting effort to the model's default is identical to leaving it out.
+
+How do you tune it? With an effort sweep on your own evaluation set: run the same tests at several levels, and pick the lowest level that meets your quality bar. If responses stop with max tokens on a thinking model, either raise max tokens or lower the effort.
+
+Some interactions to remember. Changing the effort or the thinking configuration between requests can invalidate the prompt cache, so keep them stable within a conversation. And forcing a specific tool with tool choice skips thinking, and on some of the newest models forced tool choice isn't allowed at all; we'll come back to that in the tools episode.
+
+Cost management, briefly, since the next episode goes deep. The levers are: choosing the smallest model that passes the evaluation, lowering effort, prompt caching for repeated context, batches for non-urgent work, trimming context and tool definitions, and capping output with max tokens. Track cost per feature using the usage fields of each response, not just the monthly bill.
+
+Finally, changing models safely. Model I Ds are pinned snapshots, so a model never changes under you. But you will migrate: when a new model ships, or an old one is deprecated and later retired. The safe process: keep a regression evaluation suite, run it against the new model, compare quality, latency and cost, adjust the prompts if needed, because newer models often follow instructions more literally, and switch only when the suite passes. A version-controlled prompt and a pinned model, together with that suite, are what make behavior reproducible. A model alias, or a prompt edited directly in a database, are the classic causes of silent drift.
+
+Quick check.
+Do cached tokens count toward the context window?
+[THINK]
+Yes. Caching changes the price, not the count.
+A thinking model often stops with max tokens. Name two fixes.
+[THINK]
+Raise max tokens, or lower the effort. Thinking counts toward max tokens.
+What's the effort level suited to simple subagent tasks?
+[THINK]
+Low.
+How do you decide whether a cheaper model can replace an expensive one?
+[THINK]
+Run your evaluation suite on both, and switch only if the cheaper one passes.
+
+In the next episode: prompt caching and controlling cost.

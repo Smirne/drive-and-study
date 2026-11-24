@@ -594,7 +594,7 @@ function renderQuestion() {
   const qi = queue[pos], q = QS[qi];
   $("qNum").textContent = pos + 1; $("qTot").textContent = queue.length; $("score").textContent = score;
   $("bar").style.width = (pos / queue.length * 100) + "%";
-  rich($("qText"), q.q); $("qText").classList.toggle("withcode", !!q.c);
+  rich($("qText"), q.q); $("qText").classList.toggle("withcode", !!q.c || q.q.length > 180);   // smaller type for code and long scenarios
   $("qCode").textContent = q.c || ""; $("qCode").hidden = !q.c;
   $("qScen").textContent = q.sc || ""; $("qScen").hidden = !q.sc;
   $("explain").hidden = true; $("heard").textContent = "";
